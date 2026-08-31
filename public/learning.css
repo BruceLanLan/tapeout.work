@@ -1038,3 +1038,31 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
   #bem-trades-stats{grid-template-columns:minmax(0,1fr)}
   .bem-trades-panel .panel-description{overflow-wrap:anywhere}
 }
+
+
+/* r37: the document is ~37,000px tall — roughly forty screens — and the header
+   was static, so once a reader scrolled past the hero the section nav (and, on
+   mobile, the only nav affordance there is) became unreachable without dragging
+   all the way back to the top. The header now stays put. It carries an opaque
+   background because content scrolls beneath it, and sits above panels but below
+   nothing else that needs to overlay it. */
+.topbar-dock{position:sticky;top:0;z-index:50;background:#e7e4dc}
+/* The mobile menu is the header's sibling, so pinning the header alone left the
+   menu behind at the top of the document: scrolled down, tapping the hamburger
+   opened a panel ~9,000px above the viewport and the reader saw nothing happen.
+   Docking both together is what makes the button actually do something. */
+@media (prefers-reduced-motion:no-preference){.topbar{transition:box-shadow .18s ease}}
+.topbar{box-shadow:0 1px 0 rgba(16,42,87,.06)}
+/* Anchored jumps must not land under the sticky header. */
+:target{scroll-margin-top:5.5rem}
+.section-heading,[id]{scroll-margin-top:5.5rem}
+
+/* The nav was flex-growing to 1136px of a 1372px bar, forcing the status pills
+   onto a second row and making the now-sticky header 117px — 13% of a laptop
+   viewport, permanently. Letting it size to its content puts the header back on
+   one row without dropping anything from it. */
+.topbar>.terminal-nav{flex:0 1 auto;justify-content:flex-end}
+.topbar{flex-wrap:nowrap}
+.topbar>.brand{flex:0 0 auto}
+.topbar>.topbar-meta{flex:0 0 auto}
+@media (max-width:860px){.topbar{flex-wrap:wrap}}
