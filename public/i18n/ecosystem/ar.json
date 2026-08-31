@@ -1,0 +1,72 @@
+{
+  "locale": "ar",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "عرض تجريبي لإطلاق ألفا: Canvas و TapeOut وأمثلة",
+        "summary": "Official مواد إطلاق عامة توضح المسار الأساسي من NAND/LATCH وتوصيلات Canvas إلى TapeOut. استخدمها لفهم سير العمل، لا كتوقع للعائد.",
+        "source_note": "Official إصدار المشروع. تحقق من الحساب المرتبط وأي عنوان عقد على الموقع Official قبل التوقيع."
+      },
+      "official-output-cost-note": {
+        "title": "ملاحظة حول تكلفة دبوس المخرج وقواعد netlist",
+        "summary": "Official شرح لسبب اختلاف عدد بوابات Canvas عن الاستهلاك النهائي في TapeOut. تحقق من المدخلات والمخرجات والتكلفة قبل توقيع المعاملة.",
+        "source_note": "Official إصدار المشروع. معلومات التكلفة مرجعية لآليات البروتوكول، وليست تقييمًا أو مطالبة بعائد."
+      },
+      "community-beginner-guide": {
+        "title": "من Mint إلى TapeOut: دليل المبتدئين لـ TapeOut",
+        "summary": "Community دليل للمبتدئين يغطي اختبار المحافظ المعزولة، فحوص العقود للقراءة فقط ومخاطر TapeOut غير القابلة للعكس. Official تظل المصادر المعيارية لآليات التنفيذ.",
+        "source_note": "Community محتوى؛ ليس مصدرًا Official. تتضمن المقالة إفصاحًا عن المخاطر؛ قم بالتحقق المستقل من الآليات والعقود."
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design: إدخال تعدين Official",
+        "summary": "Official إدخال لـ arm و start و claim و taskbank والعقود. يكشف عن المعاملات غير القابلة للعكس وأن شراء الرموز ليس مطلبًا.",
+        "source_note": "مصدر Official على الموقع. عامل أي نقاش لجهات خارجية حول السعر أو التعدين منفصلاً عن صفحة القواعد الرسمية."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Official مساحة عمل في المتصفح لبناء واختبار منطق الدوائر NAND/LATCH و Circuit قبل أي معاملة TapeOut.",
+        "safety": "اختبر أولًا. قد يؤدي TapeOut إلى معاملة غير قابلة للعكس على السلسلة؛ تحقق من المدخلات والمخرجات والمكونات والتكلفة المعروضة قبل التوقيع."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "Official إدخال PoD لقراءة القواعد، سير عمل arm/start/claim، حالة التعدين ومراجع العقود.",
+        "safety": "استخدم مراجع القواعد والعقود Official فقط. المعاملات غير قابلة للعكس؛ هذا ليس وعدًا بعوائد تعدين."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Official كتالوج مهام لاختيار التمارين حسب المستوى، النوع (تركيبي/تتابعي) وأهلية التسجيل على السلسلة.",
+        "safety": "اقرأ متطلبات التحقق قبل أي مطالبة. تسمية المهمة لا تضمن مكافأة أو قيمة رمز."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan فحص عقد PoD للقراءة فقط",
+        "summary": "صفحة مستكشف للقراءة فقط لمطابقة عنوان عقد PoD العام وحالة المعاملة مقابل مراجع Official.",
+        "safety": "مستكشف البلوكات ليس تدقيقًا أو مقياسًا للعائد. لا تعامل أي عنوان منسوخ على أنه موثوق دون مطابقته بالمصدر Official."
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club processor & hashpower board",
+        "summary": "Community لوحة عامة موجهة للمجتمع لملاحظات Processor و hashpower. حساباتها مفيدة كمنظور منفصل عن النظام البيئي، لكنها ليست مصدرًا Official لحاملي الأصول أو للبروتوكول.",
+        "safety": "تقدير Community فقط. عامل تغطية التصنيفات والمخرجات المتوقعة والوسوم كملاحظات خاصة بالمصدر؛ لا تستنتج أرصدة محافظ حالية أو هويات أو عوائد مضمونة."
+      },
+      "tool-tapeout-firsto": {
+        "title": "سوق TapeOut Firsto",
+        "summary": "إدخال سوق طرف ثالث للنظام البيئي لقوائم الترانزستور وآلات التعدين المتعلقة بـ TapeOut. استخدمه كواجهة اكتشاف وقراءة للسوق، منفصلة عن بيانات البروتوكول والملكية Official.",
+        "safety": "سوق Community، ليس مصدر سعر أو ملكية Official. القوائم والأسعار المعروضة والتوفر قد تتغير ولا تضمن التنفيذ؛ تحقق من العقود وطلبات التوقيع بشكل مستقل."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "سوق ضمن النظام البيئي المجتمعي لقراءة القوائم العامة وآليات السوق. افصله عن مصادر البروتوكول والعقود وبيانات الحيازة الرسمية.",
+        "safety": "سوق مجتمعي فقط. العروض المفتوحة والقيم المعروضة ليست صفقات مكتملة أو أسعار خروج أو وعودًا بعائد؛ تحقّق بشكل مستقل من العقود الحالية وكل طلبات المحفظة قبل التوقيع."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "TapeOut Intelligence API عامة مدعومة بالأدلة لـ Registry والأنشطة و Airdrop و $BEM وموارد تعليمية مراجعة واستجابات تعليمية متعددة اللغات.",
+        "safety": "صحة المصدر، الحالة المتقادمة وحدود أسعار أطراف ثالثة جزء من الاستجابة. لا تفسر البيانات غير المتاحة على أنها صفر أو بيانات في الوقت الحقيقي."
+      }
+    }
+  }
+}

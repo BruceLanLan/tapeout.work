@@ -1,0 +1,102 @@
+import { readFile } from 'node:fs/promises';
+
+const root = new URL('..', import.meta.url);
+const read = name => readFile(new URL(name, root), 'utf8');
+const [html, learningCss, uxCss, stress, app, ...localeFiles] = await Promise.all([
+  read('public/index.html'),
+  read('public/learning.css'),
+  read('public/ux-loop.css'),
+  read('scripts/stress_learning_layout.mjs'),
+  read('public/app.js'),
+  ...['ko','ja','es','ar','tr','fr','de','ru','pt'].flatMap(locale => [read(`public/i18n/${locale}.json`), read(`public/i18n/learning/${locale}.json`)])
+]);
+const required = [
+  [html, 'learning.css?v=2026-08-29-clubfix-r27', 'versioned official-three asset and candle layer'],
+  [html, 'id="language-select"', 'eleven-language selector'],
+  ...['ar','ko','ja','es','tr','fr','de','ru','pt'].map(locale => [html, `<option value="${locale}">`, `${locale} selector option`]),
+  [html, 'ux-loop.css?v=2026-08-24-ux-loop-r5', 'versioned shell containment asset'],
+  [learningCss, '@media (max-width:860px)', 'tablet learning breakpoint'],
+  [learningCss, '.learn-grid{grid-template-columns:minmax(0,1fr)!important}', 'tablet single-column learning path'],
+  [learningCss, 'overflow-wrap:anywhere', 'long-text wrapping'],
+  [learningCss, '.learn-resource-controls>*{min-width:0}', 'filter control shrink guard'],
+  [learningCss, 'html[dir="rtl"]', 'Arabic RTL layout rule'],
+  [learningCss, '.language-toggle select', 'compact locale selector CSS'],
+  [uxCss, '.registry-panel .table-wrap{max-width:100%;overflow-x:auto', 'wide table internal scrolling'],
+  [stress, "'mobile360'", '360px stress viewport'],
+  [stress, "'tablet768'", '768px stress viewport'],
+  [stress, "'desktop1440'", 'desktop stress viewport'],
+  [stress, "'zhresources'", 'Chinese resource filter state'],
+  [stress, "'enresources'", 'English resource filter state'],
+  [stress, 'scrollWidth <= result.viewport + 1', 'no-shell-overflow assertion'],
+  [stress, 'waitForLearningFilter', 'real learning-response wait'],
+  [stress, 'compressed_filter_label', 'readable filter labels'],
+  [stress, 'stretched_safety_panel', 'compact safety panel'],
+  [app, 'LANGUAGE_CONFIG', 'locale configuration'],
+  [app, 'ensureLanguagePack', 'deferred locale loading'],
+  [app, 'learningLocalization', 'localized learning cards'],
+  [app, "dir: 'rtl'", 'Arabic reading direction'],
+  [app, 'language-select', 'selector event listener'],
+  [app, 'learningRequestId', 'latest learning request guard'],
+  [app, 'queueLearningRefresh', 'coalesced learning filters'],
+  [app, 'dataset.filterKey', 'rendered learning filter marker'],
+  [html, 'id="learning-nav-toggle"', 'mobile learning-navigation trigger'],
+  [html, 'id="learning-nav-menu"', 'mobile learning-navigation menu'],
+  [html, 'data-i18n="navStart"', 'newcomer navigation item'],
+  [html, 'data-i18n="navMining"', 'mining navigation item'],
+  [html, 'data-i18n="navMechanics"', 'mechanics navigation item'],
+  [html, 'id="mechanics"', 'official mechanics reading section'],
+  [html, 'mechanicsBoundary', 'mechanics non-prediction boundary'],
+  [learningCss, '.learning-nav-desktop', 'desktop learning navigation styling'],
+  [learningCss, '.learning-nav-mobile:not([hidden])', 'mobile learning navigation expand styling'],
+  [learningCss, '.mechanics-grid', 'mechanics reading card grid'],
+  [app, 'learningNavOpen: false', 'mobile learning-navigation state'],
+  [app, 'setLearningNavOpen', 'mobile learning-navigation state synchronizer'],
+  [app, 'navMechanics:', 'mechanics navigation localization'],
+  [app, 'mechanicsBoundary:', 'mechanics boundary localization'],
+  [html, 'id="official-asset-tabs"', 'official project tab list'],
+  [html, 'data-official-asset-project="behemoth"', 'Behemoth project tab'],
+  [html, 'data-official-asset-project="tapeout"', 'TapeOut project tab'],
+  [html, 'data-official-asset-project="genesis"', 'Genesis CPU project tab'],
+  [html, 'id="official-asset-projects"', 'official active-project summary container'],
+  [html, 'id="official-asset-address-rows"', 'official address aggregation table'],
+  [html, 'officialAssetBoundary', 'official current-balance boundary'],
+  [learningCss, '.official-asset-tabs', 'official project tab styling'],
+  [learningCss, '.official-asset-tab.is-active', 'active project tab styling'],
+  [app, "officialAssetProject: 'behemoth'", 'default Behemoth project tab'],
+  [app, 'loadOfficialAssetProject', 'per-project address loading'],
+  [app, 'project=${encodeURIComponent(project)}', 'per-project address request'],
+  [app, 'officialAssetAddressByProject', 'per-project address cache'],
+  [app, 'officialAssetMinterNotHolder', 'non-holder address label'],
+  [html, 'official-asset-source-strip', 'official source contract strip'],
+  [html, 'officialAssetThirdPartyPending', 'Ave third-party not-connected label'],
+  [html, 'id="official-asset-contract"', 'official contract provenance anchor'],
+  [html, 'id="official-asset-lens-grid"', 'official asset evidence lens'],
+  [html, 'officialAssetNoCurrentBalance', 'no-current-balance lens boundary'],
+  [html, 'officialAssetAddressesDescription', 'cumulative mint address boundary'],
+  [learningCss, '.official-asset-source-strip', 'official asset source-strip styling'],
+  [learningCss, '.official-asset-lens-grid', 'official asset lens grid styling'],
+  [learningCss, '.asset-source-chip.is-standby', 'third-party standby source styling'],
+  [learningCss, '.leader-meta', 'leader provenance and address grouping'],
+  [app, 'officialAssetThirdPartyPending:', 'third-party pending localization'],
+  [app, 'officialAssetLensHoldersDescription:', 'holder aggregate field boundary'],
+  [html, 'id="transistor-candle-chart"', 'third-party candle chart container'],
+  [html, 'data-transistor-candle-asset="nand"', 'NAND candle control'],
+  [html, 'data-transistor-candle-asset="latch"', 'LATCH candle control'],
+  [html, 'id="transistor-candle-interval"', 'candle interval control'],
+  [html, 'id="transistor-candle-range"', 'candle range control'],
+  [learningCss, '.transistor-candle-section', 'third-party candle panel styling'],
+  [learningCss, '.transistor-candle-chart', 'candle SVG chart styling'],
+  [app, 'transistorCandleAsset:', 'candle asset state'],
+  [app, 'loadTransistorCandles', 'third-party candle loading'],
+  [app, 'transistorCandleByKey', 'candle response cache'],
+  [app, 'candleBoundary:', 'candle source boundary localization']
+];
+for (const [source, token, label] of required) if (!source.includes(token)) throw new Error(`Missing learning layout contract: ${label}`);
+for (const [index, locale] of ['ko','ja','es','ar','tr','fr','de','ru','pt'].entries()) {
+  const ui = JSON.parse(localeFiles[index * 2]);
+  const learning = JSON.parse(localeFiles[index * 2 + 1]);
+  if (Object.keys(ui).length < 360) throw new Error(`Incomplete ${locale} UI pack`);
+  for (const key of ['navMenu','navStart','navMining','navMechanics','navEcosystem','navData','mechanicsLabel','mechanicsTitle','mechanicsIntro','mechanicsBoundary','officialAssetOfficialSource','officialAssetThirdPartyPending','officialAssetLensLabel','officialAssetLensTitle','officialAssetNoCurrentBalance','officialAssetAddressSet','officialAssetAddressesHeading','officialAssetAddressesDescription','officialAssetContract','officialAssetScope','officialAssetLensHolders','officialAssetLensMinters','officialAssetLensMinted','officialAssetLensBids','officialAssetLensChange','officialAssetLensHoldersDescription','officialAssetLensMintersDescription','officialAssetLensMintedDescription','officialAssetLensBidsDescription','officialAssetLensChangeDescription','candleLabel','candleTitle','candleDescription','candleApiLink','candleNand','candleLatch','candleInterval','candleRange','candle1h','candle1d','candle24h','candle7d','candle30d','candleLoading','candleNoTrades','candleHealthy','candleStale','candleBoundary','candleCoverage','candleTrades','candleOpen','candleHigh','candleLow','candleClose']) if (typeof ui[key] !== 'string' || !ui[key].trim()) throw new Error(`Incomplete ${locale} UI key ${key}`);
+  if (Object.keys(learning.translations || {}).length < 12) throw new Error(`Incomplete ${locale} learning localization pack`);
+}
+console.log(JSON.stringify({ status:'pass', checks:required.length, locales:['ko','ja','es','ar','tr','fr','de','ru','pt'] }, null, 2));

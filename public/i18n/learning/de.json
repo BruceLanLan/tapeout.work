@@ -1,0 +1,63 @@
+{
+  "locale": "de",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T16:45:00Z",
+  "translations": {
+    "official-home": {
+      "title": "TapeOut offizielle Seite: von NAND/LATCH zu on-chain Circuits",
+      "summary": "Beginnen Sie mit Komponenten, Processors und Canvas; tape-out verbraucht Komponenten und erzeugt ein on-chain Circuit. Die Seite weist außerdem darauf hin, dass Verträge weiterhin upgradebar bleiben."
+    },
+    "official-whitepaper": {
+      "title": "TapeOut Protocol Whitepaper",
+      "summary": "Offizielle Referenz für ERC-1155 Komponenten, ERC-721 Circuits, die Processor-Fabrik und on-chain Netlists."
+    },
+    "official-alpha": {
+      "title": "Alpha-Launch-Demo: Canvas, tape-out und Beispiele",
+      "summary": "Offizieller Launch-Post, der den grundlegenden Weg von NAND/LATCH und Canvas-Verdrahtung zum tape-out zeigt."
+    },
+    "official-output-cost": {
+      "title": "Hinweis zu Output-Pin-Kosten und Netlist-Regeln",
+      "summary": "Erklärt, warum die Gate-Anzahl auf Canvas vom tatsächlichen Verbrauch beim tape-out abweichen kann; nützlich, bevor Inputs, Outputs und Kosten geprüft werden."
+    },
+    "community-market-qa": {
+      "title": "TapeOut Market Q&A: Aufträge, Gebühren und Signatur-Sicherheit",
+      "summary": "Von der Community verfasste Erklärung zu treuhändisch gehaltenen BNB-Kaufaufträgen, angezeigten Käufergebühren, Gas und Signatur-Sicherheit; USD-Schätzungen garantieren keine Ausführung oder Verkaufspreis, und keine Plattform sollte einen privaten Schlüssel oder Seed-Phrase anfordern."
+    },
+    "official-pod": {
+      "title": "$BEM Proof of Design: offizieller Mining-Eintrag",
+      "summary": "Offizieller Eintrag für arm / start / claim, taskbank und Verträge; er stellt fest, dass Transaktionen irreversibel sind, der Kauf von Token nicht erforderlich ist und die anfängliche Liquidität dünn sein kann."
+    },
+    "official-pod-tasks": {
+      "title": "PoD Taskbank: mit berechtigten Aufgaben beginnen",
+      "summary": "Offizieller Taskbank-Eintrag. Wählen Sie nach Tier, kombinatorischem/sequentiellem Typ und On-Chain-Berechtigung, bevor Sie die Verifizierungsanforderungen studieren."
+    },
+    "official-pod-algo": {
+      "title": "PoD-Algorithmus: Berechtigung, Verifizierung und Formeln",
+      "summary": "Erklärt öffentliche Kosten-, Berechtigungs-, Claim- und Verifizierungsregeln; die Formeln erläutern Regeln und prognostizieren keine Mining-Erträge."
+    },
+    "community-first-tapeout": {
+      "title": "Community-Einsteigerpfad: von Mint bis Tape-Out",
+      "summary": "Community-Leitfaden, der eine isolierte kleine Wallet, Canvas-Tests, Signaturprüfungen und den irreversiblen tape-out betont; offizielle Quellen bleiben für Mechaniken maßgeblich."
+    },
+    "community-cn-logic": {
+      "title": "Chinesische Übungsreihe: NOT/AND/XOR bis Addierer",
+      "summary": "Community-Reihe von Grundgattern bis zu Addierern. Es werden nur Mechanismusbeschreibungen verwendet, die mit offiziellen Quellen gegengeprüft werden können; Marktmeinungen werden nicht übernommen."
+    },
+    "community-something-logic-intro": {
+      "title": "Community-Mechanismus-Einführung: NAND/LATCH, tape-out und PoD",
+      "summary": "Ein chinesisches Community-Intro von Something Labs stellt NAND, LATCH, on-chain Circuits, tape-out, Test-Vektoren und PoD-Vokabular vor. Offizielle Quellen bleiben für Regeln und Verträge maßgeblich; Kauf-, Halte-, Mining- und Preiskommentare im Beitrag werden nicht übernommen."
+    },
+    "reference-sr-latch": {
+      "title": "Konzeptreferenz: NAND SR latch",
+      "summary": "Erklärt den SR latch mithilfe von Wahrheitstabellen und Gatterdiagrammen. Dies ist Referenzmaterial zur Digitaltechnik, kein Bedienleitfaden für das TapeOut Protocol."
+    },
+    "reference-bscscan-pod": {
+      "title": "Read-only-Überprüfung: PoD contract-Explorer",
+      "summary": "Verwenden Sie den Block-Explorer, um die öffentliche PoD contract-Adresse und den Transaktionsstatus zu überprüfen; dies ist weder eine Audit-Schlussfolgerung noch eine Renditemetrik."
+    },
+    "community-93bitmap-video-intro": {
+      "title": "Englisches Community-Video: TapeOut-Wissenschaftseinführung · Folge 1",
+      "summary": "Ein englischsprachiges Community-Erklärvideo von 93.bitmap, das TapeOut und Ordinals als konzeptionellen Ausgangspunkt nutzt. Es dient ausschließlich als Community-Referenz und ist keine maßgebliche Quelle für Regeln, Verträge, Preise, Renditen oder Marktaussagen."
+    }
+  }
+}

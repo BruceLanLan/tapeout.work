@@ -1,0 +1,43 @@
+/* Dedicated UX loop overrides. Loaded last so visual fixes remain deterministic. */
+@media (min-width:961px){
+  .topbar{min-height:78px;gap:26px}
+  .terminal-nav{display:flex;align-items:center;gap:3px}
+  .terminal-nav a{min-height:46px;padding:0 9px;border-bottom:2px solid transparent;color:#294a76;font-size:12px;font-weight:700;white-space:nowrap}
+  .terminal-nav a:hover{border-bottom-color:#2c68bc;text-decoration:none}
+  .hero{grid-template-columns:minmax(0,1.32fr) 270px;gap:36px;min-height:0;padding:30px 0}
+  .hero h1{font-size:clamp(38px,4.25vw,62px);line-height:1.04}
+  .hero-copy{max-width:620px;margin-top:14px;font-size:13px;line-height:1.7}
+  .hero-note{display:flex;flex-direction:column;justify-content:center;min-height:172px;padding:4px 0 4px 17px}
+  .hero-note p{font-size:12px;line-height:1.55}.hero-note .hero-links{margin-top:9px}
+  .pulse-panel{display:flex;flex-direction:column;padding:24px}
+  .pulse-reading{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:58px;margin-top:auto;padding:12px 0 0;border-top:1px solid rgba(18,63,136,.14)}
+  .daily-panel .activity-controls{display:grid;grid-template-columns:.9fr .78fr .82fr 1.32fr;gap:8px;margin-top:0}
+  .daily-panel .chart-switch,.daily-panel .chart-switch:last-child{min-width:0}
+  .daily-panel .chart-switch span{min-height:16px;color:#526b8c;font-weight:700}
+  .daily-panel .chart-switch select{height:35px;padding:8px 24px 8px 8px}
+  .daily-panel .panel-description{min-height:0;margin:12px 0 13px}
+}
+.pulse-panel #market-facts{margin-top:10px;padding-top:0;border-top:0}
+.pulse-panel #market-facts .market-empty{display:block!important;margin:0!important;padding:0!important;border:0!important;color:#687b93;font:9px/1.45 var(--mono);letter-spacing:.02em;text-transform:none}
+.pulse-reading>div{display:block!important;min-width:0}
+.pulse-reading>div>span{display:block!important;margin:0 0 5px!important;color:#587194;font:9px var(--mono);letter-spacing:.07em}
+.pulse-reading>div>b{display:block!important;color:#294a76;font-size:11px;line-height:1.45}
+.pulse-reading a{flex:0 0 auto;color:#123f88;font:700 10px var(--mono);text-decoration:none;white-space:nowrap}
+.pulse-reading a:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:960px){
+  .terminal-nav a{padding:0 7px;font-size:11px;font-weight:700}
+  .pulse-reading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(18,63,136,.14)}
+}
+@media (max-width:640px){
+  .terminal-nav a{min-height:38px;padding:0 6px;font-size:10px}
+  .pulse-reading{align-items:flex-start;flex-direction:column;gap:8px}
+  .pulse-reading>div>span{margin-bottom:5px!important}
+  .pulse-reading>div>b{font-size:12px;line-height:1.42}
+  .pulse-reading a{padding:6px 8px;border:1px solid rgba(18,63,136,.2);background:#f3f7fd}
+}
+
+/* 768px stress diagnosis: keep the wide processor table inside its own scroll container. */
+@media (max-width:900px){
+  .registry-panel{min-width:0;max-width:100%;overflow:hidden}
+  .registry-panel .table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+}

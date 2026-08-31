@@ -1,0 +1,72 @@
+{
+  "locale": "ko",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Alpha 출시 데모: Canvas, TapeOut 및 예시",
+        "summary": "Official 공개 출시 자료로, NAND/LATCH 및 Canvas 배선에서 TapeOut으로 이어지는 기본 경로를 보여줍니다. 워크플로를 이해하는 용도로 사용하세요. 수익 예측으로 사용하지 마십시오.",
+        "source_note": "Official 프로젝트 릴리스입니다. 서명하기 전에 링크된 계정과 모든 계약 주소를 Official 사이트에서 확인하세요."
+      },
+      "official-output-cost-note": {
+        "title": "출력 핀 비용 및 넷리스트 규칙 안내",
+        "summary": "Official에서 설명하는 내용으로, Canvas 게이트 수가 최종 TapeOut 소비와 달라질 수 있는 이유를 설명합니다. 트랜잭션에 서명하기 전에 입력, 출력 및 비용을 확인하세요.",
+        "source_note": "Official 프로젝트 릴리스입니다. 비용 정보는 프로토콜 작동 방식에 대한 Reference이며, 가치 평가나 수익 주장으로 해석하지 마십시오."
+      },
+      "community-beginner-guide": {
+        "title": "Mint에서 TapeOut까지: 초보자를 위한 TapeOut 안내서",
+        "summary": "Community 초보자 안내서로, 격리 지갑 테스트, 읽기 전용 계약 확인 및 되돌릴 수 없는 TapeOut 위험을 다룹니다. 메커니즘에 대해서는 Official 소스가 권위적입니다.",
+        "source_note": "Community 콘텐츠로, Official 소스가 아닙니다. 본 문서에는 위험 고지가 포함되어 있으므로 메커니즘과 계약을 독립적으로 확인하세요."
+      },
+      "official-pod-entry": {
+        "title": "$BEM PoD: Official 채굴 항목",
+        "summary": "Official 항목으로 arm, start, claim, taskbank 및 계약을 포함합니다. 되돌릴 수 없는 트랜잭션과 토큰 구매가 필수는 아님을 공개합니다.",
+        "source_note": "Official 사이트 소스입니다. 제3자 가격 또는 채굴 논의는 Official 규칙 페이지와 분리하여 취급하세요."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Official 브라우저 작업 공간으로, 트랜잭션 전에 NAND/LATCH Circuit 로직을 구축하고 테스트하는 환경입니다.",
+        "safety": "먼저 테스트하세요. TapeOut는 되돌릴 수 없는 온체인 트랜잭션을 생성할 수 있습니다; 서명하기 전에 표시된 입력, 출력, 구성 요소 및 비용을 확인하세요."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "Official PoD 항목으로 규칙 읽기, arm/start/claim 워크플로, 채굴 상태 및 계약 참조를 제공합니다.",
+        "safety": "Official 규칙 및 계약 참조만 사용하세요. 트랜잭션은 되돌릴 수 없습니다; 이것은 채굴 수익을 보장하는 약속이 아닙니다."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Official 작업 카탈로그로, 티어별, 결합형/순차형 유형 및 온체인 적격성에 따라 연습을 선택할 수 있습니다.",
+        "safety": "클레임을 하기 전에 검증 요구 사항을 읽으세요. 작업 라벨이 보상이나 토큰 가치를 보장하지는 않습니다."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan 읽기 전용 PoD 계약 확인",
+        "summary": "공개 PoD 계약 주소와 트랜잭션 상태를 Official 참조와 대조하기 위한 읽기 전용 탐색기 페이지입니다.",
+        "safety": "블록 탐색기는 감사나 수익 지표가 아닙니다. 복사한 주소를 Official 소스와 대조하지 않고 신뢰하지 마세요."
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club Processor & hashpower 보드",
+        "summary": "Community 대상의 공개 보드로 Processor 및 해시파워 관찰을 제공합니다. 해당 계산은 분리된 생태계 관점으로 유용하지만 Official 보유자나 프로토콜 소스는 아닙니다.",
+        "safety": "Community의 추정치일 뿐입니다. 순위 범위, 예측 산출량 및 라벨은 출처별 관찰로 취급하세요; 현재 지갑 잔액, 신원 또는 보장된 수익으로 추정하지 마세요."
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "타사 생태계 마켓플레이스 항목으로 TapeOut 관련 트랜지스터 및 채굴 기계 목록을 제공합니다. Official 프로토콜 및 소유권 데이터와는 별도로 탐색과 시장 파악 용도로 사용하세요.",
+        "safety": "Community 마켓플레이스이며 Official 가격이나 소유권 출처가 아닙니다. 목록, 표기 가격 및 가용성은 변경될 수 있으며 실행을 보장하지 않습니다; 계약과 서명 요청을 독립적으로 확인하세요."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "공개 목록과 시장 메커니즘을 읽기 위한 커뮤니티 생태계 마켓입니다. 공식 프로토콜, 컨트랙트 및 보유 데이터 출처와 분리해서 보세요.",
+        "safety": "커뮤니티 마켓플레이스입니다. 공개 매수 주문과 표시값은 완료된 거래, 출구 가격 또는 수익 약속이 아닙니다. 서명 전 현재 컨트랙트와 모든 지갑 요청을 독립적으로 확인하세요."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "Registry, 활동, Airdrop, $BEM, 검토된 학습 자료 및 다국어 학습 응답에 대한 공개 증거 기반 API입니다.",
+        "safety": "출처 상태, 오래된 상태 및 제3자 가격 경계가 응답의 일부입니다. 이용 불가능한 데이터를 0이나 실시간 값으로 해석하지 마세요."
+      }
+    }
+  }
+}

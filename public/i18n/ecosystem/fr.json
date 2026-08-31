@@ -1,0 +1,72 @@
+{
+  "locale": "fr",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Démo de lancement Alpha : Canvas, TapeOut et exemples",
+        "summary": "Official matériel public de lancement démontrant le chemin de base depuis NAND/LATCH et le câblage Canvas jusqu'au TapeOut. Utilisez-le pour comprendre le flux de travail, pas comme prévision de rendement.",
+        "source_note": "Publication du projet Official. Vérifiez le compte lié et toute adresse de contrat sur le site officiel avant de signer."
+      },
+      "official-output-cost-note": {
+        "title": "Note sur le coût des broches de sortie et la règle de netlist",
+        "summary": "Official explication de pourquoi le nombre de portes Canvas peut différer de la consommation finale du TapeOut. Vérifiez les entrées, les sorties et le coût avant de signer une transaction.",
+        "source_note": "Publication du projet Official. Les informations de coût sont une référence sur la mécanique du protocole, pas une évaluation ni une promesse de rendement."
+      },
+      "community-beginner-guide": {
+        "title": "De Mint au TapeOut : guide du débutant de TapeOut",
+        "summary": "Community : guide pour débutants couvrant les tests de portefeuille isolé, les vérifications de contrats en lecture seule et les risques liés à un TapeOut irréversible. Les sources Official demeurent la référence pour les mécanismes.",
+        "source_note": "Contenu Community, jamais une source Official. L'article inclut un avertissement sur les risques ; vérifiez indépendamment les mécanismes et les contrats."
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design : entrée de minage Official",
+        "summary": "Entrée Official pour arm, start, claim, taskbank et contrats. Elle indique les transactions irréversibles et que l'achat de tokens n'est pas requis.",
+        "source_note": "Source du site Official. Traitez toute discussion tierce sur les prix ou le minage séparément de la page de règles Official."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Official espace de travail navigateur pour construire et tester la logique de Circuit NAND/LATCH et le câblage Canvas avant toute transaction de TapeOut.",
+        "safety": "Testez d'abord. Le TapeOut peut créer une transaction irréversible on-chain ; vérifiez les entrées, sorties, composants et le coût affichés avant de signer."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "Official PoD — entrée pour la lecture des règles, le workflow arm/start/claim, l'état du minage et les références de contrats.",
+        "safety": "N'utilisez que les références de règles et de contrats Official. Les transactions sont irréversibles ; ceci n'est pas une promesse de retours de minage."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Catalogue de tâches Official pour sélectionner des exercices par niveau, type combinatoire/séquentiel et éligibilité on-chain.",
+        "safety": "Lisez les exigences de vérification avant toute réclamation. Un label de tâche ne garantit pas une récompense ni la valeur d'un token."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan vérification en lecture seule du contrat PoD",
+        "summary": "Page explorateur en lecture seule pour recouper l'adresse publique du contrat PoD et l'état des transactions avec les références Official.",
+        "safety": "Un explorateur de blocs n'est ni un audit ni une métrique de rendement. Ne considérez aucune adresse copiée comme digne de confiance sans la comparer à la source Official."
+      },
+      "tool-tapeout-club": {
+        "title": "Tableau TapeOut Club pour Processor et hashpower",
+        "summary": "Tableau public Community pour les observations de Processor et de hashpower. Ses calculs sont utiles comme vue séparée de l'écosystème, mais ne constituent pas une source Official de détenteurs ou du protocole.",
+        "safety": "Estimation Community uniquement. Traitez la couverture de classement, les sorties projetées et les labels comme des observations propres à la source ; n'en déduisez pas les soldes actuels de portefeuilles, des identités ou des retours garantis."
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "Entrée de place de marché tierce pour les listes de transistors et machines de minage liées à TapeOut. Utilisez-la comme interface de découverte et de lecture du marché, distincte des données Official de protocole et de propriété.",
+        "safety": "Marketplace Community, pas une source Official de prix ou de propriété. Les annonces, prix affichés et disponibilités peuvent changer et ne garantissent pas l'exécution ; vérifiez les contrats et les demandes de signature de manière indépendante."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "Marché de l’écosystème communautaire pour consulter les annonces publiques et les mécanismes de marché. Traitez-le séparément des sources officielles de protocole, de contrat et de détention.",
+        "safety": "Place de marché communautaire uniquement. Les offres ouvertes et valeurs affichées ne constituent pas des transactions conclues, des prix de sortie ni des promesses de rendement ; vérifiez indépendamment les contrats actuels et toutes les demandes de portefeuille avant signature."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "API publique étayée par des preuves pour Registry, activités, Airdrop, $BEM, ressources pédagogiques revues et réponses pédagogiques multilingues.",
+        "safety": "La santé des sources, l'état obsolète et les limites de prix tierces font partie de la réponse. N'interprétez pas des données indisponibles comme zéro ni comme en temps réel."
+      }
+    }
+  }
+}

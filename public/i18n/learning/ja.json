@@ -1,0 +1,63 @@
+{
+  "locale": "ja",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T16:45:00Z",
+  "translations": {
+    "official-home": {
+      "title": "TapeOut 公式サイト：NAND/LATCH からオンチェーン Circuits へ",
+      "summary": "コンポーネント、Processor、Canvas から始めます；tape-out はコンポーネントを消費してオンチェーンの Circuit を生成します。サイトでは、コントラクトが引き続きアップグレード可能であることも明示しています。"
+    },
+    "official-whitepaper": {
+      "title": "TapeOut Protocol ホワイトペーパー",
+      "summary": "ERC-1155 コンポーネント、ERC-721 Circuits、Processor ファクトリー、オンチェーン・ネットリストについての公式参照資料。"
+    },
+    "official-alpha": {
+      "title": "アルファローンチデモ：Canvas、tape-out と例",
+      "summary": "NAND/LATCH と Canvas 配線から tape-out に至る基本的な流れを示す公式ローンチ投稿。"
+    },
+    "official-output-cost": {
+      "title": "出力ピンのコストとネットリスト規則に関する注意",
+      "summary": "Canvas のゲート数が最終的な tape-out 消費量と異なる理由を説明します。入出力やコストを確認する前に役立ちます。"
+    },
+    "community-market-qa": {
+      "title": "TapeOut Market Q&A：注文、手数料、署名の安全性",
+      "summary": "エスクローされた BNB 買注文、表示される買い手手数料、ガス、署名の安全性についてコミュニティが解説します。USD 見積もりは実行や売買価格を保証するものではなく、いかなるプラットフォームも秘密鍵やシードフレーズを要求すべきではありません。"
+    },
+    "official-pod": {
+      "title": "$BEM Proof of Design：公式マイニングエントリ",
+      "summary": "arm / start / claim、taskbank、コントラクトに関する公式エントリ。トランザクションは不可逆であること、トークン購入は必須ではないこと、初期の流動性は乏しい可能性があることが明記されています。"
+    },
+    "official-pod-tasks": {
+      "title": "PoD taskbank：適格なタスクから始める",
+      "summary": "公式の taskbank エントリ。検証要件を確認する前に、ティア、組合せ／順序タイプ、オンチェーン適格性でタスクを選んでください。"
+    },
+    "official-pod-algo": {
+      "title": "PoD アルゴリズム：適格性、検証、数式",
+      "summary": "公開コスト、適格性、クレーム、検証ルールを説明します。数式はルールを説明するものであり、マイニング収益を予測するものではありません。"
+    },
+    "community-first-tapeout": {
+      "title": "コミュニティ初学者向けルート：Mint から Tape-Out まで",
+      "summary": "隔離された小規模ウォレット、Canvas テスト、署名の確認、不可逆な Tape-Out を強調するコミュニティガイド。操作の詳細は公式ソースが権威であることを維持します。"
+    },
+    "community-cn-logic": {
+      "title": "中国の実践ラダー：NOT/AND/XOR から加算器へ",
+      "summary": "基本ゲートから加算器までのコミュニティラダー。公式ソースと照合可能な仕組みの説明のみが使用されており、市場見解は採用されていません。"
+    },
+    "community-something-logic-intro": {
+      "title": "コミュニティのメカニズム入門：NAND/LATCH、tape-out、PoD",
+      "summary": "Something Labs による中国のコミュニティ入門で、NAND、LATCH、オンチェーン Circuits、tape-out、テストベクター、PoD の語彙を紹介します。ルールとコントラクトについては公式ソースが引き続き権威であり、投稿内の購入・保有・マイニング・価格に関する言及は採用されていません。"
+    },
+    "reference-sr-latch": {
+      "title": "概念リファレンス：NAND SR ラッチ",
+      "summary": "真理値表とゲート図を用いて SR ラッチを説明します。これはデジタル論理の参考資料であり、TapeOut Protocol の運用ガイドではありません。"
+    },
+    "reference-bscscan-pod": {
+      "title": "Read-only 検証：PoD contract explorer",
+      "summary": "BscScan などの block explorer を使って、公開された PoD contract のアドレスとトランザクション状況を照合してください。これは監査の結論でも収益（リターン）の指標でもなく、read-only な確認手段にとどまります。"
+    },
+    "community-93bitmap-video-intro": {
+      "title": "コミュニティ動画：TapeOutサイエンス入門・第1回",
+      "summary": "93.bitmapによる英語のコミュニティ向け解説動画で、TapeOutとOrdinalsを概念的な入り口として扱います。コミュニティ向けの参考動画に限られ、公式のルール、コントラクト、価格、収益、または市場に関する結論を示すものではありません。"
+    }
+  }
+}

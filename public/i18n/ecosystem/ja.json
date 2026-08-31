@@ -1,0 +1,72 @@
+{
+  "locale": "ja",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Alphaローンチデモ：Canvas、TapeOut、例",
+        "summary": "Officialの公開資料で、NAND/LATCHとCanvas配線からTapeOutまでの基本的な流れを示します。ワークフロー理解のために使用してください。リターン予測としては利用しないでください。",
+        "source_note": "Officialプロジェクトのリリース。署名する前に、公式サイトで該当するアカウントと契約アドレスを確認してください。"
+      },
+      "official-output-cost-note": {
+        "title": "出力ピンのコストとネットリスト規則についての注意",
+        "summary": "Canvasのゲート数が最終的なTapeOut消費と異なる理由についてのOfficialな説明。トランザクションに署名する前に、入力、出力、およびコストを確認してください。",
+        "source_note": "Officialプロジェクトのリリース。コスト情報はプロトコルの動作に関する参照であり、評価やリターンの主張ではありません。"
+      },
+      "community-beginner-guide": {
+        "title": "ミントからTapeOutへ：初心者向けガイド",
+        "summary": "Communityの初心者向けガイドで、隔離ウォレットでのテスト、読み取り専用コントラクトの確認、取り消せないTapeOutのリスクを扱います。メカニクスについてはOfficialの情報が引き続き権威的です。",
+        "source_note": "Communityコンテンツであり、決してOfficialな情報源ではありません。記事にはリスク開示が含まれます。メカニクスやコントラクトは独自に検証してください。"
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design: Officialマイニングエントリー",
+        "summary": "Officialのエントリで、arm、start、claim、taskbank、および契約に関する説明が含まれます。取り消せないトランザクションが明示されており、トークン購入が必須ではないことが記載されています。",
+        "source_note": "Officialサイトの情報源。第三者による価格やマイニングの議論はOfficialのルールページとは切り離して扱ってください。"
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Officialのブラウザワークスペースで、いかなるTapeOutトランザクションの前にNAND/LATCH Circuitロジックを構築・テストするためのものです。",
+        "safety": "まずテストしてください。TapeOutは取り消せないオンチェーン取引を生成する可能性があります。署名前に表示される入力、出力、コンポーネント、およびコストを確認してください。"
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "OfficialのPoDエントリで、ルール確認、arm/start/claimのワークフロー、マイニング状況、契約参照を含みます。",
+        "safety": "Officialのルールと契約参照のみを使用してください。トランザクションは取り消せません。これはマイニングのリターンを保証するものではありません。"
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Officialのタスクカタログで、tier、combinational／sequentialタイプ、オンチェーン適格性に基づいて演習を選択できます。",
+        "safety": "クレーム前に検証要件をお読みください。タスクラベルは報酬やトークン価値を保証するものではありません。"
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan読み取り専用PoD契約チェック",
+        "summary": "読み取り専用のエクスプローラページで、公表されたPoD契約アドレスとトランザクション状態をOfficialの参照情報と突き合わせて確認するためのものです。",
+        "safety": "ブロックエクスプローラは監査やリターンの指標ではありません。コピーされたアドレスをOfficialの情報と照合せずに信頼しないでください。"
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club Processor & hashpowerボード",
+        "summary": "Community向けの公開ボードで、Processorとハッシュパワーの観察を提供します。これらの計算はエコシステムの別視点として有用ですが、公式の保有者情報やプロトコル情報源ではありません。",
+        "safety": "Communityによる推定にすぎません。ランキング範囲、予測出力、ラベルはその情報源固有の観察です。現在のウォレット残高、身元、保証されたリターンを推測しないでください。"
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "サードパーティのエコシステムマーケットプレイスで、TapeOut関連のトランジスタやマイニング機器の出品を扱います。プロトコルや所有権のOfficialデータとは別に、探索や市場確認のために利用してください。",
+        "safety": "Communityのマーケットプレイスであり、公式の価格や所有権情報源ではありません。出品、表示価格、在庫は変動し実行を保証しません。契約や署名要求は独自に検証してください。"
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "公開出品とマーケットの仕組みを読むためのCommunityエコシステム市場です。Officialプロトコル、コントラクト、保有データの情報源とは分けて扱ってください。",
+        "safety": "Communityマーケットプレイスです。公開入札や表示値は完了した取引、出口価格、リターンの約束ではありません。署名前に現在のコントラクトとすべてのウォレット要求を独自に確認してください。"
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "Registry、activities、Airdrop、$BEM、レビュー済み学習リソース、多言語学習応答のための、証拠に基づく公開APIです。",
+        "safety": "ソースの健全性、情報の陳腐化、第三者価格の境界は応答の一部です。利用不可のデータをゼロやリアルタイムとして解釈しないでください。"
+      }
+    }
+  }
+}

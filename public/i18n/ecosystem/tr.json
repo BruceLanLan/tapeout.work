@@ -1,0 +1,72 @@
+{
+  "locale": "tr",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Alpha lansman demosu: Canvas, TapeOut ve örnekler",
+        "summary": "NAND/LATCH ve Canvas bağlantısından TapeOut’a kadar temel yolu gösteren Official kamu lansman materyali. İş akışını anlamak için kullanın; getiriyi tahmin eden bir beyan olarak kullanmayın.",
+        "source_note": "Official proje duyurusu. İmzalamadan önce bağlı hesabı ve herhangi bir sözleşme adresini Official sitede doğrulayın."
+      },
+      "official-output-cost-note": {
+        "title": "Çıkış pini maliyeti ve netlist kuralı notu",
+        "summary": "Canvas kapı sayısının nihai TapeOut tüketiminden neden farklı olabileceğine dair Official açıklama. Bir işlem imzalamadan önce girişleri, çıkışları ve maliyeti kontrol edin.",
+        "source_note": "Official proje duyurusu. Maliyet bilgisi protokol-mekanikleri açısından bir referanstır; değerleme veya getiri iddiası değildir."
+      },
+      "community-beginner-guide": {
+        "title": "Mint'ten TapeOut'a: TapeOut için yeni başlayanlar rehberi",
+        "summary": "İzolasyonlu cüzdan testleri, salt-okunur sözleşme kontrolleri ve geri alınamaz TapeOut risklerini kapsayan Community başlangıç rehberi. Mekanikler için Official kaynaklar yetkilidir.",
+        "source_note": "Community içeriği; asla Official bir kaynak değildir. Makale bir risk açıklaması içerir; mekanikleri ve sözleşmeleri bağımsız olarak doğrulayın."
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design: Official madencilik girişi",
+        "summary": "arm, start, claim, taskbank ve sözleşmeler için Official giriş. Geri alınamaz işlemleri ve token satın almanın gerekli olmadığını açıklar.",
+        "source_note": "Official site kaynağı. Herhangi üçüncü taraf fiyat veya madencilik tartışmasını Official kural sayfasından ayrı değerlendirin."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Herhangi bir TapeOut işlemi öncesinde NAND/LATCH Circuit mantığını kurma ve test etme için Official tarayıcı çalışma alanı.",
+        "safety": "Önce test edin. TapeOut geri alınamaz zincirüstü bir işlem oluşturabilir; imzalamadan önce gösterilen girişleri, çıkışları, bileşenleri ve maliyeti doğrulayın."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "$BEM PoD'nin Official kaydı; kural okuma, arm/start/claim iş akışı, madencilik durumu ve sözleşme referansları için.",
+        "safety": "Yalnızca Official kural ve sözleşme referanslarını kullanın. İşlemler geri alınamaz; bu madencilik getirisi vaadi değildir."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Seviye, kombinasyonel/sekansiyel tür ve zincirde uygunluk temelinde egzersiz seçimi için Official görev kataloğu (PoD taskbank).",
+        "safety": "Herhangi bir talep öncesi doğrulama gereksinimlerini okuyun. Bir görev etiketi ödül veya token değeri garantilemez."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan read-only PoD contract check",
+        "summary": "Açık PoD sözleşme adresini ve işlem durumunu Official referanslarla karşılaştırmak için salt-okunur BscScan gezgini sayfası.",
+        "safety": "Bir blok gezgini denetim veya getiri ölçütü değildir. Kopyalanan herhangi bir adresi Official kaynakla eşleştirmeden güvenilir kabul etmeyin."
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club Processor & hashpower board",
+        "summary": "Processor ve hashpower gözlemleri için Community'ye yönelik halka açık pano. Hesaplamaları ayrı bir ekosistem görünümü olarak faydalıdır, ancak Official bir sahibi veya protokol kaynağı değildir.",
+        "safety": "Sadece Community tahmini. Sıralama kapsamını, öngörülen çıktıları ve etiketleri kaynağa özgü gözlemler olarak değerlendirin; mevcut cüzdan bakiyeleri, kimlikler veya garantili getiriler çıkarımı yapmayın."
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "TapeOut ile ilgili transistör ve madencilik-makinesi listeleri için üçüncü taraf ekosistem pazar yeri girişi. Bunu Official protokol ve mülkiyet verilerinden ayrı olarak keşif ve piyasa okuma yüzeyi olarak kullanın.",
+        "safety": "Community pazar yeri; Official fiyat veya mülkiyet kaynağı değildir. İlanlar, görüntülenen fiyatlar ve bulunabilirlik değişebilir ve işlem garantisi vermez; sözleşmeleri ve imza taleplerini bağımsız doğrulayın."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "Herkese açık listeleri ve piyasa mekaniklerini okumaya yönelik topluluk ekosistemi pazarıdır. Resmî protokol, sözleşme ve sahiplik veri kaynaklarından ayrı değerlendirin.",
+        "safety": "Yalnızca topluluk pazaryeridir. Açık alış emirleri ve gösterilen değerler tamamlanmış işlemler, çıkış fiyatları veya getiri vaatleri değildir; imzalamadan önce güncel sözleşmeleri ve tüm cüzdan isteklerini bağımsız olarak doğrulayın."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "Registry, aktiviteler, Airdrop, $BEM, incelenmiş öğrenme kaynakları ve çokdilli öğrenme yanıtları için kanıta dayalı public API (TapeOut Intelligence API).",
+        "safety": "Kaynak sağlığı, güncelliğini yitirmiş durum ve üçüncü taraf fiyat sınırları yanıtın bir parçasıdır. Kullanılamayan veriyi sıfır veya gerçek zamanlı olarak yorumlamayın."
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "locale": "es",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T16:45:00Z",
+  "translations": {
+    "official-home": {
+      "title": "Sitio oficial de TapeOut: de NAND/LATCH a on-chain Circuit",
+      "summary": "Comienza con components, Processors y Canvas; el tape-out consume components y crea un on-chain Circuit. El sitio también indica que los contratos siguen siendo actualizables."
+    },
+    "official-whitepaper": {
+      "title": "Whitepaper del protocolo TapeOut",
+      "summary": "Referencia oficial para ERC-1155 components, ERC-721 Circuits, la Processor factory y netlists on-chain."
+    },
+    "official-alpha": {
+      "title": "Demo de lanzamiento Alpha: Canvas, tape-out y ejemplos",
+      "summary": "Publicación oficial de lanzamiento que demuestra la ruta básica desde NAND/LATCH y el cableado de Canvas hasta el tape-out."
+    },
+    "official-output-cost": {
+      "title": "Nota sobre el costo del pin de salida y reglas de netlist",
+      "summary": "Explica por qué el recuento de puertas en Canvas puede diferir del consumo final en el tape-out; útil antes de comprobar entradas, salidas y costo."
+    },
+    "community-market-qa": {
+      "title": "Preguntas y respuestas del mercado de TapeOut: órdenes, tarifas y seguridad al firmar",
+      "summary": "Explicación escrita por la comunidad sobre órdenes de compra BNB en depósito (escrow), tarifas de comprador mostradas, gas y seguridad al firmar; las estimaciones en USD no garantizan ejecución ni un precio de venta, y ninguna plataforma debería solicitar una clave privada o frase semilla."
+    },
+    "official-pod": {
+      "title": "$BEM Proof of Design: entrada oficial de minería",
+      "summary": "Entrada oficial para arm / start / claim, taskbank y contratos; señala que las transacciones son irreversibles, no es obligatorio comprar tokens y la liquidez temprana puede ser escasa."
+    },
+    "official-pod-tasks": {
+      "title": "PoD taskbank: empieza con tareas elegibles",
+      "summary": "Entrada oficial del taskbank. Elige por tier, tipo combinacional/secuencial y elegibilidad on-chain antes de estudiar los requisitos de verificación."
+    },
+    "official-pod-algo": {
+      "title": "Algoritmo PoD: elegibilidad, verificación y fórmulas",
+      "summary": "Explica las reglas públicas de costo, elegibilidad, claim y verificación; las fórmulas describen las reglas y no pronostican retornos de minería."
+    },
+    "community-first-tapeout": {
+      "title": "Ruta para principiantes de la comunidad: de Mint a Tape-Out",
+      "summary": "Guía comunitaria que enfatiza una wallet pequeña y aislada, pruebas en Canvas, comprobaciones de firmas y el tape-out irreversible; las fuentes oficiales siguen siendo la autoridad para la mecánica."
+    },
+    "community-cn-logic": {
+      "title": "Escalera práctica china: NOT/AND/XOR a sumadores",
+      "summary": "Escalera comunitaria desde puertas básicas hasta sumadores. Solo se usan descripciones de mecanismos verificables con fuentes oficiales; no se adoptan opiniones de mercado."
+    },
+    "community-something-logic-intro": {
+      "title": "Guía introductoria de mecanismos de la comunidad: NAND/LATCH, tape-out y PoD",
+      "summary": "Un manual introductorio de la comunidad china de Something Labs presenta NAND, LATCH, on-chain Circuits, tape-out, vectores de prueba y vocabulario PoD. Las fuentes oficiales siguen siendo la autoridad para reglas y contratos; los comentarios sobre compra, tenencia, minería y precios en la publicación no se adoptan."
+    },
+    "reference-sr-latch": {
+      "title": "Referencia conceptual: NAND SR LATCH",
+      "summary": "Explica el SR LATCH usando tablas de verdad y diagramas de puertas. Esto es material de referencia sobre lógica digital, no una guía operativa del TapeOut Protocol."
+    },
+    "reference-bscscan-pod": {
+      "title": "Verificación Read-only: explorador del PoD contract",
+      "summary": "Utilice un explorador de bloques para cotejar la dirección pública del PoD contract y el estado de la transacción; se trata de una verificación Read-only y no constituye una conclusión de auditoría ni una métrica de rendimiento. La comprobación se basa en registros públicos accesibles vía URL y está sujeta a risk boundaries."
+    },
+    "community-93bitmap-video-intro": {
+      "title": "Vídeo comunitario: introducción científica a TapeOut · episodio 1",
+      "summary": "Vídeo explicativo en inglés de 93.bitmap que utiliza TapeOut y Ordinals como punto de entrada conceptual. Es únicamente una referencia divulgativa de la comunidad y no una fuente oficial sobre reglas, contratos, precios, rendimientos ni afirmaciones de mercado."
+    }
+  }
+}

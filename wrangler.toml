@@ -1,0 +1,22 @@
+name = "tapeout-public-monitor"
+main = "src/worker.js"
+compatibility_date = "2026-08-19"
+workers_dev = true
+
+[[routes]]
+pattern = "tapeout.work"
+custom_domain = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tapeout-monitor"
+database_id = "edf7c21a-3e5f-4e12-a34b-1fe496ce1924"
+
+[triggers]
+# One-minute job is deliberately scoped to the volatile third-party BEM/USDT quote.
+# The five-minute job remains the cadence for Registry, official snapshots and other domains.
+crons = ["* * * * *", "*/5 * * * *"]

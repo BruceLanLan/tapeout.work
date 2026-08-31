@@ -1,0 +1,72 @@
+{
+  "locale": "pt",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Demonstração de lançamento Alpha: Canvas, TapeOut e exemplos",
+        "summary": "Material público de lançamento Official que demonstra o caminho básico desde NAND/LATCH e a fiação do Canvas até o TapeOut. Use para entender o fluxo de trabalho, não como previsão de retorno.",
+        "source_note": "Official project release. Verifique a conta vinculada e qualquer endereço de contrato no site Official antes de assinar."
+      },
+      "official-output-cost-note": {
+        "title": "Observação sobre custo de pino de saída e regras de netlist",
+        "summary": "Explicação Official sobre por que a contagem de portas no Canvas pode diferir do consumo final no TapeOut. Verifique entradas, saídas e custo antes de assinar uma transação.",
+        "source_note": "Official project release. As informações de custo são referência de mecânica do protocolo, não uma avaliação ou afirmação de retorno."
+      },
+      "community-beginner-guide": {
+        "title": "Do Mint ao TapeOut: guia para iniciantes do TapeOut",
+        "summary": "Community: guia para iniciantes cobrindo testes de carteira isolada, checagens de contrato somente-leitura e riscos de TapeOut irreversíveis. As fontes Official permanecem autoritativas quanto à mecânica.",
+        "source_note": "Community content, nunca uma fonte Official. O artigo inclui uma divulgação de risco; verifique de forma independente a mecânica e os contratos."
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design: entrada Official de mineração",
+        "summary": "Entrada Official para arm, start, claim, taskbank e contratos. Informa sobre transações irreversíveis e que a compra de tokens não é obrigatória.",
+        "source_note": "Official site source. Trate qualquer discussão de preço ou mineração de terceiros separadamente da página de regras Official."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Espaço de trabalho Official em navegador para construir e testar a lógica de Circuit NAND/LATCH antes de qualquer transação TapeOut.",
+        "safety": "Teste primeiro. TapeOut pode criar uma transação on-chain irreversível; verifique as entradas, saídas, componentes e custo exibidos antes de assinar."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "Entrada Official do PoD para leitura de regras, fluxo arm/start/claim, status de mineração e referências de contrato.",
+        "safety": "Use apenas referências de regra e contrato Official. Transações são irreversíveis; isto não constitui promessa de retornos de mineração."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Catálogo Official de tarefas para selecionar exercícios por tier, tipo combinacional/sequencial e elegibilidade on-chain.",
+        "safety": "Leia os requisitos de verificação antes de qualquer claim. Um rótulo de tarefa não garante recompensa ou valor de token."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan read-only PoD contract check",
+        "summary": "Página de explorador somente-leitura para cruzar o endereço público do contrato PoD e o estado de transações com as referências Official.",
+        "safety": "Um block explorer não é uma auditoria nem uma métrica de retorno. Não trate qualquer endereço copiado como confiável sem compará-lo à fonte Official."
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club Processor & hashpower board",
+        "summary": "Placar público Community para observações de Processor e hashpower. Seus cálculos servem como uma visão separada do ecossistema, mas não constituem uma fonte Official de detentores ou do protocolo.",
+        "safety": "Estimativa apenas Community. Trate cobertura de ranking, projeções de output e rótulos como observações específicas da fonte; não deduza saldos de carteiras, identidades ou retornos garantidos."
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "Entrada de marketplace de terceiros no ecossistema para anúncios de transistores e mining-machines relacionados ao TapeOut. Use como superfície de descoberta e leitura de mercado, separada dos dados Official de protocolo e propriedade.",
+        "safety": "Marketplace Community, não é uma fonte Official de preço ou propriedade. Anúncios, preços exibidos e disponibilidade podem mudar e não garantem execução; verifique contratos e pedidos de assinatura de forma independente."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "Mercado do ecossistema comunitário para ler listagens públicas e mecânicas de mercado. Trate-o separadamente das fontes oficiais de protocolo, contratos e dados de posse.",
+        "safety": "Apenas marketplace comunitário. Lances abertos e valores exibidos não são negociações concluídas, preços de saída nem promessas de retorno; verifique independentemente os contratos atuais e todas as solicitações de carteira antes de assinar."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "API pública, com base em evidências, para Registry, activities, Airdrop, $BEM, recursos de aprendizado revisados e respostas multilíngues de aprendizagem.",
+        "safety": "Saúde da fonte, estado desatualizado e limites de preço de terceiros fazem parte da resposta. Não interprete dados indisponíveis como zero ou como informação em tempo real."
+      }
+    }
+  }
+}

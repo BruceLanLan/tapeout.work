@@ -1,0 +1,63 @@
+{
+  "locale": "tr",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T16:45:00Z",
+  "translations": {
+    "official-home": {
+      "title": "TapeOut resmi sitesi: NAND/LATCH'tan on-chain Circuit'lere",
+      "summary": "Bileşenler, Processors ve Canvas ile başlayın; tape-out bileşenleri tüketir ve on-chain bir Circuit oluşturur. Site ayrıca sözleşmelerin yükseltilebilir olduğunu açıklıyor."
+    },
+    "official-whitepaper": {
+      "title": "TapeOut Protocol beyaz kağıdı",
+      "summary": "ERC-1155 bileşenleri, ERC-721 Circuit'ler, Processor fabrikası ve on-chain netlistler için resmi referans."
+    },
+    "official-alpha": {
+      "title": "Alpha lansman demosu: Canvas, tape-out ve örnekler",
+      "summary": "Resmi lansman yazısı temel yolu gösterir: NAND/LATCH ve Canvas kablolamadan tape-out'a kadar örnekler sunar."
+    },
+    "official-output-cost": {
+      "title": "Çıkış-pin maliyeti ve netlist kural notu",
+      "summary": "Canvas kapı sayısının nihai tape-out tüketimiyle neden farklı olabileceğini açıklar; girişleri, çıkışları ve maliyeti kontrol etmeden önce faydalıdır."
+    },
+    "community-market-qa": {
+      "title": "TapeOut Market SSS: emirler, ücretler ve imzalama güvenliği",
+      "summary": "Topluluk tarafından yazılmış açıklama: escrow'lu BNB alım emirleri, gösterilen alıcı ücretleri, gas ve imzalama güvenliği ele alınır; USD tahminleri işlem veya satış fiyatı garantilemez ve hiçbir platform özel anahtar veya seed phrase talep etmemelidir."
+    },
+    "official-pod": {
+      "title": "$BEM Proof of Design: resmi mining kaydı",
+      "summary": "arm / start / claim, taskbank ve sözleşmeler için resmi giriş; işlemlerin geri alınamaz (irreversible) olduğunu, token satın almanın gerekli olmadığını ve erken likiditenin az olabileceğini belirtir."
+    },
+    "official-pod-tasks": {
+      "title": "PoD taskbank: uygun görevlerle başlayın",
+      "summary": "Resmi taskbank girişi. Doğrulama gereksinimlerini incelemeden önce tier, kombinasyonal/sekansiyel tür ve on-chain uygunluğa göre seçim yapın."
+    },
+    "official-pod-algo": {
+      "title": "PoD algoritması: uygunluk, doğrulama ve formüller",
+      "summary": "Açık maliyet, uygunluk, claim ve doğrulama kurallarını açıklar; formüller kuralları izah eder ve madencilik getirilerini tahmin etmez."
+    },
+    "community-first-tapeout": {
+      "title": "Topluluk başlangıç yolu: Mint'ten Tape-Out'a",
+      "summary": "Topluluk rehberi izole küçük bir cüzdan, Canvas testleri, imza kontrolleri ve geri alınamaz tape-out vurgular; mekanikler için resmi kaynaklar yetkilidir."
+    },
+    "community-cn-logic": {
+      "title": "Çin uygulama merdiveni: NOT/AND/XOR'dan adders'a",
+      "summary": "Topluluk merdiveni temel kapılardan adders'a kadar ilerler. Yalnızca mekanizma açıklamaları resmi kaynaklarla karşılaştırılabilir; piyasa görüşleri benimsenmemiştir."
+    },
+    "community-something-logic-intro": {
+      "title": "Something Labs topluluk tanıtımı: NAND/LATCH, tape-out ve PoD",
+      "summary": "Something Labs tarafından hazırlanmış Çince topluluk tanıtımı NAND, LATCH, on-chain Circuit'ler, tape-out, test vektörleri ve PoD terimlerini tanıtır. Kurallar ve sözleşmeler için resmi kaynaklar yetkilidir; gönderideki satın alma, tutma, madencilik ve fiyat yorumları benimsenmez."
+    },
+    "reference-sr-latch": {
+      "title": "Kavram referansı: NAND SR LATCH",
+      "summary": "SR latch'i doğruluk tabloları ve kapı diyagramlarıyla açıklar. Bu materyal dijital mantık referansıdır, TapeOut Protocol işletme kılavuzu değildir."
+    },
+    "reference-bscscan-pod": {
+      "title": "Read-only doğrulama: PoD contract gezgini",
+      "summary": "Blok gezginini kullanarak açık PoD contract adresini ve işlem durumunu çapraz kontrol edin; bu ne bir denetim sonucu ne de bir getiri metriğidir."
+    },
+    "community-93bitmap-video-intro": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 1. bölüm",
+      "summary": "93.bitmap tarafından hazırlanan bu İngilizce topluluk açıklama videosu, kavramsal bir giriş noktası olarak TapeOut ve Ordinals’ı kullanır. Yalnızca topluluk referansı niteliğindedir; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmî bir kaynak değildir."
+    }
+  }
+}

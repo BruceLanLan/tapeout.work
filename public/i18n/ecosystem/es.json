@@ -1,0 +1,72 @@
+{
+  "locale": "es",
+  "source_catalog_version": "2026-08-26",
+  "reviewed_at": "2026-08-26T03:00:00Z",
+  "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
+  "translations": {
+    "updates": {
+      "official-alpha-demo": {
+        "title": "Demostración de lanzamiento alpha: Canvas, TapeOut y ejemplos",
+        "summary": "Material de lanzamiento público Official que demuestra la ruta básica desde NAND/LATCH y el cableado de Canvas hasta TapeOut. Úselo para entender el flujo de trabajo, no como una previsión de retorno.",
+        "source_note": "Official project release. Verifique la cuenta enlazada y cualquier dirección de contrato en el sitio Official antes de firmar."
+      },
+      "official-output-cost-note": {
+        "title": "Nota sobre el costo de pines de salida y reglas de netlist",
+        "summary": "Official explicación de por qué el recuento de puertas en Canvas puede diferir del consumo final en TapeOut. Verifique entradas, salidas y costos antes de firmar una transacción.",
+        "source_note": "Official project release. La información de costos es una referencia de mecánica del protocolo, no una valoración ni una promesa de retorno."
+      },
+      "community-beginner-guide": {
+        "title": "De Mint a TapeOut: guía para principiantes de TapeOut",
+        "summary": "Guía para principiantes Community que cubre pruebas con monederos aislados, comprobaciones de contratos en modo solo lectura y riesgos de TapeOut irreversible. Las fuentes Official siguen siendo autorizadas para la mecánica.",
+        "source_note": "Contenido Community, nunca una fuente Official. El artículo incluye una advertencia de riesgos; verifique de forma independiente la mecánica y los contratos."
+      },
+      "official-pod-entry": {
+        "title": "$BEM Proof of Design: entrada minera Official",
+        "summary": "Official entry para arm, start, claim, taskbank y contratos. Revela transacciones irreversibles y que no es necesario comprar tokens.",
+        "source_note": "Official site source. Trate cualquier discusión de precio o minería de terceros por separado de la página de reglas Official."
+      }
+    },
+    "tools": {
+      "tool-tapeout-canvas": {
+        "title": "TapeOut Canvas",
+        "summary": "Espacio de trabajo en el navegador Official para construir y probar la lógica Circuit de NAND/LATCH y el cableado de Canvas antes de cualquier transacción TapeOut.",
+        "safety": "Pruebe primero. TapeOut puede crear una transacción irreversible on-chain; verifique las entradas, salidas, componentes y el costo mostrados antes de firmar."
+      },
+      "tool-pod": {
+        "title": "$BEM Proof of Design",
+        "summary": "Entrada Official PoD para lectura de reglas, flujo arm/start/claim, estado de mining y referencias de contratos.",
+        "safety": "Use solo referencias de reglas y contratos Official. Las transacciones son irreversibles; esto no es una promesa de retornos por mining."
+      },
+      "tool-pod-taskbank": {
+        "title": "PoD taskbank",
+        "summary": "Catálogo de tareas Official para seleccionar ejercicios por nivel, tipo combinacional/secuencial y elegibilidad on-chain.",
+        "safety": "Lea los requisitos de verificación antes de cualquier claim. Una etiqueta de tarea no garantiza una recompensa ni el valor de un token."
+      },
+      "tool-bscscan-pod": {
+        "title": "BscScan comprobación de contrato PoD en solo lectura",
+        "summary": "Página de explorador en solo lectura para verificar la dirección pública del contrato PoD y el estado de la transacción frente a referencias Official.",
+        "safety": "Un explorador de bloques no es una auditoría ni una métrica de retorno. No considere ninguna dirección copiada como confiable sin compararla con la fuente Official."
+      },
+      "tool-tapeout-club": {
+        "title": "TapeOut Club Processor & hashpower board",
+        "summary": "Tablero público Community para observaciones de Processor y hashpower. Sus cálculos son útiles como una visión separada del ecosistema, pero no son una fuente Official de tenedores o del protocolo.",
+        "safety": "Estimación Community únicamente. Trate la cobertura de rankings, las proyecciones de outputs y las etiquetas como observaciones específicas de la fuente; no infiera balances actuales de wallets, identidades o retornos garantizados."
+      },
+      "tool-tapeout-firsto": {
+        "title": "TapeOut Firsto marketplace",
+        "summary": "Entrada de marketplace de terceros para listados de transistores y máquinas de mining relacionados con TapeOut. Úselo como una superficie de descubrimiento y lectura de mercado, separada de los datos Official de protocolo y propiedad.",
+        "safety": "Marketplace Community, no es una fuente Official de precios o propiedad. Los listados, precios mostrados y disponibilidad pueden cambiar y no garantizan ejecución; verifique contratos y solicitudes de firma de forma independiente."
+      },
+      "tool-tapeout-market": {
+        "title": "TapeOut Market",
+        "summary": "Mercado del ecosistema comunitario para leer listados públicos y mecánicas de mercado. Trátalo por separado de las fuentes oficiales de protocolo, contratos y titularidad.",
+        "safety": "Solo marketplace comunitario. Las pujas abiertas y los valores mostrados no son operaciones completadas, precios de salida ni promesas de retorno; verifica de forma independiente los contratos actuales y todas las solicitudes de wallet antes de firmar."
+      },
+      "tool-intelligence-api": {
+        "title": "TapeOut Intelligence API",
+        "summary": "API pública respaldada por evidencia para Registry, activities, Airdrop, $BEM, recursos de aprendizaje revisados y respuestas de aprendizaje multilingües.",
+        "safety": "La salud de la fuente, el estado obsoleto y los límites de precio de terceros forman parte de la respuesta. No interprete datos no disponibles como cero ni como información en tiempo real."
+      }
+    }
+  }
+}
