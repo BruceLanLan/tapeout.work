@@ -6,7 +6,7 @@ const getJson = async path => {
   return response.json();
 };
 const page = await fetch(`${base}/?i18n-production-qa=${Date.now()}`).then(response => response.text());
-if (!page.includes('id="language-select"') || !page.includes('app.js?v=2026-08-31-features-r33')) throw new Error('Production i18n check failed: locale selector or r12 app asset missing');
+if (!page.includes('id="language-select"') || !page.includes('app.js?v=2026-08-31-features-r34')) throw new Error('Production i18n check failed: locale selector or r12 app asset missing');
 const results = await Promise.all(locales.map(async locale => {
   const [ui, learning, ecosystem] = await Promise.all([getJson(`/i18n/${locale}.json`), getJson(`/i18n/learning/${locale}.json`), getJson(`/i18n/ecosystem/${locale}.json`)]);
   if (Object.keys(ui).length < 360) throw new Error(`Production i18n check failed: ${locale} UI pack incomplete`);

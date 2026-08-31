@@ -367,14 +367,18 @@ async function bemPoolCoverage(env) {
   const totalPoolCount = Number(poolCountRow?.total || 0);
   const trackedPoolCount = Number(trackedCountRow?.total || 0);
   const pools = await Promise.all(trackedPools.map(async pool => {
-    const [latestRun, latestSuccessRun] = await Promise.all([
+    const [latestRun, latestSuccessRun, storedRow] = await Promise.all([
       env.DB.prepare("SELECT attempted_at, status, error FROM bem_pool_sync_runs WHERE pool_id = ? ORDER BY id DESC LIMIT 1").bind(pool.pool_id).first(),
       env.DB.prepare("SELECT attempted_at, status FROM bem_pool_sync_runs WHERE pool_id = ? AND status IN ('updated','no_change') ORDER BY id DESC LIMIT 1").bind(pool.pool_id).first(),
+      // Published so a reader can confirm for themselves that this really is a
+      // multi-pool aggregate, instead of taking the coverage percentage on faith.
+      env.DB.prepare("SELECT COUNT(*) AS n, MAX(block_timestamp) AS latest FROM bem_trades WHERE pool_id = ?").bind(pool.pool_id).first(),
     ]);
     return {
       pool_id: pool.pool_id, pair_label: pool.pair_label, dex_id: pool.dex_id, rank: pool.rank,
       volume_24h_usd: pool.volume_24h_usd, reserve_usd: pool.reserve_usd,
       share_of_total_volume: pool.coverage_share, bscscan_pool_url: /^0x[a-f0-9]{40}$/.test(pool.pool_id) ? `https://bscscan.com/address/${pool.pool_id}` : null,
+      stored_trade_count: Number(storedRow?.n || 0), latest_stored_trade_at: storedRow?.latest || null,
       trades_url: bemGeckoPoolTradesUrl(pool.pool_id), freshness: bemPoolFreshness(latestRun, latestSuccessRun, trackedPoolCount),
     };
   }));
@@ -422,7 +426,16 @@ export async function bemTradesOverview(env) {
   const volumesAscending = rows.map(row => row.volume_usd).filter(value => Number.isFinite(value)).sort((a, b) => a - b);
   const percentileValue = percentile(volumesAscending, BEM_LARGE_TRADE_PERCENTILE);
   const thresholdUsd = Math.max(percentileValue ?? 0, BEM_LARGE_TRADE_FLOOR_USD);
-  const largeTrades = rows.filter(row => Number.isFinite(row.volume_usd) && row.volume_usd >= thresholdUsd).slice(0, LARGE_TRADES_LIMIT).map(row => ({
+  // Ranked by size, not recency. `rows` arrives newest-first, so taking the first
+  // N above the threshold silently returned "the largest trades from whichever
+  // pools the round-robin happened to refresh most recently" — a pool synced an
+  // hour ago lost its place to a smaller trade from a pool synced minutes ago,
+  // which made a genuinely multi-pool aggregate look single-pool. A panel titled
+  // "large trades" should rank by trade size, which is also the one ordering that
+  // carries no artifact of our own sync schedule.
+  const largeTrades = rows.filter(row => Number.isFinite(row.volume_usd) && row.volume_usd >= thresholdUsd)
+    .sort((a, b) => b.volume_usd - a.volume_usd)
+    .slice(0, LARGE_TRADES_LIMIT).map(row => ({
     tx_hash: row.tx_hash, block_timestamp: row.block_timestamp, kind: row.kind, volume_usd: row.volume_usd, price_usd: row.price_usd,
     from_address: truncateAddress(row.tx_from_address), bscscan_url: `https://bscscan.com/tx/${row.tx_hash}`,
     pair_label: row.pair_label || null, dex: row.dex_id || null,
