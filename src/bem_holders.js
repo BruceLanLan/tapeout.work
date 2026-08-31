@@ -1,0 +1,136 @@
+import { BSC_CHAIN_ID, BSC_LOGS_RPC_SECRET, BEM_TOKEN_ADDRESS } from "./constants.js";
+import { hexToNumber, hexToBigInt, topicAddress, dataWord, toBigInt } from "./util.js";
+import { marketRpcUrl, rpc } from "./market.js";
+
+// keccak256("Transfer(address,address,uint256)")
+const BEM_TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
+const BEM_HOLDER_CONFIRMATIONS = 12;
+// Launch-day Transfer bursts can exceed a provider's per-request log cap; a
+// 1000-block window keeps each eth_getLogs answer small so no single window
+// can wedge the checkpoint, while ten windows per run still clear the genesis
+// backfill in roughly a day at the five-minute cron cadence.
+const BEM_HOLDER_LOG_WINDOW = 1000;
+const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 10;
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+// Estimated $BEM token deployment block, derived (2026-08-31) from a measured
+// public-RPC anchor: block 116708167 = 2026-08-18T18:57:27Z and an observed
+// ~0.45 s/block rate, projected back to 2026-08-15T00:00:00Z — hours before the
+// protocol's Day 1 Saturday-night launch window (see PROTOCOL_TIME_BASIS) —
+// giving ~115980756, rounded down for margin. DexScreener bounds the deploy at
+// or before pair creation 2026-08-21T13:58:28Z. If the estimate is ever too
+// late, negative balances appear (surfaced as negative_balance_count below);
+// tighten this to the real first-Transfer block once BSC_LOGS_RPC_URL is live.
+const BEM_TOKEN_GENESIS_ESTIMATE_BLOCK = 115900000;
+
+let bemHoldersSchemaReady;
+
+export async function ensureBemHoldersSchema(env) {
+  if (!bemHoldersSchemaReady) {
+    bemHoldersSchemaReady = env.DB.batch([
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_balances (address TEXT PRIMARY KEY, balance_wei TEXT NOT NULL, updated_at TEXT NOT NULL)"),
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_checkpoints (source_key TEXT PRIMARY KEY, block_number INTEGER NOT NULL, updated_at TEXT NOT NULL)"),
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_sync_runs (id INTEGER PRIMARY KEY AUTOINCREMENT, attempted_at TEXT NOT NULL, status TEXT NOT NULL, from_block INTEGER, to_block INTEGER, transfer_count INTEGER, error TEXT)"),
+      env.DB.prepare("CREATE INDEX IF NOT EXISTS bem_holder_sync_runs_attempted_idx ON bem_holder_sync_runs(attempted_at DESC)"),
+    ]);
+  }
+  return bemHoldersSchemaReady;
+}
+
+// Applies one scanned window's Transfer logs to the running balance table and
+// advances the checkpoint in the same D1 batch, so a delta is never committed
+// twice for the same block range. If a busy window ever needs more than one
+// batch, the checkpoint rides in the final chunk; recovery from a partial
+// window is: delete both bem_holder_checkpoints rows, delete all
+// bem_holder_balances rows, and let the scan rebuild from genesis.
+async function applyTransferWindow(env, logs, windowEnd, observedAt) {
+  const deltas = new Map();
+  for (const log of logs) {
+    const from = topicAddress(log.topics?.[1]), to = topicAddress(log.topics?.[2]);
+    const value = hexToBigInt(dataWord(log.data, 0));
+    // The zero address is the mint/burn counterparty, never a real holder.
+    if (from && from !== ZERO_ADDRESS) deltas.set(from, (deltas.get(from) ?? 0n) - value);
+    if (to && to !== ZERO_ADDRESS) deltas.set(to, (deltas.get(to) ?? 0n) + value);
+  }
+  const addresses = [...deltas.keys()].filter(address => deltas.get(address) !== 0n);
+  const balances = new Map();
+  for (let index = 0; index < addresses.length; index += 90) {
+    const chunk = addresses.slice(index, index + 90);
+    const result = await env.DB.prepare(`SELECT address, balance_wei FROM bem_holder_balances WHERE address IN (${chunk.map(() => "?").join(",")})`).bind(...chunk).all();
+    for (const row of result.results) balances.set(row.address, toBigInt(row.balance_wei));
+  }
+  const statements = addresses.map(address => env.DB.prepare("INSERT INTO bem_holder_balances (address, balance_wei, updated_at) VALUES (?, ?, ?) ON CONFLICT(address) DO UPDATE SET balance_wei=excluded.balance_wei, updated_at=excluded.updated_at")
+    .bind(address, ((balances.get(address) ?? 0n) + deltas.get(address)).toString(), observedAt));
+  statements.push(env.DB.prepare("INSERT INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer', ?, ?) ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at").bind(windowEnd, observedAt));
+  for (let index = 0; index < statements.length; index += 100) await env.DB.batch(statements.slice(index, index + 100));
+  return addresses.length;
+}
+
+export async function syncBemHolders(env) {
+  await ensureBemHoldersSchema(env);
+  if (!marketRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
+  const latest = hexToNumber(await rpc(env, "eth_blockNumber", []));
+  const finalized = Math.max(0, latest - BEM_HOLDER_CONFIRMATIONS);
+  const checkpoint = await env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer'").first();
+  // Unlike market.js, a fresh scan is NOT clamped to recent blocks: a balance
+  // census is only correct if every Transfer since token genesis is applied.
+  const start = checkpoint ? Number(checkpoint.block_number) + 1 : BEM_TOKEN_GENESIS_ESTIMATE_BLOCK;
+  if (start > finalized) return { from_block: start, to_block: finalized, transfers: 0, synced: false };
+  const end = Math.min(finalized, start + (BEM_HOLDER_LOG_WINDOW * BEM_HOLDER_LOG_WINDOWS_PER_RUN) - 1);
+  const observedAt = new Date().toISOString();
+  if (!checkpoint) await env.DB.prepare("INSERT OR IGNORE INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ?, ?)").bind(start, observedAt).run();
+  let transferCount = 0, touchedAddresses = 0;
+  for (let from = start; from <= end; from += BEM_HOLDER_LOG_WINDOW) {
+    const to = Math.min(end, from + BEM_HOLDER_LOG_WINDOW - 1);
+    const logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }]);
+    transferCount += logs.length;
+    touchedAddresses += await applyTransferWindow(env, logs, to, observedAt);
+  }
+  return { from_block: start, to_block: end, transfers: transferCount, touched_addresses: touchedAddresses, synced: true };
+}
+
+export async function recordBemHoldersSync(env, { attemptedAt, status, fromBlock = null, toBlock = null, transferCount = null, error = null }) {
+  await ensureBemHoldersSchema(env);
+  await env.DB.prepare("INSERT INTO bem_holder_sync_runs (attempted_at, status, from_block, to_block, transfer_count, error) VALUES (?, ?, ?, ?, ?, ?)").bind(attemptedAt, status, fromBlock, toBlock, transferCount, error ? String(error).slice(0, 500) : null).run();
+}
+
+export async function syncBemHoldersObserved(env) {
+  // Do not create a holder-scan audit write on every cron tick until the shared
+  // dedicated log provider (BSC_LOGS_RPC_URL) exists.
+  if (!marketRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
+  const attemptedAt = new Date().toISOString();
+  try {
+    const result = await syncBemHolders(env);
+    await recordBemHoldersSync(env, { attemptedAt, status: result.status || "ok", fromBlock: result.from_block, toBlock: result.to_block, transferCount: result.transfers });
+    return result;
+  } catch (error) {
+    await recordBemHoldersSync(env, { attemptedAt, status: "error", error: error?.message || String(error) });
+    return { synced: false, error: error?.message || String(error) };
+  }
+}
+
+export async function bemHoldersOverview(env) {
+  await ensureBemHoldersSchema(env);
+  const [holderRow, negativeRow, checkpoint, startCheckpoint, latestSync] = await Promise.all([
+    env.DB.prepare("SELECT COUNT(*) AS holder_count FROM bem_holder_balances WHERE balance_wei != '0'").first(),
+    env.DB.prepare("SELECT COUNT(*) AS negative_count FROM bem_holder_balances WHERE balance_wei LIKE '-%'").first(),
+    env.DB.prepare("SELECT block_number, updated_at FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer'").first(),
+    env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer_from'").first(),
+    env.DB.prepare("SELECT attempted_at, status, from_block, to_block, transfer_count, error FROM bem_holder_sync_runs ORDER BY id DESC LIMIT 1").first(),
+  ]);
+  const configured = Boolean(marketRpcUrl(env));
+  const status = !configured ? "not_configured" : !checkpoint ? "pending" : latestSync?.status === "error" ? "error" : "ok";
+  return {
+    source: "$BEM token ERC-20 Transfer logs (full balance census)",
+    chain_id: BSC_CHAIN_ID,
+    token_address: BEM_TOKEN_ADDRESS,
+    status,
+    ...(configured ? {} : { note: `Holder counting requires the ${BSC_LOGS_RPC_SECRET} Worker secret (a dedicated BSC log provider, shared with the Circuit Market scan). Until it is configured no Transfer logs are scanned, so no holder count is published rather than showing a misleading zero.` }),
+    holder_count: checkpoint ? Number(holderRow?.holder_count ?? 0) : null,
+    // Nonzero means the genesis-block estimate started too late and missed early
+    // mints; tighten BEM_TOKEN_GENESIS_ESTIMATE_BLOCK and rescan from genesis.
+    negative_balance_count: Number(negativeRow?.negative_count ?? 0),
+    latest_sync: latestSync || null,
+    coverage: checkpoint ? { from_block: startCheckpoint?.block_number ?? null, through_block: checkpoint.block_number, updated_at: checkpoint.updated_at } : null,
+    boundary: "Holder count reflects confirmed Transfer logs scanned through coverage.through_block only; while the incremental scan is still catching up to the chain head the count is a lower bound, not a final census. Addresses are public chain data and never identity-attributed.",
+  };
+}

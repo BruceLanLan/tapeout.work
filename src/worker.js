@@ -3,6 +3,7 @@ import { ensureRefreshSchema, refresh } from "./registry.js";
 import { ensureAirdropSchema, syncAirdropsObserved } from "./airdrop.js";
 import { ensureMarketSchema, syncCircuitMarketObserved } from "./market.js";
 import { ensureBemSchema, syncBemObserved, syncBemPrice } from "./bem.js";
+import { ensureBemHoldersSchema, syncBemHoldersObserved } from "./bem_holders.js";
 import { ensureOfficialAssetSchema, syncOfficialThreeAssets, OFFICIAL_ASSET_REFRESH_MINUTES, ensureTransistorCandleSchema, syncTransistorCandles } from "./official_assets.js";
 import { ensureCommunityHolderSchema, syncCommunityProcessorBoard } from "./community.js";
 import { ensureEcosystemHealthSchema, ensureEcosystemHealthFresh } from "./ecosystem_health.js";
@@ -25,6 +26,7 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
   await prepare("airdrop", () => ensureAirdropSchema(env), () => syncAirdropsObserved(env));
   await prepare("market", () => ensureMarketSchema(env), () => syncCircuitMarketObserved(env));
   await prepare("bem", () => ensureBemSchema(env), () => syncBemObserved(env, { includePrice: includeBemPrice }));
+  await prepare("bem_holders", () => ensureBemHoldersSchema(env), () => syncBemHoldersObserved(env));
   if (includeOfficialAssets) await prepare("official_three_assets", () => ensureOfficialAssetSchema(env), () => syncOfficialThreeAssets(env));
   await prepare("transistor_candles", () => ensureTransistorCandleSchema(env), () => syncTransistorCandles(env));
   await prepare("community_processor_board", () => ensureCommunityHolderSchema(env), () => syncCommunityProcessorBoard(env));
