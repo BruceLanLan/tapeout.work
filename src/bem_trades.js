@@ -364,7 +364,13 @@ export async function ensureBemTradesFresh(env) {
   const recent = await env.DB.prepare("SELECT status FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 8").all();
   let consecutiveFailures = 0;
   for (const row of recent.results || []) { if (row.status !== "error") break; consecutiveFailures += 1; }
-  const errorBackoffMinutes = consecutiveFailures >= 6 ? 60 : consecutiveFailures >= 3 ? 30 : consecutiveFailures >= 1 ? 10 : 2;
+  // Capped at half an hour rather than a full one. Measured success is ~13% per
+  // draw, so with three retries per attempt a 30-minute ceiling gives roughly a
+  // 57% chance of landing a refresh within the hour against 34% at 60 minutes —
+  // while still asking only about six times an hour, which is nothing for the
+  // provider. Backing off is about not hammering a limiter that is refusing us,
+  // not about going quiet.
+  const errorBackoffMinutes = consecutiveFailures >= 6 ? 30 : consecutiveFailures >= 3 ? 20 : consecutiveFailures >= 1 ? 10 : 2;
   return ensureScheduledDomainFresh({
     key: "bem_trades", env, prepare: () => ensureBemTradeSchema(env),
     latestRun: () => env.DB.prepare("SELECT attempted_at, status FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 1").first(),
