@@ -53,6 +53,11 @@ const BEM_LARGE_TRADE_PERCENTILE = 95;
 // absolute backstop under the percentile, not a claim about what is economically large.
 const BEM_LARGE_TRADE_FLOOR_USD = 100;
 const LARGE_TRADES_LIMIT = 20;
+// bem_trades had no retention at all, so it grew without bound while every read
+// scanned the newest BEM_TRADES_WINDOW_CAP rows of it. Fourteen days comfortably
+// outlives the disclosed window and leaves room to widen it later, and matches
+// the retention precedent already set for raw trade rows in official_assets.js.
+const BEM_TRADES_RETENTION_DAYS = 14;
 
 let bemTradeSchemaReady;
 
@@ -301,6 +306,12 @@ export async function syncBemTrades(env) {
   const error = failed.length ? failed.map(outcome => `${outcome.pool_id}: ${outcome.error}`).join(" | ").slice(0, 500) : null;
   await env.DB.prepare("INSERT INTO bem_trades_sync_runs (attempted_at, status, fetched_count, new_trade_count, error) VALUES (?, ?, ?, ?, ?)")
     .bind(attemptedAt, status, fetchedCount, newTradeCount, error).run();
+  const retentionBefore = new Date(Date.now() - BEM_TRADES_RETENTION_DAYS * 86400000).toISOString();
+  await env.DB.prepare("DELETE FROM bem_trades WHERE block_timestamp < ?").bind(retentionBefore).run();
+  // Per-pool run logs are diagnostics, not evidence anyone reads back historically;
+  // only the newest rows per pool are ever queried, so they get pruned too.
+  await env.DB.prepare("DELETE FROM bem_pool_sync_runs WHERE attempted_at < ?").bind(retentionBefore).run();
+  await env.DB.prepare("DELETE FROM bem_trades_sync_runs WHERE attempted_at < ?").bind(retentionBefore).run();
   return { status, attempted_at: attemptedAt, fetched_count: fetchedCount, new_trade_count: newTradeCount, pools: poolOutcomes };
 }
 
