@@ -278,14 +278,14 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "0xLukin",
     url: "https://tapeoutgo.vercel.app",
     original_language: "zh",
-    reviewed_at: "2026-08-28T00:30:00Z",
+    reviewed_at: "2026-08-31T00:00:00Z",
     title_en: "TapeOutGo (by 0xLukin)",
     title_zh: "TapeOutGo（作者 0xLukin）",
-    summary_en: "The open-source (MIT) tool this site's own \"Budget vs Behemoth\" quote card credits and adapts its read-only pricing methodology from. TapeOutGo itself goes further: it also lets you buy the shortfall, tape out, arm/start and claim $BEM, all signed directly by your own wallet, with no custody at any point.",
-    summary_zh: "本站\"预算对比\"卡片致敬并改编其只读报价方法论的开源（MIT）工具。TapeOutGo 本身走得更远：还能直接买齐差额、流片、逐台 arm/start 并领取 $BEM，全程由你自己的钱包签名，不经过任何托管。",
+    summary_en: "The open-source (MIT) tool this site's own \"Budget vs Behemoth\" quote card credits and adapts its read-only pricing methodology from. The original mining flow (buy the shortfall, tape out, arm/start and claim $BEM, all signed directly by your own wallet with no custody) has moved to a \"legacy\" /mine route. The homepage itself now previews a separate, not-yet-launched product from the same author: a \"TapeOut Liquidity Layer\" that would wrap official NAND/LATCH components 1:1 into four fungible tokens (wTapeOutNand/wTapeOutLatch/wBehemothNand/wBehemothLatch) tradeable and poolable against BNB on PancakeSwap, unwrappable anytime at parity. As of this review all four tokens are still marked \"coming soon\" with no deployed contract, so there is nothing live yet to verify or integrate.",
+    summary_zh: "本站\"预算对比\"卡片致敬并改编其只读报价方法论的开源（MIT）工具。原本的挖矿流程（买齐差额、流片、逐台 arm/start、领取 $BEM，全程自己钱包签名不经托管）已经移到\"旧版\"的 /mine 路由。首页现在预告了同一作者正在做的另一个尚未上线的产品——\"TapeOut 流动性层\"：把官方 NAND/LATCH 元件按 1:1 包装成四种可流通代币（wTapeOutNand/wTapeOutLatch/wBehemothNand/wBehemothLatch），可在 Pancake 上与 BNB 组成交易对做市，随时可按原比例拆包取回。截至本次审核，四种代币都仍标注\"即将上线\"，尚无已部署的合约，暂时没有可核验或可对接的实际内容。",
     use_cases: ["budget-quote", "buy", "tapeout", "mining", "claim"],
-    safety_en: "Community tool, not an official TapeOut surface. Buying, taping out and claiming are real signable, irreversible actions; payback figures exclude gas and are not a return promise. Verify every signing request independently.",
-    safety_zh: "社区工具，非官方 TapeOut 界面。购买、流片与领取都是真实可签名、不可逆的操作；回本数字不含 gas，也不构成收益承诺。每一笔签名请求都应独立核验。"
+    safety_en: "Community tool, not an official TapeOut surface. Buying, taping out and claiming are real signable, irreversible actions; payback figures exclude gas and are not a return promise. The previewed liquidity-wrapping product is pre-launch — treat any future contract address as unverified until it is actually deployed and independently checked, and note the page's own disclosure that the wrap contract will have no admin key once live (irreversible by design, not upgradable if something goes wrong). Verify every signing request independently.",
+    safety_zh: "社区工具，非官方 TapeOut 界面。购买、流片与领取都是真实可签名、不可逆的操作；回本数字不含 gas，也不构成收益承诺。预告中的流动性包装产品尚未上线——在合约真正部署并被独立核实之前，任何未来出现的合约地址都应视为未经验证；页面自己也披露包装合约上线后没有管理员权限（设计上不可逆，出问题也无法升级修复）。每一笔签名请求都应独立核验。"
   },
   {
     id: "tool-intelligence-api",
