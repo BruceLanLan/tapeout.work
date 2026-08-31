@@ -56,7 +56,9 @@ export async function learningResources(params, request, env) {
   const q = String(params.get("q") || "").trim().toLowerCase();
   const validTiers = new Set(["all", "official", "community", "reference"]);
   const validStages = new Set(["all", "basics", "canvas", "tapeout", "pod", "safety", "logic"]);
-  const validLanguages = new Set(["all", "zh", "en"]);
+  // Original-source language of the resource itself, not the UI locale. Turkish
+  // joined the set when a Turkish-language community explainer was reviewed.
+  const validLanguages = new Set(["all", "zh", "en", "tr"]);
   // Reversed so the most recently added entry leads page 1 of any filtered
   // view — the seed file's append order is this catalog's only recency
   // signal (no per-item reviewed_at), and a newest-first default keeps a

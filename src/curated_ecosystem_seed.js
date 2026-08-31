@@ -1,5 +1,5 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-08-31";
-export const ECOSYSTEM_REVIEWED_AT = "2026-08-31T00:00:00Z";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-08-31b";
+export const ECOSYSTEM_REVIEWED_AT = "2026-08-31T09:30:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
 // original language, URL and risk boundary are evidence fields and must not be inferred
@@ -424,14 +424,31 @@ export const CURATED_TOOLS = Object.freeze([
     safety_zh: "社区导航站，非官方来源。审核时页面未发现钱包连接、签名或交易请求，仅做外部链接跳转。跳转到任何被链接的工具前应独立核实。"
   },
   {
+    id: "tool-tg-large-trade-alerts",
+    wallet_risk: "read_only",
+    category: "community_news",
+    tier: "community",
+    operator: "community-run Telegram channel",
+    url: "https://t.me/TapeOutProtocol",
+    original_language: "zh",
+    reviewed_at: "2026-08-31T09:30:00Z",
+    title_en: "Large-trade alert channel (community Telegram)",
+    title_zh: "大额成交提醒频道（社区 Telegram）",
+    summary_en: "A community-run Telegram channel that pushes TapeOut-related updates, circulated in community lists as a large-trade detection feed. Its own channel description states plainly that it is an unofficial channel built and maintained by community users.",
+    summary_zh: "社区自建的 Telegram 频道，推送 TapeOut 相关内容，在社区清单中被作为「大单成交检测」渠道流传。该频道自己的简介明确写明是由社区用户自建维护的非官方频道。",
+    use_cases: ["trade-alerts", "community-feed"],
+    safety_en: "Explicitly self-declared as UNOFFICIAL despite its channel name resembling the protocol's. A channel name is never proof of affiliation. Alerts are one community member's own detection setup with undisclosed thresholds and no accuracy guarantee — never treat a push message as a verified fact, a protocol announcement or a trading signal, and never act on a contract address posted in any chat without checking it against the official site first.",
+    safety_zh: "尽管频道名称与协议同名，但其**自己声明为非官方频道**。频道名称绝不构成从属关系的证明。提醒内容是某位社区成员自建的检测方案，阈值未公开、准确性无保证——不要把推送消息当作已核实的事实、官方公告或交易信号；任何在聊天群里出现的合约地址，都必须先与官网核对后才能使用。"
+  },
+  {
     id: "tool-tapeout-daily",
     wallet_risk: "read_only",
     category: "community_news",
     tier: "community",
-    operator: "TapeOut Daily (community)",
+    operator: "@CryptoLoser9 (community)",
     url: "https://tapeoutdaily.ai/",
     original_language: "zh",
-    reviewed_at: "2026-08-31T00:00:00Z",
+    reviewed_at: "2026-08-31T09:30:00Z",
     title_en: "TapeOut Daily community newsroom",
     title_zh: "TapeOut Daily 社区日报",
     summary_en: "Unofficial community newsroom publishing daily $BEM price/supply snapshots, a KOL-engagement ranking, a community-builders directory, curated educational videos and a tool index. Presents itself as \"facts back to original sources, opinions retain community warmth\" and explicitly disclaims investment advice.",
