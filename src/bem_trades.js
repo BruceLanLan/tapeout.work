@@ -355,10 +355,20 @@ export async function ensureBemTradesFresh(env) {
   // actually re-fetches the pools listing a few times a day; every other tick it is a no-op
   // read of the latest discovery run.
   await ensureBemPoolDiscoveryFresh(env);
+  // The shared default retries a failing domain every two minutes, which for a
+  // third party that is rejecting us means asking a saturated rate limiter the
+  // same question twelve times an hour and being refused every time. Back off as
+  // consecutive failures accumulate: still prompt after a blip, deliberately
+  // sparse once it is clear the provider is not serving us right now. A single
+  // success resets it, because the streak query only counts the newest runs.
+  const recent = await env.DB.prepare("SELECT status FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 8").all();
+  let consecutiveFailures = 0;
+  for (const row of recent.results || []) { if (row.status !== "error") break; consecutiveFailures += 1; }
+  const errorBackoffMinutes = consecutiveFailures >= 6 ? 60 : consecutiveFailures >= 3 ? 30 : consecutiveFailures >= 1 ? 10 : 2;
   return ensureScheduledDomainFresh({
     key: "bem_trades", env, prepare: () => ensureBemTradeSchema(env),
     latestRun: () => env.DB.prepare("SELECT attempted_at, status FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 1").first(),
-    sync: syncBemTrades, maxAgeMinutes: BEM_TRADES_REFRESH_MINUTES,
+    sync: syncBemTrades, maxAgeMinutes: BEM_TRADES_REFRESH_MINUTES, errorBackoffMinutes,
   });
 }
 
