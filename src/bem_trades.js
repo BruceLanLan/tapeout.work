@@ -71,7 +71,14 @@ export async function syncBemTrades(env) {
   await ensureBemTradeSchema(env);
   const attemptedAt = new Date().toISOString();
   try {
-    const payload = await fetchJsonWithTimeout(BEM_GECKO_TRADES_URL);
+    // GeckoTerminal returned HTTP 429 for every headerless request made from
+    // Cloudflare's shared egress IPs, while the identical URL succeeded from a
+    // residential IP. Sending the documented API version header and a
+    // self-identifying User-Agent is what their docs ask of API consumers, and
+    // unidentified clients are the ones throttled hardest on a shared address.
+    const payload = await fetchJsonWithTimeout(BEM_GECKO_TRADES_URL, {
+      headers: { accept: "application/json;version=20230302", "user-agent": "tapeout.work-research/1.0 (+https://tapeout.work)" }
+    });
     const items = Array.isArray(payload?.data) ? payload.data : [];
     if (!items.length) throw new Error("GeckoTerminal trades response has no data rows");
     const rows = items.map(normalizeTrade).filter(Boolean);
