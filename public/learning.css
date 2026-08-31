@@ -931,3 +931,13 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .bem-leaderboard-status{margin:14px 0 0;color:#788193;font-size:11px}
 @media (max-width:900px){.bem-leaderboard-grid,.bem-leaderboard-tables{grid-template-columns:1fr}}
 @media (max-width:640px){.bem-leaderboard-panel{padding:18px}}
+
+/* ecosystem-safety-badges r28 */
+.wallet-risk-badge{display:inline-flex;align-items:center;padding:.26rem .5rem;border-radius:999px;font:700 .62rem/1 var(--mono,ui-monospace,monospace);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.wallet-risk-badge.read-only{background:#e7f0fb;color:#123f88}
+.wallet-risk-badge.connects-wallet{background:#fff0b6;color:#8a5a00}
+.tool-card h4{display:flex;align-items:center;gap:.45rem}
+.tool-health-dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+.tool-health-dot.reachable{background:#1a7f5a}
+.tool-health-dot.unreachable{background:#b4552d}
+.tool-health-dot.pending{background:#a9b4c4}

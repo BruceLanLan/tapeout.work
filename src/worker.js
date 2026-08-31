@@ -5,6 +5,7 @@ import { ensureMarketSchema, syncCircuitMarketObserved } from "./market.js";
 import { ensureBemSchema, syncBemObserved, syncBemPrice } from "./bem.js";
 import { ensureOfficialAssetSchema, syncOfficialThreeAssets, OFFICIAL_ASSET_REFRESH_MINUTES, ensureTransistorCandleSchema, syncTransistorCandles } from "./official_assets.js";
 import { ensureCommunityHolderSchema, syncCommunityProcessorBoard } from "./community.js";
+import { ensureEcosystemHealthSchema, ensureEcosystemHealthFresh } from "./ecosystem_health.js";
 import { api } from "./router.js";
 
 async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAssets = false } = {}) {
@@ -27,6 +28,10 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
   if (includeOfficialAssets) await prepare("official_three_assets", () => ensureOfficialAssetSchema(env), () => syncOfficialThreeAssets(env));
   await prepare("transistor_candles", () => ensureTransistorCandleSchema(env), () => syncTransistorCandles(env));
   await prepare("community_processor_board", () => ensureCommunityHolderSchema(env), () => syncCommunityProcessorBoard(env));
+  // ensureEcosystemHealthFresh (not syncEcosystemHealth) is called here on purpose: it carries
+  // its own 60-minute maxAgeMinutes gate, so this 5-minute tick only actually re-probes the
+  // ~17 external tool URLs once an hour instead of hammering them every 5 minutes.
+  await prepare("ecosystem_health", () => ensureEcosystemHealthSchema(env), () => ensureEcosystemHealthFresh(env));
 
   const outcomes = await Promise.allSettled(jobs.map(job => job.promise));
   outcomes.forEach((outcome, index) => {

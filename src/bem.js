@@ -380,6 +380,39 @@ export async function bemLeaderboardOverview(env) {
   };
 }
 
+const TRENDING_WINDOW_HOURS = 24;
+const TRENDING_TOP_N = 15;
+// "Hot topics": which tasks/wallets grew fastest over the trailing window, computed
+// purely from the deltas between two of our own already-stored top-30 snapshots.
+// top_tasks/top_wallets are only ever the top 30 by circuit count at snapshot time,
+// so an entry absent from the older snapshot might genuinely be new, or might simply
+// have been outside the top 30 back then — we cannot tell those apart, so we say so
+// explicitly (baseline_available: false) rather than ever claiming "brand new."
+export async function bemTrendingOverview(env) {
+  await ensureBemSchema(env);
+  const latest = await env.DB.prepare("SELECT * FROM bem_leaderboard_snapshots ORDER BY id DESC LIMIT 1").first();
+  if (!latest) return { status: "pending", window_hours: TRENDING_WINDOW_HOURS, latest_observed_at: null, baseline_observed_at: null, trending_tasks: [], trending_wallets: [] };
+  const targetTime = new Date(Date.parse(latest.observed_at) - TRENDING_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
+  const baseline = await env.DB.prepare("SELECT observed_at, top_wallets_json, top_tasks_json FROM bem_leaderboard_snapshots WHERE observed_at <= ? ORDER BY observed_at DESC LIMIT 1").bind(targetTime).first();
+  const latestTasks = JSON.parse(latest.top_tasks_json), latestWallets = JSON.parse(latest.top_wallets_json);
+  const baselineTaskMap = new Map((baseline ? JSON.parse(baseline.top_tasks_json) : []).map(row => [row.task_id, row]));
+  const baselineWalletMap = new Map((baseline ? JSON.parse(baseline.top_wallets_json) : []).map(row => [row.address, row]));
+  const rankByGrowth = (rows, keyOf, priorMap) => rows
+    .map(row => { const prior = priorMap.get(keyOf(row)); return { ...row, circuit_count_change: prior ? row.circuit_count - prior.circuit_count : null, baseline_available: Boolean(prior) }; })
+    .filter(row => row.baseline_available && row.circuit_count_change > 0)
+    .sort((a, b) => b.circuit_count_change - a.circuit_count_change)
+    .slice(0, TRENDING_TOP_N);
+  return {
+    status: baseline ? "healthy" : "insufficient_history",
+    methodology: "Ranks entries already in our own top-30 circuit-count leaderboard (not a social/discussion metric) by how much their circuit count grew over the trailing window. An entry with no comparable baseline 24h ago is left out rather than being shown as a fabricated 0% or 100% change.",
+    window_hours: TRENDING_WINDOW_HOURS,
+    latest_observed_at: latest.observed_at,
+    baseline_observed_at: baseline?.observed_at || null,
+    trending_tasks: rankByGrowth(latestTasks, row => row.task_id, baselineTaskMap),
+    trending_wallets: rankByGrowth(latestWallets, row => row.address, baselineWalletMap),
+  };
+}
+
 export async function bemMiningOverview(env) {
   await ensureBemSchema(env);
   await ensureBemMiningFresh(env);

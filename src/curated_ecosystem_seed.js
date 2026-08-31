@@ -136,6 +136,7 @@ export const CURATED_UPDATES = Object.freeze([
 export const CURATED_TOOLS = Object.freeze([
   {
     id: "tool-tapeout-canvas",
+    wallet_risk: "connects_wallet",
     category: "design",
     tier: "official",
     operator: "TapeOut Protocol",
@@ -152,6 +153,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-pod",
+    wallet_risk: "connects_wallet",
     category: "proof_of_design",
     tier: "official",
     operator: "TapeOut Protocol",
@@ -168,6 +170,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-pod-taskbank",
+    wallet_risk: "read_only",
     category: "learning",
     tier: "official",
     operator: "TapeOut Protocol",
@@ -184,6 +187,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-bscscan-pod",
+    wallet_risk: "read_only",
     category: "verification",
     tier: "reference",
     operator: "BscScan",
@@ -200,6 +204,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-club",
+    wallet_risk: "read_only",
     category: "hashpower_analytics",
     tier: "community",
     operator: "TapeOut Club",
@@ -216,6 +221,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-firsto",
+    wallet_risk: "connects_wallet",
     category: "marketplace",
     tier: "community",
     operator: "Firsto",
@@ -232,6 +238,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-market",
+    wallet_risk: "connects_wallet",
     category: "marketplace",
     tier: "community",
     operator: "TapeOut Market (community)",
@@ -248,6 +255,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-gatepilot",
+    wallet_risk: "connects_wallet",
     category: "mining_rental",
     tier: "community",
     operator: "GatePilot (community)",
@@ -264,6 +272,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeoutgo",
+    wallet_risk: "connects_wallet",
     category: "mining_execution",
     tier: "community",
     operator: "0xLukin",
@@ -280,6 +289,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-intelligence-api",
+    wallet_risk: "read_only",
     category: "data",
     tier: "official",
     operator: "TapeOut Intelligence",
@@ -296,6 +306,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-build",
+    wallet_risk: "read_only",
     category: "design",
     tier: "community",
     operator: "TapeOut.build (community)",
@@ -312,6 +323,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-dune-mining-intelligence",
+    wallet_risk: "read_only",
     category: "data",
     tier: "community",
     operator: "@ekonomeest (Dune)",
@@ -328,6 +340,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-factory",
+    wallet_risk: "connects_wallet",
     category: "mining_execution",
     tier: "community",
     operator: "TapeOut Factory (Benson, community)",
@@ -344,6 +357,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-verifier",
+    wallet_risk: "read_only",
     category: "verification",
     tier: "community",
     operator: "dis404 (community)",
@@ -360,6 +374,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-vip",
+    wallet_risk: "read_only",
     category: "data",
     tier: "community",
     operator: "GuoBTC (community)",
@@ -376,6 +391,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-bemotc",
+    wallet_risk: "connects_wallet",
     category: "marketplace",
     tier: "community",
     operator: "BEM OTC (community)",
