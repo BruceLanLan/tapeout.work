@@ -43,6 +43,17 @@ export const BEM_PRICE_PAIR_URL = `https://api.dexscreener.com/latest/dex/pairs/
 export const BEM_GECKO_POOL_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/pools/${BEM_PRICE_PAIR_ADDRESS}`;
 // Most-recent-300-trades feed for the same verified BEM/USDT pool. Keyless and public.
 export const BEM_GECKO_TRADES_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/pools/${BEM_PRICE_PAIR_ADDRESS}/trades`;
+// Keyless GeckoTerminal token-pools listing: every BSC pool GeckoTerminal has indexed for
+// the BEM token, with its own 24h volume/reserve. Used for periodic pool discovery so the
+// tracked-pool set is computed from live data, never a hardcoded list.
+export const BEM_GECKO_POOLS_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/tokens/${BEM_TOKEN_ADDRESS}/pools`;
+export const bemGeckoPoolTradesUrl = poolId => `https://api.geckoterminal.com/api/v2/networks/bsc/pools/${poolId}/trades`;
+// The single pool this monitor originally (and exclusively) tracked before multi-pool
+// coverage existed. Used only once, to label pre-existing bem_trades rows collected back
+// when this was the only tracked pool; never used to seed or constrain live pool discovery.
+export const BEM_LEGACY_POOL_ID = BEM_PRICE_PAIR_ADDRESS.toLowerCase();
+export const BEM_LEGACY_POOL_DEX_ID = "pancakeswap-v3-bsc";
+export const BEM_LEGACY_POOL_LABEL = "BEM / USDT 0.01%";
 export const BEM_PRICE_PROVIDER = "third-party market aggregation";
 export const BEM_CHAIN_ID = 56;
 export const BEM_DECIMALS = 8n;
