@@ -181,13 +181,39 @@ async function recordPoolDiscoveryRun(env, row) {
 // reaches BEM_TRADES_COVERAGE_TARGET (or the hard cap is hit). The full discovered list is
 // stored either way, so untracked pools remain visible (never silently dropped) even though
 // their trades are not fetched.
+// GeckoTerminal's keyless feed is rate-limited per source IP, and Cloudflare
+// Workers egress from a pool of shared addresses used by everyone else too, so a
+// 429 here says almost nothing about our own request rate — it is whichever
+// shared address this attempt happened to leave from. Measured on production:
+// only ~16% of single-attempt ticks succeeded, and one pool lost ten consecutive
+// attempts while the same URL returned 200 instantly from a residential IP.
+// Retrying gives the request another draw. Attempts are few and widely spaced,
+// so this stays polite: a rejected request costs the provider almost nothing,
+// and we never retry a genuine error response.
+const GECKO_HEADERS = { accept: "application/json;version=20230302", "user-agent": "tapeout.work-research/1.0 (+https://tapeout.work)" };
+const GECKO_MAX_ATTEMPTS = 3;
+const GECKO_RETRY_DELAY_MS = 2500;
+async function fetchGecko(url) {
+  let lastError;
+  for (let attempt = 1; attempt <= GECKO_MAX_ATTEMPTS; attempt += 1) {
+    try {
+      return await fetchJsonWithTimeout(url, { headers: GECKO_HEADERS });
+    } catch (error) {
+      lastError = error;
+      // Only a throttle is worth another draw; a 404 or a malformed body will not
+      // become correct by asking again.
+      if (!/\b429\b/.test(String(error?.message || error))) throw error;
+      if (attempt < GECKO_MAX_ATTEMPTS) await sleep(GECKO_RETRY_DELAY_MS * attempt);
+    }
+  }
+  throw lastError;
+}
+
 export async function discoverBemPools(env) {
   await ensureBemTradeSchema(env);
   const attemptedAt = new Date().toISOString();
   try {
-    const payload = await fetchJsonWithTimeout(BEM_GECKO_POOLS_URL, {
-      headers: { accept: "application/json;version=20230302", "user-agent": "tapeout.work-research/1.0 (+https://tapeout.work)" }
-    });
+    const payload = await fetchGecko(BEM_GECKO_POOLS_URL);
     const items = Array.isArray(payload?.data) ? payload.data : [];
     if (!items.length) throw new Error("GeckoTerminal pools response has no data rows");
     const pools = items.map(normalizePool).filter(Boolean);
@@ -243,11 +269,7 @@ async function recordPoolSyncRun(env, row) {
 // touch another pool's rows.
 async function syncBemTradesForPool(env, pool, attemptedAt) {
   try {
-    // Same politeness headers as the original single-pool sync: GeckoTerminal 429s
-    // headerless requests from Cloudflare's shared egress IPs.
-    const payload = await fetchJsonWithTimeout(bemGeckoPoolTradesUrl(pool.pool_id), {
-      headers: { accept: "application/json;version=20230302", "user-agent": "tapeout.work-research/1.0 (+https://tapeout.work)" }
-    });
+    const payload = await fetchGecko(bemGeckoPoolTradesUrl(pool.pool_id));
     const items = Array.isArray(payload?.data) ? payload.data : [];
     if (!items.length) throw new Error("GeckoTerminal trades response has no data rows");
     const rows = items.map(item => normalizeTrade(item, pool)).filter(Boolean);
@@ -287,7 +309,20 @@ export async function syncBemTrades(env) {
   const batchSize = Math.min(BEM_TRADES_POOLS_PER_TICK, tracked.length);
   const cursorRow = await env.DB.prepare("SELECT next_offset FROM bem_trade_cursor WHERE id = 1").first();
   const offset = ((Number(cursorRow?.next_offset) || 0) % tracked.length + tracked.length) % tracked.length;
-  const batch = Array.from({ length: batchSize }, (_, index) => tracked[(offset + index) % tracked.length]);
+  const cursorBatch = Array.from({ length: batchSize }, (_, index) => tracked[(offset + index) % tracked.length]);
+  // A pool that has never landed a single trade contributes nothing to the
+  // aggregate, so it jumps the queue until it does. Blind round-robin meant one
+  // unlucky pool — 12% of observed volume — sat empty through ten rotations,
+  // waiting a full cycle between attempts while pools that already had data
+  // took their turns. Once it succeeds it rejoins the normal rotation, so this
+  // cannot starve the others.
+  const emptyRow = await env.DB.prepare(`SELECT p.pool_id FROM bem_pools p
+      WHERE p.tracked = 1 AND NOT EXISTS (SELECT 1 FROM bem_trades t WHERE t.pool_id = p.pool_id)
+      ORDER BY p.rank ASC LIMIT 1`).first();
+  const emptyPool = emptyRow ? tracked.find(pool => pool.pool_id === emptyRow.pool_id) : null;
+  const batch = emptyPool && !cursorBatch.some(pool => pool.pool_id === emptyPool.pool_id)
+    ? [emptyPool, ...cursorBatch.slice(0, Math.max(0, batchSize - 1))]
+    : cursorBatch;
 
   const poolOutcomes = [];
   for (let index = 0; index < batch.length; index++) {
