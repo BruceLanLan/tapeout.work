@@ -7,11 +7,11 @@ const getJson = async path => {
 const assert = (condition, message) => { if (!condition) throw new Error(`Production Registry governance check failed: ${message}`); };
 const [page, app, registry, assets] = await Promise.all([
   fetch(`${base}/?registry-governance-qa=${Date.now()}`).then(response => response.text()),
-  fetch(`${base}/app.js?v=2026-08-31-features-r28&registry-governance-qa=${Date.now()}`).then(response => response.text()),
+  fetch(`${base}/app.js?v=2026-08-31-features-r29&registry-governance-qa=${Date.now()}`).then(response => response.text()),
   getJson('/api/v1/processors?q=BLONSKR&page=1&page_size=10'),
   getJson('/api/v1/official-assets/overview'),
 ]);
-assert(page.includes('app.js?v=2026-08-31-features-r28'), 'r12 app asset is not referenced by production HTML');
+assert(page.includes('app.js?v=2026-08-31-features-r29'), 'r12 app asset is not referenced by production HTML');
 assert(!page.includes('value="by_website_label"') && !page.includes('value="attestation.website_label"') && !page.includes('data-i18n="colOfficial"'), 'production HTML exposes a retired label control or Official column');
 assert(/function websiteLabel\(\)\s*\{\s*return '';\s*\}/.test(app), 'production app still renders Registry identity badges');
 assert(!app.includes("types:['processor.created','processor.mint_delta','processor.circuit_delta','processor.completed','attestation.website_label'"), 'production app still offers legacy website-label strategy events');

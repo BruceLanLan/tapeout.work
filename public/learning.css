@@ -41,6 +41,14 @@
   .learn-resource-controls .search-field { grid-column: 1 / -1; }
 }
 
+/* ecosystem-tools-filters r29: tools panel has 2 controls, not 4 — reuse the
+   learning panel's control styling but with its own column count. */
+.tools-panel .learn-resource-controls { grid-template-columns: minmax(220px, 1.6fr) minmax(150px, 1fr); }
+@media (max-width: 680px) {
+  .tools-panel .learn-resource-controls { grid-template-columns: minmax(0, 1fr) !important; }
+  .tools-panel .learn-resource-controls .search-field { grid-column: auto; }
+}
+
 /* Learning typography r3: a consistent reading rhythm, not merely overflow containment. */
 #learn + .learn-intro-panel,
 .learn-grid > .learn-path-panel,
