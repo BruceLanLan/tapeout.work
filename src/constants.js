@@ -41,6 +41,8 @@ export const BEM_PRICE_URL = "https://api.dexscreener.com/latest/dex/tokens/0x5c
 export const BEM_PRICE_PAIR_ADDRESS = "0x2f5ec19ab0583d3fcd9bcbcD9AB416d2858EeA38";
 export const BEM_PRICE_PAIR_URL = `https://api.dexscreener.com/latest/dex/pairs/bsc/${BEM_PRICE_PAIR_ADDRESS}`;
 export const BEM_GECKO_POOL_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/pools/${BEM_PRICE_PAIR_ADDRESS}`;
+// Most-recent-300-trades feed for the same verified BEM/USDT pool. Keyless and public.
+export const BEM_GECKO_TRADES_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/pools/${BEM_PRICE_PAIR_ADDRESS}/trades`;
 export const BEM_PRICE_PROVIDER = "third-party market aggregation";
 export const BEM_CHAIN_ID = 56;
 export const BEM_DECIMALS = 8n;

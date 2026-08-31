@@ -7,6 +7,7 @@ import { ensureBemHoldersSchema, syncBemHoldersObserved } from "./bem_holders.js
 import { ensureOfficialAssetSchema, syncOfficialThreeAssets, OFFICIAL_ASSET_REFRESH_MINUTES, ensureTransistorCandleSchema, syncTransistorCandles } from "./official_assets.js";
 import { ensureCommunityHolderSchema, syncCommunityProcessorBoard } from "./community.js";
 import { ensureEcosystemHealthSchema, ensureEcosystemHealthFresh } from "./ecosystem_health.js";
+import { ensureBemTradeSchema, ensureBemTradesFresh } from "./bem_trades.js";
 import { api } from "./router.js";
 
 async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAssets = false } = {}) {
@@ -27,6 +28,10 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
   await prepare("market", () => ensureMarketSchema(env), () => syncCircuitMarketObserved(env));
   await prepare("bem", () => ensureBemSchema(env), () => syncBemObserved(env, { includePrice: includeBemPrice }));
   await prepare("bem_holders", () => ensureBemHoldersSchema(env), () => syncBemHoldersObserved(env));
+  // Same politeness pattern as ecosystem_health below: ensureBemTradesFresh carries its own
+  // ~10-minute maxAgeMinutes gate, so this 5-minute tick does not re-fetch the trades feed
+  // every single cycle.
+  await prepare("bem_trades", () => ensureBemTradeSchema(env), () => ensureBemTradesFresh(env));
   if (includeOfficialAssets) await prepare("official_three_assets", () => ensureOfficialAssetSchema(env), () => syncOfficialThreeAssets(env));
   await prepare("transistor_candles", () => ensureTransistorCandleSchema(env), () => syncTransistorCandles(env));
   await prepare("community_processor_board", () => ensureCommunityHolderSchema(env), () => syncCommunityProcessorBoard(env));
