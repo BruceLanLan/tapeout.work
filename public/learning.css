@@ -927,6 +927,11 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .budget-quote-metrics span{display:block;margin-top:2px;color:#5c6d84;font-size:10px}
 .budget-quote-book{margin:10px 0 0;color:#788193;font-size:11px}
 .budget-quote-source{margin:.8rem 0 0;color:#788193;font-size:11px}
+/* r36: the idle state reused .daily-empty, whose fixed 165px height exists to
+   hold a chart's place. In a form panel that is just a blank block under the
+   input — the panel rendered ~250px tall to say one sentence. Height is only
+   reserved once there is a result to reserve it for. */
+.budget-quote-result .daily-empty{height:auto;min-height:0;place-items:start;padding:.2rem 0;text-align:start}
 @media (max-width:640px){.budget-quote-panel{padding:18px}.budget-quote-metrics{grid-template-columns:1fr 1fr 1fr;gap:6px}}
 
 /* bem-leaderboard r20 */

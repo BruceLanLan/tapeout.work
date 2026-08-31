@@ -11,7 +11,7 @@ const [html, learningCss, uxCss, stress, app, ...localeFiles] = await Promise.al
   ...['ko','ja','es','ar','tr','fr','de','ru','pt'].flatMap(locale => [read(`public/i18n/${locale}.json`), read(`public/i18n/learning/${locale}.json`)])
 ]);
 const required = [
-  [html, 'learning.css?v=2026-08-31-features-r35', 'versioned official-three asset and candle layer'],
+  [html, 'learning.css?v=2026-08-31-features-r36', 'versioned official-three asset and candle layer'],
   [html, 'id="language-select"', 'eleven-language selector'],
   ...['ar','ko','ja','es','tr','fr','de','ru','pt'].map(locale => [html, `<option value="${locale}">`, `${locale} selector option`]),
   [html, 'ux-loop.css?v=2026-08-24-ux-loop-r5', 'versioned shell containment asset'],

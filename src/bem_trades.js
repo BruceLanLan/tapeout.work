@@ -366,14 +366,27 @@ async function bemPoolCoverage(env) {
   const trackedPools = trackedResult.results || [];
   const totalPoolCount = Number(poolCountRow?.total || 0);
   const trackedPoolCount = Number(trackedCountRow?.total || 0);
-  const pools = await Promise.all(trackedPools.map(async pool => {
-    const [latestRun, latestSuccessRun, storedRow] = await Promise.all([
-      env.DB.prepare("SELECT attempted_at, status, error FROM bem_pool_sync_runs WHERE pool_id = ? ORDER BY id DESC LIMIT 1").bind(pool.pool_id).first(),
-      env.DB.prepare("SELECT attempted_at, status FROM bem_pool_sync_runs WHERE pool_id = ? AND status IN ('updated','no_change') ORDER BY id DESC LIMIT 1").bind(pool.pool_id).first(),
-      // Published so a reader can confirm for themselves that this really is a
-      // multi-pool aggregate, instead of taking the coverage percentage on faith.
-      env.DB.prepare("SELECT COUNT(*) AS n, MAX(block_timestamp) AS latest FROM bem_trades WHERE pool_id = ?").bind(pool.pool_id).first(),
-    ]);
+  // Three grouped queries instead of three per pool. The per-pool loop was an N+1
+  // that cost this endpoint 829ms in production at seven pools; the work is the
+  // same for the database either way, but it is one round trip per fact rather
+  // than one per pool per fact.
+  const [latestRunRows, latestSuccessRows, storedRows] = await Promise.all([
+    env.DB.prepare(`SELECT r.pool_id, r.attempted_at, r.status, r.error FROM bem_pool_sync_runs r
+      JOIN (SELECT pool_id, MAX(id) AS id FROM bem_pool_sync_runs GROUP BY pool_id) latest
+      ON latest.id = r.id`).all(),
+    env.DB.prepare(`SELECT r.pool_id, r.attempted_at, r.status FROM bem_pool_sync_runs r
+      JOIN (SELECT pool_id, MAX(id) AS id FROM bem_pool_sync_runs WHERE status IN ('updated','no_change') GROUP BY pool_id) latest
+      ON latest.id = r.id`).all(),
+    // Published so a reader can confirm for themselves that this really is a
+    // multi-pool aggregate, instead of taking the coverage percentage on faith.
+    env.DB.prepare("SELECT pool_id, COUNT(*) AS n, MAX(block_timestamp) AS latest FROM bem_trades WHERE pool_id IS NOT NULL GROUP BY pool_id").all(),
+  ]);
+  const byPool = rows => new Map((rows.results || []).map(row => [row.pool_id, row]));
+  const latestRunByPool = byPool(latestRunRows), latestSuccessByPool = byPool(latestSuccessRows), storedByPool = byPool(storedRows);
+  const pools = trackedPools.map(pool => {
+    const latestRun = latestRunByPool.get(pool.pool_id) || null;
+    const latestSuccessRun = latestSuccessByPool.get(pool.pool_id) || null;
+    const storedRow = storedByPool.get(pool.pool_id) || null;
     return {
       pool_id: pool.pool_id, pair_label: pool.pair_label, dex_id: pool.dex_id, rank: pool.rank,
       volume_24h_usd: pool.volume_24h_usd, reserve_usd: pool.reserve_usd,
@@ -381,7 +394,7 @@ async function bemPoolCoverage(env) {
       stored_trade_count: Number(storedRow?.n || 0), latest_stored_trade_at: storedRow?.latest || null,
       trades_url: bemGeckoPoolTradesUrl(pool.pool_id), freshness: bemPoolFreshness(latestRun, latestSuccessRun, trackedPoolCount),
     };
-  }));
+  });
   return {
     policy: `Pools are ranked by 24h volume from GeckoTerminal's public token-pools listing and tracked, in descending order, until cumulative coverage reaches ~${Math.round(BEM_TRADES_COVERAGE_TARGET * 100)}% of total observed 24h BEM volume, capped at ${BEM_TRADES_POOL_CAP} pools regardless of remaining coverage. This list is recomputed from live data on a schedule (never hardcoded). A persisted round-robin cursor fetches trades for ${BEM_TRADES_POOLS_PER_TICK} tracked pools per ~${BEM_TRADES_REFRESH_MINUTES}-minute tick — GeckoTerminal's keyless feed throttles bursts of requests, so pools are refreshed gradually across ticks rather than all at once.`,
     discovery: { last_checked_at: discoveryRun?.attempted_at || null, status: discoveryRun?.status || null, source_url: BEM_GECKO_POOLS_URL, error: discoveryRun?.status === "error" ? discoveryRun?.error || null : null },
