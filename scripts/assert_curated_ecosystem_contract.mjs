@@ -21,8 +21,11 @@ requireMatch(worker, /community content never inherits official identity/i, 'com
 requireMatch(worker, /private-key\/seed requests/i, 'unsafe content exclusion exists');
 requireMatch(app, /Promise\.allSettled\(\[fetchJSON\(`\/api\/v1\/updates/, 'optional ecosystem loading is isolated');
 requireMatch(app, /loadCuratedEcosystem\(\)/, 'language switch refreshes ecosystem content');
-requireMatch(app, /toolsExpanded:\s*false/, 'tools default to collapsed state');
-requireMatch(app, /tools\.slice\(0,3\)/, 'tools render only three cards before expansion');
+// r30: default flipped to expanded (grouped by tier) so newly reviewed tools
+// are visible without an extra click; the collapse-to-3 toggle still exists
+// for users who want the compact view, so its mechanism is still asserted.
+requireMatch(app, /toolsExpanded:\s*true/, 'tools default to expanded, tier-grouped state');
+requireMatch(app, /tools\.slice\(0,3\)/, 'collapsed view still renders only three cards');
 requireMatch(app, /state\.toolsExpanded=!state\.toolsExpanded/, 'tools toggle updates rendering state');
 requireMatch(indexHtml, /id="tools-toggle"[^>]*aria-controls="tools-directory"/, 'tools toggle is accessible and linked to directory');
 requireMatch(app, /learnSafetyLink:'Read community market Q&A · not official rules ↗'/, 'learning safety link records Market Q&A as community');

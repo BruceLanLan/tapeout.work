@@ -57,7 +57,11 @@ export async function learningResources(params, request, env) {
   const validTiers = new Set(["all", "official", "community", "reference"]);
   const validStages = new Set(["all", "basics", "canvas", "tapeout", "pod", "safety", "logic"]);
   const validLanguages = new Set(["all", "zh", "en"]);
-  const filtered = LEARNING_RESOURCES.filter(item => {
+  // Reversed so the most recently added entry leads page 1 of any filtered
+  // view — the seed file's append order is this catalog's only recency
+  // signal (no per-item reviewed_at), and a newest-first default keeps a
+  // freshly reviewed resource from being buried behind older pages.
+  const filtered = [...LEARNING_RESOURCES].reverse().filter(item => {
     const localized = localization ? localizedLearningItem(item, localization).localized : null;
     return (validTiers.has(tier) ? tier === "all" || item.tier === tier : false) &&
       (validStages.has(stage) ? stage === "all" || item.stages.includes(stage) : false) &&
