@@ -74,6 +74,7 @@ const signedPercent = value => { const parsed=Number(value); return Number.isFin
 const bps = row => row.completion_bps ?? (big(row.supply_cap) > 0n ? Number((big(row.minted) * 10000n) / big(row.supply_cap)) : null);
 const percent = value => value === null ? '—' : value >= 10000 ? '100%+' : `${(value / 100).toFixed(value < 100 ? 2 : 0)}%`;
 const locale = () => LANGUAGE_CONFIG[state.lang]?.locale || 'en-US';
+const clockUtc = value => value ? new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'UTC',hour12:false}).format(new Date(value)) : '—';
 const date = value => value ? new Intl.DateTimeFormat(locale(), {year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'}).format(new Date(value)) : '—';
 const shortDate = value => value ? new Date(value).toLocaleDateString(locale(), {month:'short',day:'numeric'}) : '—';
 const encodeRule = rule => btoa(unescape(encodeURIComponent(JSON.stringify(rule))));
@@ -85,8 +86,8 @@ async function ensureLanguagePack(language) {
   if (!LANGUAGE_CONFIG[language]) return 'en';
   if (text[language]) return language;
   const [uiResult, learningResult] = await Promise.allSettled([
-    fetchJSON(`/i18n/${language}.json?v=2026-08-31-features-r31`),
-    fetchJSON(`/i18n/learning/${language}.json?v=2026-08-31-features-r31`)
+    fetchJSON(`/i18n/${language}.json?v=2026-08-31-features-r32`),
+    fetchJSON(`/i18n/learning/${language}.json?v=2026-08-31-features-r32`)
   ]);
   if (uiResult.status !== 'fulfilled') throw new Error(`Locale ${language} is temporarily unavailable`);
   text[language] = { ...text.en, ...uiResult.value };
@@ -189,6 +190,7 @@ function renderBemAlgorithm() {
   $('#bem-algorithm').innerHTML=`<div class="bem-formulas">${formulas.map(formula=>`<code>${escapeHtml(formula)}</code>`).join('')}</div><dl>${Object.entries(terms).map(([key,value])=>`<div><dt>${escapeHtml(key === 'b_star' ? 'b*' : key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl><div class="bem-boundary"><b>${escapeHtml(t('bemRulesBoundary'))}</b>${boundaries.map(item=>`<p>${escapeHtml(item)}</p>`).join('')}</div>`;
 }
 function learningStageKey(stage) { return ({basics:'learnStageBasics',canvas:'learnStageCanvas',tapeout:'learnStageTapeout',pod:'learnStagePod',safety:'learnStageSafety',logic:'learnStageLogic'})[stage] || stage; }
+function prettyCategory(value){ const raw=String(value||'').trim(); if(!raw) return '—'; const words=raw.replace(/_/g,' '); return words.charAt(0).toUpperCase()+words.slice(1); }
 function learningTierKey(tier) { return ({official:'learnOfficial',community:'learnCommunity',reference:'learnReference'})[tier] || tier; }
 function learningTierNote(tier) { return tier === 'official' ? t('learnOfficialNote') : tier === 'community' ? t('learnCommunityNote') : t('learnReferenceNote'); }
 function renderLearning() {
@@ -227,7 +229,7 @@ function renderCuratedEcosystem() {
     // unscannable when always expanded. It stays one keystroke away inside a
     // <details>, never removed — a wallet-risk card must always be able to
     // state its full boundary.
-    return `<article class="tool-card ${escapeHtml(item.tier)}" data-tool-id="${escapeHtml(item.id)}"><div><span class="learn-tier ${escapeHtml(item.tier)}">${escapeHtml(t(learningTierKey(item.tier)))}</span><span class="wallet-risk-badge ${risk}">${escapeHtml(t(risk === 'connects-wallet' ? 'toolsConnectsWallet' : 'toolsReadOnly'))}</span><span class="tool-category">${escapeHtml(item.category || '—')}</span></div><h4><i class="tool-health-dot ${healthStatus}" title="${escapeHtml(t('toolsHealth'))}: ${escapeHtml(healthStatus)}"></i>${escapeHtml(copy.title)}</h4><p>${escapeHtml(copy.summary)}</p><details class="tool-detail"><summary>${escapeHtml(t('toolsSafety'))}</summary><dl><div><dt>${escapeHtml(t('toolsUse'))}</dt><dd>${escapeHtml((item.use_cases || []).join(' · '))}</dd></div><div><dt>${escapeHtml(t('toolsSafety'))}</dt><dd>${escapeHtml(copy.boundary || '')}</dd></div></dl></details><footer><small>${escapeHtml(item.operator || '—')} · ${escapeHtml(item.original_language || '—')}</small><a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(t('toolOpen'))}</a></footer></article>`;
+    return `<article class="tool-card ${escapeHtml(item.tier)}" data-tool-id="${escapeHtml(item.id)}"><div><span class="learn-tier ${escapeHtml(item.tier)}">${escapeHtml(t(learningTierKey(item.tier)))}</span><span class="wallet-risk-badge ${risk}">${escapeHtml(t(risk === 'connects-wallet' ? 'toolsConnectsWallet' : 'toolsReadOnly'))}</span><span class="tool-category">${escapeHtml(prettyCategory(item.category))}</span></div><h4><i class="tool-health-dot ${healthStatus}" title="${escapeHtml(t('toolsHealth'))}: ${escapeHtml(healthStatus)}"></i>${escapeHtml(copy.title)}</h4><p>${escapeHtml(copy.summary)}</p><details class="tool-detail"><summary>${escapeHtml(t('toolsSafety'))}</summary><dl><div><dt>${escapeHtml(t('toolsUse'))}</dt><dd>${escapeHtml((item.use_cases || []).join(' · '))}</dd></div><div><dt>${escapeHtml(t('toolsSafety'))}</dt><dd>${escapeHtml(copy.boundary || '')}</dd></div></dl></details><footer><small>${escapeHtml(item.operator || '—')} · ${escapeHtml(item.original_language || '—')}</small><a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(t('toolOpen'))}</a></footer></article>`;
   };
   if (!tools.length) { toolsTarget.innerHTML=`<p class="daily-empty">${escapeHtml(t('toolsNoData'))}</p>`; }
   else if (!state.toolsExpanded) { toolsTarget.innerHTML=`<div class="tools-tier-cards">${tools.slice(0,3).map(toolCardHtml).join('')}</div>`; }
@@ -531,14 +533,14 @@ function renderBemTrades() {
   const stats=[[money(data.threshold?.usd),t('bemTradesThresholdLabel')],[number(flow.buy_count),t('bemTradesBuyCount')],[number(flow.sell_count),t('bemTradesSellCount')],[money(flow.buy_volume_usd),t('bemTradesBuyVolume')],[money(flow.sell_volume_usd),t('bemTradesSellVolume')],[money(flow.net_flow_usd),t('bemTradesNetFlow')]];
   if (statsEl) statsEl.innerHTML = stats.map(([value,label])=>`<div><b>${value}</b><span>${escapeHtml(label)}</span></div>`).join('');
   const rows=data.large_trades||[];
-  if (rowsEl) rowsEl.innerHTML = rows.length ? rows.map(row=>`<tr><td>${date(row.block_timestamp)}</td><td><span class="bem-trade-kind ${escapeHtml(row.kind)}">${escapeHtml(row.kind==='buy'?t('bemTradesBuy'):t('bemTradesSell'))}</span></td><td class="numeric">$${decimal(row.volume_usd,2)}</td><td><a href="${escapeHtml(row.bscscan_url)}" target="_blank" rel="noreferrer">${escapeHtml(row.from_address||'—')} ↗</a></td></tr>`).join('') : `<tr><td colspan="4" class="no-data">${escapeHtml(t('bemTradesEmpty'))}</td></tr>`;
+  if (rowsEl) rowsEl.innerHTML = rows.length ? rows.map(row=>`<tr><td class="numeric" title="${escapeHtml(date(row.block_timestamp))}">${clockUtc(row.block_timestamp)}</td><td><span class="bem-trade-kind ${escapeHtml(row.kind)}">${escapeHtml(row.kind==='buy'?t('bemTradesBuy'):t('bemTradesSell'))}</span></td><td class="numeric">$${decimal(row.volume_usd,2)}</td><td><a href="${escapeHtml(row.bscscan_url)}" target="_blank" rel="noreferrer">${escapeHtml(row.from_address||'—')} ↗</a></td></tr>`).join('') : `<tr><td colspan="4" class="no-data">${escapeHtml(t('bemTradesEmpty'))}</td></tr>`;
   if (statusEl) statusEl.textContent = `${t('checked')} · ${date(data.window.latest_block_timestamp)}`;
 }
 async function load() {
   hydrateStrategy();
   const optional=[
     ['health','/api/v1/data-health'],['market','/api/v1/market-overview'],['creators','/api/v1/creators'],['registry',`/api/v1/processors?${registryQuery(1)}`],
-    ['bemOverview','/api/v1/bem/overview'],['bemPrice','/api/v1/bem/price'],['bemTasks','/api/v1/bem/tasks?page=1&page_size=10'],['bemAlgorithm',`/api/v1/bem/algorithm?locale=${state.lang}`],['bemLeaderboard','/api/v1/bem/leaderboard'],['bemTrending','/api/v1/bem/trending'],['bemTrades','/api/v1/bem/trades'],['learning','/api/v1/learn/resources?page=1&page_size=6'],['updates',`/api/v1/updates?page=1&page_size=12&locale=${state.lang}`],['tools',`/api/v1/tools?page=1&page_size=24&locale=${state.lang}`],['glossary','/api/v1/glossary'],['officialAssets','/api/v1/official-assets/overview'],['officialAssetAddresses','/api/v1/official-assets/addresses?view=mints&project=behemoth&page=1&page_size=10']
+    ['bemOverview','/api/v1/bem/overview'],['bemPrice','/api/v1/bem/price'],['bemTasks','/api/v1/bem/tasks?page=1&page_size=10'],['bemAlgorithm',`/api/v1/bem/algorithm?locale=${state.lang}`],['bemLeaderboard','/api/v1/bem/leaderboard'],['bemTrending','/api/v1/bem/trending'],['bemTrades','/api/v1/bem/trades'],['learning','/api/v1/learn/resources?page=1&page_size=6'],['updates',`/api/v1/updates?page=1&page_size=12&locale=${state.lang}`],['tools',`/api/v1/tools?page=1&page_size=24&locale=${state.lang}`],['ecosystemHealth','/api/v1/ecosystem/health'],['glossary','/api/v1/glossary'],['officialAssets','/api/v1/official-assets/overview'],['officialAssetAddresses','/api/v1/official-assets/addresses?view=mints&project=behemoth&page=1&page_size=10']
   ];
   const optionalPromise=Promise.allSettled(optional.map(([,url])=>fetchJSON(url)));
   const [summary,analytics,daily]=await Promise.all([fetchJSON('/api/summary'),fetchJSON('/api/analytics'),fetchJSON(activityQuery())]);

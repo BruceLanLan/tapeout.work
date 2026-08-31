@@ -976,16 +976,51 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .tools-tier-heading.community{color:#8a5a00}
 .tools-tier-heading.reference{color:#5b6f88}
 @media (max-width:680px){.ecosystem-spotlight{flex-direction:column;align-items:flex-start;padding:.75rem}}
-@media (prefers-color-scheme:dark){
-  .ecosystem-spotlight{background:rgba(8,18,43,.42);border-color:rgba(75,126,212,.22)}
-  .ecosystem-spotlight-stats{color:#a7b3ca}
-  .ecosystem-spotlight-stats b{color:#ecf4ff}
-  .ecosystem-spotlight-latest a{color:#81b1ff}
-  .tools-tier-heading{color:#a7b3ca;border-bottom-color:rgba(117,145,196,.28)}
-}
+/* No prefers-color-scheme block here on purpose: this site ships a single light
+   theme, so a dark-mode override turned the strip into an unreadable grey bar
+   for any visitor whose OS reports a dark preference while everything around it
+   stayed light. */
+
+/* r32: tool summaries ran from 3 to 15 lines, so cards in the same row had
+   wildly different heights and the grid read as broken. Clamp the summary to a
+   fixed depth — the full text stays in the API and on the tool's own site, and
+   the safety boundary (the part that actually must not be lost) is untouched
+   inside its <details>. */
+.tool-card>p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.tool-card{display:flex;flex-direction:column}
+.tool-card footer{margin-top:auto}
+.tool-category{font-variant:none;letter-spacing:.02em}
+
+/* The tools panel now carries three controls (search, source, wallet risk), so
+   the two-column override left the third stranded on its own full-width row. */
+.tools-panel .learn-resource-controls{grid-template-columns:minmax(200px,1.5fr) minmax(140px,1fr) minmax(140px,1fr)}
+@media (max-width:900px){.tools-panel .learn-resource-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tools-panel .learn-resource-controls .search-field{grid-column:1/-1}}
+
+/* Update and learning cards were single-column full-width with unclamped
+   summaries, so a long card stretched its whole row and left large dead areas
+   in the short ones. Same treatment as the tool cards: flow into columns and
+   clamp the summary; every card keeps its source link and boundary line. */
+.updates-stream{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));align-items:stretch}
+.update-card,.learn-resource{display:flex;flex-direction:column}
+.update-card>p,.learn-resource>p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.update-card footer,.learn-resource footer{margin-top:auto}
 
 /* bem-trades r30: reuses the already-validated buy/sell hexes from the
    candle chart and tool-health dots (#1a7f5a / #b4552d) rather than a new pair. */
 .bem-trade-kind{display:inline-flex;align-items:center;padding:.2rem .5rem;border-radius:999px;font:700 .68rem/1 var(--font-ui);letter-spacing:.02em}
 .bem-trade-kind.buy{background:rgba(26,127,90,.12);color:#1a7f5a}
 .bem-trade-kind.sell{background:rgba(180,85,45,.12);color:#b4552d}
+
+/* r32: at 390px the trade table and its stat tiles ran off the right edge —
+   the tx column and half the stat labels were simply unreachable. The table
+   scrolls inside its own container so the page body never scrolls sideways,
+   and the tiles collapse to a single column. */
+#bem-trades-rows,.bem-trades-panel .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#bem-trades-rows table{min-width:26rem}
+.bem-trades-panel{min-width:0;max-width:100%}
+#bem-trades-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:.6rem}
+#bem-trades-stats>*{min-width:0}
+@media (max-width:520px){
+  #bem-trades-stats{grid-template-columns:minmax(0,1fr)}
+  .bem-trades-panel .panel-description{overflow-wrap:anywhere}
+}

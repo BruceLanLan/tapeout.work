@@ -29,7 +29,7 @@ assert(!page.includes('value="by_website_label"'), 'website-label mixer option m
 assert(!page.includes('value="attestation.website_label"'), 'website-label event option must not be visible');
 assert(!page.includes('value="official_site_label"'), 'official-site-label trust option must not be visible');
 assert(!page.includes('data-i18n="colOfficial"'), 'Registry table must not retain an Official column');
-assert(page.includes('app.js?v=2026-08-31-features-r31'), 'page must use r12 application cache key');
-assert(app.includes('/i18n/${language}.json?v=2026-08-31-features-r31') && app.includes('/i18n/learning/${language}.json?v=2026-08-31-features-r31'), 'dynamic UI and learning packs must use r12 cache keys');
+assert(page.includes('app.js?v=2026-08-31-features-r32'), 'page must use r12 application cache key');
+assert(app.includes('/i18n/${language}.json?v=2026-08-31-features-r32') && app.includes('/i18n/learning/${language}.json?v=2026-08-31-features-r32'), 'dynamic UI and learning packs must use r12 cache keys');
 assert(evidence.includes('Blonskr_No1') && evidence.includes('WEBSITE_LABELS') && evidence.includes('Behemoth 地址复核'), 'source review must document the error and the separate Behemoth evidence boundary');
 console.log('PASS: Registry labels are neutral, completion-band analytics is active, and Behemoth remains source-scoped only.');
