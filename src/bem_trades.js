@@ -406,7 +406,14 @@ async function bemPoolCoverage(env) {
 
 export async function bemTradesOverview(env) {
   await ensureBemTradeSchema(env);
-  await ensureBemTradesFresh(env);
+  // Cold-start self-heal only. The five-minute cron is what keeps this domain
+  // fresh; letting a reader's request also drive the upstream fetch meant some
+  // page loads paid ~2s waiting on GeckoTerminal (measured in production). Once
+  // any trade is stored, a request never triggers a network sync again — if the
+  // cron were to stop, the response reports itself stale rather than silently
+  // blocking the reader to hide it.
+  const seeded = await env.DB.prepare("SELECT 1 AS seeded FROM bem_trades LIMIT 1").first();
+  if (!seeded) await ensureBemTradesFresh(env);
   const [windowResult, totalRow, latestRun, latestSuccessRun, coverage] = await Promise.all([
     env.DB.prepare(`SELECT id, tx_hash, block_number, block_timestamp, kind, volume_usd, price_usd, tx_from_address, pool_id, pair_label, dex_id FROM bem_trades ORDER BY block_timestamp DESC, id DESC LIMIT ${BEM_TRADES_WINDOW_CAP}`).all(),
     env.DB.prepare("SELECT COUNT(*) AS total FROM bem_trades").first(),
