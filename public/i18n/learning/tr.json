@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-08-26",
+  "source_catalog_version": "2026-08-31b",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -58,6 +58,38 @@
     "community-93bitmap-video-intro": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 1. bölüm",
       "summary": "93.bitmap tarafından hazırlanan bu İngilizce topluluk açıklama videosu, kavramsal bir giriş noktası olarak TapeOut ve Ordinals’ı kullanır. Yalnızca topluluk referansı niteliğindedir; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmî bir kaynak değildir."
+    },
+    "community-93bitmap-video-ep2": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 2. bölüm",
+      "summary": "93.bitmap'in açıklayıcı serisinin ikinci bölümü, İngilizce kavramsal bir giriş. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz."
+    },
+    "community-93bitmap-video-ep3": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 3. bölüm (neden bir oyna-kazan zincir oyunu olmadığı)",
+      "summary": "93.bitmap'in açıklayıcı serisinin üçüncü bölümü, TapeOut'un tipik bir oyna-kazan zincir oyunundan neden farklı olduğunu kavramsal olarak çerçeveliyor. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz."
+    },
+    "community-93bitmap-video-ep5-zh": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 5. bölüm (arena paradigma değişimi)",
+      "summary": "93.bitmap'in açıklayıcı serisinin beşinci bölümü; yazara göre kurucu @Blonskr ile bir sohbetin ardından revize edilmiş olup, tartışılan bir V2 \"geliştirici yuvası\" kavramını ve görev rekabetinde bir paradigma değişimini ele alıyor. Yalnızca topluluk video referansıdır, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+    },
+    "community-93bitmap-video-ep5-en": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 5. bölüm (İngilizce)",
+      "summary": "5. bölümün İngilizce dublajlı versiyonu, Çince orijinaliyle aynı içerik. Yalnızca topluluk video referansıdır, kurallar için resmi bir kaynak değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+    },
+    "community-93bitmap-scam-guide": {
+      "title": "Topluluk güvenlik rehberi: yeni gelenler için TapeOut dolandırıcılık kalıpları kontrol listesi",
+      "summary": "93.bitmap tarafından derlenen kısa bir dolandırıcılık karşıtı kontrol listesi: resmi proje sizin adınıza tasarım yapmak veya tape-out yapmak için asla DM atmaz, üçüncü taraf araçlar küçük bir cüzdandan yalnızca sınırlı ve iptal edilebilir bir approve almalıdır, ve taklit token/NFT'ler ile \"önce parçaları bana gönder\" teklifleri yaygın dolandırıcılık kalıplarıdır. Kurucu @Blonskr tarafından teşekkürle yeniden paylaşıldı. Yalnızca bir topluluk güvenlik referansıdır — her imza talebini kendiniz bağımsız olarak doğrulamanın yerini tutmaz."
+    },
+    "community-93bitmap-video-ep6": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 6. bölüm (sanal fabrikanın önemi var mı)",
+      "summary": "93.bitmap'in açıklayıcı serisinin altıncı bölümü, yaklaşan bir V2 sanal çip tasarım fabrikası kavramını ve yazarın bunun değerine dair kendi çerçevesini, TSMC'nin sipariş modeline bir benzetme yaparak tartışıyor. Bu, yazarın kişisel görüşüdür, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir ve videodaki değer/getiri benzetmesi benimsenmemiştir."
+    },
+    "community-93bitmap-video-ep6-en": {
+      "title": "Topluluk videosu: TapeOut bilimine giriş · 6. bölüm (İngilizce)",
+      "summary": "93.bitmap'in açıklayıcı serisinin 6. bölümünün İngilizce versiyonu, aynı konuyu İngilizce konuşan topluluk için ele alıyor. Çince orijinalinde olduğu gibi, bu resmi olarak yayınlanmış bir kural değil, yazarın kişisel çerçevesidir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+    },
+    "community-antalya-tr-primer": {
+      "title": "Topluluk Türkçe makalesi: zincir üzerinde bir işlemci üretmek — TapeOut Protokolü nasıl çalışır",
+      "summary": "Antalya Blockchain tarafından yayınlanan Türkçe bir açıklayıcı makale, blockchain'in genişleyen kullanım alanlarını ele aldıktan sonra TapeOut'un geleneksel bilgisayar mimarisinin temel mantık öğelerini nasıl tokenleştirdiğini, kullanıcıların zincir üzerinde devre birleştirip bunları kalıcı varlıklara nasıl dönüştürebildiğini anlatıyor. Makale, projenin hâlâ Alpha aşamasında ve son derece deneysel olduğunu açıkça belirtiyor. @0xFatih tarafından öne çıkarıldı. Yalnızca bir topluluk açıklayıcısıdır — mekanikler için resmi kaynaklar yetkilidir."
     }
   }
 }

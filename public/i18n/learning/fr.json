@@ -1,6 +1,6 @@
 {
   "locale": "fr",
-  "source_catalog_version": "2026-08-26",
+  "source_catalog_version": "2026-08-31b",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -58,6 +58,38 @@
     "community-93bitmap-video-intro": {
       "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 1",
       "summary": "Vidéo explicative en anglais destinée à la communauté, réalisée par 93.bitmap, qui utilise TapeOut et Ordinals comme points d’entrée conceptuels. Il s’agit uniquement d’une référence vidéo communautaire, et non d’une source officielle concernant les règles, les contrats, les prix, les rendements ou les affirmations de marché."
+    },
+    "community-93bitmap-video-ep2": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 2",
+      "summary": "Le deuxième épisode de la série explicative de 93.bitmap, une introduction conceptuelle en anglais. Il s'agit uniquement d'une référence vidéo communautaire, pas d'une source officielle pour les règles, les contrats, les prix, les rendements ou les affirmations de marché ; le texte de la publication lui-même ne fournit aucun matériel technique vérifiable de façon indépendante."
+    },
+    "community-93bitmap-video-ep3": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 3 (pourquoi ce n'est pas un jeu blockchain play-to-earn)",
+      "summary": "Le troisième épisode de la série explicative de 93.bitmap, expliquant conceptuellement pourquoi TapeOut diffère d'un jeu blockchain play-to-earn typique. Il s'agit uniquement d'une référence vidéo communautaire, pas d'une source officielle pour les règles, les contrats, les prix, les rendements ou les affirmations de marché ; le texte de la publication lui-même ne fournit aucun matériel technique vérifiable de façon indépendante."
+    },
+    "community-93bitmap-video-ep5-zh": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 5 (changement de paradigme de l'arène)",
+      "summary": "Le cinquième épisode de la série explicative de 93.bitmap ; selon l'auteur, révisé après une conversation avec le fondateur @Blonskr, couvrant un concept de \"slot développeur\" discuté pour la V2 et un changement de paradigme dans la compétition des tâches. Il s'agit uniquement d'une référence vidéo communautaire, pas d'une règle officiellement publiée ; toute fonctionnalité V2 reste soumise à la future annonce officielle du site."
+    },
+    "community-93bitmap-video-ep5-en": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 5 (anglais)",
+      "summary": "La version doublée en anglais de l'épisode 5, même contenu que l'original chinois. Il s'agit uniquement d'une référence vidéo communautaire, pas d'une source officielle pour les règles ; toute fonctionnalité V2 reste soumise à la future annonce officielle du site."
+    },
+    "community-93bitmap-scam-guide": {
+      "title": "Guide de sécurité communautaire : liste de vérification des schémas d'arnaque TapeOut pour les nouveaux venus",
+      "summary": "Une liste de vérification anti-arnaque concise compilée par 93.bitmap : le projet officiel n'envoie jamais de message privé pour concevoir ou faire le tape-out en votre nom, les outils tiers ne devraient recevoir qu'une approbation plafonnée et révocable depuis un petit wallet, et les tokens/NFT copiés ainsi que les propositions \"envoie-moi d'abord les pièces\" sont des schémas d'arnaque courants. Republié avec remerciements par le fondateur @Blonskr. Une référence de sécurité communautaire uniquement — elle ne remplace pas la vérification indépendante de chaque demande de signature par vous-même."
+    },
+    "community-93bitmap-video-ep6": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 6 (l'usine virtuelle a-t-elle de l'importance)",
+      "summary": "Le sixième épisode de la série explicative de 93.bitmap, discutant d'un concept à venir en V2 d'une usine virtuelle de conception de puces et du cadrage personnel de l'auteur sur sa valeur, en établissant une analogie avec le modèle de commande de TSMC. Il s'agit de l'opinion personnelle de l'auteur, pas d'une règle officiellement publiée ; tout mécanisme V2 reste soumis à la future annonce officielle du site, et l'analogie de valeur/rendement de la vidéo n'est pas adoptée."
+    },
+    "community-93bitmap-video-ep6-en": {
+      "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 6 (anglais)",
+      "summary": "La version en anglais de l'épisode 6 de la série explicative de 93.bitmap, couvrant le même sujet pour la communauté anglophone. Comme pour l'original chinois, il s'agit du cadrage personnel de l'auteur plutôt que d'une règle officiellement publiée ; tout mécanisme V2 reste soumis à la future annonce officielle du site."
+    },
+    "community-antalya-tr-primer": {
+      "title": "Article communautaire en turc : produire un processeur on-chain — comment fonctionne le protocole TapeOut",
+      "summary": "Une explication en langue turque publiée par Antalya Blockchain, retraçant l'expansion des usages de la blockchain avant de décrire comment TapeOut tokenise les éléments logiques de base de l'architecture informatique traditionnelle afin que les utilisateurs puissent assembler des circuits on-chain et les transformer en actifs permanents. L'article indique explicitement que le projet est encore en Alpha et hautement expérimental. Mis en avant par @0xFatih. Uniquement une explication communautaire — les sources officielles restent l'autorité pour les mécanismes."
     }
   }
 }

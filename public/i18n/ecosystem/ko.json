@@ -1,6 +1,6 @@
 {
   "locale": "ko",
-  "source_catalog_version": "2026-08-26",
+  "source_catalog_version": "2026-08-31b",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -24,6 +24,21 @@
         "title": "$BEM PoD: Official 채굴 항목",
         "summary": "Official 항목으로 arm, start, claim, taskbank 및 계약을 포함합니다. 되돌릴 수 없는 트랜잭션과 토큰 구매가 필수는 아님을 공개합니다.",
         "source_note": "Official 사이트 소스입니다. 제3자 가격 또는 채굴 논의는 Official 규칙 페이지와 분리하여 취급하세요."
+      },
+      "community-web3kexin-intro": {
+        "title": "TapeOut을 한 편으로 이해하기",
+        "summary": "NAND/LATCH → Circuit → 해시파워 → BEM 가치사슬과 TapeOut·Behemoth 트랜지스터의 차이를 설명하는 Community 해설 글입니다. 개념적 틀만 제시할 뿐 가격이나 수익 주장은 없습니다.",
+        "source_note": "Community 콘텐츠로, Official 출처가 아닙니다. 메커니즘은 여전히 Official 사이트와 교차 확인해야 합니다."
+      },
+      "community-ranynft-v2-supplychain": {
+        "title": "TapeOut V2: AI 컴퓨팅 하드웨어 공급망을 온체인에 빗댄 비유",
+        "summary": "Processor/Circuit/PoD를 하드웨어 산업의 상류-중류-하류 구조에 빗대어 매핑하고, 공개된 H = (소각 비용 + 설계 프리미엄) × 프로세서 계수 가중치 공식을 평이하게 다시 설명하는 Community 분석 글입니다. 전반적으로 조건부·한정적 어투를 사용하며 수익을 예측하지 않습니다.",
+        "source_note": "Community 콘텐츠로, Official 출처가 아닙니다. 산업 비유는 설명을 돕는 장치일 뿐, Official 아키텍처 주장이 아닙니다."
+      },
+      "community-lilmxgma-beginner-guide": {
+        "title": "TapeOut 초보자 가이드: 처음부터 첫 Circuit 만들기",
+        "summary": "NAND/LATCH 기본기, 격리된 실험용 지갑 추천, Official 계약이 아직 업그레이드 가능하다는 공개 사항, 그리고 Official 사이트와 비공식 Community 도구를 명확히 구분하는 내용을 다루는 Community 초보자 가이드입니다. 모든 서명 단계 전에 위험 경고를 포함합니다.",
+        "source_note": "Community 콘텐츠로, Official 출처가 아닙니다. 가이드 자체의 안전 경고는 품질이 좋다는 강한 신호이지만 독립적인 확인을 대체하지는 않습니다."
       }
     },
     "tools": {
@@ -66,6 +81,61 @@
         "title": "TapeOut Intelligence API",
         "summary": "Registry, 활동, Airdrop, $BEM, 검토된 학습 자료 및 다국어 학습 응답에 대한 공개 증거 기반 API입니다.",
         "safety": "출처 상태, 오래된 상태 및 제3자 가격 경계가 응답의 일부입니다. 이용 불가능한 데이터를 0이나 실시간 값으로 해석하지 마세요."
+      },
+      "tool-gatepilot": {
+        "title": "GatePilot 채굴·임대 플랫폼",
+        "summary": "Official taskbank 작업을 골라 참조 Circuit과 .blif 파일을 생성한 뒤, GatePilot에서 직접 TapeOut하거나 Official Canvas로 가져올 수 있는 Community 플랫폼입니다. 채굴기 워크벤치와 임대 매물도 제공합니다. 지갑 연결이 필요합니다.",
+        "safety": "타사 플랫폼으로, Official TapeOut 창구가 아닙니다. 지갑 연결, TapeOut, 임대는 모두 실제로 서명 가능하고 실제 비용이 드는 행위입니다. 생성된 참조 Circuit은 플랫폼 스스로 \"챔피언 설계가 아닌 평범한 공개 참조용이며, 전역 최적임을 증명하지 않는다\"고 명시합니다. 승인 전 모든 계약과 서명 요청을 독립적으로 확인하고, 임대 조건은 공식 프로토콜 기능이 아니라 이 플랫폼 자체의 약정으로 취급하세요."
+      },
+      "tool-tapeoutgo": {
+        "title": "TapeOutGo (by 0xLukin)",
+        "summary": "본 사이트의 \"예산 대비 Behemoth(Budget vs Behemoth)\" 견적 카드가 인용하고 그 읽기 전용 가격 산정 방법론을 각색해온 오픈소스(MIT) 도구입니다. 원래의 채굴 플로우—부족분 구매, TapeOut, 유닛별 arm/start, $BEM 클레임까지 전부 커스터디 없이 본인 지갑으로 직접 서명하는 방식—는 \"레거시\" /mine 경로로 옮겨졌습니다. 홈페이지는 이제 같은 저자가 준비 중인, 아직 출시되지 않은 별도 제품을 예고합니다: 공식 NAND/LATCH 구성요소를 1:1로 래핑해 네 가지 대체 가능 토큰(wTapeOutNand/wTapeOutLatch/wBehemothNand/wBehemothLatch)으로 만들고, PancakeSwap에서 BNB와 짝지어 거래·풀링할 수 있으며 언제든 등가로 언래핑할 수 있게 하는 \"TapeOut Liquidity Layer\"입니다. 이번 검토 시점 기준 네 토큰 모두 여전히 \"출시 예정(coming soon)\"으로 표시돼 있고 배포된 계약이 없어, 지금은 검증하거나 연동할 실체가 없습니다.",
+        "safety": "Community 도구로, Official TapeOut 창구가 아닙니다. 구매, TapeOut, 클레임은 모두 실제로 서명 가능하고 되돌릴 수 없는 행위입니다. 회수(payback) 수치는 gas를 제외한 값이며 수익을 보장하는 약속이 아닙니다. 예고된 유동성 래핑 제품은 아직 출시 전입니다 — 계약이 실제로 배포되고 독립적으로 검증되기 전까지는 향후 등장할 어떤 계약 주소도 미검증 상태로 취급하세요. 페이지 스스로도 래핑 계약이 출시 후 관리자 권한(admin key)이 없을 것이라고 밝히는데, 이는 설계상 되돌릴 수 없다는 뜻이며 문제가 생겨도 업그레이드할 수 없다는 의미이기도 합니다. 모든 서명 요청은 독립적으로 확인하세요."
+      },
+      "tool-tapeout-build": {
+        "title": "TapeOut.build 연산용 Canvas",
+        "summary": "NAND/LATCH 구성요소를 드래그하고 실시간으로 시뮬레이션하며, Official 사이트에 사용할 BLIF 파일을 내보내기 전에 예상 비용 분해(b*, 면적 A, 비용 C)를 미리 볼 수 있는 Community 제작 대체 Circuit 설계 Canvas입니다. 온체인 트랜잭션 해시나 계약 주소로 이미 TapeOut된 Circuit을 조회할 수 있는 읽기 전용 디코더도 함께 제공합니다. 검토 당시 페이지에서 지갑 연결 기능은 발견되지 않았습니다.",
+        "safety": "Community 설계 샌드박스로, Official 도구가 아닙니다. 예상 비용/점수 수치는 이 사이트 자체의 미리보기 계산값일 뿐, Official 수치도 보장된 수치도 아닙니다. Official Canvas와 실제 TapeOut 트랜잭션만이 권위 있는 기준입니다."
+      },
+      "tool-dune-mining-intelligence": {
+        "title": "TapeOut Mining Intelligence (Dune)",
+        "summary": "온체인 및 시장 데이터를 기반으로 $BEM 가격, 시가총액, FDV, 주요 유동성, 유통 공급량, 채굴 수익률 지표를 집계하는 Community 제작 Dune 대시보드입니다.",
+        "safety": "독립적인 Community 대시보드로, Official 가격이나 프로토콜 출처가 아니며, 이 사이트에 실시간으로 임베드하지 않으므로 작성자가 저희 검토 없이 언제든 수정할 수 있습니다. FDV/시가총액 수치는 고정된 최대 공급량 모델을 전제로 하므로, 수치를 신뢰하기 전에 Dune에서 산정 방식을 확인하세요."
+      },
+      "tool-tapeout-factory": {
+        "title": "TapeOut Factory (배치 TapeOut)",
+        "summary": "Community 배치 TapeOut 도구입니다. 공개된 작업과 그 참조 형태의 설계도를 선택하면 한 번의 플로우에서 N개를 연속 TapeOut할 수 있지만, 각 유닛은 여전히 독립적인 지갑 서명과 정산 트랜잭션입니다. 어떤 작업의 최초 창작 프리미엄이 이미 이전 채굴자에게 지급되었는지를 페이지가 사전에 공개하므로, 이미 선점된 경우 배치 실행은 표준 가중치만 얻을 뿐 창작 보너스는 얻지 못합니다.",
+        "safety": "Community 도구로, Official TapeOut 창구가 아닙니다. 배치 내 각각의 TapeOut은 실제 BNB 비용이 드는, 되돌릴 수 없는 지갑 서명 트랜잭션입니다. 공용 템플릿을 사용한다는 것은 해당 Circuit의 원 설계자가 아니라는 뜻이므로, 최초 창작 프리미엄이 이미 선점되었다면 적용되지 않습니다. 모든 서명 요청을 독립적으로 확인하세요."
+      },
+      "tool-tapeout-verifier": {
+        "title": "tapeout.pro Circuit 검증기 및 전수조사",
+        "summary": "TapeOut된 Circuit이 프로토콜 자체의 256개 고정 공개 샘플 벡터만이 아니라, 선언된 작업의 온체인 참조 구현과 가능한 모든 입력(순차 작업의 경우 모든 입력/상태 쌍)에 대해 일치하는지 확인하는 독립 읽기 전용 도구입니다. Census 페이지는 채굴자별 정답/불일치 판정 목록 전체와 네트워크 전체 요약을 공개합니다. BscScan에 검증된 TapeOut 계약이 없어 바이트코드를 리버스 엔지니어링해 만들어졌습니다.",
+        "safety": "독립적인 Community 분석으로, Official이거나 온체인에서 강제되는 판정이 아닙니다. 공개된 \"불일치\"는 테스트된 입력 범위에서 해당 Circuit의 로직이 선언된 작업과 다르다는 것을 증명할 뿐이며, 그 자체로 고의성을 증명하지는 않는다고 사이트 스스로 명시합니다. 읽기 전용이며 지갑, 서명, 트랜잭션을 요구하지 않습니다."
+      },
+      "tool-tapeout-vip": {
+        "title": "TapeOut VIP 실시간 분석 대시보드",
+        "summary": "독립적인 중/영/한 3개 언어 실시간 대시보드로, 전체 채굴자 수, 검증/미검증 풀 가중치, 2,100만 공급 상한을 향한 채굴 진행률, 일일 발행량, BEM 가격/시가총액/FDV, TapeOut과 Behemoth 양쪽의 실시간 NAND/LATCH 매수·매도호가, 작업별 \"Rank #1 선구자\" 표, 지갑 리더보드, 인기 작업 순위를 제공합니다. 프로토콜 창시자 @Blonskr가 호의적으로 재게시한 바 있습니다.",
+        "safety": "독립적인 Community 대시보드로, Official 출처가 아닙니다. 직접 검토한 결과 해당 페이지는 읽기 전용이며 지갑 연결, 서명, 트랜잭션 요청은 어디에서도 발견되지 않았습니다. 작업별 \"Rank #1\"과 가중치 수치는 저자 자신의 계산이므로, 수치를 신뢰하기 전에 산정 방식을 독립적으로 확인하세요."
+      },
+      "tool-bemotc": {
+        "title": "BEM OTC 주문 매칭 마켓",
+        "summary": "BNB Smart Chain 상의 Community 제작 온체인 BEM/USDT P2P 오더북입니다. 매수자와 매도자가 각자 가격과 수량을 제시하고, 주문 시점에 자금이 계약에 잠기며, 체결은 온체인에서 원자적으로 정산됩니다 — 유동성이 얕은 AMM 풀의 가격을 흔들지 않고 대량 주문을 채우려는 목적입니다. 편당 1%의 수수료가 부과됩니다.",
+        "safety": "Community 도구로, Official TapeOut 또는 BEM 창구가 아닙니다. dApp 브라우저(MetaMask/OKX/Binance Web3 Wallet/TokenPocket) 안에서 지갑 연결이 필요하며, 주문을 올리거나 체결하는 것은 실제 자금을 계약에 잠그는 실제 지갑 서명 트랜잭션입니다. 사이트 스스로 이 계약이 아직 독립적인 제3자 감사를 받지 않았다고 밝히고 있습니다 — 이를 해소되지 않은 위험으로 간주하고, 계약 주소를 독립적으로 확인하며, 잃어도 감당할 수 있는 금액만 투입하세요."
+      },
+      "tool-tapeout-index": {
+        "title": "TapeOut Index 생태계 디렉토리",
+        "summary": "Official 페이지와 타사 TapeOut 도구를 한곳에 모아 링크하는 Community 제작 링크 디렉토리입니다. 프로토콜 창시자 @Blonskr가 호의적으로 재게시한 바 있습니다. 순수한 내비게이션 창구로, 가격이나 보유·성과 데이터를 직접 제공하지는 않습니다.",
+        "safety": "Community 디렉토리로, Official 출처가 아닙니다. 검토 당시 페이지에서 지갑 연결, 서명, 트랜잭션 요청은 발견되지 않았으며 외부 링크만 제공합니다. 그곳에서 지갑을 연결하기 전에 연결된 도구를 독립적으로 확인하세요."
+      },
+      "tool-tg-large-trade-alerts": {
+        "title": "대량 거래 알림 채널 (Community Telegram)",
+        "summary": "TapeOut 관련 업데이트를 푸시하는 Community 운영 Telegram 채널로, 커뮤니티 목록에서는 대량 거래 감지 피드로 유통되고 있습니다. 채널 자체 설명에는 커뮤니티 사용자가 만들고 운영하는 비공식 채널이라고 명확히 밝혀져 있습니다.",
+        "safety": "채널 이름이 프로토콜과 비슷하더라도, 해당 채널은 스스로 비공식(UNOFFICIAL)임을 명시적으로 밝히고 있습니다. 채널 이름은 결코 소속 관계의 증거가 될 수 없습니다. 알림은 한 커뮤니티 구성원이 직접 구축한 감지 시스템으로, 기준값은 공개되지 않았고 정확성도 보장되지 않습니다 — 푸시 메시지를 검증된 사실, 프로토콜 공지, 매매 신호로 절대 취급하지 말고, 어떤 채팅방에 게시된 계약 주소든 반드시 먼저 Official 사이트와 대조한 뒤에만 사용하세요."
+      },
+      "tool-tapeout-daily": {
+        "title": "TapeOut Daily Community 뉴스룸",
+        "summary": "매일 $BEM 가격/공급량 스냅샷, KOL 활동 랭킹, Community 빌더 디렉토리, 엄선된 교육 영상, 도구 색인을 발행하는 비공식 Community 뉴스룸입니다. \"사실은 원출처로, 의견은 커뮤니티의 온기를 유지한다\"고 스스로를 소개하며 투자 조언이 아님을 명확히 밝힙니다.",
+        "safety": "Community 편집물로, Official 출처가 아닙니다. 검토 당시 페이지에서 지갑 연결 기능은 발견되지 않았으며, Telegram 채널과 타사 도구로 링크될 뿐입니다. 어떤 랭킹, 가격 스냅샷, 큐레이션 주장도 이 사이트 자체의 편집 판단으로 취급하고, 행동 전에 1차 출처와 교차 확인하세요."
       }
     }
   }

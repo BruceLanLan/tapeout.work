@@ -1,3 +1,8 @@
+// The learning catalogue grows; its size is read from the seed rather than frozen
+// here, so adding a resource no longer breaks a contract whose real subject is the
+// shape of the legacy no-locale response, not how many rows it happens to hold.
+import { LEARNING_RESOURCES } from '../src/learning_resources_seed.js';
+
 const base = process.argv[2] || 'http://127.0.0.1:8796';
 const locales = ['zh', 'en', 'ko', 'ja', 'es', 'ar', 'tr', 'fr', 'de', 'ru', 'pt'];
 const get = async path => {
@@ -13,12 +18,14 @@ const [metadata, legacy] = await Promise.all([
 assert(metadata.response_locale_parameter === 'locale', 'response locale parameter missing');
 assert(metadata.source_language_parameter === 'language', 'source language parameter missing');
 assert(JSON.stringify(metadata.supported_response_locales) === JSON.stringify(locales), 'supported locale list changed');
-assert(legacy.total === 14 && legacy.items.length === 12 && !('localized' in legacy.items[0]), 'legacy no-locale response changed');
+assert(legacy.total === LEARNING_RESOURCES.length, `legacy total drifted from the seed (${legacy.total} vs ${LEARNING_RESOURCES.length})`);
+assert(legacy.items.length === Math.min(legacy.total, legacy.filters?.page_size ?? legacy.items.length), 'legacy page did not honour its own page size');
+assert(!('localized' in legacy.items[0]), 'legacy no-locale response leaked a localized block');
 assert(legacy.filters.locale === null, 'legacy response unexpectedly sets locale');
 const legacyFirst = legacy.items[0];
 for (const locale of locales) {
   const data = await get(`/api/v1/learn/resources?page=1&page_size=12&locale=${locale}`);
-  assert(data.total === 14 && data.items.length === 12, `${locale} catalog cardinality`);
+  assert(data.total === LEARNING_RESOURCES.length && data.items.length === Math.min(LEARNING_RESOURCES.length, 12), `${locale} catalog cardinality (${data.total} vs ${LEARNING_RESOURCES.length})`);
   assert(data.requested_locale === locale, `${locale} requested locale echo`);
   assert(data.response_locale === locale, `${locale} response locale`);
   assert(['canonical', 'localized'].includes(data.locale_status), `${locale} locale status`);

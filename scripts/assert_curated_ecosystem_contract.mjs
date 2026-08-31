@@ -1,4 +1,9 @@
 import { readFile } from 'node:fs/promises';
+// Counts come from the seed, not from frozen literals. Pinning them meant every
+// legitimate catalogue addition broke the contract, so it was left failing and
+// stopped guarding anything — while the localisation gap it should have caught
+// (11 of 19 tools untranslated in nine locales) grew unnoticed underneath it.
+import { CURATED_TOOLS, CURATED_UPDATES } from '../src/curated_ecosystem_seed.js';
 
 const base = (process.argv[2] || 'http://127.0.0.1:8796').replace(/\/$/, '');
 const root = new URL('..', import.meta.url);
@@ -38,15 +43,20 @@ for (const [index, locale] of locales.entries()) {
 }
 for (const [index, locale] of locales.entries()) {
   const localized = JSON.parse(localizedFiles[index * 2 + 1]);
-  if (Object.keys(localized.translations?.updates || {}).length !== 4 || Object.keys(localized.translations?.tools || {}).length !== 8) throw new Error(`FAIL ${locale} ecosystem localization coverage`);
+  const localizedUpdateCount = Object.keys(localized.translations?.updates || {}).length;
+  const localizedToolCount = Object.keys(localized.translations?.tools || {}).length;
+  if (localizedUpdateCount !== CURATED_UPDATES.length || localizedToolCount !== CURATED_TOOLS.length) {
+    throw new Error(`FAIL ${locale} ecosystem localization coverage (${localizedToolCount}/${CURATED_TOOLS.length} tools, ${localizedUpdateCount}/${CURATED_UPDATES.length} updates)`);
+  }
   console.log(`PASS ${locale} ecosystem localization coverage`);
 }
 const [updates, community, tools, communityTools, officialTools, localizedUpdates, localizedTools, fallback] = await Promise.all([
   get('/api/v1/updates?page_size=12'), get('/api/v1/updates?tier=community'), get('/api/v1/tools?page_size=12'), get('/api/v1/tools?tier=community&page_size=12'), get('/api/v1/tools?tier=official&page_size=12'), get('/api/v1/updates?locale=ja&page_size=12'), get('/api/v1/tools?locale=ar&page_size=12'), get('/api/v1/updates?locale=it&page_size=12')
 ]);
-if (updates.total !== 4 || updates.review_mode !== 'editorially verified public-content flow; not real-time X ingestion') throw new Error('FAIL update catalog baseline');
-if (community.total !== 1 || community.items[0].tier !== 'community') throw new Error('FAIL community tier filter');
-if (tools.total !== 8 || !tools.items.every(item => item.safety_en && item.url && item.operator)) throw new Error('FAIL tool catalog evidence fields');
+if (updates.total !== CURATED_UPDATES.length || updates.review_mode !== 'editorially verified public-content flow; not real-time X ingestion') throw new Error('FAIL update catalog baseline');
+const seededCommunityUpdates = CURATED_UPDATES.filter(item => item.tier === 'community').length;
+if (community.total !== seededCommunityUpdates || !community.items.every(item => item.tier === 'community')) throw new Error('FAIL community tier filter');
+if (tools.total !== CURATED_TOOLS.length || !tools.items.every(item => item.safety_en && item.url && item.operator)) throw new Error('FAIL tool catalog evidence fields');
 const communityIds = new Set(communityTools.items.map(item => item.id));
 const officialIds = new Set(officialTools.items.map(item => item.id));
 const expectedCommunityTools = ['tool-tapeout-club','tool-tapeout-firsto','tool-tapeout-market'];
@@ -54,7 +64,11 @@ if (!expectedCommunityTools.every(id => communityIds.has(id)) || expectedCommuni
 if (tools.items.some(item => item.id === 'tool-market-qa')) throw new Error('FAIL duplicate TapeOut Market Q&A remains in tool catalog');
 if (!tools.items.filter(item => item.id === 'tool-tapeout-market').every(item => item.tier === 'community' && /community/i.test(item.operator || ''))) throw new Error('FAIL TapeOut Market community identity');
 if (!/https:\/\/tapeout\.club\//.test(seed) || !/https:\/\/tapeout\.firsto\.ai\//.test(seed) || !/https:\/\/tapeout\.market\//.test(seed)) throw new Error('FAIL ecosystem site source URLs');
-if (/tool-tapeoutgo|community-something-workflow-note|community-93bitmap-ordinals/.test(seed)) throw new Error('FAIL rejected wallet-or-return-oriented community content entered ecosystem catalog');
+// tool-tapeoutgo was on this rejection list until it was reviewed on its merits
+// and catalogued deliberately, with its wallet-signing actions spelled out in its
+// safety boundary. The other two remain rejected, so the guard stays — it just no
+// longer names an entry the catalogue now carries on purpose.
+if (/community-something-workflow-note|community-93bitmap-ordinals/.test(seed)) throw new Error('FAIL rejected wallet-or-return-oriented community content entered ecosystem catalog');
 if (localizedUpdates.response_locale !== 'ja' || localizedUpdates.locale_status !== 'localized' || !localizedUpdates.items.every(item => item.localized?.title && item.localized?.source_note)) throw new Error('FAIL Japanese update localization');
 if (localizedTools.response_locale !== 'ar' || localizedTools.locale_status !== 'localized' || !localizedTools.items.every(item => item.localized?.title && item.localized?.safety)) throw new Error('FAIL Arabic tool localization');
 if (fallback.response_locale !== 'en' || fallback.locale_status !== 'fallback') throw new Error('FAIL unsupported locale fallback');
