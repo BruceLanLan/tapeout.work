@@ -100,7 +100,7 @@
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (Dune panosu)",
         "summary": "Zincir üstü ve piyasa verilerinden $BEM fiyatı, piyasa değeri, FDV, birincil likidite, dolaşımdaki arz ve madencilik verimi rakamlarını bir araya getiren Community tarafından oluşturulmuş Dune panosu.",
-        "safety": "Bağımsız Community panosu, Official bir fiyat veya protokol kaynağı değildir ve yazarının incelememiz olmadan revize edebilmesi için bu sitede canlı olarak gömülü değildir. FDV/piyasa değeri rakamları sabit bir maksimum arz modeli varsayar; herhangi bir rakama güvenmeden önce Dune üzerinde metodolojiyi doğrulayın."
+        "safety": "Bağımsız Community panosu; Official bir fiyat veya protokol kaynağı değildir ve bu siteye bilinçli olarak canlı gömülmemiştir: yazarı onu istediği an değiştirebilir ve incelemediğimiz bir değişiklik, biz doğrulamışız gibi burada görünmemelidir. FDV/piyasa değeri rakamları sabit maksimum arz modelini varsayar; herhangi bir sayıya güvenmeden önce metodolojiyi Dune üzerinde doğrulayın."
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (toplu tape-out)",

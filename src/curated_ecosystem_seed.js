@@ -1,5 +1,5 @@
 export const ECOSYSTEM_CATALOG_VERSION = "2026-08-31b";
-export const ECOSYSTEM_REVIEWED_AT = "2026-08-31T09:30:00Z";
+export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T17:20:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
 // original language, URL and risk boundary are evidence fields and must not be inferred
@@ -335,7 +335,7 @@ export const CURATED_TOOLS = Object.freeze([
     summary_en: "Community-built Dune dashboard aggregating $BEM price, market cap, FDV, primary liquidity, circulating supply and mining-yield figures from on-chain and market data.",
     summary_zh: "社区自建的 Dune 看板，聚合链上与市场数据计算的 $BEM 价格、市值、FDV、主要流动性、流通供给与挖矿产出等指标。",
     use_cases: ["analytics", "price-tracking", "community-research"],
-    safety_en: "Independent community dashboard, not an official price or protocol source, and not embedded live on this site so its author can revise it without our review. FDV/market-cap figures assume a fixed maximum-supply model; verify methodology on Dune before relying on any number.",
+    safety_en: "Independent community dashboard, not an official price or protocol source, and deliberately not embedded live on this site: its author can revise it at any time, and a change we have not reviewed should not appear here as though we had checked it. FDV/market-cap figures assume a fixed maximum-supply model; verify methodology on Dune before relying on any number.",
     safety_zh: "独立社区看板，不是官方价格或协议来源，本站也不做实时嵌入，以免作者随时修改而我们未经审核；FDV/市值假设了固定最大供给量模型，使用前应在 Dune 上核实计算口径。"
   },
   {

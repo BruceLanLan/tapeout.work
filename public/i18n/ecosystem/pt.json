@@ -100,7 +100,7 @@
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (Dune)",
         "summary": "Painel Dune construído pela Community, agregando preço do $BEM, capitalização de mercado, FDV, liquidez primária, oferta circulante e números de rendimento de mineração a partir de dados on-chain e de mercado.",
-        "safety": "Painel Community independente, não é uma fonte Official de preço ou do protocolo, e não está incorporado ao vivo neste site — o que permite ao autor revisá-lo sem a nossa revisão. Os números de FDV/capitalização assumem um modelo de oferta máxima fixa; verifique a metodologia no Dune antes de confiar em qualquer número."
+        "safety": "Painel Community independente, não é uma fonte Official de preço ou do protocolo, e deliberadamente não está incorporado ao vivo neste site: seu autor pode alterá-lo a qualquer momento, e uma alteração que não revisamos não deve aparecer aqui como se a tivéssemos verificado. Os números de FDV/capitalização pressupõem um modelo de oferta máxima fixa; verifique a metodologia no Dune antes de confiar em qualquer número."
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (tape-out em lote)",

@@ -100,7 +100,7 @@
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (Dune)",
         "summary": "Von der Community gebautes Dune-Dashboard, das $BEM-Preis, Marktkapitalisierung, FDV, primäre Liquidität, zirkulierende Menge und Mining-Ertragszahlen aus on-chain- und Marktdaten zusammenführt.",
-        "safety": "Unabhängiges Community-Dashboard, keine Official-Preis- oder Protokollquelle; es ist zudem nicht live auf dieser Seite eingebettet, wodurch der Autor es ändern kann, ohne dass wir das prüfen. FDV-/Marktkapitalisierungszahlen unterstellen ein fixes Maximal-Angebot-Modell; prüfen Sie die Methodik auf Dune, bevor Sie sich auf eine Zahl verlassen."
+        "safety": "Unabhängiges Community-Dashboard, keine Official-Preis- oder Protokollquelle, und bewusst nicht live auf dieser Seite eingebettet: Der Autor kann es jederzeit ändern, und eine von uns nicht geprüfte Änderung soll hier nicht so erscheinen, als hätten wir sie kontrolliert. FDV-/Marktkapitalisierungszahlen setzen ein festes maximales Angebot voraus; prüfen Sie die Methodik auf Dune, bevor Sie sich auf eine Zahl verlassen."
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (Batch-tape-out)",

@@ -100,7 +100,7 @@
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (Dune)",
         "summary": "온체인 및 시장 데이터를 기반으로 $BEM 가격, 시가총액, FDV, 주요 유동성, 유통 공급량, 채굴 수익률 지표를 집계하는 Community 제작 Dune 대시보드입니다.",
-        "safety": "독립적인 Community 대시보드로, Official 가격이나 프로토콜 출처가 아니며, 이 사이트에 실시간으로 임베드하지 않으므로 작성자가 저희 검토 없이 언제든 수정할 수 있습니다. FDV/시가총액 수치는 고정된 최대 공급량 모델을 전제로 하므로, 수치를 신뢰하기 전에 Dune에서 산정 방식을 확인하세요."
+        "safety": "독립적인 Community 대시보드로, Official 가격이나 프로토콜 출처가 아니며, 본 사이트에 의도적으로 실시간 임베드하지 않았습니다: 작성자가 언제든 수정할 수 있으므로, 저희가 검토하지 않은 변경이 마치 검증된 것처럼 여기에 표시되어서는 안 되기 때문입니다. FDV/시가총액 수치는 고정된 최대 공급량 모델을 전제로 하므로, 어떤 수치든 신뢰하기 전에 Dune에서 산출 방식을 확인하세요."
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (배치 TapeOut)",
