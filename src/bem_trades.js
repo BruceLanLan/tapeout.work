@@ -34,8 +34,15 @@ const BEM_TRADES_COVERAGE_TARGET = 0.99;
 export const BEM_TRADES_POOL_CAP = 8;
 // How many tracked pools get their trades refreshed per sync tick, and how long to wait between
 // each one within a tick. Both exist purely to avoid bursting GeckoTerminal's rate limiter.
-export const BEM_TRADES_POOLS_PER_TICK = 3;
-const BEM_TRADES_POOL_DELAY_MS = 1200;
+// Measured on production, not guessed: a single pool fetch per tick from
+// Cloudflare's shared egress IPs succeeds, while three fetches 1.2s apart in one
+// tick had ALL THREE rejected with HTTP 429 — the discovery call shares the same
+// quota. One pool per tick means a full rotation of the tracked set takes
+// trackedCount ticks (~70 minutes for 7 pools), which is well inside what a
+// large-trade panel needs given every fetch returns the last 300 trades and
+// windows overlap heavily.
+export const BEM_TRADES_POOLS_PER_TICK = 1;
+const BEM_TRADES_POOL_DELAY_MS = 1500;
 // Bounds both the percentile computation and the disclosed "window" to the most recently
 // stored trades, so a threshold computed months from now is never silently diluted by (or
 // claims coverage over) the monitor's entire lifetime history.
