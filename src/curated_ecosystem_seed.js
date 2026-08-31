@@ -1,5 +1,5 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-08-29";
-export const ECOSYSTEM_REVIEWED_AT = "2026-08-29T15:15:00Z";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-08-31";
+export const ECOSYSTEM_REVIEWED_AT = "2026-08-31T00:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
 // original language, URL and risk boundary are evidence fields and must not be inferred
@@ -244,11 +244,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut Market (community)",
     url: "https://tapeout.market/",
     original_language: "en",
-    reviewed_at: "2026-08-25T14:40:00Z",
+    reviewed_at: "2026-08-31T00:00:00Z",
     title_en: "TapeOut Market",
     title_zh: "TapeOut Market 晶体管市场",
-    summary_en: "Community ecosystem market entry for reading public listings and market mechanics. Treat it separately from official protocol, contract and ownership sources.",
-    summary_zh: "社区生态市场入口，用于阅读公开挂单与市场机制；应与官方协议、合约和持仓来源分开看待。",
+    summary_en: "Community ecosystem market with a full navigation beyond listings: an AI Advisor, a Create flow, a Mining section, a Tools page, plus per-account My Orders/My Assets, and a Q&A page. Treat all of it separately from official protocol, contract and ownership sources.",
+    summary_zh: "社区生态市场，导航不止挂单：还有 AI 顾问、Create 创建流程、Mining 挖矿板块、Tools 工具页，以及按账号区分的 My Orders/My Assets，还有一个 Q&A 页面。以上均应与官方协议、合约和持仓来源分开看待。",
     use_cases: ["market-reading", "orders", "community-market"],
     safety_en: "Community marketplace only. Open bids and displayed values are not completed trades, exit prices or return promises; independently verify current contracts and all wallet requests before signing.",
     safety_zh: "仅为社区市场。公开买单和显示数值不是已成交、退出价格或收益承诺；签名前应独立核验当前合约和全部钱包请求。"
@@ -312,11 +312,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut.build (community)",
     url: "https://tapeout.build/",
     original_language: "zh",
-    reviewed_at: "2026-08-27T15:55:00Z",
+    reviewed_at: "2026-08-31T00:00:00Z",
     title_en: "TapeOut.build compute canvas",
     title_zh: "TapeOut.build 算力画布",
-    summary_en: "Community-built alternative circuit design canvas: drag NAND/LATCH components, simulate live, and preview an estimated cost breakdown (b*, area A, cost C) before exporting a BLIF file for the official site. No wallet-connect was found on the page during review.",
-    summary_zh: "社区自建的另一款电路设计画布：拖拽 NAND/LATCH 元件、实时仿真，并在导出供官网使用的 BLIF 文件前预览估算的成本分解（b*、面积 A、成本 C）。审核时页面未发现钱包连接功能。",
+    summary_en: "Community-built alternative circuit design canvas: drag NAND/LATCH components, simulate live, and preview an estimated cost breakdown (b*, area A, cost C) before exporting a BLIF file for the official site. Also offers a read-only decoder that looks up an already-taped-out circuit by its on-chain transaction hash or contract address. No wallet-connect was found on the page during review.",
+    summary_zh: "社区自建的另一款电路设计画布：拖拽 NAND/LATCH 元件、实时仿真，并在导出供官网使用的 BLIF 文件前预览估算的成本分解（b*、面积 A、成本 C）。另提供只读的电路解码功能，可通过链上交易哈希或合约地址反查已流片的电路。审核时页面未发现钱包连接功能。",
     use_cases: ["design", "simulation", "export"],
     safety_en: "Community design sandbox, not an official tool. Estimated cost/score figures are this site's own preview calculation, not an official or guaranteed value; only the official Canvas and tape-out transaction are authoritative.",
     safety_zh: "社区设计沙盒，非官方工具。预览的成本/评分数值是该站自己的估算，不是官方或保证值；只有官方 Canvas 与流片交易本身才具有权威性。"
@@ -405,5 +405,39 @@ export const CURATED_TOOLS = Object.freeze([
     use_cases: ["otc", "large-order-trading", "price-impact-reduction"],
     safety_en: "Community tool, not an official TapeOut or BEM surface. Requires connecting a wallet inside a dApp browser (MetaMask/OKX/Binance Web3 Wallet/TokenPocket); posting or filling an order is a real, wallet-signed transaction that locks real funds into the contract. The site itself discloses the contract has NOT yet had an independent third-party audit — treat that as an open risk, verify the contract address independently, and only risk amounts you can afford to lose.",
     safety_zh: "社区工具，非官方 TapeOut 或 BEM 界面。需要在 dApp 钱包浏览器（MetaMask/OKX/币安 Web3 钱包/TokenPocket）内连接钱包；挂单或吃单都是真实的钱包签名交易，会把真实资产锁入合约。网站自己披露合约**尚未经过独立第三方审计**——这是一个公开的未消解风险，使用前应独立核实合约地址，且只投入能承受损失的金额。"
+  },
+  {
+    id: "tool-tapeout-index",
+    wallet_risk: "read_only",
+    category: "navigation",
+    tier: "community",
+    operator: "TapeOut Index (community)",
+    url: "https://tapeoutindex.lol/",
+    original_language: "en",
+    reviewed_at: "2026-08-31T00:00:00Z",
+    title_en: "TapeOut Index",
+    title_zh: "TapeOut Index 生态导航",
+    summary_en: "Community-built link directory pointing to official pages and third-party TapeOut tools in one place. Reposted approvingly by protocol founder @Blonskr. Purely a navigation surface — it does not itself present price, holder or performance data.",
+    summary_zh: "社区自建的链接导航站，把官方页面和第三方 TapeOut 工具汇总在一处。协议创始人 @Blonskr 曾转发致意。纯导航性质，本身不呈现价格、持仓或收益数据。",
+    use_cases: ["navigation", "discovery"],
+    safety_en: "Community directory, not an official source. No wallet-connect, signature or transaction prompt was found on the page during review; it only links out. Verify any linked tool independently before connecting a wallet there.",
+    safety_zh: "社区导航站，非官方来源。审核时页面未发现钱包连接、签名或交易请求，仅做外部链接跳转。跳转到任何被链接的工具前应独立核实。"
+  },
+  {
+    id: "tool-tapeout-daily",
+    wallet_risk: "read_only",
+    category: "community_news",
+    tier: "community",
+    operator: "TapeOut Daily (community)",
+    url: "https://tapeoutdaily.ai/",
+    original_language: "zh",
+    reviewed_at: "2026-08-31T00:00:00Z",
+    title_en: "TapeOut Daily community newsroom",
+    title_zh: "TapeOut Daily 社区日报",
+    summary_en: "Unofficial community newsroom publishing daily $BEM price/supply snapshots, a KOL-engagement ranking, a community-builders directory, curated educational videos and a tool index. Presents itself as \"facts back to original sources, opinions retain community warmth\" and explicitly disclaims investment advice.",
+    summary_zh: "非官方社区日报，发布每日 $BEM 价格/供给快照、KOL 活跃度榜单、社区共建者名录、精选教学视频与工具索引；自我定位为\"事实回源，观点留有社区温度\"，并明确声明不构成投资建议。",
+    use_cases: ["community-news", "kol-tracking", "discovery"],
+    safety_en: "Community editorial product, not an official source. No wallet-connect was found on the page during review — it links to a Telegram channel and to third-party tools. Treat any ranking, price snapshot or curated claim as this site's own editorial judgment, cross-check against primary sources before acting.",
+    safety_zh: "社区编辑类产品，非官方来源。审核时页面未发现钱包连接功能，仅链接到 Telegram 频道与第三方工具。任何榜单、价格快照或推荐内容都应视为该站自己的编辑判断，行动前请与一手来源交叉核实。"
   }
 ]);
