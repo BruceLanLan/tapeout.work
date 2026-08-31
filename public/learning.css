@@ -1066,3 +1066,14 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .topbar>.brand{flex:0 0 auto}
 .topbar>.topbar-meta{flex:0 0 auto}
 @media (max-width:860px){.topbar{flex-wrap:wrap}}
+
+/* r38: grid items default to min-width:auto, so a wide table inside one stretched
+   its whole column past the viewport and dragged its sibling heading out with it —
+   the heading was clipped with no way to scroll to it, while the table itself was
+   already scrollable inside .table-wrap. Letting the items shrink puts the heading
+   back on screen and leaves the table scrolling in its own container, as intended. */
+.bem-leaderboard-grid>*,.bem-leaderboard-tables>*{min-width:0}
+.bem-leaderboard-grid h4,.bem-leaderboard-tables h4{overflow-wrap:anywhere}
+/* The spotlight links were nowrap, which is right on a wide bar but pushed the
+   longest one 11px past a 390px screen. */
+@media (max-width:520px){.ecosystem-spotlight-latest a{white-space:normal}}
