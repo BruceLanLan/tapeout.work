@@ -86,8 +86,8 @@ async function ensureLanguagePack(language) {
   if (!LANGUAGE_CONFIG[language]) return 'en';
   if (text[language]) return language;
   const [uiResult, learningResult] = await Promise.allSettled([
-    fetchJSON(`/i18n/${language}.json?v=2026-08-31-features-r38`),
-    fetchJSON(`/i18n/learning/${language}.json?v=2026-08-31-features-r38`)
+    fetchJSON(`/i18n/${language}.json?v=2026-08-31-features-r39`),
+    fetchJSON(`/i18n/learning/${language}.json?v=2026-08-31-features-r39`)
   ]);
   if (uiResult.status !== 'fulfilled') throw new Error(`Locale ${language} is temporarily unavailable`);
   text[language] = { ...text.en, ...uiResult.value };

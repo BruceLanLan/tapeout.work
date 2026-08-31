@@ -1077,3 +1077,17 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 /* The spotlight links were nowrap, which is right on a wide bar but pushed the
    longest one 11px past a 390px screen. */
 @media (max-width:520px){.ecosystem-spotlight-latest a{white-space:normal}}
+
+/* r39: .history-chart was a fixed 196px, but renderHistory injects an svg plus a
+   date row plus a values row into it. The values row overflowed the box and
+   landed on top of the static legend below, so "Processors 844" and "Circuits"
+   were drawn over each other. Height now follows the content. The static legend
+   is redundant once the values row renders — that row already carries both
+   colour keys and both labels, with the current numbers attached — so it is
+   hidden rather than left to collide, and still shown if the chart has too
+   little history to render values at all. */
+.history-chart{height:auto}
+.history-chart svg{height:170px}
+.history-values{display:flex;justify-content:space-between;gap:12px;padding:6px 2px 0;flex-wrap:wrap}
+.history-values span{display:flex;align-items:center;gap:6px}
+.history-panel .history-chart:has(.history-values)+.history-legend{display:none}
