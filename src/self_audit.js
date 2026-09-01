@@ -324,12 +324,27 @@ export async function selfAuditOverview(env, localeCoverage = null) {
 
   const measuredCoverage = localeCoverage ?? await readLocaleCoverage(env);
   const findings = await catalogueInvariants(env, measuredCoverage);
+  // A tool with no fingerprint row at all used to land in none of these buckets:
+  // the panel published "17 of 20" alongside two named exclusions, and a reader
+  // summing them got 19 with no way to see which tool had never been attempted.
+  // Silence read as coverage, which is the exact failure this audit exists to
+  // prevent, so an unattempted tool is now named and reported as a finding.
+  const notAttempted = CURATED_TOOLS.filter(tool => !byId.has(tool.id)).map(tool => ({ tool_id: tool.id, url: tool.url }));
   const coverage = {
     tools_fingerprinted: [...byId.values()].filter(row => row.last_status === "ok").length,
     tools_total: CURATED_TOOLS.length,
     skipped: [...byId.values()].filter(row => row.last_status === "skipped").map(row => ({ tool_id: row.tool_id, reason: row.last_error })),
     errored: [...byId.values()].filter(row => row.last_status === "error").map(row => ({ tool_id: row.tool_id, error: row.last_error })),
+    not_attempted: notAttempted,
   };
+  if (notAttempted.length) {
+    findings.push({
+      check: "fingerprint_coverage",
+      severity: "warning",
+      detail: `${notAttempted.length} catalogued tool(s) have never been fingerprinted, so this audit has said nothing about them either way`,
+      subjects: notAttempted.map(t => t.tool_id),
+    });
+  }
 
   return {
     // A warning counts toward "attention". The failure this whole feature exists to

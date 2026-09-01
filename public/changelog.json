@@ -1,8 +1,18 @@
 {
-  "generated_at": "2026-09-01T20:36:21.184Z",
+  "generated_at": "2026-09-01T20:39:45.291Z",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 11,
+  "commit_count": 12,
   "entries": [
+    {
+      "sha": "7dbb8d7e58",
+      "date": "2026-09-02T04:36:37+08:00",
+      "subject": "content: correct firsto, expand tapeout.market, hedge the 256-vector note",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "57896d9eec",
       "date": "2026-09-02T01:34:03+08:00",
