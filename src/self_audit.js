@@ -196,6 +196,11 @@ async function catalogueInvariants(env, localeCoverage) {
     if (gaps.length) findings.push({ check: "localisation_coverage", severity: "warning", detail: `${locale}: ${gaps.join(", ")}`, subjects: [locale] });
   }
 
+  const behind = Object.entries(localeCoverage)
+    .filter(([, counts]) => counts.source_catalog_version && counts.source_catalog_version !== ECOSYSTEM_CATALOG_VERSION)
+    .map(([locale]) => locale);
+  if (behind.length) findings.push({ check: "localisation_freshness", severity: "warning", detail: `${behind.length} locale(s) were translated from an earlier catalogue revision than ${ECOSYSTEM_CATALOG_VERSION}; entries whose source text was rewritten since then are serving the older wording`, subjects: behind });
+
   const now = Date.now();
   const stale = CURATED_TOOLS.filter(tool => {
     const reviewed = Date.parse(tool.reviewed_at || "");
@@ -224,6 +229,10 @@ export async function readLocaleCoverage(env) {
         tools: Object.keys(eco?.translations?.tools || {}).length,
         updates: Object.keys(eco?.translations?.updates || {}).length,
         learning: Object.keys(learn?.translations || {}).length,
+        // Which catalogue revision this locale was translated from. Counting entries
+        // proves a translation exists; it says nothing about whether the English it
+        // was made from has since been rewritten, which is its own kind of stale.
+        source_catalog_version: eco?.source_catalog_version ?? null,
       };
     } catch { /* left out of the result; reported below as unreadable, never as passing */ }
   }));
@@ -271,7 +280,12 @@ export async function selfAuditOverview(env, localeCoverage = null) {
   };
 
   return {
-    status: latestRun?.status === "error" ? "error" : reviewQueue.length || findings.some(f => f.severity === "error") ? "attention" : "clean",
+    // A warning counts toward "attention". The failure this whole feature exists to
+    // prevent is a real problem sitting in a report that reads as fine, and the
+    // localisation gap that went unnoticed for weeks was exactly a warning-level one.
+    // "info" (a review simply getting old) does not flip the status by itself.
+    status: latestRun?.status === "error" ? "error"
+      : (reviewQueue.length || findings.some(f => f.severity === "error" || f.severity === "warning")) ? "attention" : "clean",
     catalog_version: ECOSYSTEM_CATALOG_VERSION,
     last_run: latestRun || null,
     review_queue: reviewQueue,

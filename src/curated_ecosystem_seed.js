@@ -1,5 +1,5 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-08-31b";
-export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T17:20:00Z";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-01";
+export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
 // original language, URL and risk boundary are evidence fields and must not be inferred
@@ -227,11 +227,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "Firsto",
     url: "https://tapeout.firsto.ai/",
     original_language: "zh",
-    reviewed_at: "2026-08-25T10:45:00Z",
+    reviewed_at: "2026-09-01T04:00:00Z",
     title_en: "TapeOut Firsto marketplace",
     title_zh: "TapeOut Firsto 晶体管与矿机市场",
-    summary_en: "Third-party ecosystem marketplace entry for TapeOut-related transistor and mining-machine listings. Use it as a discovery and market-reading surface, separate from official protocol and ownership data.",
-    summary_zh: "第三方生态市场入口，展示 TapeOut 相关晶体管与矿机条目。可用于发现和阅读市场信息，但应与官方协议和持仓数据分开看待。",
+    summary_en: "Third-party ecosystem trading surface for TapeOut-related transistor and mining-machine listings. It now presents itself as a professional trading terminal rather than a listings board — that repositioning is visible in the page the server returns; its interior is client-rendered and could not be rendered during this review, so the surfaces behind the landing page were not directly observed. Use it as a discovery and market-reading surface, separate from official protocol and ownership data.",
+    summary_zh: "第三方生态交易入口，展示 TapeOut 相关晶体管与矿机条目。它现已把自己定位为「专业交易终端」而非单纯的挂单板——这一定位变化在服务端返回的页面标题中可见；但其内部界面为客户端渲染，本次审核未能成功渲染，因此落地页之后的具体功能未经直接观察。可用于发现和阅读市场信息，但应与官方协议和持仓数据分开看待。",
     use_cases: ["market-discovery", "listing-reading", "ecosystem"],
     safety_en: "Community marketplace, not an official price or ownership source. Listings, displayed prices and availability can change and do not guarantee execution; verify contracts and signing requests independently.",
     safety_zh: "社区市场，不是官方价格或持仓来源。挂单、显示价格和可用性会变化，且不保证成交；应独立核验合约与签名请求。"
@@ -312,14 +312,14 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut.build (community)",
     url: "https://tapeout.build/",
     original_language: "zh",
-    reviewed_at: "2026-08-31T00:00:00Z",
+    reviewed_at: "2026-09-01T04:00:00Z",
     title_en: "TapeOut.build compute canvas",
     title_zh: "TapeOut.build 算力画布",
-    summary_en: "Community-built alternative circuit design canvas: drag NAND/LATCH components, simulate live, and preview an estimated cost breakdown (b*, area A, cost C) before exporting a BLIF file for the official site. Also offers a read-only decoder that looks up an already-taped-out circuit by its on-chain transaction hash or contract address. No wallet-connect was found on the page during review.",
-    summary_zh: "社区自建的另一款电路设计画布：拖拽 NAND/LATCH 元件、实时仿真，并在导出供官网使用的 BLIF 文件前预览估算的成本分解（b*、面积 A、成本 C）。另提供只读的电路解码功能，可通过链上交易哈希或合约地址反查已流片的电路。审核时页面未发现钱包连接功能。",
+    summary_en: "Community-built alternative circuit design canvas: drag NAND/LATCH components, simulate live, and preview an estimated cost breakdown (b*, area A, cost C) before exporting a BLIF file for the official site. Its inspection panel also reports gate and LATCH counts, logic depth, netlist bytes, the auto-matched task spec and the transistor ceiling, and flags dead gates — outputs wired to nothing, which still consume cost and the transistor budget. A prediction panel estimates daily output, share of network and baseline hashpower H excluding any first-creator premium. The decoder accepts a netlist hex string, a transaction hash, a contract address or a pasted tapeout.net/BscScan link.",
+    summary_zh: "社区自建的另一款电路设计画布：拖拽 NAND/LATCH 元件、实时仿真，并在导出供官网使用的 BLIF 文件前预览估算的成本分解（b*、面积 A、成本 C）。其检验单还给出门数与 LATCH 数、逻辑深度、网表字节数、自动匹配的题目规格与晶体管上限，并会标出「死门」——输出没有接到任何地方、却照样占用工本与晶体管额度的门。另有产出预测面板，估算日产出、占全网份额与不含首创溢价的保底算力 H。解码功能可接受网表 hex、交易哈希、合约地址，或直接粘贴 tapeout.net / BscScan 链接。",
     use_cases: ["design", "simulation", "export"],
-    safety_en: "Community design sandbox, not an official tool. Estimated cost/score figures are this site's own preview calculation, not an official or guaranteed value; only the official Canvas and tape-out transaction are authoritative.",
-    safety_zh: "社区设计沙盒，非官方工具。预览的成本/评分数值是该站自己的估算，不是官方或保证值；只有官方 Canvas 与流片交易本身才具有权威性。"
+    safety_en: "Community design sandbox, not an official tool. Estimated cost, hashpower and daily-output figures are this site's own preview calculation against the miners currently on chain — the page states plainly that a later tape-out wave will dilute any share it shows — not an official or guaranteed value; only the official Canvas and tape-out transaction are authoritative. Its paid scoring flow (0.001 BNB per run) is currently a demonstration only: the page states this prototype makes no real wallet request, while announcing that the real version will prompt a wallet signature and transfer to a collection address. Treat the read-only classification as true of the prototype as reviewed, not as a guarantee about the shipped version.",
+    safety_zh: "社区设计沙盒，非官方工具。预览的成本、算力与日产出数值都是该站基于当前链上已有矿机的自行估算——页面自己也写明后续有更多人流片时你的份额会被摊薄——不是官方或保证值；只有官方 Canvas 与流片交易本身才具有权威性。其付费评分入口（单次 0.001 BNB）目前仅为演示：页面写明本原型不发起真实钱包请求，但同时宣告真实版本会弹出钱包签名并向指定收款地址转账。因此「纯只读」这个判定只对审核当时的原型成立，不构成对正式版本的保证。"
   },
   {
     id: "tool-dune-mining-intelligence",
@@ -346,11 +346,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut Factory (Benson, community)",
     url: "https://tapeoutfactory.com/",
     original_language: "zh",
-    reviewed_at: "2026-08-28T08:15:00Z",
+    reviewed_at: "2026-09-01T04:00:00Z",
     title_en: "TapeOut Factory (batch tape-out)",
     title_zh: "流片工厂（批量流片）",
-    summary_en: "Community batch tape-out tool: pick a published task and its reference-shaped blueprint, then tape out N copies in one flow, each unit still signed and settled as its own wallet transaction. The page discloses upfront when a task's first-creator premium is already claimed by an earlier miner, so a batch run only earns the standard weight, not the originality bonus.",
-    summary_zh: "社区批量流片工具：选定一道公开题目及其参考形态的图纸，一次流程内连续流片 N 份，但每一份仍是独立的钱包签名与结算交易。页面会提前披露该题目的\"首创加成\"是否已被更早的矿工拿走——若已被拿走，批量流片只能获得普通权重，没有首创加成。",
+    summary_en: "Community batch tape-out tool: pick a published task and its reference-shaped blueprint, then tape out N copies in one flow, each unit still signed and settled as its own wallet transaction. The page discloses upfront when a task's first-creator premium is already claimed by an earlier miner, so a batch run only earns the standard weight, not the originality bonus. It also carries a live BNB/BEM and NAND/LATCH price strip for both processors, a four-step commit-and-sign walkthrough, and a per-task economics table whose columns include estimated daily output, minting cost, hashpower per unit cost, discount to market and static payback days.",
+    summary_zh: "社区批量流片工具：选定一道公开题目及其参考形态的图纸，一次流程内连续流片 N 份，但每一份仍是独立的钱包签名与结算交易。页面会提前披露该题目的\"首创加成\"是否已被更早的矿工拿走——若已被拿走，批量流片只能获得普通权重，没有首创加成。站内另有 BNB/BEM 与双处理器 NAND/LATCH 实时价格条、四步「核对题目→承诺→实时终检→签名流片」流程说明，以及一张逐题经济性表格，列包括预计日产、铸造成本、单位成本算力、低于市场价、静态回本天数。",
     use_cases: ["mining", "tapeout", "batch-execution"],
     safety_en: "Community tool, not an official TapeOut surface. Each tape-out in a batch is a real, irreversible, wallet-signed transaction with a real BNB cost; using a shared template means you are not the original designer of that circuit, so no first-creator premium applies if it was already claimed. Verify every signing request independently.",
     safety_zh: "社区工具，非官方 TapeOut 界面。批量中的每一次流片都是真实、不可逆、需要钱包签名并消耗真实 BNB 的交易；使用共用模板意味着你不是该电路的原创设计者，若首创加成已被他人拿走则不会获得。每一笔签名请求都应独立核验。"
@@ -363,14 +363,14 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "dis404 (community)",
     url: "https://tapeout.pro/",
     original_language: "en",
-    reviewed_at: "2026-08-28T08:15:00Z",
+    reviewed_at: "2026-09-01T04:00:00Z",
     title_en: "tapeout.pro circuit verifier & census",
     title_zh: "tapeout.pro 电路验证器与普查",
-    summary_en: "Independent, read-only tool that checks a taped-out circuit against its declared task's on-chain reference implementation over every possible input (or, for sequential tasks, every input/state pair) rather than only the protocol's 256 fixed public sample vectors. Its Census page publishes a full per-miner correct/mismatch verdict list and a network-wide summary. Reverse-engineered from bytecode since no TapeOut contract is verified on BscScan.",
-    summary_zh: "独立的只读工具，对已流片电路做全输入穷举验算（时序题则做全部输入/状态对），核对是否与其声明题目的官方参考实现真正等价，而不只是通过协议自身抽样的 256 个固定测试向量。其 Census 页面公开了逐个矿工的正确/不匹配判定列表与全网汇总；由于官网合约均未在 BscScan 开源验证，其规则是作者从字节码逆向得到的。",
+    summary_en: "Independent, read-only tool that checks a taped-out circuit against its declared task's on-chain reference implementation over every possible input (or, for sequential tasks, every input/state pair) rather than only the protocol's 256 fixed public sample vectors. Its Census page publishes a per-miner verdict list with three outcomes, not two: correct, mismatch, and \"correct but padded\" — logic that is equivalent but carries surplus gates, which raise b* and therefore base hashpower. The site notes padding is rational for a miner, costing only the first-creator premium. Census also reports bloat, depth and size against the reference. Reverse-engineered from bytecode since no TapeOut contract is verified on BscScan; the site publishes the rules it recovered, including C = A·d^β and H = (b* + K_task·q)·P.",
+    summary_zh: "独立的只读工具，对已流片电路做全输入穷举验算（时序题则做全部输入/状态对），核对是否与其声明题目的官方参考实现真正等价，而不只是通过协议自身抽样的 256 个固定测试向量。其 Census 页面的判定**不是两档而是三档**：正确、不匹配，以及「正确但灌水」——逻辑等价但塞了多余的门，从而抬高 b*、进而抬高基础算力；站点自己指出灌水对矿工是理性选择，代价只是拿不到首创溢价。Census 另有灌水程度、深度、尺寸对比参考实现等列。由于官网合约均未在 BscScan 开源验证，其规则是作者从字节码逆向得到的，站点也公开了逆向出的规则，包括 C = A·d^β 与 H = (b* + K_task·q)·P。",
     use_cases: ["verification", "integrity-research", "census"],
-    safety_en: "Independent community analysis, not an official or on-chain-enforced verdict. A published \"mismatch\" proves the circuit's logic differs from its declared task over the tested input space; it does not by itself prove intent, and the site says so explicitly. Read-only — it never asks for a wallet, a signature or a transaction.",
-    safety_zh: "独立社区分析，不是官方或链上强制生效的判定。被标记\"不匹配\"只证明该电路逻辑在测试范围内与其声明题目不等价，并不能单独证明是故意作弊——作者本人也这样声明。全站只读，不索取钱包、签名或交易。"
+    safety_en: "Independent community analysis, not an official or on-chain-enforced verdict. A published \"mismatch\" proves the circuit's logic differs from its declared task over the tested input space; it does not by itself prove intent, and the site says so explicitly. \"Correct but padded\" is likewise a description of a circuit's shape, not an accusation. The recovered formulas are the author's reverse-engineering of unverified bytecode, not an official specification. Read-only — it never asks for a wallet, a signature or a transaction.",
+    safety_zh: "独立社区分析，不是官方或链上强制生效的判定。被标记\"不匹配\"只证明该电路逻辑在测试范围内与其声明题目不等价，并不能单独证明是故意作弊——作者本人也这样声明；\"正确但灌水\"同样只是对电路形态的描述，不是指控。其公开的公式是作者对未开源验证字节码的逆向结果，不是官方规范。全站只读，不索取钱包、签名或交易。"
   },
   {
     id: "tool-tapeout-vip",
@@ -380,11 +380,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "GuoBTC (community)",
     url: "https://tapeout.vip/",
     original_language: "zh",
-    reviewed_at: "2026-08-29T15:05:00Z",
+    reviewed_at: "2026-09-01T04:00:00Z",
     title_en: "TapeOut VIP live analytics dashboard",
     title_zh: "TapeOut VIP 实时数据看板",
-    summary_en: "Independent trilingual (中/英/한) real-time dashboard: total miners, verified/unverified pool weight, mining progress toward the 21M supply cap, daily emission, BEM price/market cap/FDV, live NAND/LATCH bid-ask for both TapeOut and Behemoth, a per-task \"Rank #1 pioneer\" table, a wallet leaderboard and a hot-task ranking. Reposted approvingly by protocol founder @Blonskr.",
-    summary_zh: "独立的中/英/韩三语实时数据看板：矿机总数、已验证/未验证池权重、对齐 2100 万总供给的挖矿进度、日产出、BEM 价格/市值/FDV、TapeOut 与 Behemoth 双边 NAND/LATCH 实时买卖盘、逐题目的\"Rank #1 首创者\"榜单、钱包排行榜与热门题目排名。协议创始人 @Blonskr 曾转发致意。",
+    summary_en: "Independent trilingual (中/英/한) real-time dashboard: total miners, verified/unverified pool weight, mining progress toward the 21M supply cap, daily emission, BEM price/market cap/FDV, live NAND/LATCH bid-ask for both TapeOut and Behemoth, a per-task \"Rank #1 pioneer\" table, a wallet leaderboard and a hot-task ranking. The task table carries the design shape itself — area, depth and b* as a triple, design cost C, and the first-creator bonus — and the price strip reports the burned share of each transistor type. Reposted approvingly by protocol founder @Blonskr.",
+    summary_zh: "独立的中/英/韩三语实时数据看板：矿机总数、已验证/未验证池权重、对齐 2100 万总供给的挖矿进度、日产出、BEM 价格/市值/FDV、TapeOut 与 Behemoth 双边 NAND/LATCH 实时买卖盘、逐题目的\"Rank #1 首创者\"榜单、钱包排行榜与热门题目排名。其题目表直接给出电路形态本身——面积/深度/b* 三元组、设计成本 C、首创加成，价格条还标出每种晶体管的已销毁比例。协议创始人 @Blonskr 曾转发致意。",
     use_cases: ["analytics", "leaderboard", "price-tracking"],
     safety_en: "Independent community dashboard, not an official source. Reviewed directly: the page is read-only and no wallet-connect, signature or transaction prompt was found anywhere on it. Its per-task \"Rank #1\" and weight figures are the author's own computation; verify methodology independently before relying on any number.",
     safety_zh: "独立社区看板，非官方来源。已直接核实：全站只读，未发现任何钱包连接、签名或交易请求。其逐题目\"Rank #1\"与权重数值均为作者自行计算，使用前应独立核实计算口径。"
