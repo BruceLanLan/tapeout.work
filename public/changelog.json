@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-09-01T16:00:39.528Z",
+  "source": "this repository's git history, limited to the catalogue seed and locale files",
+  "commit_count": 10,
+  "entries": [
+    {
+      "sha": "dd351e3391",
+      "date": "2026-09-01T17:08:30+08:00",
+      "subject": "fix(governance): stop asserting a third-party claim as a protocol fact",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
+    {
+      "sha": "5ed7ec64e8",
+      "date": "2026-09-01T14:50:25+08:00",
+      "subject": "i18n: retranslate the five entries whose source text was rewritten",
+      "scope": [
+        "tool-translations"
+      ],
+      "file_count": 9
+    },
+    {
+      "sha": "4deb6adb2c",
+      "date": "2026-09-01T14:36:20+08:00",
+      "subject": "fix(catalogue): correct a wrong verdict count and record five tools' drifted features",
+      "scope": [
+        "tools"
+      ],
+      "file_count": 1
+    },
+    {
+      "sha": "404301e071",
+      "date": "2026-09-01T01:10:32+08:00",
+      "subject": "fix(governance): a safety line said the opposite of what it meant, in every language",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
+    {
+      "sha": "fb26950ba4",
+      "date": "2026-09-01T01:05:07+08:00",
+      "subject": "i18n: translate the catalogue entries nine locales were reading in English",
+      "scope": [
+        "learning-translations",
+        "tool-translations"
+      ],
+      "file_count": 18
+    },
+    {
+      "sha": "6d2e5f0a43",
+      "date": "2026-08-31T17:32:02+08:00",
+      "subject": "feat(content): add the community material that was submitted but never catalogued",
+      "scope": [
+        "learning",
+        "tools"
+      ],
+      "file_count": 2
+    },
+    {
+      "sha": "8ed7dcb491",
+      "date": "2026-08-31T15:37:34+08:00",
+      "subject": "feat(content): catalog 93bitmap ep6, refresh TapeOutGo entry with liquidity-layer preview",
+      "scope": [
+        "learning",
+        "tools"
+      ],
+      "file_count": 2
+    },
+    {
+      "sha": "3539a75f72",
+      "date": "2026-08-31T15:19:47+08:00",
+      "subject": "feat(ecosystem): catalog TapeOut Index and TapeOut Daily, refresh market/build summaries",
+      "scope": [
+        "tools"
+      ],
+      "file_count": 1
+    },
+    {
+      "sha": "edfaa1680b",
+      "date": "2026-08-31T14:42:10+08:00",
+      "subject": "feat: community hot topics, ecosystem tool health, wallet-risk badges",
+      "scope": [
+        "tools"
+      ],
+      "file_count": 1
+    },
+    {
+      "sha": "69319306ab",
+      "date": "2026-08-31T12:26:10+08:00",
+      "subject": "Initial public release: TapeOut Intelligence",
+      "scope": [
+        "learning",
+        "learning-translations",
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 20
+    }
+  ],
+  "boundary": "A record of when the catalogue changed and what the commit said it changed — not a diff of the entries themselves, and not a claim that every listed change was editorially significant. Commit subjects are written by whoever made the change. Generated at build time from public git history; a change made without a commit could not appear here."
+}

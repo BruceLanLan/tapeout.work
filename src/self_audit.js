@@ -62,6 +62,14 @@ export async function ensureSelfAuditSchema(env) {
       await ensureColumn(env, "tool_content_fingerprints", "surface_items", "TEXT");
       await ensureColumn(env, "tool_content_fingerprints", "last_surface_added", "TEXT");
       await ensureColumn(env, "tool_content_fingerprints", "last_surface_removed", "TEXT");
+      // The surface as it stood at the last human review, and which review that was.
+      // Diffing probe-against-probe answered the wrong question: two changes between
+      // reviews could cancel out, or the first one's labels could be overwritten by
+      // the second, so a reviewer could open the queue and be shown less than had
+      // actually moved. The question they are asking is "what changed since I last
+      // vouched for this", so that is what the baseline has to be.
+      await ensureColumn(env, "tool_content_fingerprints", "baseline_surface", "TEXT");
+      await ensureColumn(env, "tool_content_fingerprints", "baseline_reviewed_at", "TEXT");
     })();
   }
   return selfAuditSchemaReady;
@@ -132,7 +140,7 @@ export async function syncContentDrift(env) {
   await ensureSelfAuditSchema(env);
   const attemptedAt = new Date().toISOString();
   try {
-    const existingRows = await env.DB.prepare("SELECT tool_id, asset_fingerprint, surface_fingerprint, change_count, surface_items FROM tool_content_fingerprints").all();
+    const existingRows = await env.DB.prepare("SELECT tool_id, asset_fingerprint, surface_fingerprint, change_count, surface_items, baseline_surface, baseline_reviewed_at FROM tool_content_fingerprints").all();
     const existing = new Map((existingRows.results || []).map(row => [row.tool_id, row]));
     const results = [];
     for (const tool of CURATED_TOOLS) {
@@ -160,27 +168,35 @@ export async function syncContentDrift(env) {
       // the page — a nav label that appeared or vanished — never an interpretation of
       // what the change means. It turns "go re-read this site" into "this page grew a
       // tab called X", which is the part a human was spending real time on.
-      let previousSurface = null;
-      try { const parsed = JSON.parse(previous?.surface_items ?? "null"); if (Array.isArray(parsed)) previousSurface = parsed; } catch { previousSurface = null; }
       const currentSurface = result.surface || [];
-      // With no stored predecessor there is nothing to diff against, and listing the
+      // Re-baseline when the catalogue says this entry has been reviewed since the
+      // baseline was taken: a fresh human sign-off makes the page as it stands the
+      // new point of comparison.
+      const reviewedAt = tool.reviewed_at || null;
+      const rebaseline = !previous || previous.baseline_reviewed_at !== reviewedAt;
+      let baselineSurface = null;
+      if (!rebaseline) {
+        try { const parsed = JSON.parse(previous?.baseline_surface ?? "null"); if (Array.isArray(parsed)) baselineSurface = parsed; } catch { baselineSurface = null; }
+      }
+      const nextBaselineSurface = rebaseline ? currentSurface : (baselineSurface ?? currentSurface);
+      // With no comparable baseline there is nothing to diff against, and listing the
       // whole current surface as "added" would read as a sweeping change when the
       // truth is that we simply were not recording labels yet. Report it as unknown.
-      const haveBaseline = previousSurface !== null;
-      const added = changed && haveBaseline ? currentSurface.filter(item => !previousSurface.includes(item)).slice(0, 25) : null;
-      const removed = changed && haveBaseline ? previousSurface.filter(item => !currentSurface.includes(item)).slice(0, 25) : null;
+      const added = baselineSurface ? currentSurface.filter(item => !baselineSurface.includes(item)).slice(0, 25) : null;
+      const removed = baselineSurface ? baselineSurface.filter(item => !currentSurface.includes(item)).slice(0, 25) : null;
       statements.push(env.DB.prepare(`INSERT INTO tool_content_fingerprints
-          (tool_id, url, asset_fingerprint, surface_fingerprint, first_seen_at, last_checked_at, last_changed_at, change_count, last_status, last_error, surface_items, last_surface_added, last_surface_removed)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', NULL, ?, ?, ?)
+          (tool_id, url, asset_fingerprint, surface_fingerprint, first_seen_at, last_checked_at, last_changed_at, change_count, last_status, last_error, surface_items, last_surface_added, last_surface_removed, baseline_surface, baseline_reviewed_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', NULL, ?, ?, ?, ?, ?)
           ON CONFLICT(tool_id) DO UPDATE SET url=excluded.url, asset_fingerprint=excluded.asset_fingerprint,
             surface_fingerprint=excluded.surface_fingerprint, last_checked_at=excluded.last_checked_at,
             last_changed_at=excluded.last_changed_at, change_count=excluded.change_count, last_status='ok', last_error=NULL,
-            surface_items=excluded.surface_items,
+            surface_items=excluded.surface_items, baseline_surface=excluded.baseline_surface, baseline_reviewed_at=excluded.baseline_reviewed_at,
             last_surface_added=CASE WHEN excluded.last_changed_at IS NOT tool_content_fingerprints.last_changed_at THEN excluded.last_surface_added ELSE tool_content_fingerprints.last_surface_added END,
             last_surface_removed=CASE WHEN excluded.last_changed_at IS NOT tool_content_fingerprints.last_changed_at THEN excluded.last_surface_removed ELSE tool_content_fingerprints.last_surface_removed END`)
         .bind(tool.id, tool.url, result.asset_fingerprint, result.surface_fingerprint, attemptedAt, attemptedAt,
           changed ? attemptedAt : (previous?.last_changed_at ?? null), (previous?.change_count ?? 0) + (changed ? 1 : 0),
-          JSON.stringify(currentSurface), added ? JSON.stringify(added) : null, removed ? JSON.stringify(removed) : null));
+          JSON.stringify(currentSurface), added ? JSON.stringify(added) : null, removed ? JSON.stringify(removed) : null,
+          JSON.stringify(nextBaselineSurface), reviewedAt));
     }
     for (let index = 0; index < statements.length; index += 40) await env.DB.batch(statements.slice(index, index + 40));
     await env.DB.prepare("INSERT INTO self_audit_runs (attempted_at, status, checked_count, changed_count, error) VALUES (?, 'ok', ?, ?, NULL)")
@@ -334,6 +350,6 @@ export async function selfAuditOverview(env, localeCoverage = null) {
       locales: measuredCoverage,
     },
     methodology: "Each catalogued tool page is fetched on a six-hourly schedule and reduced to two fingerprints: the set of its script/stylesheet URLs (which change when the site ships a build, and not when a price on it moves) and the title/heading/nav text visible in the served HTML (empty for client-rendered apps). A tool enters the review queue when a fingerprint changed after the date we last reviewed its description.",
-    boundary: "Where the served HTML exposes headings and navigation, the entry lists which of those labels appeared or disappeared — observed strings, not an interpretation of what the change means, and blank for a client-rendered app whose shell carries none. Otherwise this detects that a page changed, never what changed or whether our description is now wrong — a human decides that. A tool absent from the queue is not certified current: a server-rendered edit that ships no new build leaves both fingerprints untouched, and non-HTML destinations cannot be fingerprinted at all. Nothing here is automatically written into the catalogue.",
+    boundary: "Where the served HTML exposes headings and navigation, the entry lists which of those labels appeared or disappeared since the entry was last reviewed — observed strings, not an interpretation of what the change means, and blank for a client-rendered app whose shell carries none. Otherwise this detects that a page changed, never what changed or whether our description is now wrong — a human decides that. A tool absent from the queue is not certified current: a server-rendered edit that ships no new build leaves both fingerprints untouched, and non-HTML destinations cannot be fingerprinted at all. Nothing here is automatically written into the catalogue.",
   };
 }
