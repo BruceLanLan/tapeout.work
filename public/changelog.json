@@ -1,8 +1,18 @@
 {
-  "generated_at": "2026-09-01T17:34:03.246Z",
+  "generated_at": "2026-09-01T20:36:21.184Z",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 10,
+  "commit_count": 11,
   "entries": [
+    {
+      "sha": "57896d9eec",
+      "date": "2026-09-02T01:34:03+08:00",
+      "subject": "catalogue: add the official Telegram group, with the evidence and its limit stated",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "dd351e3391",
       "date": "2026-09-01T17:08:30+08:00",
