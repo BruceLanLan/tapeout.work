@@ -106,6 +106,10 @@ export async function ensureBemTradeSchema(env) {
         fetched_count INTEGER, new_trade_count INTEGER, error TEXT
       )`),
       env.DB.prepare("CREATE INDEX IF NOT EXISTS bem_pool_sync_runs_pool_idx ON bem_pool_sync_runs(pool_id, id DESC)"),
+      // The window aggregate, computed once per sync rather than once per reader.
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS bem_trades_summary (
+        id INTEGER PRIMARY KEY CHECK (id = 1), computed_at TEXT NOT NULL, payload TEXT NOT NULL
+      )`),
       // Single-row persisted cursor for the round-robin trade sync.
       env.DB.prepare(`CREATE TABLE IF NOT EXISTS bem_trade_cursor (
         id INTEGER PRIMARY KEY CHECK (id = 1), next_offset INTEGER NOT NULL DEFAULT 0, updated_at TEXT
@@ -341,6 +345,7 @@ export async function syncBemTrades(env) {
   const error = failed.length ? failed.map(outcome => `${outcome.pool_id}: ${outcome.error}`).join(" | ").slice(0, 500) : null;
   await env.DB.prepare("INSERT INTO bem_trades_sync_runs (attempted_at, status, fetched_count, new_trade_count, error) VALUES (?, ?, ?, ?, ?)")
     .bind(attemptedAt, status, fetchedCount, newTradeCount, error).run();
+  await recomputeBemTradesSummary(env, attemptedAt);
   const retentionBefore = new Date(Date.now() - BEM_TRADES_RETENTION_DAYS * 86400000).toISOString();
   await env.DB.prepare("DELETE FROM bem_trades WHERE block_timestamp < ?").bind(retentionBefore).run();
   // Per-pool run logs are diagnostics, not evidence anyone reads back historically;
@@ -466,74 +471,43 @@ async function bemPoolCoverage(env) {
   };
 }
 
-export async function bemTradesOverview(env) {
-  await ensureBemTradeSchema(env);
-  // Cold-start self-heal only. The five-minute cron is what keeps this domain
-  // fresh; letting a reader's request also drive the upstream fetch meant some
-  // page loads paid ~2s waiting on GeckoTerminal (measured in production). Once
-  // any trade is stored, a request never triggers a network sync again — if the
-  // cron were to stop, the response reports itself stale rather than silently
-  // blocking the reader to hide it.
-  const seeded = await env.DB.prepare("SELECT 1 AS seeded FROM bem_trades LIMIT 1").first();
-  if (!seeded) await ensureBemTradesFresh(env);
-  const [windowResult, totalRow, latestRun, latestSuccessRun, coverage] = await Promise.all([
-    env.DB.prepare(`SELECT id, tx_hash, block_number, block_timestamp, kind, volume_usd, price_usd, tx_from_address, pool_id, pair_label, dex_id FROM bem_trades ORDER BY block_timestamp DESC, id DESC LIMIT ${BEM_TRADES_WINDOW_CAP}`).all(),
-    env.DB.prepare("SELECT COUNT(*) AS total FROM bem_trades").first(),
-    env.DB.prepare("SELECT attempted_at, status, fetched_count, new_trade_count, error FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 1").first(),
-    env.DB.prepare("SELECT attempted_at, status FROM bem_trades_sync_runs WHERE status IN ('updated','no_change','partial') ORDER BY id DESC LIMIT 1").first(),
-    bemPoolCoverage(env),
-  ]);
-  const rows = windowResult.results || [];
-  const freshness = bemTradesFreshness(latestRun, latestSuccessRun, rows.length > 0);
-  const totalStoredCount = Number(totalRow?.total || 0);
-  const coveragePctDisplay = coverage.coverage_pct !== null ? `${coverage.coverage_pct}%` : "an unknown share of";
-  const boundary = `Third-party aggregated DEX trade data for ${coverage.tracked_pool_count} BEM pool${coverage.tracked_pool_count === 1 ? "" : "s"} on BNB Smart Chain (of ${coverage.total_pools_observed} pool${coverage.total_pools_observed === 1 ? "" : "s"} GeckoTerminal currently lists for this token), sourced from GeckoTerminal's public trades feed. Tracked pools are the highest-volume pools covering approximately ${coveragePctDisplay} of observed 24h BEM trading volume; the remaining ${coverage.untracked_pool_count} known pool${coverage.untracked_pool_count === 1 ? "" : "s"} are not tracked and ${coverage.untracked_pool_count === 1 ? "its" : "their"} trades are not reflected here. This is not a complete record of all BEM transfers across the chain, not official TapeOut protocol data, and not a trading signal or recommendation. Wallet addresses are public on-chain data and are never attributed to a real-world identity.`;
-  // Highest-volume tracked pool, kept as the single `source.url`/`source.pair_address` for
-  // backward-compatible callers that only read those legacy fields; the full multi-pool
-  // picture is in `coverage`.
-  const primaryPool = coverage.pools[0] || null;
-  const source = {
-    url: primaryPool ? bemGeckoPoolTradesUrl(primaryPool.pool_id) : BEM_GECKO_TRADES_URL,
-    pair_address: primaryPool ? primaryPool.pool_id : BEM_PRICE_PAIR_ADDRESS.toLowerCase(),
-    pools_source_url: BEM_GECKO_POOLS_URL, provider: "GeckoTerminal (public trades feed)", tracked_pool_count: coverage.tracked_pool_count, freshness,
-  };
+// Pure: the same arithmetic the read path used to run inline, extracted so it can
+// run once per sync over the window instead of once per reader. Rows come in
+// newest-first.
+export function buildBemTradesWindow(rows, totalStoredCount, trackedPoolCount) {
   if (!rows.length) {
     return {
-      status: freshness.status, source,
+      empty: true,
       window: { earliest_block_timestamp: null, latest_block_timestamp: null, trade_count: 0, total_stored_count: totalStoredCount, capped: false },
-      threshold: null, large_trades: [], flow: { buy_count: 0, sell_count: 0, buy_volume_usd: 0, sell_volume_usd: 0, net_flow_usd: 0 },
-      methodology: "No trade has been observed yet across any tracked pool.", boundary, coverage,
+      threshold: null, large_trades: [],
+      flow: { buy_count: 0, sell_count: 0, buy_volume_usd: 0, sell_volume_usd: 0, net_flow_usd: 0 },
     };
   }
   const volumesAscending = rows.map(row => row.volume_usd).filter(value => Number.isFinite(value)).sort((a, b) => a - b);
   const percentileValue = percentile(volumesAscending, BEM_LARGE_TRADE_PERCENTILE);
   const thresholdUsd = Math.max(percentileValue ?? 0, BEM_LARGE_TRADE_FLOOR_USD);
-  // Ranked by size, not recency. `rows` arrives newest-first, so taking the first
-  // N above the threshold silently returned "the largest trades from whichever
-  // pools the round-robin happened to refresh most recently" — a pool synced an
-  // hour ago lost its place to a smaller trade from a pool synced minutes ago,
-  // which made a genuinely multi-pool aggregate look single-pool. A panel titled
-  // "large trades" should rank by trade size, which is also the one ordering that
-  // carries no artifact of our own sync schedule.
+  // Ranked by size, not recency. Taking the newest N above the threshold returned
+  // the largest trades from whichever pools the round-robin happened to refresh
+  // most recently, which is an artifact of our own sync schedule, not the market.
   const largeTrades = rows.filter(row => Number.isFinite(row.volume_usd) && row.volume_usd >= thresholdUsd)
     .sort((a, b) => b.volume_usd - a.volume_usd)
     .slice(0, LARGE_TRADES_LIMIT).map(row => ({
-    tx_hash: row.tx_hash, block_timestamp: row.block_timestamp, kind: row.kind, volume_usd: row.volume_usd, price_usd: row.price_usd,
-    from_address: truncateAddress(row.tx_from_address), bscscan_url: `https://bscscan.com/tx/${row.tx_hash}`,
-    pair_label: row.pair_label || null, dex: row.dex_id || null,
-  }));
+      tx_hash: row.tx_hash, block_timestamp: row.block_timestamp, kind: row.kind, volume_usd: row.volume_usd, price_usd: row.price_usd,
+      from_address: truncateAddress(row.tx_from_address), bscscan_url: `https://bscscan.com/tx/${row.tx_hash}`,
+      pair_label: row.pair_label || null, dex: row.dex_id || null,
+    }));
   const buys = rows.filter(row => row.kind === "buy"), sells = rows.filter(row => row.kind === "sell");
   const sum = list => list.reduce((total, row) => total + (Number.isFinite(row.volume_usd) ? row.volume_usd : 0), 0);
   const buyVolumeUsd = sum(buys), sellVolumeUsd = sum(sells);
   return {
-    status: freshness.status, source,
+    empty: false,
     window: {
       earliest_block_timestamp: rows.at(-1).block_timestamp, latest_block_timestamp: rows[0].block_timestamp,
       trade_count: rows.length, total_stored_count: totalStoredCount, capped: totalStoredCount > rows.length,
     },
     threshold: {
       usd: Math.round(thresholdUsd * 100) / 100, percentile: BEM_LARGE_TRADE_PERCENTILE, floor_usd: BEM_LARGE_TRADE_FLOOR_USD,
-      method: `The greater of the ${BEM_LARGE_TRADE_PERCENTILE}th percentile trade size and a $${BEM_LARGE_TRADE_FLOOR_USD} floor, computed over the ${rows.length} most recently stored trades aggregated across all ${coverage.tracked_pool_count} tracked pools. The floor exists so a quiet window with only small trades never has its biggest trade relabeled "large".`,
+      method: `The greater of the ${BEM_LARGE_TRADE_PERCENTILE}th percentile trade size and a ${BEM_LARGE_TRADE_FLOOR_USD} floor, computed over the ${rows.length} most recently stored trades aggregated across all ${trackedPoolCount} tracked pools. The floor exists so a quiet window with only small trades never has its biggest trade relabeled "large".`,
     },
     large_trades: largeTrades,
     flow: {
@@ -541,7 +515,69 @@ export async function bemTradesOverview(env) {
       buy_volume_usd: Math.round(buyVolumeUsd * 100) / 100, sell_volume_usd: Math.round(sellVolumeUsd * 100) / 100,
       net_flow_usd: Math.round((buyVolumeUsd - sellVolumeUsd) * 100) / 100,
     },
+  };
+}
+
+// Reads the window once, per sync, and stores what a reader needs. Recomputing this
+// on every request meant scanning BEM_TRADES_WINDOW_CAP rows per page load, which is
+// what exhausted this account's daily D1 row-read allowance and took every
+// database-backed endpoint down with it.
+export async function recomputeBemTradesSummary(env, computedAt = new Date().toISOString(), trackedPoolCount = null) {
+  const [windowResult, totalRow] = await Promise.all([
+    env.DB.prepare(`SELECT tx_hash, block_timestamp, kind, volume_usd, price_usd, tx_from_address, pair_label, dex_id FROM bem_trades ORDER BY block_timestamp DESC, id DESC LIMIT ${BEM_TRADES_WINDOW_CAP}`).all(),
+    env.DB.prepare("SELECT COUNT(*) AS total FROM bem_trades").first(),
+  ]);
+  let pools = trackedPoolCount;
+  if (pools === null) {
+    const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM bem_pools WHERE tracked = 1").first();
+    pools = Number(row?.n || 0);
+  }
+  const payload = buildBemTradesWindow(windowResult.results || [], Number(totalRow?.total || 0), pools);
+  await env.DB.prepare("INSERT INTO bem_trades_summary (id, computed_at, payload) VALUES (1, ?, ?) ON CONFLICT(id) DO UPDATE SET computed_at=excluded.computed_at, payload=excluded.payload")
+    .bind(computedAt, JSON.stringify(payload)).run();
+  return payload;
+}
+
+export async function bemTradesOverview(env) {
+  await ensureBemTradeSchema(env);
+  // Cold-start self-heal only. The five-minute cron keeps this domain fresh; letting
+  // a reader's request drive the upstream fetch made some page loads wait ~2s on
+  // GeckoTerminal. Once any trade is stored, a request never triggers a network sync.
+  const seeded = await env.DB.prepare("SELECT 1 AS seeded FROM bem_trades LIMIT 1").first();
+  if (!seeded) await ensureBemTradesFresh(env);
+  // One stored aggregate instead of a window scan per request.
+  const [summaryRow, latestRun, latestSuccessRun, coverage] = await Promise.all([
+    env.DB.prepare("SELECT computed_at, payload FROM bem_trades_summary WHERE id = 1").first(),
+    env.DB.prepare("SELECT attempted_at, status, fetched_count, new_trade_count, error FROM bem_trades_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at, status FROM bem_trades_sync_runs WHERE status IN ('updated','no_change','partial') ORDER BY id DESC LIMIT 1").first(),
+    bemPoolCoverage(env),
+  ]);
+  let summary = null;
+  try { summary = summaryRow?.payload ? JSON.parse(summaryRow.payload) : null; } catch { summary = null; }
+  // Absent only until the first sync after this shipped; built here once so the
+  // endpoint never answers with an empty window it has not actually checked.
+  if (!summary) summary = await recomputeBemTradesSummary(env, new Date().toISOString(), coverage.tracked_pool_count);
+  const freshness = bemTradesFreshness(latestRun, latestSuccessRun, !summary.empty);
+  const coveragePctDisplay = coverage.coverage_pct !== null ? `${coverage.coverage_pct}%` : "an unknown share of";
+  const boundary = `Third-party aggregated DEX trade data for ${coverage.tracked_pool_count} BEM pool${coverage.tracked_pool_count === 1 ? "" : "s"} on BNB Smart Chain (of ${coverage.total_pools_observed} pool${coverage.total_pools_observed === 1 ? "" : "s"} GeckoTerminal currently lists for this token), sourced from GeckoTerminal's public trades feed. Tracked pools are the highest-volume pools covering approximately ${coveragePctDisplay} of observed 24h BEM trading volume; the remaining ${coverage.untracked_pool_count} known pool${coverage.untracked_pool_count === 1 ? "" : "s"} are not tracked and ${coverage.untracked_pool_count === 1 ? "its" : "their"} trades are not reflected here. This is not a complete record of all BEM transfers across the chain, not official TapeOut protocol data, and not a trading signal or recommendation. Wallet addresses are public on-chain data and are never attributed to a real-world identity.`;
+  // Highest-volume tracked pool, kept as the legacy single source fields; the full
+  // multi-pool picture lives in the coverage block.
+  const primaryPool = coverage.pools[0] || null;
+  const source = {
+    url: primaryPool ? bemGeckoPoolTradesUrl(primaryPool.pool_id) : BEM_GECKO_TRADES_URL,
+    pair_address: primaryPool ? primaryPool.pool_id : BEM_PRICE_PAIR_ADDRESS.toLowerCase(),
+    pools_source_url: BEM_GECKO_POOLS_URL, provider: "GeckoTerminal (public trades feed)", tracked_pool_count: coverage.tracked_pool_count, freshness,
+  };
+  const base = {
+    status: freshness.status, source, window: summary.window, threshold: summary.threshold,
+    large_trades: summary.large_trades, flow: summary.flow, coverage, boundary,
+    // When the aggregate was derived, which is not the same instant as when the
+    // trades were fetched; a reader comparing timestamps should see both.
+    summary_computed_at: summaryRow?.computed_at ?? null,
+  };
+  if (summary.empty) return { ...base, methodology: "No trade has been observed yet across any tracked pool." };
+  return {
+    ...base,
     methodology: `Large trades are flagged, not predicted: any trade at or above the computed threshold within the stored window above, aggregated across every tracked pool. "Buy" means quote token swapped for BEM; "sell" means BEM swapped for the quote token, per GeckoTerminal's own trade classification. Each trade's pair_label and dex identify which pool it came from.`,
-    boundary, coverage,
   };
 }
