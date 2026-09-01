@@ -1,6 +1,6 @@
 {
   "locale": "de",
-  "source_catalog_version": "2026-09-01b",
+  "source_catalog_version": "2026-09-01c",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -136,6 +136,11 @@
         "title": "TapeOut Daily – Community-Newsroom",
         "summary": "Inoffizielles Community-Newsroom, das tägliche $BEM-Preis-/Supply-Snapshots, ein KOL-Engagement-Ranking, ein Verzeichnis von Community-Buildern, kuratierte Lehrvideos und einen Tool-Index veröffentlicht. Versteht sich selbst nach dem Motto \"Fakten zurück zu den Originalquellen, Meinungen behalten die Wärme der Community\" und schließt Anlageberatung ausdrücklich aus.",
         "safety": "Redaktionelles Community-Produkt, keine Official-Quelle. Bei der Prüfung wurde auf der Seite keine Wallet-Verbindung gefunden – sie verlinkt zu einem Telegram-Kanal und zu Drittanbieter-Tools. Behandeln Sie jedes Ranking, jeden Preis-Snapshot und jede kuratierte Aussage als redaktionelles Urteil dieser Seite selbst und gleichen Sie sie vor dem Handeln mit Primärquellen ab."
+      },
+      "tool-tg-official-group": {
+        "title": "Official-Telegram-Gruppe von TapeOut",
+        "summary": "Die Telegram-Gruppe, die im X-Profil des Protokollgründers @Blonskr selbst steht. Genau darauf beruht die Aufnahme: dieses Verzeichnis behandelt seine Veröffentlichungen bereits als Quelle auf Official-Ebene, also ist ein Kanal, den er aus seinem eigenen Profil verlinkt, nach demselben Maßstab belegt.",
+        "safety": "Lesen Sie die Argumente dafür und dagegen, bevor Sie dies als Official ansehen. Dafür: Das eigene X-Profil des Gründers verlinkt sie. Dagegen: tapeout.net veröffentlicht überhaupt keine Social-Links — weder Telegram noch X, Discord oder GitHub — die Seite des Protokolls bietet also nichts zum Abgleich, und wer nur der Official-Website vertraut, findet hier keine Bestätigung. Ein Gruppenname, der dem des Protokolls ähnelt, ist nie für sich genommen ein Beleg. Unabhängig vom Status gilt in jedem Chat dieselbe Regel: Das Projekt schreibt Ihnen nicht privat, um für Sie zu entwerfen oder einen TapeOut auszuführen, und jede in einem Chat gepostete Vertragsadresse muss vor dem Signieren mit der Official-Seite abgeglichen werden."
       }
     }
   }

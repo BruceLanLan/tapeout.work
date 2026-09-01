@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-01b",
+  "source_catalog_version": "2026-09-01c",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -136,6 +136,11 @@
         "title": "TapeOut Daily community haber odası",
         "summary": "Günlük $BEM fiyat/arz anlık görüntüleri, bir KOL-etkileşim sıralaması, bir community kurucuları dizini, seçilmiş eğitim videoları ve bir araç dizini yayınlayan Official olmayan community haber odası. Kendisini \"gerçekler orijinal kaynaklara geri döner, görüşler community sıcaklığını korur\" olarak tanımlar ve açıkça yatırım tavsiyesi olmadığını beyan eder.",
         "safety": "Community editoryal ürünü, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama bulunamadı — bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya seçilmiş iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin, harekete geçmeden önce birincil kaynaklarla çapraz kontrol edin."
+      },
+      "tool-tg-official-group": {
+        "title": "TapeOut Official Telegram grubu",
+        "summary": "Protokol kurucusu @Blonskr'ın kendi X profilinde yer alan Telegram grubu. Kayda alma gerekçesi budur: bu dizin onun paylaşımlarını zaten Official düzeyde bir kaynak olarak ele alıyor, dolayısıyla kendi profilinden bağladığı bir kanal aynı ölçütle desteklenmiş sayılır.",
+        "safety": "Official olarak güvenmeden önce lehte ve aleyhte kanıtların ikisini de okuyun. Lehte: kurucunun kendi X profili bu bağlantıyı içeriyor. Aleyhte: tapeout.net hiçbir sosyal bağlantı yayımlamıyor — ne Telegram, ne X, ne Discord, ne GitHub — dolayısıyla protokolün kendi sitesi karşılaştırılacak hiçbir şey sunmuyor ve yalnızca Official siteye güvenen bir okur burada doğrulama bulamaz. Protokole benzeyen bir grup adı hiçbir zaman tek başına kanıt değildir. Durumu ne olursa olsun, her sohbette geçerli kural aynıdır: proje sizin adınıza tasarlamak veya TapeOut yapmak için size özelden yazmaz ve sohbette paylaşılan her sözleşme adresi imzalamadan önce Official siteyle karşılaştırılmalıdır."
       }
     }
   }

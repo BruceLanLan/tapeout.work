@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-01b";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-01c";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -422,6 +422,23 @@ export const CURATED_TOOLS = Object.freeze([
     use_cases: ["navigation", "discovery"],
     safety_en: "Community directory, not an official source. No wallet-connect, signature or transaction prompt was found on the page during review; it only links out. Verify any linked tool independently before connecting a wallet there.",
     safety_zh: "社区导航站，非官方来源。审核时页面未发现钱包连接、签名或交易请求，仅做外部链接跳转。跳转到任何被链接的工具前应独立核实。"
+  },
+  {
+    id: "tool-tg-official-group",
+    wallet_risk: "read_only",
+    category: "community_news",
+    tier: "official",
+    operator: "TapeOut Protocol (linked by founder @Blonskr)",
+    url: "https://t.me/TapeOutnet",
+    original_language: "en",
+    reviewed_at: "2026-09-01T17:40:00Z",
+    title_en: "TapeOut official Telegram group",
+    title_zh: "TapeOut 官方 Telegram 群",
+    summary_en: "The Telegram group carried in protocol founder @Blonskr's own X profile. Catalogued on that evidence: this directory already treats his publications as an official-tier source, so a channel he links from his own profile is corroborated to the same standard.",
+    summary_zh: "协议创始人 @Blonskr 在其 X 个人简介中挂出的 Telegram 群。收录依据即此：本目录本就把他本人的发布当作官方级来源，那么他从自己简介里链出的频道，佐证强度属于同一档。",
+    use_cases: ["announcements", "community-chat"],
+    safety_en: "Read the evidence for and against before trusting this as official. For: the founder's own X profile links it. Against: tapeout.net itself publishes no social links whatsoever — not Telegram, X, Discord or GitHub — so the protocol's own site offers nothing to check it against, and a reader who trusts only the official website has no confirmation here. A group name resembling the protocol's is never itself evidence. Whatever its status, the standing rule holds inside any chat: the project does not DM you to design or tape out on your behalf, and a contract address posted in a chat must be matched against the official site before you sign anything.",
+    safety_zh: "把支持与反对的证据都读完再决定是否当作官方。支持：创始人本人的 X 简介链接了它。反对：tapeout.net 官网**完全不公布任何社交链接**——没有 Telegram、X、Discord 或 GitHub——所以协议自己的站点无法为它提供任何佐证；只信任官网的读者在这里得不到确认。群名与协议相似本身绝不构成证据。无论其身份如何，聊天群内的通行规则不变：项目方不会私信替你设计或代你流片；任何在聊天中出现的合约地址，签名前必须先与官网核对。"
   },
   {
     id: "tool-tg-large-trade-alerts",

@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-01b",
+  "source_catalog_version": "2026-09-01c",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -136,6 +136,11 @@
         "title": "TapeOut Daily — redação comunitária",
         "summary": "Redação comunitária não oficial que publica snapshots diários de preço/oferta do $BEM, um ranking de engajamento de KOLs, um diretório de construtores da comunidade, vídeos educacionais selecionados e um índice de ferramentas. Se apresenta com o lema \"fatos voltam às fontes originais, opiniões mantêm o calor da comunidade\" e nega explicitamente ser aconselhamento de investimento.",
         "safety": "Produto editorial da Community, não é uma fonte Official. Nenhuma conexão de carteira foi encontrada na página durante a revisão — ela linka para um canal do Telegram e para ferramentas de terceiros. Trate qualquer ranking, snapshot de preço ou afirmação selecionada como julgamento editorial próprio deste site, e faça a checagem cruzada com fontes primárias antes de agir."
+      },
+      "tool-tg-official-group": {
+        "title": "Grupo Official de Telegram do TapeOut",
+        "summary": "O grupo de Telegram que consta no próprio perfil de X do fundador do protocolo, @Blonskr. É nisso que se baseia a inclusão: este diretório já trata as publicações dele como fonte de nível Official, portanto um canal que ele liga a partir do próprio perfil fica corroborado pelo mesmo critério.",
+        "safety": "Leia as evidências a favor e contra antes de tratar isto como Official. A favor: o próprio perfil de X do fundador liga o grupo. Contra: o tapeout.net não publica nenhum link social — nem Telegram, nem X, nem Discord, nem GitHub — de modo que o site do próprio protocolo não oferece nada com que confrontar, e quem confia apenas no site Official não obtém aqui qualquer confirmação. Um nome de grupo parecido com o do protocolo nunca é, por si só, prova. Seja qual for o seu estatuto, dentro de qualquer chat vale a regra de sempre: o projeto não lhe manda mensagem privada para desenhar ou fazer TapeOut em seu nome, e qualquer endereço de contrato publicado num chat deve ser confrontado com o site Official antes de assinar."
       }
     }
   }

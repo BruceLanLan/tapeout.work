@@ -1,6 +1,6 @@
 {
   "locale": "ja",
-  "source_catalog_version": "2026-09-01b",
+  "source_catalog_version": "2026-09-01c",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -136,6 +136,11 @@
         "title": "TapeOut Dailyコミュニティニュースルーム",
         "summary": "毎日の$BEM価格・供給スナップショット、KOLエンゲージメントランキング、コミュニティビルダーディレクトリ、厳選された学習動画、ツールインデックスを発行する非公式のコミュニティニュースルームです。「事実は一次情報源に立ち返り、意見にはコミュニティの温かみを残す」と自称し、投資助言ではないと明確に否定しています。",
         "safety": "コミュニティの編集コンテンツであり、公式情報源ではありません。レビュー時点でページ上にウォレット接続は見つからず、Telegramチャンネルとサードパーティツールにリンクしているのみです。ランキング、価格スナップショット、キュレーションされた主張はすべてこのサイト自身の編集判断として扱い、行動前に一次情報源と突き合わせてください。"
+      },
+      "tool-tg-official-group": {
+        "title": "TapeOut Official Telegram グループ",
+        "summary": "プロトコル創設者 @Blonskr 本人の X プロフィールに掲載されている Telegram グループです。収録の根拠はこれです。本ディレクトリは彼の投稿をすでに Official な情報源として扱っており、彼が自分のプロフィールからリンクしているチャンネルは同じ基準で裏付けられます。",
+        "safety": "Official と信じる前に賛否両方の根拠を読んでください。賛成：創設者本人の X プロフィールがこれをリンクしています。反対：tapeout.net 自体は Telegram・X・Discord・GitHub いずれのソーシャルリンクも一切公開しておらず、プロトコル自身のサイトで照合する手段がないため、Official サイトのみを信頼する読者はここで確認を得られません。プロトコルに似たグループ名それ自体は証拠になりません。身元にかかわらず、チャット内の原則は変わりません。プロジェクトが DM であなたの代わりに設計したり TapeOut したりすることはなく、チャットに投稿された契約アドレスは署名前に必ず Official サイトと照合してください。"
       }
     }
   }
