@@ -1091,3 +1091,18 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .history-values{display:flex;justify-content:space-between;gap:12px;padding:6px 2px 0;flex-wrap:wrap}
 .history-values span{display:flex;align-items:center;gap:6px}
 .history-panel .history-chart:has(.history-values)+.history-legend{display:none}
+
+/* r40: the self-audit panel. Deliberately styled like the rest of the page rather
+   than as an alert box — this is routine published state, not an incident banner. */
+.self-audit-panel{margin-top:1.15rem;padding:clamp(1rem,1.8vw,1.35rem)}
+.self-audit-summary{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.1rem;margin:.2rem 0 1rem;font:650 .78rem/1.4 var(--font-ui);color:#526a85}
+.self-audit-summary b{color:#163f84}
+.self-audit-state{display:inline-flex;padding:.16rem .5rem;border-radius:999px;font:700 .66rem/1.35 var(--font-ui);text-transform:uppercase;letter-spacing:.04em}
+.self-audit-state.clean{background:rgba(26,127,90,.12);color:#1a7f5a}
+.self-audit-state.attention{background:#fff0b6;color:#8a5a00}
+.self-audit-state.error{background:rgba(180,85,45,.12);color:#b4552d}
+.self-audit-list{list-style:none;margin:0 0 1rem;padding:0;display:grid;gap:.6rem}
+.self-audit-list li{display:grid;gap:.2rem;padding:.6rem .75rem;border:1px solid rgba(16,42,87,.16);border-radius:.6rem;background:#fffefa}
+.self-audit-list a,.self-audit-list b{color:#173f86;font-size:.85rem;text-decoration:none}
+.self-audit-list a:hover{text-decoration:underline;text-underline-offset:.18rem}
+.self-audit-list small{color:#5b6f88;font-size:.74rem;line-height:1.5;overflow-wrap:anywhere}
