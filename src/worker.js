@@ -7,6 +7,7 @@ import { ensureBemHoldersSchema, syncBemHoldersObserved } from "./bem_holders.js
 import { ensureOfficialAssetSchema, syncOfficialThreeAssets, OFFICIAL_ASSET_REFRESH_MINUTES, ensureTransistorCandleSchema, syncTransistorCandles } from "./official_assets.js";
 import { ensureCommunityHolderSchema, syncCommunityProcessorBoard } from "./community.js";
 import { ensureEcosystemHealthSchema, ensureEcosystemHealthFresh } from "./ecosystem_health.js";
+import { ensureSelfAuditSchema, ensureContentDriftFresh } from "./self_audit.js";
 import { ensureBemTradeSchema, ensureBemTradesFresh } from "./bem_trades.js";
 import { api } from "./router.js";
 
@@ -39,6 +40,7 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
   // its own 60-minute maxAgeMinutes gate, so this 5-minute tick only actually re-probes the
   // ~17 external tool URLs once an hour instead of hammering them every 5 minutes.
   await prepare("ecosystem_health", () => ensureEcosystemHealthSchema(env), () => ensureEcosystemHealthFresh(env));
+  await prepare("self_audit", () => ensureSelfAuditSchema(env), () => ensureContentDriftFresh(env));
 
   const outcomes = await Promise.allSettled(jobs.map(job => job.promise));
   outcomes.forEach((outcome, index) => {
