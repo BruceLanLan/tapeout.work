@@ -86,8 +86,8 @@ async function ensureLanguagePack(language) {
   if (!LANGUAGE_CONFIG[language]) return 'en';
   if (text[language]) return language;
   const [uiResult, learningResult] = await Promise.allSettled([
-    fetchJSON(`/i18n/${language}.json?v=2026-09-01-features-r40`),
-    fetchJSON(`/i18n/learning/${language}.json?v=2026-09-01-features-r40`)
+    fetchJSON(`/i18n/${language}.json?v=2026-09-01-features-r41`),
+    fetchJSON(`/i18n/learning/${language}.json?v=2026-09-01-features-r41`)
   ]);
   if (uiResult.status !== 'fulfilled') throw new Error(`Locale ${language} is temporarily unavailable`);
   text[language] = { ...text.en, ...uiResult.value };
@@ -263,7 +263,7 @@ function renderSelfAudit() {
   else if (!queue.length && !findings.length) { bodyEl.innerHTML=`<p class="daily-empty">${escapeHtml(t('selfAuditClean'))}</p>`; }
   else {
     const blocks=[];
-    if (queue.length) blocks.push(`<h4 class="tools-tier-heading">${escapeHtml(t('selfAuditQueueTitle'))} · ${queue.length}</h4><ul class="self-audit-list">${queue.map(row=>`<li><a href="${escapeHtml(row.url)}" target="_blank" rel="noreferrer">${escapeHtml(row.title_en||row.id)}</a><small>${escapeHtml(t('selfAuditReviewed'))} ${escapeHtml(date(row.reviewed_at))} · ${escapeHtml(t('selfAuditChanged'))} ${escapeHtml(date(row.changed_at))}</small></li>`).join('')}</ul>`);
+    if (queue.length) blocks.push(`<h4 class="tools-tier-heading">${escapeHtml(t('selfAuditQueueTitle'))} · ${queue.length}</h4><ul class="self-audit-list">${queue.map(row=>{const add=row.surface_added||[],rem=row.surface_removed||[];const diff=[add.length?`+ ${add.slice(0,4).map(v=>escapeHtml(v.replace(/^(nav|h|title):/,''))).join(', ')}`:'',rem.length?`− ${rem.slice(0,4).map(v=>escapeHtml(v.replace(/^(nav|h|title):/,''))).join(', ')}`:''].filter(Boolean).join(' · ');return `<li><a href="${escapeHtml(row.url)}" target="_blank" rel="noreferrer">${escapeHtml(row.title_en||row.id)}</a><small>${escapeHtml(t('selfAuditReviewed'))} ${escapeHtml(date(row.reviewed_at))} · ${escapeHtml(t('selfAuditChanged'))} ${escapeHtml(date(row.changed_at))}</small>${diff?`<small class="self-audit-diff">${diff}</small>`:''}</li>`;}).join('')}</ul>`);
     if (findings.length) blocks.push(`<h4 class="tools-tier-heading">${escapeHtml(t('selfAuditFindingsTitle'))} · ${findings.length}</h4><ul class="self-audit-list">${findings.map(f=>`<li><b>${escapeHtml(f.check)}</b><small>${escapeHtml(f.detail)}</small></li>`).join('')}</ul>`);
     bodyEl.innerHTML=blocks.join('');
   }

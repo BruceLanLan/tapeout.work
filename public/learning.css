@@ -1106,3 +1106,5 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .self-audit-list a,.self-audit-list b{color:#173f86;font-size:.85rem;text-decoration:none}
 .self-audit-list a:hover{text-decoration:underline;text-underline-offset:.18rem}
 .self-audit-list small{color:#5b6f88;font-size:.74rem;line-height:1.5;overflow-wrap:anywhere}
+
+.self-audit-diff{font:650 .72rem/1.5 var(--mono,ui-monospace,monospace);color:#41658e;overflow-wrap:anywhere}
