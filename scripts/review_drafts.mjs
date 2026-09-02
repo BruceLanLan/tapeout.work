@@ -28,7 +28,7 @@ const MODEL = opt("--model", "sonnet");
 const CLAUDE_BIN = process.env.CLAUDE_BIN || "claude";
 const OUT_DIR = new URL("../reviews/pending/", import.meta.url).pathname;
 const UA = "tapeout.work-catalogue-review/1.0 (+https://tapeout.work)";
-const EXCERPT_MAX_LINES = 140, EXCERPT_MAX_CHARS = 14_000;
+const EXCERPT_MAX_LINES = 220, EXCERPT_MAX_CHARS = 22_000;
 
 // ---- which tools -----------------------------------------------------------------
 let targets = [];
@@ -69,14 +69,32 @@ function viaChrome(url) {
   if (lines.length < 3) throw new Error("chrome DOM had no text");
   return lines;
 }
-async function fetchExcerpt(url) {
+async function fetchOne(url) {
   const attempts = [["r.jina.ai", () => viaJina(url)], ["headless chrome", () => viaChrome(url)]];
   const errors = [];
   for (const [name, fn] of attempts) {
-    try { const lines = await fn(); return { path: name, lines: cap(lines), errors }; }
+    try { const lines = await fn(); return { path: name, lines, errors }; }
     catch (e) { errors.push(`${name}: ${e.message}`); }
   }
   return { path: null, lines: [], errors };
+}
+// An entry that describes sub-pages (/circuits, /mining, ...) cannot be judged from
+// the root alone — the first dry run returned a 24-line FAQ for a site whose entry
+// is about three other sections. Fetch every path the entry itself names.
+function namedPaths(tool) {
+  const text = `${tool.summary_en} ${tool.summary_zh}`;
+  return [...new Set((text.match(/(?<![\w.])\/[a-z][a-z0-9-]*(?:\/[a-z0-9-]+)*/g) || []))].slice(0, 6);
+}
+async function fetchExcerpt(url, tool) {
+  const root = await fetchOne(url);
+  let lines = root.lines, path = root.path; const errors = [...root.errors];
+  for (const sub of namedPaths(tool)) {
+    const target = new URL(sub, url).toString();
+    const r = await fetchOne(target);
+    if (r.path) { lines = [...lines, `=== ${sub} ===`, ...r.lines]; path = path ? `${path} (+${sub})` : `${r.path} (${sub})`; }
+    else errors.push(...r.errors.map(e => `${sub}: ${e}`));
+  }
+  return { path, lines: cap(lines), errors };
 }
 const cap = lines => { const out = []; let chars = 0; for (const l of lines) { if (out.length >= EXCERPT_MAX_LINES || chars + l.length > EXCERPT_MAX_CHARS) break; out.push(l.slice(0, 400)); chars += l.length; } return out; };
 
@@ -108,6 +126,7 @@ function draft(tool, lines, claims, queued) {
     "Answer directly from the material below; you have no tools and need none.",
     "You are reviewing one entry of a public, evidence-first catalogue of TapeOut-protocol community tools. The catalogue's rule: every sentence must be something a reviewer saw on the page. You are given the entry as it stands and a numbered excerpt of the page as served today.",
     "Decide: \"still_accurate\" (the entry needs no text change), \"revise\" (propose replacement summary_en and summary_zh), or \"unverifiable\" (the excerpt does not let you judge).",
+    "Absence is not evidence: never remove or weaken a claim merely because this excerpt does not show it — these pages are client-rendered and an excerpt is often a fraction of the page. Revise only what the excerpt contradicts or extends; if the excerpt is too thin to cover what the entry describes, answer unverifiable.",
     "If you revise: keep the entry's register and its safety boundaries; do not add any capability the excerpt does not show; every new or changed claim must cite excerpt line numbers in `citations` (integers). Do not quote live numbers (prices, counts) — describe the surfaces and counters instead. Keep the same length class as the current entry.",
     "Output only JSON: { \"verdict\": \"still_accurate\"|\"revise\"|\"unverifiable\", \"summary_en\": string|null, \"summary_zh\": string|null, \"citations\": [int], \"rationale\": string }",
     "",
@@ -142,7 +161,7 @@ for (const id of targets) {
   const tool = CURATED_TOOLS.find(t => t.id === id);
   const queued = queue.get(id) || null;
   process.stdout.write(`${id}: fetching… `);
-  const { path, lines, errors } = await fetchExcerpt(tool.url);
+  const { path, lines, errors } = await fetchExcerpt(tool.url, tool);
   const claims = path ? [...claimCheck(tool.summary_en, lines), ...claimCheck(tool.summary_zh, lines).map(c => ({ ...c, lang: "zh" }))] : [];
   let proposal = null, cost = null;
   let status = path ? "draft" : "unverifiable";

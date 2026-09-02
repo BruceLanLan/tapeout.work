@@ -197,7 +197,9 @@ export async function translateStale({ locales = LOCALES, model = "sonnet", stub
       .map(([id, t]) => ({ id, english: sourceFieldsFor("tools", CURATED_TOOLS.find(e => e.id === id) || {}).en, translation: { title: t.title, summary: t.summary, safety: t.safety } }));
 
     console.log(`${locale}: translating ${stale.length} entr${stale.length === 1 ? "y" : "ies"} (${stale.map(s => s.id).join(", ")})`);
-    const translated = stub ? stubTranslate(locale, items) : callModel(translatePrompt(locale, items, references), model);
+    let translated;
+    try { translated = stub ? stubTranslate(locale, items) : callModel(translatePrompt(locale, items, references), model); }
+    catch (error) { for (const id of Object.keys(items)) summary.rejected.push({ locale, id, reason: `locale run failed: ${String(error?.message || error).slice(0, 160)}` }); continue; }
     summary.cost_usd += translated.cost_usd || 0;
 
     const pairs = {};
@@ -208,7 +210,7 @@ export async function translateStale({ locales = LOCALES, model = "sonnet", stub
     let verdicts = {};
     if (Object.keys(pairs).length) {
       if (stub) { for (const id of Object.keys(pairs)) verdicts[id] = { verdict: "pass", caveats: [], added_claims: [] }; }
-      else { const v = callModel(verifyPrompt(locale, pairs), model); verdicts = v.json; summary.cost_usd += v.cost_usd || 0; }
+      else { try { const v = callModel(verifyPrompt(locale, pairs), model); verdicts = v.json; summary.cost_usd += v.cost_usd || 0; } catch (error) { verdicts = {}; console.warn(`  ${locale}: verification call failed (${String(error?.message || error).slice(0, 120)}); nothing written for this locale`); } }
     }
     for (const [id, pair] of Object.entries(pairs)) {
       const verdict = verdicts[id];

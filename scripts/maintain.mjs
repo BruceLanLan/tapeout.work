@@ -76,23 +76,29 @@ const decisions = [];
 for (const t of run.tools) {
   let action = "left pending";
   if (t.status === "draft" && t.verdict === "still_accurate") action = "revouch";
-  else if (t.status === "draft" && t.verdict === "revise" && !t.invalid && t.summary_en_after && t.summary_zh_after) action = "approved";
+  else if (t.status === "draft" && t.verdict === "revise" && !t.invalid && t.summary_en_after && t.summary_zh_after) {
+    // A revision that shrinks the entry has probably dropped a claim on thin
+    // evidence; that judgement belongs to a person, not to this script.
+    action = t.summary_en_after.length < t.summary_en_before.length * 0.85 ? "left pending (revision removes content)" : "approved";
+  }
   decisions.push({ ...t, action });
-  if (action !== "left pending") {
+  if (!action.startsWith("left pending")) {
     const file = `reviews/pending/${t.id}.md`;
     const text = readFileSync(file, "utf8").replace(/^status: draft$/m, `status: ${action}`);
     must("mark review", "node", ["-e", "require('fs').writeFileSync(process.argv[1], process.argv[2])", file, text]);
   }
 }
-const applying = decisions.filter(d => d.action !== "left pending");
+const applying = decisions.filter(d => !d.action.startsWith("left pending"));
 if (!applying.length) { log("no draft qualified for automatic application; drafts left in reviews/pending/ for a person"); process.exit(0); }
 
 // ---- branch, apply, translate, gate ----------------------------------------------
 sh("git", ["branch", "-D", BRANCH]);
 must("branch", "git", ["checkout", "-q", "-b", BRANCH]);
 must("apply_reviews", "node", ["scripts/apply_reviews.mjs"], { stdio: "inherit" });
-const tr = sh("node", ["scripts/translate_catalog.mjs"], { env: process.env });
+let tr = sh("node", ["scripts/translate_catalog.mjs"], { env: process.env });
+if (tr.status !== 0 && !/translated \d+/.test(tr.stdout)) { log("translate step crashed; retrying once"); console.error((tr.stderr || "").replace(/SessionEnd hook[^\n]*/g, "").slice(0, 600)); tr = sh("node", ["scripts/translate_catalog.mjs"], { env: process.env }); }
 process.stdout.write(tr.stdout);
+if (tr.status !== 0 && !/translated \d+/.test(tr.stdout)) console.error("translate step failed twice:\n" + (tr.stderr || "").replace(/SessionEnd hook[^\n]*/g, "").slice(0, 600));
 const trSummary = (tr.stdout.match(/translated (\d+), rejected (\d+), cost ≈ \$([\d.]+)/) || []);
 const rejected = [...tr.stdout.matchAll(/REJECTED ([^\n]+)/g)].map(m => m[1]);
 cost += Number(trSummary[3] || 0);
@@ -110,7 +116,7 @@ const body = [];
 body.push(`Automated catalogue review — catalogue → ${catalogVersion}. **Merging this PR is the human review**: the reviewed_at stamps inside read as the date the drafts were made (${run.generated_at.slice(0, 16)}Z); this PR is regenerated if it stays open more than ${MAX_PR_AGE_DAYS} days so that date never drifts far from the merge.`, "");
 body.push(`Gate: ${gateOk ? "green" : "**RED** — do not merge until fixed"} · translations: ${trSummary[1] ?? "?"} written, ${rejected.length} rejected · model cost ≈ $${cost.toFixed(2)}`, "");
 for (const d of decisions) {
-  body.push(`## ${d.title_en} (\`${d.id}\`) — ${d.action === "left pending" ? "left for a person" : d.action}`);
+  body.push(`## ${d.title_en} (\`${d.id}\`) — ${d.action.startsWith("left pending") ? d.action.replace("left pending", "left for a person") : d.action}`);
   body.push(`Fetched via ${d.fetch_path ?? "nothing (unverifiable)"}, ${d.excerpt_lines} excerpt lines · verdict **${d.verdict ?? "none"}**${d.invalid ? ` (invalid: ${d.invalid})` : ""} · $${(d.cost_usd || 0).toFixed(2)}`);
   if (d.queued) body.push(`Self-audit: page changed ${d.queued.changed_at}, entry reviewed ${d.queued.reviewed_at}.`);
   if (d.rationale) body.push("", `> ${d.rationale.replace(/\n/g, " ")}`);
