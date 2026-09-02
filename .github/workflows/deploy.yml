@@ -34,13 +34,22 @@ jobs:
           node scripts/assert_bem_realtime_scheduler_contract.mjs "$PWD"
       - name: Build changelog
         run: node scripts/build_changelog.mjs
+      # Until the token secret exists, the gate still runs green and the deploy
+      # is skipped with a visible notice instead of failing every push.
+      - name: Check deploy credentials
+        id: creds
+        env: { TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }} }
+        run: |
+          if [ -z "$TOKEN" ]; then echo "present=false" >> "$GITHUB_OUTPUT"; echo "::warning::CLOUDFLARE_API_TOKEN is not set — gate passed, deploy skipped. Add the secret to enable deploy-on-merge."; else echo "present=true" >> "$GITHUB_OUTPUT"; fi
       - name: Deploy
+        if: steps.creds.outputs.present == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
       - name: Verify production serves this commit's catalogue
+        if: steps.creds.outputs.present == 'true'
         run: |
           want=$(grep -o 'ECOSYSTEM_CATALOG_VERSION = "[^"]*"' src/curated_ecosystem_seed.js | cut -d'"' -f2)
           cache=$(grep -o 'features-r[0-9]*' public/index.html | head -1)

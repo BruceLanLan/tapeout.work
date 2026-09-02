@@ -383,16 +383,20 @@ export async function ensureBemTradesFresh(env) {
   });
 }
 
-// Mirrors bem.js's bemFreshness convention: a transient collection error never flips a
-// response that still has real stored data to "error" — it degrades to "stale" (last
-// verified data, delayed refresh). "error" is reserved for having nothing to show at all.
+// A transient collection error never flips a response that still has real stored data
+// to "error"; "error" is reserved for having nothing to show at all. Unlike the price
+// feed, staleness here is judged by data age alone: pools are fetched round-robin from
+// a rate-limited upstream, so the most recent attempt is an error most of the time
+// even while the stored window is an hour old and perfectly usable — calling that
+// "stale" was true of the attempt, not of the data. The failed attempt is still
+// reported, separately, as last_attempt_failed.
 function bemTradesFreshness(latestRun, latestSuccessRun, hasData) {
   const anchor = latestSuccessRun?.attempted_at || null;
   const ageMinutes = anchor ? Math.max(0, Math.round((Date.now() - Date.parse(anchor)) / 60000)) : null;
   const status = !hasData
     ? (latestRun?.status === "error" ? "error" : "pending")
-    : (latestRun?.status === "error" || ageMinutes === null || ageMinutes > BEM_TRADES_HEALTH_MINUTES ? "stale" : "healthy");
-  return { status, age_minutes: ageMinutes, checked_at: anchor, last_run: latestRun || null };
+    : (ageMinutes === null || ageMinutes > BEM_TRADES_HEALTH_MINUTES ? "stale" : "healthy");
+  return { status, age_minutes: ageMinutes, checked_at: anchor, last_attempt_failed: latestRun?.status === "error", last_run: latestRun || null };
 }
 
 // Per-pool freshness for the coverage block. Each tracked pool is only actually re-fetched
@@ -406,7 +410,7 @@ function bemPoolFreshness(latestRun, latestSuccessRun, trackedCount) {
   const ageMinutes = anchor ? Math.max(0, Math.round((Date.now() - Date.parse(anchor)) / 60000)) : null;
   const status = !anchor
     ? (latestRun?.status === "error" ? "error" : "pending")
-    : (latestRun?.status === "error" || ageMinutes > healthMinutes ? "stale" : "healthy");
+    : (ageMinutes > healthMinutes ? "stale" : "healthy");
   return { status, age_minutes: ageMinutes, checked_at: anchor, last_status: latestRun?.status || null, last_error: latestRun?.status === "error" ? latestRun?.error || null : null };
 }
 

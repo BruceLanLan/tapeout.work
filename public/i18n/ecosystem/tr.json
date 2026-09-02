@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-02d",
+  "source_catalog_version": "2026-09-02e",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -46,6 +46,12 @@
         "summary": "NAND/LATCH temellerini, izole bir deneysel cüzdan önerisini, Official sözleşme yükseltilebilirliği açıklamasını ve Official site ile Official olmayan community araçları arasında açık bir ayrımı kapsayan Community başlangıç rehberi. Her imza adımından önce bir risk uyarısı içerir.",
         "source_note": "Community içeriği, asla Official bir kaynak değildir. Rehberin kendi güvenlik uyarıları güçlü bir kalite sinyalidir ama bağımsız doğrulamanın yerini tutmaz.",
         "source_hash": "e43117f19cb55b36"
+      },
+      "official-pod-counterexample-review": {
+        "title": "PoD karşı örnek incelemesi ekliyor: yalnızca örneklenen vektörlere uyan bir Circuit'e herkes itiraz edebilir",
+        "summary": "Kurucunun, 48 saatlik gecikmeyle zincir üzerinde sıraya alınan ve 2026-09-02 16:14:50 UTC'de yürürlüğe gireceği belirtilen bir protokol değişikliği duyurusu. Gönderi, madenciliğin şu anda her Circuit için yalnızca 3 ila 32 resmi vektörü örnekleyerek kontrol ettiğini, en üst sıradaki 534 slotun eksiksiz kontrolünde örnek kontrolünü geçen ancak tüm girdi uzayında referanstan farklılaşan 80 Circuit bulunduğunu (doğrulanmış havuz ağırlığının %13,99'u) ve yükseltmeden sonra herkesin bir karşı örnek gönderebileceğini belirtiyor: itiraz edilen Circuit bu karşı örnekte başarısız olursa, tasarım primi otomatik olarak geri çekilir; dürüst bir madenci bundan etkilenmez. Gönderide iki uygulama sözleşme adresi ve bir öneri hash'i verilmiştir. Bu kayıt incelendiğinde, belirtilen etkinleşme zamanından kısa süre sonra, resmi PoD sayfası bu mekanizmayı henüz açıklamıyordu.",
+        "source_note": "Resmi kurucu gönderisi. 3-32 vektör rakamı, 534'te 80 sayısı ve %13,99 ağırlık payı, gönderinin kendi ifadeleridir; burada bağımsız olarak yeniden üretilmemiştir. Bunlara güvenmeden önce iki sözleşme adresini ve öneri hash'ini zincir üzerinde doğrulayın.",
+        "source_hash": "af47302a10b74e05"
       }
     },
     "tools": {

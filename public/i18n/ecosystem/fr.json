@@ -1,6 +1,6 @@
 {
   "locale": "fr",
-  "source_catalog_version": "2026-09-02d",
+  "source_catalog_version": "2026-09-02e",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -46,6 +46,12 @@
         "summary": "Guide Community pour débutants couvrant les bases de NAND/LATCH, une recommandation de wallet expérimental isolé, la divulgation de l'upgradabilité du contrat Official, et une distinction explicite entre le site Official et les outils Community non officiels. Inclut un avertissement de risque avant chaque étape de signature.",
         "source_note": "Contenu Community, jamais une source Official. Les propres avertissements de sécurité du guide sont un signal de qualité fort mais ne remplacent pas une vérification indépendante.",
         "source_hash": "e43117f19cb55b36"
+      },
+      "official-pod-counterexample-review": {
+        "title": "PoD ajoute la revue de contre-exemples : n'importe qui peut contester un circuit qui ne correspond qu'aux vecteurs échantillonnés",
+        "summary": "Annonce du fondateur d'un changement de protocole mis en file d'attente on-chain avec un délai de 48 heures et déclaré entrer en vigueur le 2026-09-02 à 16:14:50 UTC. Le billet indique que le minage ne vérifie actuellement par sondage que 3 à 32 vecteurs officiels par circuit, qu'une vérification exhaustive des 534 emplacements les mieux classés a révélé 80 circuits qui réussissent la vérification par sondage mais diffèrent de la référence sur l'ensemble de l'espace d'entrée (13,99 % du poids du pool vérifié), et qu'après la mise à niveau, n'importe qui peut soumettre un contre-exemple : si le circuit contesté échoue, sa prime de conception est retirée automatiquement ; un mineur honnête n'est pas affecté. Deux adresses de contrats d'implémentation et un hash de proposition sont fournis dans le billet. Au moment de la revue de cette entrée, peu après l'heure d'activation déclarée, la page Official PoD ne décrivait pas encore ce mécanisme.",
+        "source_note": "Billet Official du fondateur. Le chiffre de 3 à 32 vecteurs, le compte de 80 sur 534 et la part de poids de 13,99 % sont des déclarations du billet lui-même, non reproduites de manière indépendante ici ; vérifiez les deux adresses de contrats et le hash de proposition on-chain avant de vous y fier.",
+        "source_hash": "af47302a10b74e05"
       }
     },
     "tools": {

@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-02d",
+  "source_catalog_version": "2026-09-02e",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -46,6 +46,12 @@
         "summary": "Guia para iniciantes da Community cobrindo os fundamentos de NAND/LATCH, a recomendação de uma carteira experimental isolada, a divulgação sobre a possibilidade de upgrade do contrato Official, e uma distinção explícita entre o site Official e ferramentas não oficiais da comunidade. Inclui um aviso de risco antes de cada etapa de assinatura.",
         "source_note": "Community content, nunca uma fonte Official. Os próprios avisos de segurança do guia são um forte sinal de qualidade, mas não substituem a verificação independente.",
         "source_hash": "e43117f19cb55b36"
+      },
+      "official-pod-counterexample-review": {
+        "title": "PoD adiciona revisão de contraexemplos: qualquer pessoa pode contestar um Circuit que só se ajusta aos vetores amostrados",
+        "summary": "Anúncio do fundador sobre uma mudança de protocolo enfileirada on-chain com atraso de 48 horas e declarada para entrar em vigor em 2026-09-02 16:14:50 UTC. A publicação afirma que a mineração atualmente verifica por amostragem apenas de 3 a 32 vetores Official por Circuit, que uma verificação exaustiva dos 534 slots mais bem classificados encontrou 80 Circuits que passam na verificação por amostragem mas diferem da referência no espaço de entrada completo (13,99% do peso do pool verificado), e que, após a atualização, qualquer pessoa poderá enviar um contraexemplo: se o Circuit contestado não o superar, seu prêmio de design é retirado automaticamente; um minerador honesto não é afetado. Dois endereços de contrato de implementação e um hash de proposta são fornecidos na publicação. Quando este item foi revisado, pouco depois do horário de ativação declarado, a página Official do PoD ainda não descrevia o mecanismo.",
+        "source_note": "Publicação Official do fundador. O número de 3–32 vetores, a contagem de 80 em 534 e a participação de 13,99% do peso são declarações da própria publicação, não reproduzidas de forma independente aqui; verifique os dois endereços de contrato e o hash da proposta on-chain antes de confiar neles.",
+        "source_hash": "af47302a10b74e05"
       }
     },
     "tools": {

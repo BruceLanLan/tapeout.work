@@ -1,6 +1,6 @@
 {
   "locale": "es",
-  "source_catalog_version": "2026-09-02d",
+  "source_catalog_version": "2026-09-02e",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -46,6 +46,12 @@
         "summary": "Guía Community para principiantes que cubre los fundamentos de NAND/LATCH, la recomendación de una wallet experimental aislada, la revelación de que el contrato Official sigue siendo actualizable, y una distinción explícita entre el sitio Official y las herramientas Community no oficiales. Incluye una advertencia de riesgo antes de cada paso de firma.",
         "source_note": "Contenido Community, nunca una fuente Official. Las propias advertencias de seguridad de la guía son una señal fuerte de calidad, pero no sustituyen la verificación independiente.",
         "source_hash": "e43117f19cb55b36"
+      },
+      "official-pod-counterexample-review": {
+        "title": "PoD añade revisión de contraejemplos: cualquiera puede impugnar un circuito que solo se ajusta a los vectores muestreados",
+        "summary": "Anuncio del fundador sobre un cambio de protocolo puesto en cola on-chain con un retraso de 48 horas, declarado para entrar en vigor el 2026-09-02 16:14:50 UTC. La publicación afirma que, actualmente, el mining solo verifica por muestreo (spot-check) de 3 a 32 vectores oficiales por circuito, que una verificación exhaustiva de los 534 espacios mejor clasificados encontró 80 circuitos que pasan la verificación por muestreo pero difieren de la referencia en todo el espacio de entradas (13.99% del peso del pool verificado), y que, tras la actualización, cualquiera puede enviar un contraejemplo: si el circuito impugnado no lo supera, su prima de diseño se retira automáticamente; un minero honesto no se ve afectado. En la publicación se proporcionan dos direcciones de contrato de implementación y un hash de propuesta. Cuando se revisó esta entrada, poco después de la hora de activación declarada, la página Official PoD aún no describía el mecanismo.",
+        "source_note": "Publicación Official del fundador. La cifra de 3 a 32 vectores, el conteo de 80 de 534 y la participación de peso del 13.99% son afirmaciones propias de la publicación, no reproducidas de forma independiente aquí; verifique las dos direcciones de contrato y el hash de propuesta on-chain antes de basarse en ellos.",
+        "source_hash": "af47302a10b74e05"
       }
     },
     "tools": {

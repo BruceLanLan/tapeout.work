@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02d";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02e";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -130,6 +130,24 @@ export const CURATED_UPDATES = Object.freeze([
     source_note_en: "Community content, never an official source. The guide's own safety warnings are a strong signal of quality but do not replace independent verification.",
     source_note_zh: "社区内容，绝非官方来源。文中的安全提示质量较高，但不能替代独立核验。",
     risk_tags: ["community-not-official", "read-only-first", "no-return-promise"]
+  },
+  {
+    id: "official-pod-counterexample-review",
+    source_type: "x_post",
+    tier: "official",
+    author: "@Blonskr",
+    url: "https://x.com/Blonskr/status/2094644591425401189",
+    original_language: "zh",
+    topics: ["pod", "verification", "protocol-change"],
+    published_at: "2026-09-01T04:32:41Z",
+    reviewed_at: "2026-09-02T16:40:00Z",
+    title_en: "PoD adds counterexample review: anyone can challenge a circuit that only fits the sampled vectors",
+    title_zh: "PoD 新增反例审查：任何人可挑战只拟合抽检点的电路",
+    summary_en: "Founder's announcement of a protocol change queued on-chain with a 48-hour delay and stated to take effect at 2026-09-02 16:14:50 UTC. The post states that mining currently spot-checks only 3 to 32 official vectors per circuit, that an exhaustive check of the 534 top-ranked slots found 80 circuits which pass the spot check but differ from the reference over the full input space (13.99% of verified-pool weight), and that after the upgrade anyone can submit a counterexample: if the challenged circuit fails it, its design premium is withdrawn automatically; an honest miner is unaffected. Two implementation contract addresses and a proposal hash are given in the post. When this entry was reviewed, shortly after the stated activation time, the official PoD page did not yet describe the mechanism.",
+    summary_zh: "创始人宣布的一项协议变更：已提交上链排队、48 小时延迟，声明于 2026-09-02 16:14:50 UTC 生效。原帖称，目前电路挖矿只对每个电路抽检 3~32 条官方向量；对 534 个最优槽逐条穷举后发现 80 个电路能通过抽检、却在全输入空间上与参考实现不符（占已验证池权重 13.99%）；升级后任何人都能提交一条反例，被挑战的电路若通不过，其设计溢价将被系统自动撤回，诚实矿工不受影响。帖中给出了两个实现合约地址和一个提案哈希。本条目审核时（声明生效时间刚过），官方 PoD 页面尚未描述这一机制。",
+    source_note_en: "Official founder post. The 3–32 vector figure, the 80-of-534 count and the 13.99% weight share are the post's own statements, not independently reproduced here; verify the two contract addresses and the proposal hash on-chain before relying on them.",
+    source_note_zh: "官方创始人原帖。3~32 条向量、534 中的 80 个、13.99% 权重占比均为原帖自述，本站未独立复现；依赖前请在链上核验帖中两个合约地址与提案哈希。",
+    risk_tags: ["official-rules", "verify-contract", "protocol-change"]
   }
 ]);
 

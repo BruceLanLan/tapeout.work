@@ -1,6 +1,6 @@
 {
   "locale": "de",
-  "source_catalog_version": "2026-09-02d",
+  "source_catalog_version": "2026-09-02e",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -46,6 +46,12 @@
         "summary": "Community-Einsteigerleitfaden zu den NAND/LATCH-Grundlagen, der Empfehlung einer isolierten Experimentier-Wallet, dem Hinweis auf die Upgradebarkeit der Official-Verträge und einer klaren Unterscheidung zwischen der Official-Seite und inoffiziellen Community-Tools. Enthält vor jedem Signaturschritt eine Risikowarnung.",
         "source_note": "Community-Inhalt, niemals eine Official-Quelle. Die eigenen Sicherheitshinweise des Leitfadens sind ein starkes Qualitätssignal, ersetzen aber keine unabhängige Prüfung.",
         "source_hash": "e43117f19cb55b36"
+      },
+      "official-pod-counterexample-review": {
+        "title": "PoD führt Gegenbeispiel-Prüfung ein: Jeder kann einen Circuit anfechten, der nur zu den Stichprobenvektoren passt",
+        "summary": "Ankündigung des Gründers zu einer Protokolländerung, die on-chain mit einer 48-stündigen Verzögerung eingereiht wurde und die laut Angabe am 2026-09-02 16:14:50 UTC in Kraft treten soll. Der Beitrag besagt, dass das Mining derzeit pro Circuit nur 3 bis 32 offizielle Vektoren stichprobenartig prüft, dass eine erschöpfende Prüfung der 534 bestplatzierten Slots 80 Circuits ergab, die die Stichprobenprüfung bestehen, jedoch über den gesamten Eingaberaum vom Referenzwert abweichen (13,99 % des Gewichts des verifizierten Pools), und dass nach dem Upgrade jeder ein Gegenbeispiel einreichen kann: Besteht der angefochtene Circuit die Prüfung nicht, wird seine Design-Prämie automatisch entzogen; ein ehrlicher Miner ist davon nicht betroffen. Im Beitrag werden zwei Vertragsadressen der Implementierung sowie ein Proposal-Hash genannt. Zum Zeitpunkt der Prüfung dieses Eintrags, kurz nach dem angegebenen Aktivierungszeitpunkt, beschrieb die offizielle PoD-Seite den Mechanismus noch nicht.",
+        "source_note": "Offizieller Beitrag des Gründers. Die Angabe von 3–32 Vektoren, die Zahl 80 von 534 sowie der Gewichtsanteil von 13,99 % sind Eigenangaben des Beitrags und wurden hier nicht unabhängig nachvollzogen; verifizieren Sie die beiden Vertragsadressen und den Proposal-Hash on-chain, bevor Sie sich darauf verlassen.",
+        "source_hash": "af47302a10b74e05"
       }
     },
     "tools": {
