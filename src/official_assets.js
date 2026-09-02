@@ -46,6 +46,19 @@ export async function ensureOfficialAssetSchema(env) {
       id INTEGER PRIMARY KEY AUTOINCREMENT, attempted_at TEXT NOT NULL, status TEXT NOT NULL, cpu_generated_at TEXT,
       market_generated_at TEXT, source_block INTEGER, project_count INTEGER, minter_address_count INTEGER, open_bid_count INTEGER, error TEXT
     )`),
+    // Current-state tables, written as deltas. The per-snapshot row tables above
+    // rewrote every minter (~1,000) and every open bid (~350) each time the source
+    // hash moved — 49 times in one day, 65k rows, most of D1's free-tier daily write
+    // budget — and took the site down at the limit. They are kept as history and no
+    // longer written to; these hold the same information at a few dozen writes a day.
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS official_asset_minters_current (
+      project_key TEXT NOT NULL, address TEXT NOT NULL, cumulative_minted TEXT NOT NULL, snapshot_id INTEGER NOT NULL,
+      prev_cumulative_minted TEXT, prev_snapshot_id INTEGER, PRIMARY KEY(project_key, address)
+    )`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS official_asset_open_bids_current (
+      project_key TEXT NOT NULL, order_id TEXT NOT NULL, buyer_address TEXT NOT NULL, token_id INTEGER NOT NULL,
+      price_raw TEXT NOT NULL, remaining_raw TEXT NOT NULL, snapshot_id INTEGER NOT NULL, PRIMARY KEY(project_key, order_id)
+    )`),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_snapshots_observed_idx ON official_asset_snapshots(observed_at DESC)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_minter_rows_snapshot_idx ON official_asset_minter_rows(snapshot_id, project_key)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_open_bid_rows_snapshot_idx ON official_asset_open_bid_rows(snapshot_id, project_key)"),
@@ -114,8 +127,36 @@ export async function syncOfficialThreeAssets(env) {
     const statements = [];
     for (const project of source.projects) {
       statements.push(env.DB.prepare("INSERT INTO official_asset_project_rows (snapshot_id, project_key, project_name, processor_address, transistor_address, source_block, holder_count, minter_count, cumulative_minted, open_bid_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").bind(snapshotId, project.key, project.name, project.processor_address, project.transistor_address, project.source_block, project.holder_count, project.minter_count, project.cumulative_minted, project.open_bids.length));
-      for (const minter of project.minters) statements.push(env.DB.prepare("INSERT INTO official_asset_minter_rows (snapshot_id, project_key, address, cumulative_minted) VALUES (?, ?, ?, ?)").bind(snapshotId, project.key, minter.address, minter.cumulative_minted));
-      for (const bid of project.open_bids) statements.push(env.DB.prepare("INSERT INTO official_asset_open_bid_rows (snapshot_id, project_key, order_id, buyer_address, token_id, price_raw, remaining_raw) VALUES (?, ?, ?, ?, ?, ?, ?)").bind(snapshotId, project.key, bid.order_id, bid.buyer_address, bid.token_id, bid.price_raw, bid.remaining_raw));
+    }
+    // Minters and bids: write only what changed against the current-state tables.
+    const [currentMinters, currentBids] = await Promise.all([
+      env.DB.prepare("SELECT project_key, address, cumulative_minted FROM official_asset_minters_current").all(),
+      env.DB.prepare("SELECT project_key, order_id, price_raw, remaining_raw FROM official_asset_open_bids_current").all(),
+    ]);
+    const minterNow = new Map((currentMinters.results || []).map(r => [`${r.project_key}|${r.address}`, r]));
+    const bidNow = new Map((currentBids.results || []).map(r => [`${r.project_key}|${r.order_id}`, r]));
+    const seenBids = new Set();
+    for (const project of source.projects) {
+      for (const minter of project.minters) {
+        const key = `${project.key}|${minter.address}`, prev = minterNow.get(key);
+        if (prev && String(prev.cumulative_minted) === String(minter.cumulative_minted)) continue;
+        statements.push(env.DB.prepare(`INSERT INTO official_asset_minters_current (project_key, address, cumulative_minted, snapshot_id, prev_cumulative_minted, prev_snapshot_id) VALUES (?, ?, ?, ?, NULL, NULL)
+          ON CONFLICT(project_key, address) DO UPDATE SET prev_cumulative_minted=official_asset_minters_current.cumulative_minted, prev_snapshot_id=official_asset_minters_current.snapshot_id, cumulative_minted=excluded.cumulative_minted, snapshot_id=excluded.snapshot_id`)
+          .bind(project.key, minter.address, minter.cumulative_minted, snapshotId));
+      }
+      for (const bid of project.open_bids) {
+        const key = `${project.key}|${bid.order_id}`; seenBids.add(key);
+        const prev = bidNow.get(key);
+        if (prev && String(prev.remaining_raw) === String(bid.remaining_raw) && String(prev.price_raw) === String(bid.price_raw)) continue;
+        statements.push(env.DB.prepare(`INSERT INTO official_asset_open_bids_current (project_key, order_id, buyer_address, token_id, price_raw, remaining_raw, snapshot_id) VALUES (?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(project_key, order_id) DO UPDATE SET buyer_address=excluded.buyer_address, token_id=excluded.token_id, price_raw=excluded.price_raw, remaining_raw=excluded.remaining_raw, snapshot_id=excluded.snapshot_id`)
+          .bind(project.key, bid.order_id, bid.buyer_address, bid.token_id, bid.price_raw, bid.remaining_raw, snapshotId));
+      }
+    }
+    for (const key of bidNow.keys()) {
+      if (seenBids.has(key)) continue;
+      const [projectKey, orderId] = key.split("|");
+      statements.push(env.DB.prepare("DELETE FROM official_asset_open_bids_current WHERE project_key = ? AND order_id = ?").bind(projectKey, orderId));
     }
     for (let index = 0; index < statements.length; index += 100) await env.DB.batch(statements.slice(index, index + 100));
     await recordOfficialAssetRun(env, { attempted_at: attemptedAt, status: "updated", ...source, project_count: source.projects.length, minter_address_count: minterAddressCount, open_bid_count: openBidCount });
@@ -217,18 +258,38 @@ export async function officialAssetAddresses(env, query) {
   if (!snapshot) return { ...base, observed_at: null, comparison_snapshot_observed_at: null, total: 0, page_count: 0, items: [] };
   // Same correlated-subquery collapse as officialAssetOverview: the prior snapshot's rows are
   // fetched without first waiting on a separate prior-snapshot-id round trip.
-  const priorRowsTable = view === "mints" ? "official_asset_minter_rows" : "official_asset_open_bid_rows";
-  const [currentResult, prior, priorRowsResult] = await Promise.all([
-    env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted FROM official_asset_minter_rows WHERE snapshot_id = ?" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bid_rows WHERE snapshot_id = ?").bind(snapshot.id).all(),
+  // Rows come from the current-state tables (see ensureOfficialAssetSchema). For mints,
+  // the change since the previous snapshot is reconstructed per row: a row whose last
+  // write is this snapshot moved by (current - previous value); a row last written
+  // earlier did not move. Bids are a live order set whose removed orders leave no row
+  // behind, so no per-address change is claimed for them.
+  const [currentResult, prior] = await Promise.all([
+    env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted, snapshot_id, prev_cumulative_minted FROM official_asset_minters_current" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bids_current").all(),
     env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots WHERE id < ? ORDER BY id DESC LIMIT 1").bind(snapshot.id).first(),
-    env.DB.prepare(`SELECT ${view === "mints" ? "project_key, address, cumulative_minted" : "project_key, buyer_address, token_id, remaining_raw"} FROM ${priorRowsTable} WHERE snapshot_id = (SELECT id FROM official_asset_snapshots WHERE id < ? ORDER BY id DESC LIMIT 1)`).bind(snapshot.id).all(),
   ]);
-  let currentRows = currentResult.results.filter(row => project === "all" || row.project_key === project);
-  const priorRows = priorRowsResult.results.filter(row => project === "all" || row.project_key === project);
-  let items = officialAddressGroup(currentRows, view), priorItems = new Map(officialAddressGroup(priorRows, view).map(item => [item.address, item]));
+  // Until the first delta write lands (the current tables start empty on the deploy
+  // that introduced them), serve the latest per-snapshot rows read-only.
+  let sourceRows = currentResult.results;
+  if (!sourceRows.length) {
+    const legacy = await env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted, snapshot_id, NULL AS prev_cumulative_minted FROM official_asset_minter_rows WHERE snapshot_id = ?" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bid_rows WHERE snapshot_id = ?").bind(snapshot.id).all();
+    sourceRows = (legacy.results || []).map(row => view === "mints" ? { ...row, snapshot_id: -1 } : row);
+  }
+  let currentRows = sourceRows.filter(row => project === "all" || row.project_key === project);
+  const movedAtLatest = new Map();
+  if (view === "mints") for (const row of currentRows) {
+    if (Number(row.snapshot_id) !== Number(snapshot.id)) continue;
+    const delta = row.prev_cumulative_minted == null ? null : toBigInt(row.cumulative_minted) - toBigInt(row.prev_cumulative_minted);
+    const acc = movedAtLatest.get(row.address) ?? { delta: 0n, isNew: false };
+    if (delta === null) acc.isNew = true; else acc.delta += delta;
+    movedAtLatest.set(row.address, acc);
+  }
+  let items = officialAddressGroup(currentRows, view);
   items = items.map(item => {
-    const previous = priorItems.get(item.address);
-    const change = !previous ? null : view === "mints" ? { cumulative_minted: (toBigInt(item.cumulative_minted) - toBigInt(previous.cumulative_minted)).toString() } : { open_bid_count: item.open_bid_count - previous.open_bid_count, nand_open_bid_remaining: (toBigInt(item.nand_open_bid_remaining) - toBigInt(previous.nand_open_bid_remaining)).toString(), latch_open_bid_remaining: (toBigInt(item.latch_open_bid_remaining) - toBigInt(previous.latch_open_bid_remaining)).toString() };
+    let change = null;
+    if (view === "mints") {
+      const moved = movedAtLatest.get(item.address);
+      change = !moved ? { cumulative_minted: "0" } : moved.isNew && moved.delta === 0n ? null : { cumulative_minted: moved.delta.toString() };
+    }
     return { ...item, bscscan_address_url: `https://bscscan.com/address/${item.address}`, change_from_previous_snapshot: change };
   });
   if (q) items = items.filter(item => `${item.address} ${Object.keys(item.project_breakdown).join(" ")}`.toLowerCase().includes(q));
