@@ -43,8 +43,10 @@ const entries = raw.split(RECORD).slice(1).map(block => {
   return { sha: sha.slice(0, 10), date, subject, scope: [...scope].sort(), file_count: files.length };
 });
 
+// Deterministic on purpose: the output must not change unless the history it
+// summarises does, or every build would leave a spurious "changed file" behind.
 const payload = {
-  generated_at: new Date().toISOString(),
+  newest_commit_at: entries[0]?.date ?? null,
   source: "this repository's git history, limited to the catalogue seed and locale files",
   commit_count: entries.length,
   entries,

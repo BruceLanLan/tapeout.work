@@ -53,9 +53,11 @@ export async function freshnessReport(locales = LOCALES) {
   const hashes = await currentHashes();
   const report = {};
   for (const locale of locales) {
-    report[locale] = { stale: [], total: 0 };
+    report[locale] = { stale: [], total: 0, stamp_lag: [] };
     for (const [kind, spec] of Object.entries(KINDS)) {
       const doc = readDoc(spec.file(locale));
+      const want = kind === "learning" ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION;
+      if (doc.source_catalog_version !== want && !report[locale].stamp_lag.includes(spec.file(locale))) report[locale].stamp_lag.push(spec.file(locale));
       const table = spec.table(doc);
       for (const entry of spec.seed) {
         report[locale].total++;
@@ -164,7 +166,12 @@ export async function translateStale({ locales = LOCALES, model = "sonnet", stub
   const summary = { translated: 0, rejected: [], cost_usd: 0 };
   for (const locale of locales) {
     const stale = report[locale].stale;
-    if (!stale.length) { console.log(`${locale}: current`); continue; }
+    if (!stale.length) {
+      // Nothing to translate, but the informational version stamp still follows
+      // the catalogue so readers of the API see which revision a locale tracks.
+      for (const [kind, spec] of Object.entries(KINDS)) { const file = spec.file(locale); const doc = readDoc(file); const want = kind === "learning" ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION; if (doc.source_catalog_version !== want) { doc.source_catalog_version = want; writeDoc(file, doc); } }
+      console.log(`${locale}: current`); continue;
+    }
     const docs = new Map();
     const items = {}, meta = {};
     for (const { kind, id } of stale) {
