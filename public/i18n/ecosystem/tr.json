@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "TapeOut Daily community haber odası",
-        "summary": "Günlük $BEM fiyat/arz anlık görüntüleri, bir KOL-etkileşim sıralaması, bir community kurucuları dizini, seçilmiş eğitim videoları ve bir araç dizini yayınlayan Official olmayan community haber odası. Kendisini \"gerçekler orijinal kaynaklara geri döner, görüşler community sıcaklığını korur\" olarak tanımlar ve açıkça yatırım tavsiyesi olmadığını beyan eder.",
+        "summary": "Resmî olmayan topluluk haber odası; ana sayfası doğrulama öncelikli bir düzene evrildi: kaynak katmanı etiketi ve kendi doğrulama zaman damgasını taşıyan bir manşet, kayıt anı damgalanıp özgün kaynağa bağlanan zincir üstü arz anlık görüntüleri ve — önceki KOL etkinlik sıralamasının yerine — her gönderinin bir sinyal puanı, bir kaynak katmanı etiketi (kurucu gönderisi, topluluk analizi veya resmî teyit bekliyor) ve kendi doğrulama saatini taşıdığı, kayan 36 saatlik bir topluluk gönderi akışı. Site kendi yayın kuralını açıkça yazıyor: ölçütleri karşılayan içerik azsa az gösterilir — eski gönderiler güncelmiş gibi sunulmaz. Öğrenme yolu, seçilmiş videolar ve araç dizini duruyor; yatırım tavsiyesi olmadığını da açıkça belirtiyor.",
         "safety": "Community editoryal ürünü, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama bulunamadı — bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya seçilmiş iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin, harekete geçmeden önce birincil kaynaklarla çapraz kontrol edin."
       },
       "tool-tg-official-group": {

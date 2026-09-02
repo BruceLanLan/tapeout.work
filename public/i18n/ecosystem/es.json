@@ -1,6 +1,6 @@
 {
   "locale": "es",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "Sala de redacción comunitaria TapeOut Daily",
-        "summary": "Una sala de redacción Community no oficial que publica instantáneas diarias de precio/suministro de $BEM, un ranking de participación de KOL, un directorio de constructores comunitarios, videos educativos seleccionados y un índice de herramientas. Se presenta a sí misma como \"hechos que remiten a las fuentes originales, opiniones que conservan la calidez de la comunidad\" y niega explícitamente ser un consejo de inversión.",
+        "summary": "Sala de prensa comunitaria no oficial cuya portada ha madurado hacia un diseño que prioriza la verificación: una noticia principal etiquetada con su nivel de fuente y su propia marca de tiempo de verificación, instantáneas del suministro on-chain selladas con el momento del registro y enlazadas a la fuente original, y — en sustitución del anterior ranking de actividad de KOL — un flujo continuo de publicaciones comunitarias de 36 horas en el que cada publicación lleva una puntuación de señal, una etiqueta de nivel de fuente (publicación del fundador, análisis comunitario o a la espera de confirmación oficial) y su propia hora de verificación. Enuncia su propia regla editorial de forma explícita: cuando poco contenido cumple los criterios, muestra poco — no presenta publicaciones antiguas como actuales. Mantiene la ruta de aprendizaje, los vídeos seleccionados y el índice de herramientas, y declara expresamente que no constituye asesoramiento de inversión.",
         "safety": "Producto editorial Community, no una fuente Official. No se encontró conexión de wallet en la página durante la revisión — enlaza a un canal de Telegram y a herramientas de terceros. Trate cualquier ranking, instantánea de precio o afirmación curada como el juicio editorial propio de este sitio; verifíquelo con fuentes primarias antes de actuar."
       },
       "tool-tg-official-group": {

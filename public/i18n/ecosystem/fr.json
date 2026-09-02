@@ -1,6 +1,6 @@
 {
   "locale": "fr",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "Salle de rédaction communautaire TapeOut Daily",
-        "summary": "Salle de rédaction Community non officielle publiant des instantanés quotidiens de prix/offre du $BEM, un classement d'engagement des KOL, un répertoire des bâtisseurs de la communauté, des vidéos éducatives sélectionnées et un index d'outils. Se présente comme \"les faits reviennent aux sources d'origine, les opinions conservent la chaleur de la communauté\" et décline explicitement tout conseil d'investissement.",
+        "summary": "Salle de presse communautaire non officielle dont la page d'accueil a mûri vers une mise en page axée sur la vérification : une manchette étiquetée avec son niveau de source et son propre horodatage de vérification, des instantanés de l'offre on-chain datés au moment de l'enregistrement et reliés à la source d'origine, et — remplaçant l'ancien classement d'activité des KOL — un fil glissant de 36 heures de publications communautaires où chaque publication porte un score de signal, un niveau de source (publication du fondateur, analyse communautaire, ou en attente de confirmation officielle) et sa propre heure de vérification. Le site énonce explicitement sa propre règle éditoriale : quand peu de contenu satisfait aux critères, il en montre peu — il ne fait pas passer des publications anciennes pour récentes. Le parcours d'apprentissage, les vidéos sélectionnées et l'index d'outils demeurent, et le site décline expressément tout conseil en investissement.",
         "safety": "Produit éditorial Community, pas une source Official. Aucune connexion wallet n'a été trouvée sur la page lors de la revue — elle renvoie vers un canal Telegram et des outils tiers. Traitez tout classement, instantané de prix ou affirmation sélectionnée comme le jugement éditorial propre à ce site, à recouper avec des sources primaires avant d'agir."
       },
       "tool-tg-official-group": {

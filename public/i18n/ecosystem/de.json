@@ -1,6 +1,6 @@
 {
   "locale": "de",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "TapeOut Daily – Community-Newsroom",
-        "summary": "Inoffizielles Community-Newsroom, das tägliche $BEM-Preis-/Supply-Snapshots, ein KOL-Engagement-Ranking, ein Verzeichnis von Community-Buildern, kuratierte Lehrvideos und einen Tool-Index veröffentlicht. Versteht sich selbst nach dem Motto \"Fakten zurück zu den Originalquellen, Meinungen behalten die Wärme der Community\" und schließt Anlageberatung ausdrücklich aus.",
+        "summary": "Inoffizieller Community-Newsroom, dessen Startseite zu einem verifikationsorientierten Layout gereift ist: eine Topmeldung mit Quellen-Einstufung und eigenem Verifikationszeitstempel, On-Chain-Angebotsschnappschüsse mit Aufnahmezeitpunkt und Rückverlinkung zur Originalquelle, und — an der Stelle des früheren KOL-Aktivitätsrankings — ein rollierender 36-Stunden-Feed von Community-Beiträgen, bei dem jeder Beitrag einen Signalwert, eine Quellen-Einstufung (Gründerbeitrag, Community-Analyse oder auf offizielle Bestätigung wartend) und eine eigene Verifikationszeit trägt. Die Seite nennt ihre eigene Redaktionsregel ausdrücklich: Wenn wenig die Kriterien erfüllt, wird wenig gezeigt — ältere Beiträge werden nicht als aktuell ausgegeben. Lernpfad, kuratierte Videos und Werkzeugindex bestehen weiter, und Anlageberatung wird ausdrücklich ausgeschlossen.",
         "safety": "Redaktionelles Community-Produkt, keine Official-Quelle. Bei der Prüfung wurde auf der Seite keine Wallet-Verbindung gefunden – sie verlinkt zu einem Telegram-Kanal und zu Drittanbieter-Tools. Behandeln Sie jedes Ranking, jeden Preis-Snapshot und jede kuratierte Aussage als redaktionelles Urteil dieser Seite selbst und gleichen Sie sie vor dem Handeln mit Primärquellen ab."
       },
       "tool-tg-official-group": {

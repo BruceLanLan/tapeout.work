@@ -1,6 +1,6 @@
 {
   "locale": "ko",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "TapeOut Daily Community 뉴스룸",
-        "summary": "매일 $BEM 가격/공급량 스냅샷, KOL 활동 랭킹, Community 빌더 디렉토리, 엄선된 교육 영상, 도구 색인을 발행하는 비공식 Community 뉴스룸입니다. \"사실은 원출처로, 의견은 커뮤니티의 온기를 유지한다\"고 스스로를 소개하며 투자 조언이 아님을 명확히 밝힙니다.",
+        "summary": "비공식 커뮤니티 뉴스룸으로, 첫 화면이 검증 우선 레이아웃으로 성숙했습니다. 머리기사에는 출처 등급과 자체 검증 타임스탬프가 붙고, 온체인 공급량 스냅숏에는 기록 시점이 찍히며 원출처로 링크됩니다. 이전의 KOL 활동 랭킹을 대신해 롤링 방식의 「36시간 커뮤니티 게시물 피드」가 자리 잡았고, 각 게시물에는 신호 점수, 출처 등급(창립자 게시물/커뮤니티 분석/공식 확인 대기), 게시물별 검증 시각이 붙습니다. 편집 규칙도 명문화되어 있습니다: 기준을 충족하는 콘텐츠가 적으면 적게 보여준다 — 오래된 게시물을 최신인 것처럼 내세우지 않는다. 학습 경로, 엄선된 영상, 도구 색인은 그대로 제공되며, 투자 조언이 아님을 명시합니다.",
         "safety": "Community 편집물로, Official 출처가 아닙니다. 검토 당시 페이지에서 지갑 연결 기능은 발견되지 않았으며, Telegram 채널과 타사 도구로 링크될 뿐입니다. 어떤 랭킹, 가격 스냅샷, 큐레이션 주장도 이 사이트 자체의 편집 판단으로 취급하고, 행동 전에 1차 출처와 교차 확인하세요."
       },
       "tool-tg-official-group": {

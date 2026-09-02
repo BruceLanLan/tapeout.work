@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-01d";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02a";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -397,7 +397,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "BEM OTC (community)",
     url: "https://bemotc.com/",
     original_language: "zh",
-    reviewed_at: "2026-08-29T15:15:00Z",
+    reviewed_at: "2026-09-02T01:15:00Z",
     title_en: "BEM OTC order-matching market",
     title_zh: "BEM OTC 链上挂单市场",
     summary_en: "Community-built on-chain BEM/USDT peer-to-peer order book on BNB Smart Chain: buyers and sellers post their own price and quantity, funds are locked into the contract at order time, and a trade settles atomically on-chain — intended to fill large orders without moving the thinner AMM pool's price. A 1% fee applies per side.",
@@ -465,11 +465,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "@CryptoLoser9 (community)",
     url: "https://tapeoutdaily.ai/",
     original_language: "zh",
-    reviewed_at: "2026-08-31T09:30:00Z",
+    reviewed_at: "2026-09-02T01:15:00Z",
     title_en: "TapeOut Daily community newsroom",
     title_zh: "TapeOut Daily 社区日报",
-    summary_en: "Unofficial community newsroom publishing daily $BEM price/supply snapshots, a KOL-engagement ranking, a community-builders directory, curated educational videos and a tool index. Presents itself as \"facts back to original sources, opinions retain community warmth\" and explicitly disclaims investment advice.",
-    summary_zh: "非官方社区日报，发布每日 $BEM 价格/供给快照、KOL 活跃度榜单、社区共建者名录、精选教学视频与工具索引；自我定位为\"事实回源，观点留有社区温度\"，并明确声明不构成投资建议。",
+    summary_en: "Unofficial community newsroom whose front page has matured into a verification-first layout: a lead story labelled with its source tier and its own verification timestamp, on-chain supply snapshots stamped with the time of record and linked back to the original source, and — replacing the earlier KOL-engagement ranking — a rolling 36-hour community-post feed where each post carries a signal score, a source-tier label (founder post, community analysis, or awaiting official confirmation) and a per-post verification time. It states its own editorial rule that when little qualifies it shows little, rather than passing off older posts as current. Still offers the learning path, curated videos and tool index, and explicitly disclaims investment advice.",
+    summary_zh: "非官方社区日报，首页已经长成一个核验优先的版式：头条新闻标注来源分级和独立的核验时间戳；链上供给快照记录发布时点并回链原始来源；原先的 KOL 活跃度榜单已演化为滚动的「36 小时社区原帖流」——每条原帖带信号分、来源分级（创始人原帖/社区分析/待官方核对）和逐条核验时间。它明文写出自己的编辑规则：合格内容少就少展示，不拿旧帖冒充最新。教学路径、精选视频与工具索引仍在，并明确声明不构成投资建议。",
     use_cases: ["community-news", "kol-tracking", "discovery"],
     safety_en: "Community editorial product, not an official source. No wallet-connect was found on the page during review — it links to a Telegram channel and to third-party tools. Treat any ranking, price snapshot or curated claim as this site's own editorial judgment, cross-check against primary sources before acting.",
     safety_zh: "社区编辑类产品，非官方来源。审核时页面未发现钱包连接功能，仅链接到 Telegram 频道与第三方工具。任何榜单、价格快照或推荐内容都应视为该站自己的编辑判断，行动前请与一手来源交叉核实。"

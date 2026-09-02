@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-01d",
+  "source_catalog_version": "2026-09-02a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -134,7 +134,7 @@
       },
       "tool-tapeout-daily": {
         "title": "TapeOut Daily — redação comunitária",
-        "summary": "Redação comunitária não oficial que publica snapshots diários de preço/oferta do $BEM, um ranking de engajamento de KOLs, um diretório de construtores da comunidade, vídeos educacionais selecionados e um índice de ferramentas. Se apresenta com o lema \"fatos voltam às fontes originais, opiniões mantêm o calor da comunidade\" e nega explicitamente ser aconselhamento de investimento.",
+        "summary": "Redação comunitária não oficial cuja página inicial amadureceu para um layout que prioriza a verificação: uma manchete rotulada com o nível da fonte e o seu próprio carimbo de hora de verificação, instantâneos da oferta on-chain marcados com o momento do registro e ligados à fonte original, e — no lugar do antigo ranking de atividade de KOL — um feed contínuo de 36 horas de publicações da comunidade em que cada publicação carrega uma pontuação de sinal, um rótulo de nível de fonte (publicação do fundador, análise comunitária ou aguardando confirmação oficial) e o seu próprio horário de verificação. O site enuncia explicitamente a sua própria regra editorial: quando pouco conteúdo cumpre os critérios, mostra pouco — não apresenta publicações antigas como se fossem atuais. A trilha de aprendizado, os vídeos selecionados e o índice de ferramentas continuam, e declara expressamente que não constitui aconselhamento de investimento.",
         "safety": "Produto editorial da Community, não é uma fonte Official. Nenhuma conexão de carteira foi encontrada na página durante a revisão — ela linka para um canal do Telegram e para ferramentas de terceiros. Trate qualquer ranking, snapshot de preço ou afirmação selecionada como julgamento editorial próprio deste site, e faça a checagem cruzada com fontes primárias antes de agir."
       },
       "tool-tg-official-group": {
