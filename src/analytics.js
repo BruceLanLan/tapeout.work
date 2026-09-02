@@ -102,7 +102,9 @@ export async function dailyActivity(env, query = new URLSearchParams()) {
 }
 
 export async function dataHealth(env) {
-  await Promise.all([ensureMarketSchema(env), ensureRefreshSchema(env), ensureBemSchema(env), ensureCommunityHolderSchema(env), ensureOfficialAssetSchema(env), ensureTransistorCandleSchema(env)]);
+  // Schema steps are writes; if D1 is refusing writes they fail, and this endpoint
+  // must still answer. Each is awaited on its own and a failure is tolerated here.
+  await Promise.all([ensureMarketSchema(env), ensureRefreshSchema(env), ensureBemSchema(env), ensureCommunityHolderSchema(env), ensureOfficialAssetSchema(env), ensureTransistorCandleSchema(env)].map(p => Promise.resolve(p).catch(() => null)));
   // ensureFreshnessRecovery only needs to block a request when it actually triggers a
   // background sync (rare, and each domain's own *Health helper already races its own
   // freshness check against its reads); otherwise it is one more concurrent branch here

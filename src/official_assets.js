@@ -23,6 +23,9 @@ let officialAssetSchemaReady, officialAssetBootstrapPromise, transistorCandleSch
 
 export async function ensureOfficialAssetSchema(env) {
   if (officialAssetSchemaReady) return officialAssetSchemaReady;
+  // CREATE TABLE is a write. When D1 refuses writes (daily limit), the schema step
+  // fails — that must degrade reads, not kill them: the promise is cleared so a later
+  // request retries, and readers fall back to the legacy tables meanwhile.
   officialAssetSchemaReady = env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS official_asset_snapshots (
       id INTEGER PRIMARY KEY AUTOINCREMENT, observed_at TEXT NOT NULL, cpu_generated_at TEXT, market_generated_at TEXT,
@@ -62,7 +65,7 @@ export async function ensureOfficialAssetSchema(env) {
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_snapshots_observed_idx ON official_asset_snapshots(observed_at DESC)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_minter_rows_snapshot_idx ON official_asset_minter_rows(snapshot_id, project_key)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS official_asset_open_bid_rows_snapshot_idx ON official_asset_open_bid_rows(snapshot_id, project_key)"),
-  ]);
+  ]).catch(error => { officialAssetSchemaReady = null; console.warn(`official asset schema not applied: ${String(error?.message || error).slice(0, 160)}`); return null; });
   return officialAssetSchemaReady;
 }
 
@@ -206,10 +209,10 @@ export async function officialAssetOverview(env) {
   await ensureOfficialAssetSchema(env);
   // The common case already has a snapshot, so the existence-checking bootstrap query is
   // skipped and only run as a fallback on a genuine cold start (no snapshot row at all yet).
-  let [snapshot, health] = await Promise.all([env.DB.prepare("SELECT * FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env)]);
+  let [snapshot, health] = await Promise.all([env.DB.prepare("SELECT * FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env).catch(error => ({ status: "error", error: String(error?.message || error).slice(0, 200) }))]);
   if (!snapshot) {
     await ensureOfficialAssetBootstrap(env);
-    [snapshot, health] = await Promise.all([env.DB.prepare("SELECT * FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env)]);
+    [snapshot, health] = await Promise.all([env.DB.prepare("SELECT * FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env).catch(error => ({ status: "error", error: String(error?.message || error).slice(0, 200) }))]);
   }
   const base = { status: health.status, source: { type: "official_public_snapshots", cpu_stats: OFFICIAL_CPU_STATS_URL, market: OFFICIAL_MARKET_SNAPSHOT_URL, freshness: health }, scope: health.scope, balance_boundary: "No public source used here provides a complete current address-by-address NAND/LATCH balance table. Cumulative minter addresses and open-bid addresses are separate observations and are never called current holders." };
   if (!snapshot) return { ...base, observed_at: null, comparison_snapshot_observed_at: null, projects: [] };
@@ -249,10 +252,10 @@ export async function officialAssetAddresses(env, query) {
   const pageSize = Math.min(Math.max(Number(query.get("page_size") || 20), 1), 100), pageRequested = Math.max(Number(query.get("page") || 1), 1);
   // Same cold-start fallback as officialAssetOverview: skip the existence-checking bootstrap
   // query unless there truly is no snapshot yet.
-  let [snapshot, health] = await Promise.all([env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env)]);
+  let [snapshot, health] = await Promise.all([env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env).catch(error => ({ status: "error", error: String(error?.message || error).slice(0, 200) }))]);
   if (!snapshot) {
     await ensureOfficialAssetBootstrap(env);
-    [snapshot, health] = await Promise.all([env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env)]);
+    [snapshot, health] = await Promise.all([env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(), officialAssetsHealth(env).catch(error => ({ status: "error", error: String(error?.message || error).slice(0, 200) }))]);
   }
   const base = { status: health.status, source: { type: "official_public_snapshots", cpu_stats: OFFICIAL_CPU_STATS_URL, market: OFFICIAL_MARKET_SNAPSHOT_URL, freshness: health }, scope: view === "mints" ? "Cumulative official CPU-stat mint addresses and source units. This is not current ownership or current NAND/LATCH balance." : "Current public market open-bid addresses and remaining order units. This is not current ownership or a completed trade.", filters: { project, view, q, page: pageRequested, page_size: pageSize }, current_balance_available: false };
   if (!snapshot) return { ...base, observed_at: null, comparison_snapshot_observed_at: null, total: 0, page_count: 0, items: [] };
@@ -264,11 +267,13 @@ export async function officialAssetAddresses(env, query) {
   // earlier did not move. Bids are a live order set whose removed orders leave no row
   // behind, so no per-address change is claimed for them.
   const [currentResult, prior] = await Promise.all([
-    env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted, snapshot_id, prev_cumulative_minted FROM official_asset_minters_current" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bids_current").all(),
+    env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted, snapshot_id, prev_cumulative_minted FROM official_asset_minters_current" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bids_current").all()
+      .catch(() => ({ results: [] })), // table may not exist yet if the schema write was refused
     env.DB.prepare("SELECT id, observed_at FROM official_asset_snapshots WHERE id < ? ORDER BY id DESC LIMIT 1").bind(snapshot.id).first(),
   ]);
   // Until the first delta write lands (the current tables start empty on the deploy
-  // that introduced them), serve the latest per-snapshot rows read-only.
+  // that introduced them, and cannot even be created while D1 refuses writes), serve
+  // the latest per-snapshot rows read-only.
   let sourceRows = currentResult.results;
   if (!sourceRows.length) {
     const legacy = await env.DB.prepare(view === "mints" ? "SELECT project_key, address, cumulative_minted, snapshot_id, NULL AS prev_cumulative_minted FROM official_asset_minter_rows WHERE snapshot_id = ?" : "SELECT project_key, buyer_address, token_id, remaining_raw FROM official_asset_open_bid_rows WHERE snapshot_id = ?").bind(snapshot.id).all();
