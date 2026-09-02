@@ -95,7 +95,17 @@ function bootstrap(locales) {
 
 // ---- model calls -------------------------------------------------------------
 const CLAUDE_BIN = process.env.CLAUDE_BIN || "claude";
-function callModel(prompt, model) {
+function callModel(prompt, model, attempt = 1) {
+  try { return callModelOnce(prompt, model); }
+  catch (error) {
+    // A text-only prompt occasionally still ends in a tool_use stop or an empty
+    // envelope; both are stochastic, so one or two retries are cheaper than a
+    // human re-running the whole locale.
+    if (attempt < 3 && /tool_use|no result/.test(String(error?.message))) { console.warn(`  retry ${attempt}: ${error.message.slice(0, 80)}`); return callModel(prompt, model, attempt + 1); }
+    throw error;
+  }
+}
+function callModelOnce(prompt, model) {
   const run = spawnSync(CLAUDE_BIN, ["-p", "--model", model, "--output-format", "json", "--max-turns", "1", "--tools", ""], {
     input: prompt, encoding: "utf8", maxBuffer: 16 * 1024 * 1024,
   });
@@ -148,6 +158,7 @@ function verifyPrompt(locale, pairs) {
     `You are checking ${LOCALE_NAMES[locale]} translations of English source texts for meaning drift. You are not judging style. Answer directly from the text below; you have no tools and need none.`,
     "For each id: list every negation, exclusion, hedge, scope limitation or disclaimer in the English source (phrases like \"not official\", \"does not guarantee\", \"only\", \"never\", \"cannot\", \"is not corroborated\", \"rather than\", \"separate from\", \"could not be verified\"). For each, decide whether the translation preserves both its polarity and its scope. Also list any factual claim present in the translation that is absent from the source.",
     "Be literal about polarity: a translation that says a thing is not X when the source says it is X — or the reverse — is a failure even if it reads naturally.",
+    "source_zh is the Chinese canonical of the same entry, written by the same reviewer. A wording that the Chinese licenses (for example a verb the Chinese uses explicitly) is not an added claim, even if the English phrases it more loosely.",
     "Output only JSON: { \"<id>\": { \"caveats\": [ { \"source\": \"...\", \"preserved\": true|false, \"note\": \"...\" } ], \"added_claims\": [ \"...\" ], \"verdict\": \"pass\"|\"fail\" } }. verdict is fail if any caveat is not preserved or any claim was added.",
     "",
     JSON.stringify(pairs, null, 1),
@@ -191,7 +202,7 @@ export async function translateStale({ locales = LOCALES, model = "sonnet", stub
     const pairs = {};
     for (const id of Object.keys(items)) {
       if (!translated.json[id]) { summary.rejected.push({ locale, id, reason: "model returned no translation" }); continue; }
-      pairs[id] = { source: items[id].en, translation: translated.json[id] };
+      pairs[id] = { source: items[id].en, source_zh: items[id].zh, translation: translated.json[id] };
     }
     let verdicts = {};
     if (Object.keys(pairs).length) {
@@ -234,7 +245,7 @@ export async function verifyStored(ids, { locales = LOCALES, model = "sonnet" } 
     const pairs = {};
     for (const [kind, spec] of Object.entries(KINDS)) {
       const table = spec.table(readDoc(spec.file(locale)));
-      for (const id of ids) { const entry = spec.seed.find(e => e.id === id); if (entry && table[id]) { const t = { ...table[id] }; delete t.source_hash; pairs[id] = { source: sourceFieldsFor(kind, entry).en, translation: t }; } }
+      for (const id of ids) { const entry = spec.seed.find(e => e.id === id); if (entry && table[id]) { const t = { ...table[id] }; delete t.source_hash; const sf = sourceFieldsFor(kind, entry); pairs[id] = { source: sf.en, source_zh: sf.zh, translation: t }; } }
     }
     if (!Object.keys(pairs).length) continue;
     const v = callModel(verifyPrompt(locale, pairs), model);

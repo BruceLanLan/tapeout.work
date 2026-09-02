@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02b";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02c";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -332,11 +332,11 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "@ekonomeest (Dune)",
     url: "https://dune.com/ekonomeest/tapeout-mining-intelligence",
     original_language: "en",
-    reviewed_at: "2026-08-27T15:55:00Z",
+    reviewed_at: "2026-09-02T02:42:56Z",
     title_en: "TapeOut Mining Intelligence (Dune)",
     title_zh: "TapeOut Mining Intelligence（Dune 看板）",
-    summary_en: "Community-built Dune dashboard aggregating $BEM price, market cap, FDV, primary liquidity, circulating supply and mining-yield figures from on-chain and market data.",
-    summary_zh: "社区自建的 Dune 看板，聚合链上与市场数据计算的 $BEM 价格、市值、FDV、主要流动性、流通供给与挖矿产出等指标。",
+    summary_en: "Community-built Dune dashboard with wallet and mining-machine leaderboards across TapeOut and Behemoth, plus live $BEM price, market cap, FDV, primary liquidity, circulating supply and mining-yield figures from on-chain and market data.",
+    summary_zh: "社区自建的 Dune 看板，提供覆盖 TapeOut 与 Behemoth 的钱包与矿机排行榜，并聚合链上与市场数据计算的 $BEM 价格、市值、FDV、主要流动性、流通供给与挖矿产出等指标。",
     use_cases: ["analytics", "price-tracking", "community-research"],
     safety_en: "Independent community dashboard, not an official price or protocol source, and deliberately not embedded live on this site: its author can revise it at any time, and a change we have not reviewed should not appear here as though we had checked it. FDV/market-cap figures assume a fixed maximum-supply model; verify methodology on Dune before relying on any number.",
     safety_zh: "独立社区看板，不是官方价格或协议来源，本站也不做实时嵌入，以免作者随时修改而我们未经审核；FDV/市值假设了固定最大供给量模型，使用前应在 Dune 上核实计算口径。"

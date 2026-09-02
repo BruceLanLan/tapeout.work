@@ -1,8 +1,17 @@
 {
-  "newest_commit_at": "2026-09-02T10:26:07+08:00",
+  "newest_commit_at": "2026-09-02T10:29:16+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 15,
+  "commit_count": 16,
   "entries": [
+    {
+      "sha": "41d23935d5",
+      "date": "2026-09-02T10:29:16+08:00",
+      "subject": "automation loop: idempotent changelog, locale version stamp follows the catalogue",
+      "scope": [
+        "tool-translations"
+      ],
+      "file_count": 9
+    },
     {
       "sha": "2548c07315",
       "date": "2026-09-02T10:26:07+08:00",
