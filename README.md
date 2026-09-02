@@ -7,6 +7,10 @@ A public-source research terminal for the [TapeOut Protocol](https://tapeout.net
 
 Everything here is read-only and derived from public sources: TapeOut's own public registry and PoD endpoints, public BNB Chain RPC/logs, and a handful of independently-verified community tools and datasets that are explicitly credited wherever their data or design ideas are used. Nothing on this site connects a wallet, holds funds, or executes a transaction on anyone's behalf. Nothing here is investment advice.
 
+## Automation loop
+
+The catalogue is kept current by a loop in which everything except one human approval per content revision is automated: the site fingerprints every catalogued page and queues the ones that changed after their review date; `scripts/review_drafts.mjs` turns the queue into evidence files with numbered page excerpts and a model-drafted revision that must cite them; `scripts/apply_reviews.mjs` applies only files a person marked approved; `scripts/translate_catalog.mjs` retranslates exactly the entries whose source text changed and refuses any translation whose negations or scope caveats did not survive; `scripts/ship.mjs` runs the gate, commits, deploys and verifies production. Details, including what is deliberately not automated, are in `AUTOMATION_LOOP.md`.
+
 ## What it does
 
 - **Registry tracking** — the full public Processor registry, paginated, with completion/circuit-density segmentation, a public event stream (`processor.created`, `.mint_delta`, `.circuit_delta`, `.completed`), and CSV export.

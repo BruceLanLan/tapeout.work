@@ -5,91 +5,113 @@
   "translations": {
     "official-home": {
       "title": "TapeOut 공식 사이트: NAND/LATCH에서 온체인 Circuit까지",
-      "summary": "구성요소, Processor 및 Canvas에서 시작합니다; tape-out는 구성요소를 소모해 온체인 Circuit을 생성합니다. 사이트는 또한 계약이 여전히 업그레이드 가능하다고 공지합니다."
+      "summary": "구성요소, Processor 및 Canvas에서 시작합니다; tape-out는 구성요소를 소모해 온체인 Circuit을 생성합니다. 사이트는 또한 계약이 여전히 업그레이드 가능하다고 공지합니다.",
+      "source_hash": "28953c572a9ed21d"
     },
     "official-whitepaper": {
       "title": "TapeOut Protocol 백서",
-      "summary": "ERC-1155 구성요소, ERC-721 Circuits, Processor factory 및 온체인 네트리스트에 대한 공식 참조자료입니다."
+      "summary": "ERC-1155 구성요소, ERC-721 Circuits, Processor factory 및 온체인 네트리스트에 대한 공식 참조자료입니다.",
+      "source_hash": "3e7e8ef63140354e"
     },
     "official-alpha": {
       "title": "Alpha 출시 데모: Canvas, tape-out 및 예시들",
-      "summary": "NAND/LATCH와 Canvas 배선에서 tape-out으로 가는 기본 경로를 시연하는 공식 출시 게시물입니다."
+      "summary": "NAND/LATCH와 Canvas 배선에서 tape-out으로 가는 기본 경로를 시연하는 공식 출시 게시물입니다.",
+      "source_hash": "46195d479e9d7dc8"
     },
     "official-output-cost": {
       "title": "출력 핀 비용 및 네트리스트 규칙 노트",
-      "summary": "Canvas의 게이트 수가 최종 tape-out 소비량과 달라질 수 있는 이유를 설명합니다; 입력, 출력 및 비용을 확인하기 전에 유용합니다."
+      "summary": "Canvas의 게이트 수가 최종 tape-out 소비량과 달라질 수 있는 이유를 설명합니다; 입력, 출력 및 비용을 확인하기 전에 유용합니다.",
+      "source_hash": "f5409bc1934b48c0"
     },
     "community-market-qa": {
       "title": "TapeOut Market Q&A: 주문, 수수료 및 서명 안전성",
-      "summary": "에스크로된 BNB 매수 주문, 표시된 구매자 수수료, 가스 및 서명 안전성에 대한 커뮤니티 작성 설명입니다; USD 추정치는 실행이나 판매 가격을 보장하지 않으며 어떤 플랫폼도 개인 키나 시드 문구를 요청해서는 안 됩니다."
+      "summary": "에스크로된 BNB 매수 주문, 표시된 구매자 수수료, 가스 및 서명 안전성에 대한 커뮤니티 작성 설명입니다; USD 추정치는 실행이나 판매 가격을 보장하지 않으며 어떤 플랫폼도 개인 키나 시드 문구를 요청해서는 안 됩니다.",
+      "source_hash": "581e3f6f702a323f"
     },
     "official-pod": {
       "title": "$BEM Proof of Design: 공식 채굴 엔트리",
-      "summary": "arm / start / claim, taskbank 및 계약에 대한 공식 항목입니다; 트랜잭션은 되돌릴 수 없다고 명시하며 토큰 구매는 필수가 아니고 초기 유동성이 적을 수 있음을 알립니다."
+      "summary": "arm / start / claim, taskbank 및 계약에 대한 공식 항목입니다; 트랜잭션은 되돌릴 수 없다고 명시하며 토큰 구매는 필수가 아니고 초기 유동성이 적을 수 있음을 알립니다.",
+      "source_hash": "7abdde621572fe88"
     },
     "official-pod-tasks": {
       "title": "PoD taskbank: 적격 작업으로 시작",
-      "summary": "공식 taskbank 항목입니다. 검증 요구사항을 공부하기 전에 티어, 조합/순차(combinational/sequential) 유형 및 온체인 적격성을 기준으로 선택하세요."
+      "summary": "공식 taskbank 항목입니다. 검증 요구사항을 공부하기 전에 티어, 조합/순차(combinational/sequential) 유형 및 온체인 적격성을 기준으로 선택하세요.",
+      "source_hash": "ef565bc0e8aebf39"
     },
     "official-pod-algo": {
       "title": "PoD 알고리즘: 적격성, 검증 및 수식",
-      "summary": "공개 비용, 적격성, 클레임 및 검증 규칙을 설명합니다; 수식은 규칙을 설명할 뿐 채굴 수익을 예측하지 않습니다."
+      "summary": "공개 비용, 적격성, 클레임 및 검증 규칙을 설명합니다; 수식은 규칙을 설명할 뿐 채굴 수익을 예측하지 않습니다.",
+      "source_hash": "757c06fd50d6b2c3"
     },
     "community-first-tapeout": {
       "title": "커뮤니티 초보자 경로: Mint에서 Tape-Out까지",
-      "summary": "격리된 소규모 지갑, Canvas 테스트, 서명 확인 및 되돌릴 수 없는 tape-out을 강조하는 커뮤니티 가이드입니다; 메커니즘에 대해서는 공식 소스가 권위적입니다."
+      "summary": "격리된 소규모 지갑, Canvas 테스트, 서명 확인 및 되돌릴 수 없는 tape-out을 강조하는 커뮤니티 가이드입니다; 메커니즘에 대해서는 공식 소스가 권위적입니다.",
+      "source_hash": "e25e914c4185f938"
     },
     "community-cn-logic": {
       "title": "중국 커뮤니티 실습 단계: NOT/AND/XOR에서 애더(덧셈기)까지",
-      "summary": "기본 게이트에서 애더로 이어지는 커뮤니티 실습 단계입니다. 공식 소스와 교차검증 가능한 메커니즘 설명만 사용되며 시장 관점은 채택되지 않습니다."
+      "summary": "기본 게이트에서 애더로 이어지는 커뮤니티 실습 단계입니다. 공식 소스와 교차검증 가능한 메커니즘 설명만 사용되며 시장 관점은 채택되지 않습니다.",
+      "source_hash": "109b3eaa7119422f"
     },
     "community-something-logic-intro": {
       "title": "커뮤니티 메커니즘 입문: NAND/LATCH, tape-out 및 PoD",
-      "summary": "Something Labs의 중국어 커뮤니티 입문서로 NAND, LATCH, 온체인 Circuits, tape-out, 테스트 벡터 및 PoD 용어를 소개합니다. 규칙과 계약에 대해서는 공식 소스가 권위적이며 게시물의 매수, 보유, 채굴 및 가격 관련 논평은 채택되지 않습니다."
+      "summary": "Something Labs의 중국어 커뮤니티 입문서로 NAND, LATCH, 온체인 Circuits, tape-out, 테스트 벡터 및 PoD 용어를 소개합니다. 규칙과 계약에 대해서는 공식 소스가 권위적이며 게시물의 매수, 보유, 채굴 및 가격 관련 논평은 채택되지 않습니다.",
+      "source_hash": "e5022cb309d95d96"
     },
     "reference-sr-latch": {
       "title": "개념 참고자료: NAND SR LATCH",
-      "summary": "진리표와 게이트 다이어그램을 사용해 SR LATCH를 설명합니다. 이는 디지털 로직 참고자료이며 TapeOut Protocol 운영 가이드는 아닙니다."
+      "summary": "진리표와 게이트 다이어그램을 사용해 SR LATCH를 설명합니다. 이는 디지털 로직 참고자료이며 TapeOut Protocol 운영 가이드는 아닙니다.",
+      "source_hash": "f407926274b06fb8"
     },
     "reference-bscscan-pod": {
       "title": "읽기 전용 확인: PoD 계약(contract) 탐색기",
-      "summary": "BscScan과 같은 블록 탐색기(블록 익스플로러)를 사용해 공개 PoD 계약 주소(URL)와 거래 상태를 교차 확인하세요. 이는 감사 결론도 아니며 수익(반환) 지표도 아닙니다."
+      "summary": "BscScan과 같은 블록 탐색기(블록 익스플로러)를 사용해 공개 PoD 계약 주소(URL)와 거래 상태를 교차 확인하세요. 이는 감사 결론도 아니며 수익(반환) 지표도 아닙니다.",
+      "source_hash": "4b155fc66bbf6e36"
     },
     "community-93bitmap-video-intro": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 에피소드 1",
-      "summary": "93.bitmap이 제작한 영어 커뮤니티 설명 영상으로, TapeOut과 Ordinals를 개념적 입문점으로 활용합니다. 커뮤니티 참고용일 뿐이며, 규칙·계약·가격·수익 또는 시장에 관한 주장을 제시하는 공식 출처가 아닙니다."
+      "summary": "93.bitmap이 제작한 영어 커뮤니티 설명 영상으로, TapeOut과 Ordinals를 개념적 입문점으로 활용합니다. 커뮤니티 참고용일 뿐이며, 규칙·계약·가격·수익 또는 시장에 관한 주장을 제시하는 공식 출처가 아닙니다.",
+      "source_hash": "0a7bfafd4f932ccc"
     },
     "community-93bitmap-video-ep2": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 2편",
-      "summary": "93.bitmap 해설 시리즈의 두 번째 에피소드로, 영어로 진행되는 개념 입문 영상입니다. 규칙, 계약, 가격, 수익 또는 시장 주장에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, 게시물 본문 자체는 독립적으로 검증 가능한 기술 자료를 제공하지 않습니다."
+      "summary": "93.bitmap 해설 시리즈의 두 번째 에피소드로, 영어로 진행되는 개념 입문 영상입니다. 규칙, 계약, 가격, 수익 또는 시장 주장에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, 게시물 본문 자체는 독립적으로 검증 가능한 기술 자료를 제공하지 않습니다.",
+      "source_hash": "0e0437b8733222ce"
     },
     "community-93bitmap-video-ep3": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 3편 (왜 P2E 체인게임이 아닌가)",
-      "summary": "93.bitmap 해설 시리즈의 세 번째 에피소드로, TapeOut이 일반적인 P2E(플레이투언) 체인게임과 개념적으로 어떻게 다른지 설명합니다. 규칙, 계약, 가격, 수익 또는 시장 주장에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, 게시물 본문 자체는 독립적으로 검증 가능한 기술 자료를 제공하지 않습니다."
+      "summary": "93.bitmap 해설 시리즈의 세 번째 에피소드로, TapeOut이 일반적인 P2E(플레이투언) 체인게임과 개념적으로 어떻게 다른지 설명합니다. 규칙, 계약, 가격, 수익 또는 시장 주장에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, 게시물 본문 자체는 독립적으로 검증 가능한 기술 자료를 제공하지 않습니다.",
+      "source_hash": "bf32b2cb93af2deb"
     },
     "community-93bitmap-video-ep5-zh": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 5편 (아레나 패러다임 전환)",
-      "summary": "93.bitmap 해설 시리즈의 다섯 번째 에피소드로, 저자에 따르면 창시자 @Blonskr와의 대화 이후 수정된 내용이며, 논의된 V2 \"개발자 슬롯\" 개념과 작업 경쟁의 패러다임 전환을 다룹니다. 공식적으로 발표된 규칙이 아니라 커뮤니티 영상 참고용일 뿐이며, V2 기능은 여전히 공식 사이트의 향후 발표에 따릅니다."
+      "summary": "93.bitmap 해설 시리즈의 다섯 번째 에피소드로, 저자에 따르면 창시자 @Blonskr와의 대화 이후 수정된 내용이며, 논의된 V2 \"개발자 슬롯\" 개념과 작업 경쟁의 패러다임 전환을 다룹니다. 공식적으로 발표된 규칙이 아니라 커뮤니티 영상 참고용일 뿐이며, V2 기능은 여전히 공식 사이트의 향후 발표에 따릅니다.",
+      "source_hash": "57b84816e8c3bf0b"
     },
     "community-93bitmap-video-ep5-en": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 5편 (영어판)",
-      "summary": "5편의 영어 더빙판으로, 중국어 원본과 내용이 동일합니다. 규칙에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, V2 기능은 여전히 공식 사이트의 향후 발표에 따릅니다."
+      "summary": "5편의 영어 더빙판으로, 중국어 원본과 내용이 동일합니다. 규칙에 대한 공식 출처가 아니라 커뮤니티 영상 참고용일 뿐이며, V2 기능은 여전히 공식 사이트의 향후 발표에 따릅니다.",
+      "source_hash": "d8d40e4af0239d61"
     },
     "community-93bitmap-scam-guide": {
       "title": "커뮤니티 안전 가이드: 신규자를 위한 TapeOut 사기 패턴 체크리스트",
-      "summary": "93.bitmap이 정리한 간결한 사기 방지 체크리스트입니다: 공식 프로젝트는 절대 DM으로 대신 설계하거나 대신 tape-out해주지 않으며, 타사 도구에는 소액 지갑에서 상한이 있고 철회 가능한 approve만 내줘야 하고, 짝퉁 토큰/NFT와 \"부품값 먼저 보내달라\"는 수법은 흔한 사기 패턴입니다. 창시자 @Blonskr가 감사를 표하며 재게시했습니다. 커뮤니티 안전 참고자료일 뿐이며, 모든 서명 요청을 스스로 독립적으로 확인하는 것을 대체하지 않습니다."
+      "summary": "93.bitmap이 정리한 간결한 사기 방지 체크리스트입니다: 공식 프로젝트는 절대 DM으로 대신 설계하거나 대신 tape-out해주지 않으며, 타사 도구에는 소액 지갑에서 상한이 있고 철회 가능한 approve만 내줘야 하고, 짝퉁 토큰/NFT와 \"부품값 먼저 보내달라\"는 수법은 흔한 사기 패턴입니다. 창시자 @Blonskr가 감사를 표하며 재게시했습니다. 커뮤니티 안전 참고자료일 뿐이며, 모든 서명 요청을 스스로 독립적으로 확인하는 것을 대체하지 않습니다.",
+      "source_hash": "5683473902dec342"
     },
     "community-93bitmap-video-ep6": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 6편 (가상 팹은 정말 의미가 있는가)",
-      "summary": "93.bitmap 해설 시리즈의 여섯 번째 에피소드로, 다가올 V2의 가상 칩 설계 팹 개념과 그 가치에 대한 저자 본인의 해석을 다루며 TSMC의 수주 모델에 빗댑니다. 이는 저자 개인의 의견이며 공식적으로 발표된 규칙이 아닙니다. V2 메커니즘은 여전히 공식 사이트의 향후 발표에 따르며, 영상 속 가치/수익 비유는 채택되지 않습니다."
+      "summary": "93.bitmap 해설 시리즈의 여섯 번째 에피소드로, 다가올 V2의 가상 칩 설계 팹 개념과 그 가치에 대한 저자 본인의 해석을 다루며 TSMC의 수주 모델에 빗댑니다. 이는 저자 개인의 의견이며 공식적으로 발표된 규칙이 아닙니다. V2 메커니즘은 여전히 공식 사이트의 향후 발표에 따르며, 영상 속 가치/수익 비유는 채택되지 않습니다.",
+      "source_hash": "d1cf499e2d986c93"
     },
     "community-93bitmap-video-ep6-en": {
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 6편 (영어판)",
-      "summary": "93.bitmap 해설 시리즈 6편의 영어판으로, 영어권 커뮤니티를 위해 동일한 주제를 다룹니다. 중국어 원본과 마찬가지로 저자 개인의 해석이며 공식적으로 발표된 규칙이 아닙니다. V2 메커니즘은 여전히 공식 사이트의 향후 발표에 따릅니다."
+      "summary": "93.bitmap 해설 시리즈 6편의 영어판으로, 영어권 커뮤니티를 위해 동일한 주제를 다룹니다. 중국어 원본과 마찬가지로 저자 개인의 해석이며 공식적으로 발표된 규칙이 아닙니다. V2 메커니즘은 여전히 공식 사이트의 향후 발표에 따릅니다.",
+      "source_hash": "52963ae1709a94b7"
     },
     "community-antalya-tr-primer": {
       "title": "커뮤니티 튀르키예어 기사: 온체인에서 프로세서 생산하기 — TapeOut 프로토콜의 작동 방식",
-      "summary": "Antalya Blockchain이 발행한 튀르키예어 해설 기사로, 블록체인 활용 사례의 확장 과정을 짚은 뒤 TapeOut이 전통 컴퓨터 아키텍처의 기본 논리 소자를 어떻게 토큰화해 사용자가 온체인에서 Circuit을 조립하고 이를 영구 자산으로 만들 수 있게 하는지 설명합니다. 기사는 프로젝트가 아직 Alpha 단계이며 매우 실험적이라는 점을 명시적으로 밝힙니다. @0xFatih가 소개했습니다. 커뮤니티 해설 자료일 뿐이며 메커니즘은 여전히 공식 출처가 우선합니다."
+      "summary": "Antalya Blockchain이 발행한 튀르키예어 해설 기사로, 블록체인 활용 사례의 확장 과정을 짚은 뒤 TapeOut이 전통 컴퓨터 아키텍처의 기본 논리 소자를 어떻게 토큰화해 사용자가 온체인에서 Circuit을 조립하고 이를 영구 자산으로 만들 수 있게 하는지 설명합니다. 기사는 프로젝트가 아직 Alpha 단계이며 매우 실험적이라는 점을 명시적으로 밝힙니다. @0xFatih가 소개했습니다. 커뮤니티 해설 자료일 뿐이며 메커니즘은 여전히 공식 출처가 우선합니다.",
+      "source_hash": "2ff62bc88cf67ee6"
     }
   }
 }

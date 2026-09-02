@@ -5,91 +5,113 @@
   "translations": {
     "official-home": {
       "title": "Site oficial do TapeOut: de NAND/LATCH a Circuits on-chain",
-      "summary": "Comece com componentes, Processors e Canvas; o tape-out consome componentes e cria um Circuit on-chain. O site também divulga que os contratos permanecem atualizáveis."
+      "summary": "Comece com componentes, Processors e Canvas; o tape-out consome componentes e cria um Circuit on-chain. O site também divulga que os contratos permanecem atualizáveis.",
+      "source_hash": "28953c572a9ed21d"
     },
     "official-whitepaper": {
       "title": "Whitepaper do TapeOut Protocol",
-      "summary": "Referência oficial para componentes ERC-1155, Circuits ERC-721, a fábrica de Processor e netlists on-chain."
+      "summary": "Referência oficial para componentes ERC-1155, Circuits ERC-721, a fábrica de Processor e netlists on-chain.",
+      "source_hash": "3e7e8ef63140354e"
     },
     "official-alpha": {
       "title": "Demonstração do lançamento Alpha: Canvas, tape-out e exemplos",
-      "summary": "Post oficial de lançamento demonstrando o caminho básico de NAND/LATCH e o cabeamento do Canvas até o tape-out."
+      "summary": "Post oficial de lançamento demonstrando o caminho básico de NAND/LATCH e o cabeamento do Canvas até o tape-out.",
+      "source_hash": "46195d479e9d7dc8"
     },
     "official-output-cost": {
       "title": "Nota sobre custo do pino de saída e regras de netlist",
-      "summary": "Explica por que a contagem de portas no Canvas pode diferir do consumo final no tape-out; útil antes de checar entradas, saídas e custo."
+      "summary": "Explica por que a contagem de portas no Canvas pode diferir do consumo final no tape-out; útil antes de checar entradas, saídas e custo.",
+      "source_hash": "f5409bc1934b48c0"
     },
     "community-market-qa": {
       "title": "Perguntas e Respostas do TapeOut Market: ordens, taxas e segurança de assinatura",
-      "summary": "Explicação escrita pela comunidade sobre ordens de compra em escrow em BNB, taxas exibidas para compradores, gas e segurança de assinatura; estimativas em USD não garantem execução ou preço de venda, e nenhuma plataforma deve solicitar chave privada ou seed phrase."
+      "summary": "Explicação escrita pela comunidade sobre ordens de compra em escrow em BNB, taxas exibidas para compradores, gas e segurança de assinatura; estimativas em USD não garantem execução ou preço de venda, e nenhuma plataforma deve solicitar chave privada ou seed phrase.",
+      "source_hash": "581e3f6f702a323f"
     },
     "official-pod": {
       "title": "$BEM Proof of Design: entrada oficial de mineração",
-      "summary": "Entrada oficial para arm / start / claim, taskbank e contratos; declara que as transações são irreversíveis, que comprar tokens não é necessário e que a liquidez inicial pode ser escassa."
+      "summary": "Entrada oficial para arm / start / claim, taskbank e contratos; declara que as transações são irreversíveis, que comprar tokens não é necessário e que a liquidez inicial pode ser escassa.",
+      "source_hash": "7abdde621572fe88"
     },
     "official-pod-tasks": {
       "title": "Taskbank do PoD: comece com tarefas elegíveis",
-      "summary": "Entrada oficial do taskbank. Escolha por tier, tipo combinacional/sequencial e elegibilidade on-chain antes de estudar os requisitos de verificação."
+      "summary": "Entrada oficial do taskbank. Escolha por tier, tipo combinacional/sequencial e elegibilidade on-chain antes de estudar os requisitos de verificação.",
+      "source_hash": "ef565bc0e8aebf39"
     },
     "official-pod-algo": {
       "title": "Algoritmo do PoD: elegibilidade, verificação e fórmulas",
-      "summary": "Explica regras públicas de custo, elegibilidade, claim e verificação; as fórmulas explicam as regras e não fazem previsão de retornos de mineração."
+      "summary": "Explica regras públicas de custo, elegibilidade, claim e verificação; as fórmulas explicam as regras e não fazem previsão de retornos de mineração.",
+      "source_hash": "757c06fd50d6b2c3"
     },
     "community-first-tapeout": {
       "title": "Caminho para iniciantes da comunidade: de Mint ao Tape-Out",
-      "summary": "Guia comunitário enfatizando uma carteira pequena isolada, testes no Canvas, checagem de assinaturas e tape-out irreversível; as fontes oficiais continuam sendo autoritativas para as mecânicas."
+      "summary": "Guia comunitário enfatizando uma carteira pequena isolada, testes no Canvas, checagem de assinaturas e tape-out irreversível; as fontes oficiais continuam sendo autoritativas para as mecânicas.",
+      "source_hash": "e25e914c4185f938"
     },
     "community-cn-logic": {
       "title": "Sequência prática chinesa: NOT/AND/XOR até adders",
-      "summary": "Sequência comunitária de portas básicas até adders. Apenas descrições de mecanismos verificáveis com fontes oficiais são usadas; visões de mercado não são adotadas."
+      "summary": "Sequência comunitária de portas básicas até adders. Apenas descrições de mecanismos verificáveis com fontes oficiais são usadas; visões de mercado não são adotadas.",
+      "source_hash": "109b3eaa7119422f"
     },
     "community-something-logic-intro": {
       "title": "Introdução a mecanismos pela comunidade: NAND/LATCH, tape-out e PoD",
-      "summary": "Um primer comunitário chinês do Something Labs apresenta NAND, LATCH, Circuits on-chain, tape-out, vetores de teste e vocabulário PoD. As fontes oficiais permanecem autoritativas para regras e contratos; comentários sobre compra, posse, mineração e preço no post não são adotados."
+      "summary": "Um primer comunitário chinês do Something Labs apresenta NAND, LATCH, Circuits on-chain, tape-out, vetores de teste e vocabulário PoD. As fontes oficiais permanecem autoritativas para regras e contratos; comentários sobre compra, posse, mineração e preço no post não são adotados.",
+      "source_hash": "e5022cb309d95d96"
     },
     "reference-sr-latch": {
       "title": "Referência conceitual: NAND SR latch",
-      "summary": "Explica o SR latch usando tabelas-verdade e diagramas de portas. Este é material de referência de lógica digital, não um guia operacional do TapeOut Protocol."
+      "summary": "Explica o SR latch usando tabelas-verdade e diagramas de portas. Este é material de referência de lógica digital, não um guia operacional do TapeOut Protocol.",
+      "source_hash": "f407926274b06fb8"
     },
     "reference-bscscan-pod": {
       "title": "Read-only verification: explorador do contrato PoD",
-      "summary": "Use um block explorer (por exemplo BscScan) para verificar o endereço público do contrato PoD e o status das transações; é read-only e destina-se apenas à checagem do contract e da URL pública. Não constitui conclusão de auditoria nem métrica de retorno — mantém os risk boundaries."
+      "summary": "Use um block explorer (por exemplo BscScan) para verificar o endereço público do contrato PoD e o status das transações; é read-only e destina-se apenas à checagem do contract e da URL pública. Não constitui conclusão de auditoria nem métrica de retorno — mantém os risk boundaries.",
+      "source_hash": "4b155fc66bbf6e36"
     },
     "community-93bitmap-video-intro": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 1",
-      "summary": "Vídeo explicativo comunitário em inglês, produzido por 93.bitmap, que utiliza TapeOut e Ordinals como ponto de entrada conceitual. Serve apenas como referência comunitária e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado."
+      "summary": "Vídeo explicativo comunitário em inglês, produzido por 93.bitmap, que utiliza TapeOut e Ordinals como ponto de entrada conceitual. Serve apenas como referência comunitária e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado.",
+      "source_hash": "0a7bfafd4f932ccc"
     },
     "community-93bitmap-video-ep2": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 2",
-      "summary": "O segundo episódio da série explicativa de 93.bitmap, uma introdução conceitual em inglês. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado; o próprio texto da publicação não fornece material técnico verificável de forma independente."
+      "summary": "O segundo episódio da série explicativa de 93.bitmap, uma introdução conceitual em inglês. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado; o próprio texto da publicação não fornece material técnico verificável de forma independente.",
+      "source_hash": "0e0437b8733222ce"
     },
     "community-93bitmap-video-ep3": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 3 (por que não é um jogo play-to-earn)",
-      "summary": "O terceiro episódio da série explicativa de 93.bitmap, explicando conceitualmente por que o TapeOut é diferente de um jogo play-to-earn on-chain típico. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado; o próprio texto da publicação não fornece material técnico verificável de forma independente."
+      "summary": "O terceiro episódio da série explicativa de 93.bitmap, explicando conceitualmente por que o TapeOut é diferente de um jogo play-to-earn on-chain típico. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras, contratos, preços, retornos ou conclusões de mercado; o próprio texto da publicação não fornece material técnico verificável de forma independente.",
+      "source_hash": "bf32b2cb93af2deb"
     },
     "community-93bitmap-video-ep5-zh": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 5 (mudança de paradigma da arena)",
-      "summary": "O quinto episódio da série explicativa de 93.bitmap; segundo o autor, revisado após uma conversa com o fundador @Blonskr, abordando um conceito de \"vaga de desenvolvedor\" discutido para o V2 e uma mudança de paradigma na competição por tarefas. Serve apenas como referência comunitária em vídeo e não é uma regra publicada oficialmente — qualquer recurso do V2 permanece sujeito a um futuro anúncio oficial do próprio site oficial."
+      "summary": "O quinto episódio da série explicativa de 93.bitmap; segundo o autor, revisado após uma conversa com o fundador @Blonskr, abordando um conceito de \"vaga de desenvolvedor\" discutido para o V2 e uma mudança de paradigma na competição por tarefas. Serve apenas como referência comunitária em vídeo e não é uma regra publicada oficialmente — qualquer recurso do V2 permanece sujeito a um futuro anúncio oficial do próprio site oficial.",
+      "source_hash": "57b84816e8c3bf0b"
     },
     "community-93bitmap-video-ep5-en": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 5 (inglês)",
-      "summary": "A versão dublada em inglês do episódio 5, com o mesmo conteúdo do original em chinês. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras; qualquer recurso do V2 permanece sujeito a um futuro anúncio oficial do próprio site oficial."
+      "summary": "A versão dublada em inglês do episódio 5, com o mesmo conteúdo do original em chinês. Serve apenas como referência comunitária em vídeo e não é fonte oficial de regras; qualquer recurso do V2 permanece sujeito a um futuro anúncio oficial do próprio site oficial.",
+      "source_hash": "d8d40e4af0239d61"
     },
     "community-93bitmap-scam-guide": {
       "title": "Guia de segurança da comunidade: checklist de padrões de golpe do TapeOut para iniciantes",
-      "summary": "Um checklist antigolpe conciso, compilado por 93.bitmap: o projeto oficial nunca manda DM para desenhar ou fazer tape-out em seu nome; ferramentas de terceiros devem sempre receber apenas um approve limitado e revogável de uma carteira pequena, e tokens/NFTs imitadores mais discursos do tipo \"me manda as peças primeiro\" são padrões comuns de golpe. Repostado com agradecimento pelo fundador @Blonskr. Apenas uma referência de segurança da comunidade — não substitui a verificação independente de cada solicitação de assinatura por conta própria."
+      "summary": "Um checklist antigolpe conciso, compilado por 93.bitmap: o projeto oficial nunca manda DM para desenhar ou fazer tape-out em seu nome; ferramentas de terceiros devem sempre receber apenas um approve limitado e revogável de uma carteira pequena, e tokens/NFTs imitadores mais discursos do tipo \"me manda as peças primeiro\" são padrões comuns de golpe. Repostado com agradecimento pelo fundador @Blonskr. Apenas uma referência de segurança da comunidade — não substitui a verificação independente de cada solicitação de assinatura por conta própria.",
+      "source_hash": "5683473902dec342"
     },
     "community-93bitmap-video-ep6": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 6 (a fábrica virtual importa)",
-      "summary": "O sexto episódio da série explicativa de 93.bitmap, discutindo um conceito futuro do V2 de uma fábrica virtual de design de chips e o enquadramento do próprio autor sobre seu valor, traçando uma analogia com o modelo de pedidos da TSMC. Esta é a opinião pessoal do autor, não uma regra publicada oficialmente; qualquer mecânica do V2 permanece sujeita a um futuro anúncio oficial do próprio site oficial, e a analogia de valor/retorno do vídeo não é adotada."
+      "summary": "O sexto episódio da série explicativa de 93.bitmap, discutindo um conceito futuro do V2 de uma fábrica virtual de design de chips e o enquadramento do próprio autor sobre seu valor, traçando uma analogia com o modelo de pedidos da TSMC. Esta é a opinião pessoal do autor, não uma regra publicada oficialmente; qualquer mecânica do V2 permanece sujeita a um futuro anúncio oficial do próprio site oficial, e a analogia de valor/retorno do vídeo não é adotada.",
+      "source_hash": "d1cf499e2d986c93"
     },
     "community-93bitmap-video-ep6-en": {
       "title": "Vídeo comunitário: introdução científica à TapeOut · episódio 6 (inglês)",
-      "summary": "A versão em inglês do episódio 6 da série explicativa de 93.bitmap, cobrindo o mesmo assunto para a comunidade de língua inglesa. Assim como no original em chinês, trata-se do enquadramento pessoal do autor, e não de uma regra publicada oficialmente; qualquer mecânica do V2 permanece sujeita a um futuro anúncio oficial do próprio site oficial."
+      "summary": "A versão em inglês do episódio 6 da série explicativa de 93.bitmap, cobrindo o mesmo assunto para a comunidade de língua inglesa. Assim como no original em chinês, trata-se do enquadramento pessoal do autor, e não de uma regra publicada oficialmente; qualquer mecânica do V2 permanece sujeita a um futuro anúncio oficial do próprio site oficial.",
+      "source_hash": "52963ae1709a94b7"
     },
     "community-antalya-tr-primer": {
       "title": "Artigo comunitário em turco: produzindo um processador on-chain — como funciona o TapeOut Protocol",
-      "summary": "Um texto explicativo em turco publicado pela Antalya Blockchain, que traça a expansão dos casos de uso do blockchain antes de descrever como o TapeOut tokeniza os elementos lógicos básicos da arquitetura de computadores tradicional, permitindo que os usuários montem circuitos on-chain e os transformem em ativos permanentes. O artigo declara explicitamente que o projeto ainda está em Alpha e é altamente experimental. Trazido à tona por @0xFatih. Apenas um texto explicativo comunitário — as fontes oficiais continuam sendo autoritativas quanto à mecânica."
+      "summary": "Um texto explicativo em turco publicado pela Antalya Blockchain, que traça a expansão dos casos de uso do blockchain antes de descrever como o TapeOut tokeniza os elementos lógicos básicos da arquitetura de computadores tradicional, permitindo que os usuários montem circuitos on-chain e os transformem em ativos permanentes. O artigo declara explicitamente que o projeto ainda está em Alpha e é altamente experimental. Trazido à tona por @0xFatih. Apenas um texto explicativo comunitário — as fontes oficiais continuam sendo autoritativas quanto à mecânica.",
+      "source_hash": "2ff62bc88cf67ee6"
     }
   }
 }

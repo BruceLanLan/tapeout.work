@@ -11,7 +11,8 @@ export const API_LOCALE_METADATA = Object.freeze({
   localized_endpoints: ["/api/v1/learn/resources", "/api/v1/updates", "/api/v1/tools"],
   invariant_fields: ["id", "tier", "stages", "language", "url", "title_zh", "title_en", "summary_zh", "summary_en", "addresses", "numeric metrics", "event evidence", "official asset holder aggregates", "cumulative minter source units", "public open-bid facts"],
   fallback: "Unsupported or unavailable response locales return English reviewed copy with locale_status=fallback; no values, protocol facts, URLs or source tiers are translated or inferred.",
-  translation_scope: "localized is a TapeOut Intelligence reviewed card title/summary and governance explanation. It is not a translation claim about the third-party source page."
+  translation_scope: "localized is a TapeOut Intelligence reviewed card title/summary and governance explanation. It is not a translation claim about the third-party source page.",
+  translation_method: "Canonical copy is written and reviewed in English and Chinese. Other locales are machine-translated from that copy as a build step, then checked by a second automated pass that every negation, exclusion and scope caveat survives with the same polarity; a translation that fails that check is not published. Each translation records a hash of the source text it was made from, and the site's self-audit reports any entry whose source has since changed."
 });
 const LEARNING_GOVERNANCE_COPY = Object.freeze({
   en: { official: "TapeOut website, official contract references, or attributable public project releases.", community: "Public community explanation; it is never labelled official and official sources prevail for mechanics.", reference: "Digital-logic or verification reference; explicitly not a TapeOut Protocol operating guide.", excluded: "No private-message solicitation, private-key/seed request, unverified contract, guaranteed-return or paid-signal material." },

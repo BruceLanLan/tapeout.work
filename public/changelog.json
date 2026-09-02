@@ -1,8 +1,17 @@
 {
-  "generated_at": "2026-09-02T01:23:15.520Z",
+  "generated_at": "2026-09-02T02:26:07.107Z",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 13,
+  "commit_count": 14,
   "entries": [
+    {
+      "sha": "43e338bdfa",
+      "date": "2026-09-02T09:23:15+08:00",
+      "subject": "self-audit: fix re-queue-after-review bug, add per-tool drift profiles",
+      "scope": [
+        "tools"
+      ],
+      "file_count": 1
+    },
     {
       "sha": "95a696a794",
       "date": "2026-09-02T09:15:16+08:00",

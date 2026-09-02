@@ -8,139 +8,166 @@
       "official-alpha-demo": {
         "title": "Démo de lancement Alpha : Canvas, TapeOut et exemples",
         "summary": "Official matériel public de lancement démontrant le chemin de base depuis NAND/LATCH et le câblage Canvas jusqu'au TapeOut. Utilisez-le pour comprendre le flux de travail, pas comme prévision de rendement.",
-        "source_note": "Publication du projet Official. Vérifiez le compte lié et toute adresse de contrat sur le site officiel avant de signer."
+        "source_note": "Publication du projet Official. Vérifiez le compte lié et toute adresse de contrat sur le site officiel avant de signer.",
+        "source_hash": "cce86299955333db"
       },
       "official-output-cost-note": {
         "title": "Note sur le coût des broches de sortie et la règle de netlist",
         "summary": "Official explication de pourquoi le nombre de portes Canvas peut différer de la consommation finale du TapeOut. Vérifiez les entrées, les sorties et le coût avant de signer une transaction.",
-        "source_note": "Publication du projet Official. Les informations de coût sont une référence sur la mécanique du protocole, pas une évaluation ni une promesse de rendement."
+        "source_note": "Publication du projet Official. Les informations de coût sont une référence sur la mécanique du protocole, pas une évaluation ni une promesse de rendement.",
+        "source_hash": "c8428c05cff1e86a"
       },
       "community-beginner-guide": {
         "title": "De Mint au TapeOut : guide du débutant de TapeOut",
         "summary": "Community : guide pour débutants couvrant les tests de portefeuille isolé, les vérifications de contrats en lecture seule et les risques liés à un TapeOut irréversible. Les sources Official demeurent la référence pour les mécanismes.",
-        "source_note": "Contenu Community, jamais une source Official. L'article inclut un avertissement sur les risques ; vérifiez indépendamment les mécanismes et les contrats."
+        "source_note": "Contenu Community, jamais une source Official. L'article inclut un avertissement sur les risques ; vérifiez indépendamment les mécanismes et les contrats.",
+        "source_hash": "579bd57c2e646413"
       },
       "official-pod-entry": {
         "title": "$BEM Proof of Design : entrée de minage Official",
         "summary": "Entrée Official pour arm, start, claim, taskbank et contrats. Elle indique les transactions irréversibles et que l'achat de tokens n'est pas requis.",
-        "source_note": "Source du site Official. Traitez toute discussion tierce sur les prix ou le minage séparément de la page de règles Official."
+        "source_note": "Source du site Official. Traitez toute discussion tierce sur les prix ou le minage séparément de la page de règles Official.",
+        "source_hash": "bcf9d694baef02aa"
       },
       "community-web3kexin-intro": {
         "title": "Un article pour comprendre TapeOut",
         "summary": "Explication Community parcourant la chaîne de valeur NAND/LATCH -> Circuit -> hashpower -> valeur du BEM, et la différence entre les transistors TapeOut et Behemoth. Un cadrage conceptuel uniquement, sans affirmation de prix ou de rendement.",
-        "source_note": "Contenu Community, jamais une source Official. Les mécanismes doivent quand même être recoupés avec le site Official."
+        "source_note": "Contenu Community, jamais une source Official. Les mécanismes doivent quand même être recoupés avec le site Official.",
+        "source_hash": "90acca251835cee7"
       },
       "community-ranynft-v2-supplychain": {
         "title": "TapeOut V2 : une analogie on-chain pour la chaîne d'approvisionnement du matériel de calcul IA",
         "summary": "Analyse Community associant Processor/Circuit/PoD à une analogie amont-milieu-aval de l'industrie du matériel, et reformulant en termes simples la pondération publique H = (coût brûlé + prime de conception) x coefficient du processeur. Utilise un langage nuancé tout du long et ne prévoit pas de rendements.",
-        "source_note": "Contenu Community, jamais une source Official. Traitez l'analogie industrielle comme un dispositif explicatif, pas une affirmation Official sur l'architecture."
+        "source_note": "Contenu Community, jamais une source Official. Traitez l'analogie industrielle comme un dispositif explicatif, pas une affirmation Official sur l'architecture.",
+        "source_hash": "cacb2604b6ac50c1"
       },
       "community-lilmxgma-beginner-guide": {
         "title": "Guide du débutant TapeOut : construisez votre premier circuit à partir de zéro",
         "summary": "Guide Community pour débutants couvrant les bases de NAND/LATCH, une recommandation de wallet expérimental isolé, la divulgation de l'upgradabilité du contrat Official, et une distinction explicite entre le site Official et les outils Community non officiels. Inclut un avertissement de risque avant chaque étape de signature.",
-        "source_note": "Contenu Community, jamais une source Official. Les propres avertissements de sécurité du guide sont un signal de qualité fort mais ne remplacent pas une vérification indépendante."
+        "source_note": "Contenu Community, jamais une source Official. Les propres avertissements de sécurité du guide sont un signal de qualité fort mais ne remplacent pas une vérification indépendante.",
+        "source_hash": "e43117f19cb55b36"
       }
     },
     "tools": {
       "tool-tapeout-canvas": {
         "title": "TapeOut Canvas",
         "summary": "Official espace de travail navigateur pour construire et tester la logique de Circuit NAND/LATCH et le câblage Canvas avant toute transaction de TapeOut.",
-        "safety": "Testez d'abord. Le TapeOut peut créer une transaction irréversible on-chain ; vérifiez les entrées, sorties, composants et le coût affichés avant de signer."
+        "safety": "Testez d'abord. Le TapeOut peut créer une transaction irréversible on-chain ; vérifiez les entrées, sorties, composants et le coût affichés avant de signer.",
+        "source_hash": "5dafb39a3616e08a"
       },
       "tool-pod": {
         "title": "$BEM Proof of Design",
         "summary": "Official PoD — entrée pour la lecture des règles, le workflow arm/start/claim, l'état du minage et les références de contrats.",
-        "safety": "N'utilisez que les références de règles et de contrats Official. Les transactions sont irréversibles ; ceci n'est pas une promesse de retours de minage."
+        "safety": "N'utilisez que les références de règles et de contrats Official. Les transactions sont irréversibles ; ceci n'est pas une promesse de retours de minage.",
+        "source_hash": "da7203de64851bed"
       },
       "tool-pod-taskbank": {
         "title": "PoD taskbank",
         "summary": "Catalogue de tâches Official pour sélectionner des exercices par niveau, type combinatoire/séquentiel et éligibilité on-chain.",
-        "safety": "Lisez les exigences de vérification avant toute réclamation. Un label de tâche ne garantit pas une récompense ni la valeur d'un token."
+        "safety": "Lisez les exigences de vérification avant toute réclamation. Un label de tâche ne garantit pas une récompense ni la valeur d'un token.",
+        "source_hash": "ff0de1926c051ec4"
       },
       "tool-bscscan-pod": {
         "title": "BscScan vérification en lecture seule du contrat PoD",
         "summary": "Page explorateur en lecture seule pour recouper l'adresse publique du contrat PoD et l'état des transactions avec les références Official.",
-        "safety": "Un explorateur de blocs n'est ni un audit ni une métrique de rendement. Ne considérez aucune adresse copiée comme digne de confiance sans la comparer à la source Official."
+        "safety": "Un explorateur de blocs n'est ni un audit ni une métrique de rendement. Ne considérez aucune adresse copiée comme digne de confiance sans la comparer à la source Official.",
+        "source_hash": "eec91c0fc5f26378"
       },
       "tool-tapeout-club": {
         "title": "Tableau TapeOut Club pour Processor et hashpower",
         "summary": "Tableau public Community pour les observations de Processor et de hashpower. Ses calculs sont utiles comme vue séparée de l'écosystème, mais ne constituent pas une source Official de détenteurs ou du protocole.",
-        "safety": "Estimation Community uniquement. Traitez la couverture de classement, les sorties projetées et les labels comme des observations propres à la source ; n'en déduisez pas les soldes actuels de portefeuilles, des identités ou des retours garantis."
+        "safety": "Estimation Community uniquement. Traitez la couverture de classement, les sorties projetées et les labels comme des observations propres à la source ; n'en déduisez pas les soldes actuels de portefeuilles, des identités ou des retours garantis.",
+        "source_hash": "816e06b872490e51"
       },
       "tool-tapeout-firsto": {
         "title": "TapeOut Firsto marketplace",
         "summary": "Plateforme de négociation tierce présentant des annonces de transistors et de machines de minage liées à TapeOut, qui se présente comme un terminal de trading professionnel plutôt que comme un simple tableau d'annonces. Derrière la page d'accueil, elle diffuse un fil des exécutions en direct : chaque exécution indique le sens d'achat ou de vente, le BNB total, la quantité, le prix unitaire, le portefeuille de la contrepartie et un lien vers la transaction sur BscScan, sur plusieurs heures d'historique. Note de portée : ce fil est la seule surface que cette revue a pu récupérer — ni la navigation ni aucune autre section n'a été renvoyée —, cela décrit donc ce que l'intérieur affiche, et non l'étendue complète de ce que le site propose. À utiliser pour découvrir et lire le marché, séparément des données officielles de protocole et de propriété.",
-        "safety": "Marketplace Community, pas une source Official de prix ou de propriété. Les annonces, prix affichés et disponibilités peuvent changer et ne garantissent pas l'exécution ; vérifiez les contrats et les demandes de signature de manière indépendante."
+        "safety": "Marketplace Community, pas une source Official de prix ou de propriété. Les annonces, prix affichés et disponibilités peuvent changer et ne garantissent pas l'exécution ; vérifiez les contrats et les demandes de signature de manière indépendante.",
+        "source_hash": "44993632bbb3c39c"
       },
       "tool-tapeout-market": {
         "title": "TapeOut Market",
         "summary": "Marché communautaire de l'écosystème dont la navigation va bien au-delà des annonces. Trois sections que le nom ne laisse pas deviner : /circuits est un marché secondaire de machines de minage déjà gravées (Circuit NFTs) ; il agrège les annonces officielles de tapeout.net à côté des siennes et étiquette la source de chaque fiche pour que la répartition reste visible, en affichant par machine le BEM en attente, l'identifiant de tâche, le hashrate, le pool et la production quotidienne estimée. /mining est un tableau de bord réseau couvrant la phase de halving, le taux d'émission et le compte à rebours jusqu'au prochain halving, le nombre de machines actives et vérifiées ainsi que le hashrate, des sources de prix explicitement nommées (un pool PancakeSwap V3 BEM/USDT précis, avec BNB/USD via Chainlink) et un compteur « Forgone Emissions » (émission non émise) qu'aucun autre outil de ce catalogue ne publie. /create est un assistant en quatre étapes couvrant toutes les tâches officielles, avec filtres et tri par besoin en NAND et en LATCH, ainsi qu'une production quotidienne estimée par tâche pour les deux processeurs, calculée dans le navigateur. Une page Tools ajoute un calculateur de minage de circuit qui lit les données on-chain d'un circuit, les confronte aux vecteurs de tâche officiels compatibles et estime la production en pool vérifié ainsi que le retour sur investissement. Les annonces de circuits portent la mise en garde du site lui-même : ce qui est affiché est une couverture de données, et non la topologie de la netlist. À traiter dans son ensemble séparément des sources officielles de protocole, de contrat et de propriété.",
-        "safety": "Place de marché communautaire uniquement. Les offres ouvertes et valeurs affichées ne constituent pas des transactions conclues, des prix de sortie ni des promesses de rendement ; vérifiez indépendamment les contrats actuels et toutes les demandes de portefeuille avant signature."
+        "safety": "Place de marché communautaire uniquement. Les offres ouvertes et valeurs affichées ne constituent pas des transactions conclues, des prix de sortie ni des promesses de rendement ; vérifiez indépendamment les contrats actuels et toutes les demandes de portefeuille avant signature.",
+        "source_hash": "f123b0344ff58de2"
       },
       "tool-intelligence-api": {
         "title": "TapeOut Intelligence API",
         "summary": "API publique étayée par des preuves pour Registry, activités, Airdrop, $BEM, ressources pédagogiques revues et réponses pédagogiques multilingues.",
-        "safety": "La santé des sources, l'état obsolète et les limites de prix tierces font partie de la réponse. N'interprétez pas des données indisponibles comme zéro ni comme en temps réel."
+        "safety": "La santé des sources, l'état obsolète et les limites de prix tierces font partie de la réponse. N'interprétez pas des données indisponibles comme zéro ni comme en temps réel.",
+        "source_hash": "72c06ada5dc25a93"
       },
       "tool-gatepilot": {
         "title": "Plateforme de minage et de location GatePilot",
         "summary": "Plateforme Community qui vous permet de choisir une tâche du taskbank Official, de générer un circuit de référence et un fichier .blif, puis soit de faire le tape-out directement sur GatePilot, soit de l'importer dans le Canvas Official ; propose aussi un atelier pour machines de minage et des annonces de location. Nécessite de connecter un wallet.",
-        "safety": "Plateforme tierce, pas une surface TapeOut Official. Connecter un wallet, faire le tape-out et louer sont toutes des actions réelles, signables, avec un coût réel ; le circuit de référence généré est explicitement décrit comme \"une référence publique ordinaire, pas un design champion, sans preuve d'optimum global\". Vérifiez indépendamment chaque contrat et chaque demande de signature avant d'approuver, et traitez les conditions de location comme un arrangement propre à cette plateforme, pas une fonctionnalité Official du protocole."
+        "safety": "Plateforme tierce, pas une surface TapeOut Official. Connecter un wallet, faire le tape-out et louer sont toutes des actions réelles, signables, avec un coût réel ; le circuit de référence généré est explicitement décrit comme \"une référence publique ordinaire, pas un design champion, sans preuve d'optimum global\". Vérifiez indépendamment chaque contrat et chaque demande de signature avant d'approuver, et traitez les conditions de location comme un arrangement propre à cette plateforme, pas une fonctionnalité Official du protocole.",
+        "source_hash": "80c934c638ef3689"
       },
       "tool-tapeoutgo": {
         "title": "TapeOutGo (par 0xLukin)",
         "summary": "L'outil open-source (MIT) dont la propre carte de cotation \"Budget vs Behemoth\" de ce site s'inspire et dont elle adapte la méthodologie de tarification en lecture seule. Le flux de minage original (acheter le manque, faire le tape-out, arm/start et réclamer $BEM, le tout signé directement par votre propre wallet sans garde) est passé à une route \"ancienne\" /mine. La page d'accueil présente désormais un produit distinct, pas encore lancé, du même auteur : un produit nommé \"TapeOut Liquidity Layer\" qui envelopperait les composants NAND/LATCH Official à 1:1 dans quatre tokens fongibles (wTapeOutNand/wTapeOutLatch/wBehemothNand/wBehemothLatch), échangeables et poolables contre BNB sur PancakeSwap, dé-enveloppables à tout moment à parité. Au moment de cette revue, les quatre tokens sont encore marqués \"à venir\" sans aucun contrat déployé, donc il n'y a encore rien de réel à vérifier ou intégrer.",
-        "safety": "Outil Community, pas une surface TapeOut Official. Acheter, faire le tape-out et réclamer sont des actions réelles, signables et irréversibles ; les chiffres de retour sur investissement excluent le gas et ne constituent pas une promesse de rendement. Le produit d'enveloppement de liquidité présenté est pré-lancement — considérez toute future adresse de contrat comme non vérifiée tant qu'elle n'est pas réellement déployée et vérifiée indépendamment, et notez que la page elle-même révèle que le contrat d'enveloppement n'aura aucune clé d'administrateur une fois en ligne (irréversible par conception, non upgradable en cas de problème). Vérifiez indépendamment chaque demande de signature."
+        "safety": "Outil Community, pas une surface TapeOut Official. Acheter, faire le tape-out et réclamer sont des actions réelles, signables et irréversibles ; les chiffres de retour sur investissement excluent le gas et ne constituent pas une promesse de rendement. Le produit d'enveloppement de liquidité présenté est pré-lancement — considérez toute future adresse de contrat comme non vérifiée tant qu'elle n'est pas réellement déployée et vérifiée indépendamment, et notez que la page elle-même révèle que le contrat d'enveloppement n'aura aucune clé d'administrateur une fois en ligne (irréversible par conception, non upgradable en cas de problème). Vérifiez indépendamment chaque demande de signature.",
+        "source_hash": "64faf115f5cc6b49"
       },
       "tool-tapeout-build": {
         "title": "TapeOut.build, le canvas de calcul",
         "summary": "Canvas de conception de circuits alternatif construit par Community : glissez des composants NAND/LATCH, simulez en direct, et prévisualisez une estimation de la répartition des coûts (b*, surface A, coût C) avant d'exporter un fichier BLIF pour le site Official. Son panneau d'inspection indique aussi le nombre de portes et de LATCH, la profondeur logique, la taille de la netlist en octets, la spécification de tâche auto-associée et le plafond de transistors, et signale les « portes mortes » — des sorties non connectées à quoi que ce soit, qui consomment pourtant du coût et du budget de transistors. Un panneau de prédiction estime la production quotidienne, la part de réseau et la hashpower de base H hors toute prime de premier créateur. Le décodeur accepte une chaîne hex de netlist, un hash de transaction, une adresse de contrat ou un lien tapeout.net/BscScan collé.",
-        "safety": "Bac à sable de conception Community, pas un outil Official. Les chiffres estimés de coût, de hashpower et de production quotidienne sont le calcul de prévisualisation propre à ce site, établi par rapport aux mineurs actuellement sur la chaîne — la page indique clairement qu'une vague de tape-out ultérieure diluera toute part qu'elle affiche — pas une valeur Official ou garantie ; seuls le Canvas Official et la transaction de tape-out elle-même font autorité. Son flux de notation payant (0,001 BNB par exécution) n'est actuellement qu'une démonstration : la page indique que ce prototype n'émet aucune vraie demande de wallet, tout en annonçant que la version réelle demandera une signature de wallet et un transfert vers une adresse de collecte. Considérez la classification en lecture seule comme valable pour le prototype tel qu'examiné, pas comme une garantie sur la version qui sera finalement livrée."
+        "safety": "Bac à sable de conception Community, pas un outil Official. Les chiffres estimés de coût, de hashpower et de production quotidienne sont le calcul de prévisualisation propre à ce site, établi par rapport aux mineurs actuellement sur la chaîne — la page indique clairement qu'une vague de tape-out ultérieure diluera toute part qu'elle affiche — pas une valeur Official ou garantie ; seuls le Canvas Official et la transaction de tape-out elle-même font autorité. Son flux de notation payant (0,001 BNB par exécution) n'est actuellement qu'une démonstration : la page indique que ce prototype n'émet aucune vraie demande de wallet, tout en annonçant que la version réelle demandera une signature de wallet et un transfert vers une adresse de collecte. Considérez la classification en lecture seule comme valable pour le prototype tel qu'examiné, pas comme une garantie sur la version qui sera finalement livrée.",
+        "source_hash": "554b339147b0d74d"
       },
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (tableau Dune)",
         "summary": "Tableau de bord Dune construit par Community, agrégeant le prix du $BEM, la capitalisation, le FDV, la liquidité principale, l'offre en circulation et les chiffres de rendement de minage à partir de données on-chain et de marché.",
-        "safety": "Tableau de bord Community indépendant, pas une source de prix ou de protocole Official, et délibérément non intégré en direct sur ce site : son auteur peut le modifier à tout moment, et une modification que nous n'avons pas vérifiée ne doit pas apparaître ici comme si nous l'avions contrôlée. Les chiffres de FDV/capitalisation supposent un modèle d'offre maximale fixe ; vérifiez la méthodologie sur Dune avant de vous fier à un chiffre."
+        "safety": "Tableau de bord Community indépendant, pas une source de prix ou de protocole Official, et délibérément non intégré en direct sur ce site : son auteur peut le modifier à tout moment, et une modification que nous n'avons pas vérifiée ne doit pas apparaître ici comme si nous l'avions contrôlée. Les chiffres de FDV/capitalisation supposent un modèle d'offre maximale fixe ; vérifiez la méthodologie sur Dune avant de vous fier à un chiffre.",
+        "source_hash": "dd57485e2d81044c"
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (tape-out par lots)",
         "summary": "Outil Community de tape-out par lots : choisissez une tâche publiée et son plan de forme référence, puis faites le tape-out de N copies en un seul flux, chaque unité étant toujours signée et réglée comme sa propre transaction wallet. La page révèle à l'avance si la prime de premier créateur d'une tâche a déjà été réclamée par un mineur antérieur, de sorte qu'une exécution par lots ne gagne alors que le poids standard, pas le bonus d'originalité. Elle propose aussi une bande de prix en direct BNB/BEM et NAND/LATCH pour les deux processeurs, un guide en quatre étapes de validation et signature, et un tableau d'économie par tâche dont les colonnes incluent la production quotidienne estimée, le coût de frappe, la hashpower par coût unitaire, la décote par rapport au marché et le nombre de jours de retour sur investissement statique.",
-        "safety": "Outil Community, pas une surface TapeOut Official. Chaque tape-out d'un lot est une transaction réelle, irréversible, signée par wallet, avec un coût BNB réel ; utiliser un modèle partagé signifie que vous n'êtes pas le concepteur original de ce circuit, donc aucune prime de premier créateur ne s'applique si elle a déjà été réclamée. Vérifiez indépendamment chaque demande de signature."
+        "safety": "Outil Community, pas une surface TapeOut Official. Chaque tape-out d'un lot est une transaction réelle, irréversible, signée par wallet, avec un coût BNB réel ; utiliser un modèle partagé signifie que vous n'êtes pas le concepteur original de ce circuit, donc aucune prime de premier créateur ne s'applique si elle a déjà été réclamée. Vérifiez indépendamment chaque demande de signature.",
+        "source_hash": "8f1883140f0691ad"
       },
       "tool-tapeout-verifier": {
         "title": "Vérificateur de circuits et recensement de tapeout.pro",
         "summary": "Outil indépendant en lecture seule qui vérifie un circuit tape-out par rapport à l'implémentation de référence on-chain de sa tâche déclarée sur chaque entrée possible (ou, pour les tâches séquentielles, chaque paire entrée/état), plutôt que sur les seuls 256 vecteurs d'échantillon publics fixes du protocole. Sa page Census publie une liste de verdicts par mineur avec trois résultats possibles, pas deux : correct, non-concordant, et « correct mais gonflé » — une logique équivalente mais comportant des portes excédentaires, qui font grimper b* et donc la hashpower de base. Le site note que ce gonflage est un choix rationnel pour un mineur, dont le seul coût est de perdre la prime de premier créateur. Census indique aussi le degré de gonflage, la profondeur et la taille par rapport à la référence. Rétro-ingénierié à partir du bytecode puisqu'aucun contrat TapeOut n'est vérifié sur BscScan ; le site publie les règles qu'il a récupérées, dont C = A·d^β et H = (b* + K_task·q)·P. Cela dit, le chiffre de « 256 vecteurs de test publics et fixes » est la description que tapeout.pro donne du protocole et n'est corroborée par aucune page Official ; le protocole décrit de son côté son échantillonnage comme un petit nombre d'entrées tirées au hasard, et a annoncé en septembre 2026 un mécanisme de revue par contre-exemple — des contestations ouvertes à tout le réseau qui retirent la prime de conception d'un Circuit — qui n'était pas encore documenté sur la page PoD Official au moment de cette revue. Une seconde surface communautaire, tapeout.market, affiche elle aussi « Vector Count 256 » sur chaque tâche — mais c'est également un outil communautaire, qui a pu reprendre ce chiffre de tapeout.pro ; ce n'est donc pas la corroboration officielle évoquée ci-dessus. Ce que tapeout.market étaye bien de façon indépendante, c'est l'origine du circuit de référence : il affiche la même adresse de contrat de circuit de référence que GatePilot, ce qui concorde avec ce que tapeout.pro indique sur l'emplacement des références on-chain.",
-        "safety": "Analyse Community indépendante, pas un verdict Official ou appliqué on-chain. Un « non-concordance » publié prouve que la logique du circuit diffère de sa tâche déclarée sur l'espace d'entrée testé ; cela ne prouve pas en soi une intention, et le site le dit explicitement. « Correct mais gonflé » est de même une description de la forme du circuit, pas une accusation. Les formules récupérées sont le résultat de la rétro-ingénierie de l'auteur sur un bytecode non vérifié, pas une spécification Official. En lecture seule — il ne demande jamais de wallet, de signature ou de transaction."
+        "safety": "Analyse Community indépendante, pas un verdict Official ou appliqué on-chain. Un « non-concordance » publié prouve que la logique du circuit diffère de sa tâche déclarée sur l'espace d'entrée testé ; cela ne prouve pas en soi une intention, et le site le dit explicitement. « Correct mais gonflé » est de même une description de la forme du circuit, pas une accusation. Les formules récupérées sont le résultat de la rétro-ingénierie de l'auteur sur un bytecode non vérifié, pas une spécification Official. En lecture seule — il ne demande jamais de wallet, de signature ou de transaction.",
+        "source_hash": "8a9ae795675e501f"
       },
       "tool-tapeout-vip": {
         "title": "Tableau d'analyse en direct TapeOut VIP",
         "summary": "Tableau de bord indépendant trilingue (chinois/anglais/coréen) en temps réel : nombre total de mineurs, poids du pool vérifié/non vérifié, progression du minage vers le plafond d'offre de 21M, émission quotidienne, prix/capitalisation/FDV du BEM, cotations achat-vente en direct de NAND/LATCH pour TapeOut et Behemoth, un tableau « Rank #1 » des pionniers par tâche, un classement de wallets et un classement des tâches populaires. Le tableau des tâches porte la forme de conception elle-même — surface, profondeur et b* réunis en un triplet —, le coût de conception C et le bonus de premier créateur, et la bande de prix indique la part brûlée de chaque type de transistor. Republié avec approbation par le fondateur du protocole @Blonskr.",
-        "safety": "Tableau de bord Community indépendant, pas une source Official. Vérifié directement : la page est en lecture seule et aucune connexion wallet, signature ou demande de transaction n'a été trouvée nulle part. Ses chiffres « Rank #1 » et de poids par tâche sont le calcul propre de l'auteur ; vérifiez la méthodologie indépendamment avant de vous fier à un chiffre."
+        "safety": "Tableau de bord Community indépendant, pas une source Official. Vérifié directement : la page est en lecture seule et aucune connexion wallet, signature ou demande de transaction n'a été trouvée nulle part. Ses chiffres « Rank #1 » et de poids par tâche sont le calcul propre de l'auteur ; vérifiez la méthodologie indépendamment avant de vous fier à un chiffre.",
+        "source_hash": "f361f964721875c8"
       },
       "tool-bemotc": {
         "title": "Marché de gré à gré BEM OTC à carnet d'ordres",
         "summary": "Carnet d'ordres pair-à-pair BEM/USDT on-chain construit par Community sur BNB Smart Chain : acheteurs et vendeurs publient leur propre prix et quantité, les fonds sont verrouillés dans le contrat au moment de l'ordre, et une transaction se règle atomiquement on-chain — destiné à exécuter de gros ordres sans faire bouger le prix du pool AMM plus fin. Des frais de 1% s'appliquent de chaque côté.",
-        "safety": "Outil Community, pas une surface TapeOut ou BEM Official. Nécessite de connecter un wallet dans un navigateur dApp (MetaMask/OKX/Binance Web3 Wallet/TokenPocket) ; publier ou remplir un ordre est une transaction réelle, signée par wallet, qui verrouille des fonds réels dans le contrat. Le site révèle lui-même que le contrat n'a PAS encore fait l'objet d'un audit tiers indépendant — considérez cela comme un risque ouvert, vérifiez indépendamment l'adresse du contrat, et ne risquez que des montants que vous pouvez vous permettre de perdre."
+        "safety": "Outil Community, pas une surface TapeOut ou BEM Official. Nécessite de connecter un wallet dans un navigateur dApp (MetaMask/OKX/Binance Web3 Wallet/TokenPocket) ; publier ou remplir un ordre est une transaction réelle, signée par wallet, qui verrouille des fonds réels dans le contrat. Le site révèle lui-même que le contrat n'a PAS encore fait l'objet d'un audit tiers indépendant — considérez cela comme un risque ouvert, vérifiez indépendamment l'adresse du contrat, et ne risquez que des montants que vous pouvez vous permettre de perdre.",
+        "source_hash": "362daa88071e5a40"
       },
       "tool-tapeout-index": {
         "title": "TapeOut Index",
         "summary": "Répertoire de liens construit par Community regroupant en un seul endroit les pages Official et les outils tiers de TapeOut. Republié avec approbation par le fondateur du protocole @Blonskr. Purement une surface de navigation — il ne présente pas lui-même de données de prix, de détention ou de performance.",
-        "safety": "Répertoire Community, pas une source Official. Aucune connexion wallet, signature ou demande de transaction n'a été trouvée sur la page lors de la revue ; il ne fait que renvoyer vers l'extérieur. Vérifiez indépendamment tout outil lié avant d'y connecter un wallet."
+        "safety": "Répertoire Community, pas une source Official. Aucune connexion wallet, signature ou demande de transaction n'a été trouvée sur la page lors de la revue ; il ne fait que renvoyer vers l'extérieur. Vérifiez indépendamment tout outil lié avant d'y connecter un wallet.",
+        "source_hash": "1f6704a57db9f245"
       },
       "tool-tg-large-trade-alerts": {
         "title": "Canal d'alertes de grosses transactions (Telegram Community)",
         "summary": "Un canal Telegram Community qui diffuse des mises à jour liées à TapeOut, circulant dans des listes communautaires comme un flux de détection de grosses transactions. La description du canal indique clairement qu'il s'agit d'un canal non officiel créé et maintenu par des utilisateurs de la communauté.",
-        "safety": "Explicitement autoproclamé NON OFFICIEL bien que le nom du canal ressemble à celui du protocole. Un nom de canal n'est jamais une preuve d'affiliation. Les alertes proviennent du dispositif de détection propre à un seul membre de la communauté, avec des seuils non divulgués et aucune garantie de précision — ne traitez jamais un message push comme un fait vérifié, une annonce Official ou un signal de trading, et n'agissez jamais sur une adresse de contrat publiée dans un chat sans la vérifier d'abord auprès du site Official."
+        "safety": "Explicitement autoproclamé NON OFFICIEL bien que le nom du canal ressemble à celui du protocole. Un nom de canal n'est jamais une preuve d'affiliation. Les alertes proviennent du dispositif de détection propre à un seul membre de la communauté, avec des seuils non divulgués et aucune garantie de précision — ne traitez jamais un message push comme un fait vérifié, une annonce Official ou un signal de trading, et n'agissez jamais sur une adresse de contrat publiée dans un chat sans la vérifier d'abord auprès du site Official.",
+        "source_hash": "28ff911f610fe10d"
       },
       "tool-tapeout-daily": {
         "title": "Salle de rédaction communautaire TapeOut Daily",
         "summary": "Salle de presse communautaire non officielle dont la page d'accueil a mûri vers une mise en page axée sur la vérification : une manchette étiquetée avec son niveau de source et son propre horodatage de vérification, des instantanés de l'offre on-chain datés au moment de l'enregistrement et reliés à la source d'origine, et — remplaçant l'ancien classement d'activité des KOL — un fil glissant de 36 heures de publications communautaires où chaque publication porte un score de signal, un niveau de source (publication du fondateur, analyse communautaire, ou en attente de confirmation officielle) et sa propre heure de vérification. Le site énonce explicitement sa propre règle éditoriale : quand peu de contenu satisfait aux critères, il en montre peu — il ne fait pas passer des publications anciennes pour récentes. Le parcours d'apprentissage, les vidéos sélectionnées et l'index d'outils demeurent, et le site décline expressément tout conseil en investissement.",
-        "safety": "Produit éditorial Community, pas une source Official. Aucune connexion wallet n'a été trouvée sur la page lors de la revue — elle renvoie vers un canal Telegram et des outils tiers. Traitez tout classement, instantané de prix ou affirmation sélectionnée comme le jugement éditorial propre à ce site, à recouper avec des sources primaires avant d'agir."
+        "safety": "Produit éditorial Community, pas une source Official. Aucune connexion wallet n'a été trouvée sur la page lors de la revue — elle renvoie vers un canal Telegram et des outils tiers. Traitez tout classement, instantané de prix ou affirmation sélectionnée comme le jugement éditorial propre à ce site, à recouper avec des sources primaires avant d'agir.",
+        "source_hash": "403617e883121a27"
       },
       "tool-tg-official-group": {
         "title": "Groupe Telegram Official de TapeOut",
         "summary": "Le groupe Telegram figurant dans le profil X du fondateur du protocole, @Blonskr, lui-même. C'est sur cette base qu'il est référencé : ce répertoire traite déjà ses publications comme une source de niveau Official, si bien qu'un canal qu'il relie depuis son propre profil est corroboré selon le même critère.",
-        "safety": "Lisez les éléments à charge et à décharge avant de le tenir pour Official. Pour : le profil X du fondateur lui-même le relie. Contre : tapeout.net ne publie aucun lien social — ni Telegram, ni X, ni Discord, ni GitHub — le site du protocole n'offre donc rien pour le vérifier, et un lecteur qui ne se fie qu'au site Official n'obtient ici aucune confirmation. Un nom de groupe ressemblant à celui du protocole ne constitue jamais une preuve en soi. Quel que soit son statut, la règle vaut dans toute discussion : le projet ne vous écrit pas en privé pour concevoir ou faire un TapeOut à votre place, et toute adresse de contrat publiée dans un chat doit être confrontée au site Official avant toute signature."
+        "safety": "Lisez les éléments à charge et à décharge avant de le tenir pour Official. Pour : le profil X du fondateur lui-même le relie. Contre : tapeout.net ne publie aucun lien social — ni Telegram, ni X, ni Discord, ni GitHub — le site du protocole n'offre donc rien pour le vérifier, et un lecteur qui ne se fie qu'au site Official n'obtient ici aucune confirmation. Un nom de groupe ressemblant à celui du protocole ne constitue jamais une preuve en soi. Quel que soit son statut, la règle vaut dans toute discussion : le projet ne vous écrit pas en privé pour concevoir ou faire un TapeOut à votre place, et toute adresse de contrat publiée dans un chat doit être confrontée au site Official avant toute signature.",
+        "source_hash": "e0d7af2cb5b58ce5"
       }
     }
   }

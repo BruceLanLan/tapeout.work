@@ -8,139 +8,166 @@
       "official-alpha-demo": {
         "title": "Alpha lansman demosu: Canvas, TapeOut ve örnekler",
         "summary": "NAND/LATCH ve Canvas bağlantısından TapeOut’a kadar temel yolu gösteren Official kamu lansman materyali. İş akışını anlamak için kullanın; getiriyi tahmin eden bir beyan olarak kullanmayın.",
-        "source_note": "Official proje duyurusu. İmzalamadan önce bağlı hesabı ve herhangi bir sözleşme adresini Official sitede doğrulayın."
+        "source_note": "Official proje duyurusu. İmzalamadan önce bağlı hesabı ve herhangi bir sözleşme adresini Official sitede doğrulayın.",
+        "source_hash": "cce86299955333db"
       },
       "official-output-cost-note": {
         "title": "Çıkış pini maliyeti ve netlist kuralı notu",
         "summary": "Canvas kapı sayısının nihai TapeOut tüketiminden neden farklı olabileceğine dair Official açıklama. Bir işlem imzalamadan önce girişleri, çıkışları ve maliyeti kontrol edin.",
-        "source_note": "Official proje duyurusu. Maliyet bilgisi protokol-mekanikleri açısından bir referanstır; değerleme veya getiri iddiası değildir."
+        "source_note": "Official proje duyurusu. Maliyet bilgisi protokol-mekanikleri açısından bir referanstır; değerleme veya getiri iddiası değildir.",
+        "source_hash": "c8428c05cff1e86a"
       },
       "community-beginner-guide": {
         "title": "Mint'ten TapeOut'a: TapeOut için yeni başlayanlar rehberi",
         "summary": "İzolasyonlu cüzdan testleri, salt-okunur sözleşme kontrolleri ve geri alınamaz TapeOut risklerini kapsayan Community başlangıç rehberi. Mekanikler için Official kaynaklar yetkilidir.",
-        "source_note": "Community içeriği; asla Official bir kaynak değildir. Makale bir risk açıklaması içerir; mekanikleri ve sözleşmeleri bağımsız olarak doğrulayın."
+        "source_note": "Community içeriği; asla Official bir kaynak değildir. Makale bir risk açıklaması içerir; mekanikleri ve sözleşmeleri bağımsız olarak doğrulayın.",
+        "source_hash": "579bd57c2e646413"
       },
       "official-pod-entry": {
         "title": "$BEM Proof of Design: Official madencilik girişi",
         "summary": "arm, start, claim, taskbank ve sözleşmeler için Official giriş. Geri alınamaz işlemleri ve token satın almanın gerekli olmadığını açıklar.",
-        "source_note": "Official site kaynağı. Herhangi üçüncü taraf fiyat veya madencilik tartışmasını Official kural sayfasından ayrı değerlendirin."
+        "source_note": "Official site kaynağı. Herhangi üçüncü taraf fiyat veya madencilik tartışmasını Official kural sayfasından ayrı değerlendirin.",
+        "source_hash": "bcf9d694baef02aa"
       },
       "community-web3kexin-intro": {
         "title": "TapeOut'u anlamak için tek bir makale",
         "summary": "NAND/LATCH -> Circuit -> hashpower -> BEM değer zincirini ve TapeOut ile Behemoth transistörleri arasındaki farkı anlatan Community açıklayıcısı. Yalnızca kavramsal çerçeve, fiyat veya getiri iddiası yok.",
-        "source_note": "Community içeriği, asla Official bir kaynak değildir. Mekanikler yine de Official siteyle çapraz kontrol edilmelidir."
+        "source_note": "Community içeriği, asla Official bir kaynak değildir. Mekanikler yine de Official siteyle çapraz kontrol edilmelidir.",
+        "source_hash": "90acca251835cee7"
       },
       "community-ranynft-v2-supplychain": {
         "title": "TapeOut V2: AI hesaplama donanımı tedarik zinciri için zincir üstü bir benzetme",
         "summary": "Processor/Circuit/PoD'yi bir donanım endüstrisi üst-orta-alt akış benzetmesiyle eşleştiren ve kamuya açık H = (yakılan maliyet + tasarım primi) x işlemci-katsayısı ağırlıklandırmasını sade bir dille yeniden ifade eden Community analizi. Metin boyunca ihtiyatlı bir dil kullanır ve getiri tahmininde bulunmaz.",
-        "source_note": "Community içeriği, asla Official bir kaynak değildir. Endüstri benzetmesini açıklayıcı bir araç olarak değerlendirin, Official bir mimari iddiası olarak değil."
+        "source_note": "Community içeriği, asla Official bir kaynak değildir. Endüstri benzetmesini açıklayıcı bir araç olarak değerlendirin, Official bir mimari iddiası olarak değil.",
+        "source_hash": "cacb2604b6ac50c1"
       },
       "community-lilmxgma-beginner-guide": {
         "title": "TapeOut yeni başlayan rehberi: ilk devrenizi sıfırdan inşa edin",
         "summary": "NAND/LATCH temellerini, izole bir deneysel cüzdan önerisini, Official sözleşme yükseltilebilirliği açıklamasını ve Official site ile Official olmayan community araçları arasında açık bir ayrımı kapsayan Community başlangıç rehberi. Her imza adımından önce bir risk uyarısı içerir.",
-        "source_note": "Community içeriği, asla Official bir kaynak değildir. Rehberin kendi güvenlik uyarıları güçlü bir kalite sinyalidir ama bağımsız doğrulamanın yerini tutmaz."
+        "source_note": "Community içeriği, asla Official bir kaynak değildir. Rehberin kendi güvenlik uyarıları güçlü bir kalite sinyalidir ama bağımsız doğrulamanın yerini tutmaz.",
+        "source_hash": "e43117f19cb55b36"
       }
     },
     "tools": {
       "tool-tapeout-canvas": {
         "title": "TapeOut Canvas",
         "summary": "Herhangi bir TapeOut işlemi öncesinde NAND/LATCH Circuit mantığını kurma ve test etme için Official tarayıcı çalışma alanı.",
-        "safety": "Önce test edin. TapeOut geri alınamaz zincirüstü bir işlem oluşturabilir; imzalamadan önce gösterilen girişleri, çıkışları, bileşenleri ve maliyeti doğrulayın."
+        "safety": "Önce test edin. TapeOut geri alınamaz zincirüstü bir işlem oluşturabilir; imzalamadan önce gösterilen girişleri, çıkışları, bileşenleri ve maliyeti doğrulayın.",
+        "source_hash": "5dafb39a3616e08a"
       },
       "tool-pod": {
         "title": "$BEM Proof of Design",
         "summary": "$BEM PoD'nin Official kaydı; kural okuma, arm/start/claim iş akışı, madencilik durumu ve sözleşme referansları için.",
-        "safety": "Yalnızca Official kural ve sözleşme referanslarını kullanın. İşlemler geri alınamaz; bu madencilik getirisi vaadi değildir."
+        "safety": "Yalnızca Official kural ve sözleşme referanslarını kullanın. İşlemler geri alınamaz; bu madencilik getirisi vaadi değildir.",
+        "source_hash": "da7203de64851bed"
       },
       "tool-pod-taskbank": {
         "title": "PoD taskbank",
         "summary": "Seviye, kombinasyonel/sekansiyel tür ve zincirde uygunluk temelinde egzersiz seçimi için Official görev kataloğu (PoD taskbank).",
-        "safety": "Herhangi bir talep öncesi doğrulama gereksinimlerini okuyun. Bir görev etiketi ödül veya token değeri garantilemez."
+        "safety": "Herhangi bir talep öncesi doğrulama gereksinimlerini okuyun. Bir görev etiketi ödül veya token değeri garantilemez.",
+        "source_hash": "ff0de1926c051ec4"
       },
       "tool-bscscan-pod": {
         "title": "BscScan read-only PoD contract check",
         "summary": "Açık PoD sözleşme adresini ve işlem durumunu Official referanslarla karşılaştırmak için salt-okunur BscScan gezgini sayfası.",
-        "safety": "Bir blok gezgini denetim veya getiri ölçütü değildir. Kopyalanan herhangi bir adresi Official kaynakla eşleştirmeden güvenilir kabul etmeyin."
+        "safety": "Bir blok gezgini denetim veya getiri ölçütü değildir. Kopyalanan herhangi bir adresi Official kaynakla eşleştirmeden güvenilir kabul etmeyin.",
+        "source_hash": "eec91c0fc5f26378"
       },
       "tool-tapeout-club": {
         "title": "TapeOut Club Processor & hashpower board",
         "summary": "Processor ve hashpower gözlemleri için Community'ye yönelik halka açık pano. Hesaplamaları ayrı bir ekosistem görünümü olarak faydalıdır, ancak Official bir sahibi veya protokol kaynağı değildir.",
-        "safety": "Sadece Community tahmini. Sıralama kapsamını, öngörülen çıktıları ve etiketleri kaynağa özgü gözlemler olarak değerlendirin; mevcut cüzdan bakiyeleri, kimlikler veya garantili getiriler çıkarımı yapmayın."
+        "safety": "Sadece Community tahmini. Sıralama kapsamını, öngörülen çıktıları ve etiketleri kaynağa özgü gözlemler olarak değerlendirin; mevcut cüzdan bakiyeleri, kimlikler veya garantili getiriler çıkarımı yapmayın.",
+        "source_hash": "816e06b872490e51"
       },
       "tool-tapeout-firsto": {
         "title": "TapeOut Firsto marketplace",
         "summary": "TapeOut ile ilgili transistör ve madencilik makinesi ilanlarını sunan üçüncü taraf bir ticaret platformu; kendisini bir ilan panosu değil, profesyonel bir işlem terminali olarak tanıtıyor. Açılış sayfasının arkasında, gerçekleşen her işlem için canlı bir işlem şeridi sunuyor: her işlemde alış veya satış yönü, toplam BNB, miktar, birim fiyat, karşı taraf cüzdanı ve BscScan işlem bağlantısı görünüyor ve saatler geriye gidiyor. Kapsam notu: bu inceleme yalnızca bu şeridi alabildi — ne gezinme menüsü ne de başka bir bölüm döndü — dolayısıyla burada yazılan, iç kısmın ne gösterdiğidir; sitenin sunduğu her şey değildir. Resmî protokol ve sahiplik verilerinden ayrı olarak, keşif ve piyasa okuma amacıyla kullanın.",
-        "safety": "Community pazar yeri; Official fiyat veya mülkiyet kaynağı değildir. İlanlar, görüntülenen fiyatlar ve bulunabilirlik değişebilir ve işlem garantisi vermez; sözleşmeleri ve imza taleplerini bağımsız doğrulayın."
+        "safety": "Community pazar yeri; Official fiyat veya mülkiyet kaynağı değildir. İlanlar, görüntülenen fiyatlar ve bulunabilirlik değişebilir ve işlem garantisi vermez; sözleşmeleri ve imza taleplerini bağımsız doğrulayın.",
+        "source_hash": "44993632bbb3c39c"
       },
       "tool-tapeout-market": {
         "title": "TapeOut Market",
         "summary": "Gezinmesi ilan listelerinin çok ötesine geçen bir topluluk ekosistem pazarı. Adından anlaşılmayan üç bölüm var: /circuits, üretilmiş madencilik makinelerinin (Circuit NFT'leri) ikincil pazarı; resmî tapeout.net ilanlarını kendi ilanlarıyla birlikte topluyor ve dağılım görünür kalsın diye her kartın kaynağını etiketliyor, makine başına bekleyen BEM, görev kimliği, hash gücü, havuz ve tahmini günlük üretimi gösteriyor. /mining bir ağ panosu: yarılanma aşaması, arz hızı ve sonraki yarılanmaya geri sayım, etkin ve doğrulanmış makine sayıları ile hash gücü, açıkça adı verilen fiyat kaynakları (belirli bir PancakeSwap V3 BEM/USDT havuzu, BNB/USD için Chainlink) ve bu katalogdaki başka hiçbir aracın yayımlamadığı bir «Forgone Emissions» (ihraç edilmemiş arz) sayacı. /create, tüm resmî görevleri kapsayan dört adımlı bir sihirbaz; NAND ve LATCH gereksinimine göre filtreleme ve sıralama sunuyor, ayrıca her görev için iki işlemcinin tahmini günlük üretimini tarayıcıda hesaplıyor. Tools sayfasında bir devre madenciliği hesaplayıcısı var: bir devrenin zincir üstü verisini okuyor, uyumlu resmî görev vektörleriyle karşılaştırıyor ve doğrulanmış havuzdaki üretim ile geri ödeme süresini tahmin ediyor. Devre ilanlarında sitenin kendi kaydı yer alıyor: gösterilen şey bir veri kapağıdır, netlist topolojisi değildir. Bunların tümünü resmî protokol, sözleşme ve sahiplik kaynaklarından ayrı değerlendirin.",
-        "safety": "Yalnızca topluluk pazaryeridir. Açık alış emirleri ve gösterilen değerler tamamlanmış işlemler, çıkış fiyatları veya getiri vaatleri değildir; imzalamadan önce güncel sözleşmeleri ve tüm cüzdan isteklerini bağımsız olarak doğrulayın."
+        "safety": "Yalnızca topluluk pazaryeridir. Açık alış emirleri ve gösterilen değerler tamamlanmış işlemler, çıkış fiyatları veya getiri vaatleri değildir; imzalamadan önce güncel sözleşmeleri ve tüm cüzdan isteklerini bağımsız olarak doğrulayın.",
+        "source_hash": "f123b0344ff58de2"
       },
       "tool-intelligence-api": {
         "title": "TapeOut Intelligence API",
         "summary": "Registry, aktiviteler, Airdrop, $BEM, incelenmiş öğrenme kaynakları ve çokdilli öğrenme yanıtları için kanıta dayalı public API (TapeOut Intelligence API).",
-        "safety": "Kaynak sağlığı, güncelliğini yitirmiş durum ve üçüncü taraf fiyat sınırları yanıtın bir parçasıdır. Kullanılamayan veriyi sıfır veya gerçek zamanlı olarak yorumlamayın."
+        "safety": "Kaynak sağlığı, güncelliğini yitirmiş durum ve üçüncü taraf fiyat sınırları yanıtın bir parçasıdır. Kullanılamayan veriyi sıfır veya gerçek zamanlı olarak yorumlamayın.",
+        "source_hash": "72c06ada5dc25a93"
       },
       "tool-gatepilot": {
         "title": "GatePilot madencilik ve kiralama platformu",
         "summary": "Official görev bankasından bir görev seçmenize, bir referans devre ve .blif dosyası oluşturmanıza olanak tanıyan, ardından doğrudan GatePilot üzerinde tape-out yapmanıza veya Official Canvas'a aktarmanıza izin veren Community platformu; ayrıca bir madencilik makinesi çalışma alanı ve kiralama ilanları sunar. Cüzdan bağlantısı gerektirir.",
-        "safety": "Üçüncü taraf platform, Official bir TapeOut yüzeyi değildir. Cüzdan bağlama, tape-out yapma ve kiralama gerçek, imzalanabilir ve gerçek maliyeti olan işlemlerdir; oluşturulan referans devre açıkça \"sıradan bir kamu referansı, şampiyon bir tasarım değil, küresel optimum kanıtı yok\" olarak tanımlanır. Onaylamadan önce her sözleşmeyi ve imza talebini bağımsız olarak doğrulayın; kiralama koşullarını platformun kendi düzenlemesi olarak değerlendirin, Official bir protokol özelliği olarak değil."
+        "safety": "Üçüncü taraf platform, Official bir TapeOut yüzeyi değildir. Cüzdan bağlama, tape-out yapma ve kiralama gerçek, imzalanabilir ve gerçek maliyeti olan işlemlerdir; oluşturulan referans devre açıkça \"sıradan bir kamu referansı, şampiyon bir tasarım değil, küresel optimum kanıtı yok\" olarak tanımlanır. Onaylamadan önce her sözleşmeyi ve imza talebini bağımsız olarak doğrulayın; kiralama koşullarını platformun kendi düzenlemesi olarak değerlendirin, Official bir protokol özelliği olarak değil.",
+        "source_hash": "80c934c638ef3689"
       },
       "tool-tapeoutgo": {
         "title": "TapeOutGo (0xLukin tarafından)",
         "summary": "Bu sitenin kendi \"Bütçe vs Behemoth\" fiyat kartının atıfta bulunduğu ve salt-okunur fiyatlandırma metodolojisini uyarladığı açık kaynaklı (MIT) araç. Orijinal madencilik akışı (açığı satın alma, tape-out yapma, arm/start ve $BEM talep etme; hepsi doğrudan kendi cüzdanınızla imzalanır, saklama yoktur) artık \"eski\" /mine rotasına taşındı. Ana sayfa şimdi aynı yazarın henüz piyasaya sürülmemiş ayrı bir ürününü önizliyor: Official NAND/LATCH bileşenlerini 1:1 oranında dört değiştirilebilir tokene (wTapeOutNand/wTapeOutLatch/wBehemothNand/wBehemothLatch) sarıp bunları PancakeSwap'ta BNB karşılığında işlem görebilir ve havuzlanabilir hale getirecek, istenildiğinde eşdeğer oranda geri açılabilecek \"TapeOut Liquidity Layer\" adlı bir ürün. Bu inceleme itibarıyla dört token de hâlâ \"yakında\" olarak işaretli ve dağıtılmış bir sözleşme yok, dolayısıyla şu an doğrulanacak veya entegre edilecek canlı bir şey bulunmuyor.",
-        "safety": "Community aracı, Official bir TapeOut yüzeyi değildir. Satın alma, tape-out yapma ve talep etme gerçek, imzalanabilir ve geri alınamaz işlemlerdir; geri ödeme rakamları gazı hariç tutar ve bir getiri vaadi değildir. Önizlenen likidite sarma ürünü henüz yayınlanmadı — gelecekte ortaya çıkacak herhangi bir sözleşme adresini, gerçekten dağıtılıp bağımsız olarak kontrol edilene kadar doğrulanmamış sayın; sayfanın kendi açıklamasına göre sarma sözleşmesi canlıya geçtiğinde herhangi bir yönetici anahtarına sahip olmayacak (tasarım gereği geri alınamaz, bir şeyler ters giderse yükseltilemez). Her imza talebini bağımsız olarak doğrulayın."
+        "safety": "Community aracı, Official bir TapeOut yüzeyi değildir. Satın alma, tape-out yapma ve talep etme gerçek, imzalanabilir ve geri alınamaz işlemlerdir; geri ödeme rakamları gazı hariç tutar ve bir getiri vaadi değildir. Önizlenen likidite sarma ürünü henüz yayınlanmadı — gelecekte ortaya çıkacak herhangi bir sözleşme adresini, gerçekten dağıtılıp bağımsız olarak kontrol edilene kadar doğrulanmamış sayın; sayfanın kendi açıklamasına göre sarma sözleşmesi canlıya geçtiğinde herhangi bir yönetici anahtarına sahip olmayacak (tasarım gereği geri alınamaz, bir şeyler ters giderse yükseltilemez). Her imza talebini bağımsız olarak doğrulayın.",
+        "source_hash": "64faf115f5cc6b49"
       },
       "tool-tapeout-build": {
         "title": "TapeOut.build hesaplama tuvali",
         "summary": "Community tarafından oluşturulmuş alternatif bir devre tasarım tuvali: NAND/LATCH bileşenlerini sürükleyin, canlı simülasyon yapın ve Official site için bir BLIF dosyası dışa aktarmadan önce tahmini bir maliyet dökümünü (b*, alan A, maliyet C) önizleyin. İnceleme paneli ayrıca kapı ve LATCH sayılarını, mantık derinliğini, netlist boyutunu (bayt), otomatik eşleştirilen görev şartnamesini ve transistör tavanını bildirir; ayrıca hiçbir yere bağlı olmayan ama yine de maliyet ve transistör bütçesi tüketen \"ölü kapıları\" işaretler. Bir tahmin paneli, ilk-yaratıcı primi hariç günlük üretimi, ağ payını ve temel hashpower H'yi tahmin eder. Çözücü; bir netlist hex dizesi, bir işlem hash'i, bir sözleşme adresi veya yapıştırılmış bir tapeout.net/BscScan bağlantısı kabul eder.",
-        "safety": "Community tasarım sandbox'ı, Official bir araç değildir. Tahmini maliyet, hashpower ve günlük üretim rakamları, şu anda zincirde bulunan madencilere göre bu sitenin kendi önizleme hesaplamasıdır — sayfa, sonraki bir tape-out dalgasının gösterdiği payı seyrelteceğini açıkça belirtir — Official veya garanti edilmiş bir değer değildir; yalnızca Official Canvas ve tape-out işleminin kendisi yetkilidir. Ücretli puanlama akışı (çalıştırma başına 0,001 BNB) şu an için yalnızca bir demodur: sayfa, bu prototipin gerçek bir cüzdan talebi oluşturmadığını belirtirken, gerçek sürümün bir cüzdan imzası ve bir toplama adresine transfer isteyeceğini de duyurur. Salt-okunur sınıflandırmasını yalnızca inceleme sırasındaki prototip için geçerli sayın; yayınlanacak sürüm hakkında bir garanti olarak görmeyin."
+        "safety": "Community tasarım sandbox'ı, Official bir araç değildir. Tahmini maliyet, hashpower ve günlük üretim rakamları, şu anda zincirde bulunan madencilere göre bu sitenin kendi önizleme hesaplamasıdır — sayfa, sonraki bir tape-out dalgasının gösterdiği payı seyrelteceğini açıkça belirtir — Official veya garanti edilmiş bir değer değildir; yalnızca Official Canvas ve tape-out işleminin kendisi yetkilidir. Ücretli puanlama akışı (çalıştırma başına 0,001 BNB) şu an için yalnızca bir demodur: sayfa, bu prototipin gerçek bir cüzdan talebi oluşturmadığını belirtirken, gerçek sürümün bir cüzdan imzası ve bir toplama adresine transfer isteyeceğini de duyurur. Salt-okunur sınıflandırmasını yalnızca inceleme sırasındaki prototip için geçerli sayın; yayınlanacak sürüm hakkında bir garanti olarak görmeyin.",
+        "source_hash": "554b339147b0d74d"
       },
       "tool-dune-mining-intelligence": {
         "title": "TapeOut Mining Intelligence (Dune panosu)",
         "summary": "Zincir üstü ve piyasa verilerinden $BEM fiyatı, piyasa değeri, FDV, birincil likidite, dolaşımdaki arz ve madencilik verimi rakamlarını bir araya getiren Community tarafından oluşturulmuş Dune panosu.",
-        "safety": "Bağımsız Community panosu; Official bir fiyat veya protokol kaynağı değildir ve bu siteye bilinçli olarak canlı gömülmemiştir: yazarı onu istediği an değiştirebilir ve incelemediğimiz bir değişiklik, biz doğrulamışız gibi burada görünmemelidir. FDV/piyasa değeri rakamları sabit maksimum arz modelini varsayar; herhangi bir sayıya güvenmeden önce metodolojiyi Dune üzerinde doğrulayın."
+        "safety": "Bağımsız Community panosu; Official bir fiyat veya protokol kaynağı değildir ve bu siteye bilinçli olarak canlı gömülmemiştir: yazarı onu istediği an değiştirebilir ve incelemediğimiz bir değişiklik, biz doğrulamışız gibi burada görünmemelidir. FDV/piyasa değeri rakamları sabit maksimum arz modelini varsayar; herhangi bir sayıya güvenmeden önce metodolojiyi Dune üzerinde doğrulayın.",
+        "source_hash": "dd57485e2d81044c"
       },
       "tool-tapeout-factory": {
         "title": "TapeOut Factory (toplu tape-out)",
         "summary": "Community toplu tape-out aracı: yayınlanmış bir görevi ve onun referans şeklindeki taslağını seçin, ardından tek bir akışta N kopya tape-out yapın; her birim yine de kendi cüzdan işlemi olarak imzalanır ve sonuçlandırılır. Sayfa, bir görevin ilk-yaratıcı priminin daha önce başka bir madenci tarafından zaten alınmış olduğunu önceden açıklar; bu durumda toplu çalıştırma yalnızca standart ağırlığı kazanır, orijinallik bonusunu değil. Ayrıca her iki işlemci için canlı BNB/BEM ve NAND/LATCH fiyat şeridi, dört adımlı bir onaylama ve imzalama kılavuzu ile tahmini günlük üretim, basım maliyeti, birim maliyet başına hashpower, piyasaya göre indirim ve statik geri ödeme günü gibi sütunlar içeren görev başına bir ekonomi tablosu sunar.",
-        "safety": "Community aracı, Official bir TapeOut yüzeyi değildir. Toplu işlemdeki her tape-out gerçek, geri alınamaz, cüzdanla imzalanmış ve gerçek BNB maliyeti olan bir işlemdir; paylaşılan bir şablon kullanmak, o devrenin orijinal tasarımcısı olmadığınız anlamına gelir, dolayısıyla daha önce alınmışsa ilk-yaratıcı primi uygulanmaz. Her imza talebini bağımsız olarak doğrulayın."
+        "safety": "Community aracı, Official bir TapeOut yüzeyi değildir. Toplu işlemdeki her tape-out gerçek, geri alınamaz, cüzdanla imzalanmış ve gerçek BNB maliyeti olan bir işlemdir; paylaşılan bir şablon kullanmak, o devrenin orijinal tasarımcısı olmadığınız anlamına gelir, dolayısıyla daha önce alınmışsa ilk-yaratıcı primi uygulanmaz. Her imza talebini bağımsız olarak doğrulayın.",
+        "source_hash": "8f1883140f0691ad"
       },
       "tool-tapeout-verifier": {
         "title": "tapeout.pro devre doğrulayıcı ve sayımı",
         "summary": "Tape-out yapılmış bir devreyi, protokolün yalnızca 256 sabit kamu örnek vektörüyle değil, olası her girdi üzerinden (sıralı görevler için ise her girdi/durum çifti üzerinden) beyan edilen görevinin zincir üzerindeki referans uygulamasına karşı kontrol eden bağımsız, salt-okunur bir araç. Census sayfası, madenci başına iki değil üç sonuçlu bir karar listesi yayınlar: doğru, uyuşmazlık ve \"doğru ama şişirilmiş\" — mantıksal olarak eşdeğer ama fazladan kapı taşıyan, bu nedenle b*'yi ve dolayısıyla temel hashpower'ı yükselten devreler. Site, bu şişirmenin bir madenci için rasyonel bir tercih olduğunu, bedelinin yalnızca ilk-yaratıcı priminden mahrum kalmak olduğunu belirtir. Census ayrıca referansa kıyasla şişirme derecesini, derinliği ve boyutu da raporlar. BscScan'de doğrulanmış hiçbir TapeOut sözleşmesi olmadığından bytecode'dan tersine mühendislikle elde edilmiştir; site, C = A·d^β ve H = (b* + K_task·q)·P dahil olmak üzere geri kazandığı kuralları yayınlar. Ancak «256 sabit, herkese açık test vektörü» rakamı tapeout.pro'nun protokole ilişkin kendi tanımıdır ve herhangi bir Official sayfayla doğrulanmamıştır; protokol tarafı kendi örneklemesini rastgele seçilmiş az sayıda girdi olarak tarif etmiş ve Eylül 2026'da bir karşıörnek incelemesi mekanizması duyurmuştur — ağ genelinde itirazlar, kabul edilirse ilgili Circuit'in tasarım primini geri alır. Bu kayıt incelendiğinde mekanizma henüz Official PoD sayfasında belgelenmemişti. İkinci bir topluluk yüzeyi olan tapeout.market de her görevde «Vector Count 256» yazıyor — ancak o da bir topluluk aracı ve bu sayıyı tapeout.pro'dan almış olabilir; dolayısıyla yukarıdaki çekincenin kastettiği resmî doğrulama değildir. tapeout.market'in bağımsız olarak desteklediği şey referans devrenin kaynağı: GatePilot ile aynı referans devre sözleşme adresini gösteriyor ve bu, tapeout.pro'nun zincir üstü referansların nerede durduğuna dair anlatımıyla örtüşüyor.",
-        "safety": "Bağımsız Community analizi, Official veya zincir üzerinde uygulanan bir karar değildir. Yayınlanan bir \"uyuşmazlık\", devrenin mantığının test edilen girdi alanında beyan edilen görevinden farklı olduğunu kanıtlar; tek başına niyeti kanıtlamaz ve site bunu açıkça belirtir. \"Doğru ama şişirilmiş\" de aynı şekilde bir devrenin şeklinin betimlemesidir, bir suçlama değildir. Geri kazanılan formüller, yazarın doğrulanmamış bytecode üzerindeki kendi tersine mühendislik çalışmasıdır, Official bir spesifikasyon değildir. Salt-okunur — hiçbir zaman cüzdan, imza veya işlem istemez."
+        "safety": "Bağımsız Community analizi, Official veya zincir üzerinde uygulanan bir karar değildir. Yayınlanan bir \"uyuşmazlık\", devrenin mantığının test edilen girdi alanında beyan edilen görevinden farklı olduğunu kanıtlar; tek başına niyeti kanıtlamaz ve site bunu açıkça belirtir. \"Doğru ama şişirilmiş\" de aynı şekilde bir devrenin şeklinin betimlemesidir, bir suçlama değildir. Geri kazanılan formüller, yazarın doğrulanmamış bytecode üzerindeki kendi tersine mühendislik çalışmasıdır, Official bir spesifikasyon değildir. Salt-okunur — hiçbir zaman cüzdan, imza veya işlem istemez.",
+        "source_hash": "8a9ae795675e501f"
       },
       "tool-tapeout-vip": {
         "title": "TapeOut VIP canlı analitik panosu",
         "summary": "Bağımsız üç dilli (Çince/İngilizce/Korece) gerçek zamanlı pano: toplam madenci sayısı, doğrulanmış/doğrulanmamış havuz ağırlığı, 21 milyonluk arz sınırına doğru madencilik ilerlemesi, günlük emisyon, BEM fiyatı/piyasa değeri/FDV, hem TapeOut hem Behemoth için canlı NAND/LATCH alış-satış, görev başına \"Rank #1\" öncü tablosu, bir cüzdan liderlik tablosu ve popüler görev sıralaması. Görev tablosu tasarımın kendisini — alan, derinlik ve b*'yi bir üçlü olarak — tasarım maliyeti C'yi ve ilk-yaratıcı bonusunu taşır; fiyat şeridi ise her transistör türünün yakılmış payını bildirir. Protokol kurucusu @Blonskr tarafından onaylayarak yeniden paylaşıldı.",
-        "safety": "Bağımsız Community panosu, Official bir kaynak değildir. Doğrudan incelendi: sayfa salt-okunur ve herhangi bir yerinde cüzdan bağlama, imza veya işlem istemi bulunamadı. Görev başına \"Rank #1\" ve ağırlık rakamları yazarın kendi hesaplamasıdır; herhangi bir rakama güvenmeden önce metodolojiyi bağımsız olarak doğrulayın."
+        "safety": "Bağımsız Community panosu, Official bir kaynak değildir. Doğrudan incelendi: sayfa salt-okunur ve herhangi bir yerinde cüzdan bağlama, imza veya işlem istemi bulunamadı. Görev başına \"Rank #1\" ve ağırlık rakamları yazarın kendi hesaplamasıdır; herhangi bir rakama güvenmeden önce metodolojiyi bağımsız olarak doğrulayın.",
+        "source_hash": "f361f964721875c8"
       },
       "tool-bemotc": {
         "title": "BEM OTC emir eşleştirme piyasası",
         "summary": "BNB Smart Chain üzerinde Community tarafından oluşturulmuş zincir üstü BEM/USDT eşler arası emir defteri: alıcılar ve satıcılar kendi fiyat ve miktarlarını girer, fonlar emir anında sözleşmeye kilitlenir ve işlem zincir üzerinde atomik olarak sonuçlanır — amaç, daha ince AMM havuzunun fiyatını hareket ettirmeden büyük emirleri karşılamaktır. Her taraftan %1 ücret alınır.",
-        "safety": "Community aracı, Official bir TapeOut veya BEM yüzeyi değildir. Bir dApp tarayıcısı içinde (MetaMask/OKX/Binance Web3 Wallet/TokenPocket) cüzdan bağlamayı gerektirir; bir emir vermek veya doldurmak, gerçek fonları sözleşmeye kilitleyen gerçek, cüzdanla imzalanmış bir işlemdir. Sitenin kendisi sözleşmenin henüz bağımsız bir üçüncü taraf denetiminden geçmediğini açıklıyor — bunu açık bir risk olarak değerlendirin, sözleşme adresini bağımsız olarak doğrulayın ve yalnızca kaybetmeyi göze alabileceğiniz miktarları riske atın."
+        "safety": "Community aracı, Official bir TapeOut veya BEM yüzeyi değildir. Bir dApp tarayıcısı içinde (MetaMask/OKX/Binance Web3 Wallet/TokenPocket) cüzdan bağlamayı gerektirir; bir emir vermek veya doldurmak, gerçek fonları sözleşmeye kilitleyen gerçek, cüzdanla imzalanmış bir işlemdir. Sitenin kendisi sözleşmenin henüz bağımsız bir üçüncü taraf denetiminden geçmediğini açıklıyor — bunu açık bir risk olarak değerlendirin, sözleşme adresini bağımsız olarak doğrulayın ve yalnızca kaybetmeyi göze alabileceğiniz miktarları riske atın.",
+        "source_hash": "362daa88071e5a40"
       },
       "tool-tapeout-index": {
         "title": "TapeOut Index",
         "summary": "Official sayfaları ve üçüncü taraf TapeOut araçlarını tek bir yerde toplayan Community tarafından oluşturulmuş bağlantı dizini. Protokol kurucusu @Blonskr tarafından onaylayarak yeniden paylaşıldı. Salt bir navigasyon yüzeyi — kendisi fiyat, sahiplik veya performans verisi sunmaz.",
-        "safety": "Community dizini, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama, imza veya işlem istemi bulunamadı; yalnızca dışarıya bağlantı verir. Orada bir cüzdan bağlamadan önce bağlantılı herhangi bir aracı bağımsız olarak doğrulayın."
+        "safety": "Community dizini, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama, imza veya işlem istemi bulunamadı; yalnızca dışarıya bağlantı verir. Orada bir cüzdan bağlamadan önce bağlantılı herhangi bir aracı bağımsız olarak doğrulayın.",
+        "source_hash": "1f6704a57db9f245"
       },
       "tool-tg-large-trade-alerts": {
         "title": "Büyük işlem uyarı kanalı (Community Telegram)",
         "summary": "TapeOut ile ilgili güncellemeler yayınlayan, topluluk listelerinde büyük işlem tespit akışı olarak dolaşan Community tarafından yönetilen bir Telegram kanalı. Kanalın kendi açıklaması, bunun topluluk kullanıcıları tarafından kurulan ve sürdürülen resmi olmayan bir kanal olduğunu açıkça belirtiyor.",
-        "safety": "Kanal adı protokolünkine benzemesine rağmen, kendisini açıkça RESMİ OLMAYAN olarak beyan ediyor. Bir kanal adı asla bağlantı kanıtı değildir. Uyarılar, açıklanmamış eşiklere ve doğruluk garantisi olmayan tek bir topluluk üyesinin kendi tespit kurulumudur — asla bir push mesajını doğrulanmış bir gerçek, Official bir duyuru veya bir işlem sinyali olarak değerlendirmeyin ve herhangi bir sohbette paylaşılan bir sözleşme adresine göre hareket etmeden önce mutlaka Official siteyle karşılaştırın."
+        "safety": "Kanal adı protokolünkine benzemesine rağmen, kendisini açıkça RESMİ OLMAYAN olarak beyan ediyor. Bir kanal adı asla bağlantı kanıtı değildir. Uyarılar, açıklanmamış eşiklere ve doğruluk garantisi olmayan tek bir topluluk üyesinin kendi tespit kurulumudur — asla bir push mesajını doğrulanmış bir gerçek, Official bir duyuru veya bir işlem sinyali olarak değerlendirmeyin ve herhangi bir sohbette paylaşılan bir sözleşme adresine göre hareket etmeden önce mutlaka Official siteyle karşılaştırın.",
+        "source_hash": "28ff911f610fe10d"
       },
       "tool-tapeout-daily": {
         "title": "TapeOut Daily community haber odası",
         "summary": "Resmî olmayan topluluk haber odası; ana sayfası doğrulama öncelikli bir düzene evrildi: kaynak katmanı etiketi ve kendi doğrulama zaman damgasını taşıyan bir manşet, kayıt anı damgalanıp özgün kaynağa bağlanan zincir üstü arz anlık görüntüleri ve — önceki KOL etkinlik sıralamasının yerine — her gönderinin bir sinyal puanı, bir kaynak katmanı etiketi (kurucu gönderisi, topluluk analizi veya resmî teyit bekliyor) ve kendi doğrulama saatini taşıdığı, kayan 36 saatlik bir topluluk gönderi akışı. Site kendi yayın kuralını açıkça yazıyor: ölçütleri karşılayan içerik azsa az gösterilir — eski gönderiler güncelmiş gibi sunulmaz. Öğrenme yolu, seçilmiş videolar ve araç dizini duruyor; yatırım tavsiyesi olmadığını da açıkça belirtiyor.",
-        "safety": "Community editoryal ürünü, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama bulunamadı — bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya seçilmiş iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin, harekete geçmeden önce birincil kaynaklarla çapraz kontrol edin."
+        "safety": "Community editoryal ürünü, Official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama bulunamadı — bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya seçilmiş iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin, harekete geçmeden önce birincil kaynaklarla çapraz kontrol edin.",
+        "source_hash": "403617e883121a27"
       },
       "tool-tg-official-group": {
         "title": "TapeOut Official Telegram grubu",
         "summary": "Protokol kurucusu @Blonskr'ın kendi X profilinde yer alan Telegram grubu. Kayda alma gerekçesi budur: bu dizin onun paylaşımlarını zaten Official düzeyde bir kaynak olarak ele alıyor, dolayısıyla kendi profilinden bağladığı bir kanal aynı ölçütle desteklenmiş sayılır.",
-        "safety": "Official olarak güvenmeden önce lehte ve aleyhte kanıtların ikisini de okuyun. Lehte: kurucunun kendi X profili bu bağlantıyı içeriyor. Aleyhte: tapeout.net hiçbir sosyal bağlantı yayımlamıyor — ne Telegram, ne X, ne Discord, ne GitHub — dolayısıyla protokolün kendi sitesi karşılaştırılacak hiçbir şey sunmuyor ve yalnızca Official siteye güvenen bir okur burada doğrulama bulamaz. Protokole benzeyen bir grup adı hiçbir zaman tek başına kanıt değildir. Durumu ne olursa olsun, her sohbette geçerli kural aynıdır: proje sizin adınıza tasarlamak veya TapeOut yapmak için size özelden yazmaz ve sohbette paylaşılan her sözleşme adresi imzalamadan önce Official siteyle karşılaştırılmalıdır."
+        "safety": "Official olarak güvenmeden önce lehte ve aleyhte kanıtların ikisini de okuyun. Lehte: kurucunun kendi X profili bu bağlantıyı içeriyor. Aleyhte: tapeout.net hiçbir sosyal bağlantı yayımlamıyor — ne Telegram, ne X, ne Discord, ne GitHub — dolayısıyla protokolün kendi sitesi karşılaştırılacak hiçbir şey sunmuyor ve yalnızca Official siteye güvenen bir okur burada doğrulama bulamaz. Protokole benzeyen bir grup adı hiçbir zaman tek başına kanıt değildir. Durumu ne olursa olsun, her sohbette geçerli kural aynıdır: proje sizin adınıza tasarlamak veya TapeOut yapmak için size özelden yazmaz ve sohbette paylaşılan her sözleşme adresi imzalamadan önce Official siteyle karşılaştırılmalıdır.",
+        "source_hash": "e0d7af2cb5b58ce5"
       }
     }
   }

@@ -1,0 +1,53 @@
+# Verify, then deploy the Worker on every push to main.
+#
+# Replaces the Cloudflare Workers Builds connection, which was bound to the
+# repository this project migrated away from. Only pure-node checks run here
+# (no local Worker); the full gate including live contracts is scripts/ship.mjs.
+# Requires two repository secrets: CLOUDFLARE_API_TOKEN (Workers Scripts:Edit,
+# D1:Edit on this account) and CLOUDFLARE_ACCOUNT_ID.
+name: deploy
+on:
+  push:
+    branches: [main]
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+jobs:
+  verify-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Static gate
+        run: |
+          node scripts/assert_no_sensitive_info.mjs
+          node scripts/test_self_audit_drift.mjs
+          node scripts/assert_translation_freshness.mjs
+          node scripts/assert_global_typography_contract.mjs
+          node scripts/assert_learning_layout_contract.mjs
+          node scripts/assert_qa_ui_contract.mjs
+          node scripts/assert_startup_resilience_contract.mjs
+          node scripts/assert_official_asset_schedule_contract.mjs
+          node scripts/assert_registry_label_governance_contract.mjs "$PWD"
+          node scripts/assert_bem_realtime_scheduler_contract.mjs "$PWD"
+      - name: Build changelog
+        run: node scripts/build_changelog.mjs
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+      - name: Verify production serves this commit's catalogue
+        run: |
+          want=$(grep -o 'ECOSYSTEM_CATALOG_VERSION = "[^"]*"' src/curated_ecosystem_seed.js | cut -d'"' -f2)
+          cache=$(grep -o 'features-r[0-9]*' public/index.html | head -1)
+          for i in $(seq 1 12); do
+            got=$(curl -s "https://tapeout.work/api/v1/tools?page_size=1" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).catalog_version)}catch{console.log("")}})')
+            home=$(curl -s "https://tapeout.work/" | grep -o 'features-r[0-9]*' | head -1)
+            if [ "$got" = "$want" ] && [ "$home" = "$cache" ]; then echo "PASS production serves $want / $cache"; exit 0; fi
+            sleep 10
+          done
+          echo "FAIL production still serves catalogue '$got' / cache '$home' (wanted $want / $cache)"; exit 1

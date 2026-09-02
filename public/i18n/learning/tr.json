@@ -5,91 +5,113 @@
   "translations": {
     "official-home": {
       "title": "TapeOut resmi sitesi: NAND/LATCH'tan on-chain Circuit'lere",
-      "summary": "Bileşenler, Processors ve Canvas ile başlayın; tape-out bileşenleri tüketir ve on-chain bir Circuit oluşturur. Site ayrıca sözleşmelerin yükseltilebilir olduğunu açıklıyor."
+      "summary": "Bileşenler, Processors ve Canvas ile başlayın; tape-out bileşenleri tüketir ve on-chain bir Circuit oluşturur. Site ayrıca sözleşmelerin yükseltilebilir olduğunu açıklıyor.",
+      "source_hash": "28953c572a9ed21d"
     },
     "official-whitepaper": {
       "title": "TapeOut Protocol beyaz kağıdı",
-      "summary": "ERC-1155 bileşenleri, ERC-721 Circuit'ler, Processor fabrikası ve on-chain netlistler için resmi referans."
+      "summary": "ERC-1155 bileşenleri, ERC-721 Circuit'ler, Processor fabrikası ve on-chain netlistler için resmi referans.",
+      "source_hash": "3e7e8ef63140354e"
     },
     "official-alpha": {
       "title": "Alpha lansman demosu: Canvas, tape-out ve örnekler",
-      "summary": "Resmi lansman yazısı temel yolu gösterir: NAND/LATCH ve Canvas kablolamadan tape-out'a kadar örnekler sunar."
+      "summary": "Resmi lansman yazısı temel yolu gösterir: NAND/LATCH ve Canvas kablolamadan tape-out'a kadar örnekler sunar.",
+      "source_hash": "46195d479e9d7dc8"
     },
     "official-output-cost": {
       "title": "Çıkış-pin maliyeti ve netlist kural notu",
-      "summary": "Canvas kapı sayısının nihai tape-out tüketimiyle neden farklı olabileceğini açıklar; girişleri, çıkışları ve maliyeti kontrol etmeden önce faydalıdır."
+      "summary": "Canvas kapı sayısının nihai tape-out tüketimiyle neden farklı olabileceğini açıklar; girişleri, çıkışları ve maliyeti kontrol etmeden önce faydalıdır.",
+      "source_hash": "f5409bc1934b48c0"
     },
     "community-market-qa": {
       "title": "TapeOut Market SSS: emirler, ücretler ve imzalama güvenliği",
-      "summary": "Topluluk tarafından yazılmış açıklama: escrow'lu BNB alım emirleri, gösterilen alıcı ücretleri, gas ve imzalama güvenliği ele alınır; USD tahminleri işlem veya satış fiyatı garantilemez ve hiçbir platform özel anahtar veya seed phrase talep etmemelidir."
+      "summary": "Topluluk tarafından yazılmış açıklama: escrow'lu BNB alım emirleri, gösterilen alıcı ücretleri, gas ve imzalama güvenliği ele alınır; USD tahminleri işlem veya satış fiyatı garantilemez ve hiçbir platform özel anahtar veya seed phrase talep etmemelidir.",
+      "source_hash": "581e3f6f702a323f"
     },
     "official-pod": {
       "title": "$BEM Proof of Design: resmi mining kaydı",
-      "summary": "arm / start / claim, taskbank ve sözleşmeler için resmi giriş; işlemlerin geri alınamaz (irreversible) olduğunu, token satın almanın gerekli olmadığını ve erken likiditenin az olabileceğini belirtir."
+      "summary": "arm / start / claim, taskbank ve sözleşmeler için resmi giriş; işlemlerin geri alınamaz (irreversible) olduğunu, token satın almanın gerekli olmadığını ve erken likiditenin az olabileceğini belirtir.",
+      "source_hash": "7abdde621572fe88"
     },
     "official-pod-tasks": {
       "title": "PoD taskbank: uygun görevlerle başlayın",
-      "summary": "Resmi taskbank girişi. Doğrulama gereksinimlerini incelemeden önce tier, kombinasyonal/sekansiyel tür ve on-chain uygunluğa göre seçim yapın."
+      "summary": "Resmi taskbank girişi. Doğrulama gereksinimlerini incelemeden önce tier, kombinasyonal/sekansiyel tür ve on-chain uygunluğa göre seçim yapın.",
+      "source_hash": "ef565bc0e8aebf39"
     },
     "official-pod-algo": {
       "title": "PoD algoritması: uygunluk, doğrulama ve formüller",
-      "summary": "Açık maliyet, uygunluk, claim ve doğrulama kurallarını açıklar; formüller kuralları izah eder ve madencilik getirilerini tahmin etmez."
+      "summary": "Açık maliyet, uygunluk, claim ve doğrulama kurallarını açıklar; formüller kuralları izah eder ve madencilik getirilerini tahmin etmez.",
+      "source_hash": "757c06fd50d6b2c3"
     },
     "community-first-tapeout": {
       "title": "Topluluk başlangıç yolu: Mint'ten Tape-Out'a",
-      "summary": "Topluluk rehberi izole küçük bir cüzdan, Canvas testleri, imza kontrolleri ve geri alınamaz tape-out vurgular; mekanikler için resmi kaynaklar yetkilidir."
+      "summary": "Topluluk rehberi izole küçük bir cüzdan, Canvas testleri, imza kontrolleri ve geri alınamaz tape-out vurgular; mekanikler için resmi kaynaklar yetkilidir.",
+      "source_hash": "e25e914c4185f938"
     },
     "community-cn-logic": {
       "title": "Çin uygulama merdiveni: NOT/AND/XOR'dan adders'a",
-      "summary": "Topluluk merdiveni temel kapılardan adders'a kadar ilerler. Yalnızca mekanizma açıklamaları resmi kaynaklarla karşılaştırılabilir; piyasa görüşleri benimsenmemiştir."
+      "summary": "Topluluk merdiveni temel kapılardan adders'a kadar ilerler. Yalnızca mekanizma açıklamaları resmi kaynaklarla karşılaştırılabilir; piyasa görüşleri benimsenmemiştir.",
+      "source_hash": "109b3eaa7119422f"
     },
     "community-something-logic-intro": {
       "title": "Something Labs topluluk tanıtımı: NAND/LATCH, tape-out ve PoD",
-      "summary": "Something Labs tarafından hazırlanmış Çince topluluk tanıtımı NAND, LATCH, on-chain Circuit'ler, tape-out, test vektörleri ve PoD terimlerini tanıtır. Kurallar ve sözleşmeler için resmi kaynaklar yetkilidir; gönderideki satın alma, tutma, madencilik ve fiyat yorumları benimsenmez."
+      "summary": "Something Labs tarafından hazırlanmış Çince topluluk tanıtımı NAND, LATCH, on-chain Circuit'ler, tape-out, test vektörleri ve PoD terimlerini tanıtır. Kurallar ve sözleşmeler için resmi kaynaklar yetkilidir; gönderideki satın alma, tutma, madencilik ve fiyat yorumları benimsenmez.",
+      "source_hash": "e5022cb309d95d96"
     },
     "reference-sr-latch": {
       "title": "Kavram referansı: NAND SR LATCH",
-      "summary": "SR latch'i doğruluk tabloları ve kapı diyagramlarıyla açıklar. Bu materyal dijital mantık referansıdır, TapeOut Protocol işletme kılavuzu değildir."
+      "summary": "SR latch'i doğruluk tabloları ve kapı diyagramlarıyla açıklar. Bu materyal dijital mantık referansıdır, TapeOut Protocol işletme kılavuzu değildir.",
+      "source_hash": "f407926274b06fb8"
     },
     "reference-bscscan-pod": {
       "title": "Read-only doğrulama: PoD contract gezgini",
-      "summary": "Blok gezginini kullanarak açık PoD contract adresini ve işlem durumunu çapraz kontrol edin; bu ne bir denetim sonucu ne de bir getiri metriğidir."
+      "summary": "Blok gezginini kullanarak açık PoD contract adresini ve işlem durumunu çapraz kontrol edin; bu ne bir denetim sonucu ne de bir getiri metriğidir.",
+      "source_hash": "4b155fc66bbf6e36"
     },
     "community-93bitmap-video-intro": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 1. bölüm",
-      "summary": "93.bitmap tarafından hazırlanan bu İngilizce topluluk açıklama videosu, kavramsal bir giriş noktası olarak TapeOut ve Ordinals’ı kullanır. Yalnızca topluluk referansı niteliğindedir; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmî bir kaynak değildir."
+      "summary": "93.bitmap tarafından hazırlanan bu İngilizce topluluk açıklama videosu, kavramsal bir giriş noktası olarak TapeOut ve Ordinals’ı kullanır. Yalnızca topluluk referansı niteliğindedir; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmî bir kaynak değildir.",
+      "source_hash": "0a7bfafd4f932ccc"
     },
     "community-93bitmap-video-ep2": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 2. bölüm",
-      "summary": "93.bitmap'in açıklayıcı serisinin ikinci bölümü, İngilizce kavramsal bir giriş. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz."
+      "summary": "93.bitmap'in açıklayıcı serisinin ikinci bölümü, İngilizce kavramsal bir giriş. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz.",
+      "source_hash": "0e0437b8733222ce"
     },
     "community-93bitmap-video-ep3": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 3. bölüm (neden bir oyna-kazan zincir oyunu olmadığı)",
-      "summary": "93.bitmap'in açıklayıcı serisinin üçüncü bölümü, TapeOut'un tipik bir oyna-kazan zincir oyunundan neden farklı olduğunu kavramsal olarak çerçeveliyor. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz."
+      "summary": "93.bitmap'in açıklayıcı serisinin üçüncü bölümü, TapeOut'un tipik bir oyna-kazan zincir oyunundan neden farklı olduğunu kavramsal olarak çerçeveliyor. Yalnızca topluluk video referansıdır; kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları konusunda resmi bir kaynak değildir; gönderi metninin kendisi bağımsız olarak doğrulanabilir hiçbir teknik materyal sunmaz.",
+      "source_hash": "bf32b2cb93af2deb"
     },
     "community-93bitmap-video-ep5-zh": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 5. bölüm (arena paradigma değişimi)",
-      "summary": "93.bitmap'in açıklayıcı serisinin beşinci bölümü; yazara göre kurucu @Blonskr ile bir sohbetin ardından revize edilmiş olup, tartışılan bir V2 \"geliştirici yuvası\" kavramını ve görev rekabetinde bir paradigma değişimini ele alıyor. Yalnızca topluluk video referansıdır, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+      "summary": "93.bitmap'in açıklayıcı serisinin beşinci bölümü; yazara göre kurucu @Blonskr ile bir sohbetin ardından revize edilmiş olup, tartışılan bir V2 \"geliştirici yuvası\" kavramını ve görev rekabetinde bir paradigma değişimini ele alıyor. Yalnızca topluluk video referansıdır, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir.",
+      "source_hash": "57b84816e8c3bf0b"
     },
     "community-93bitmap-video-ep5-en": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 5. bölüm (İngilizce)",
-      "summary": "5. bölümün İngilizce dublajlı versiyonu, Çince orijinaliyle aynı içerik. Yalnızca topluluk video referansıdır, kurallar için resmi bir kaynak değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+      "summary": "5. bölümün İngilizce dublajlı versiyonu, Çince orijinaliyle aynı içerik. Yalnızca topluluk video referansıdır, kurallar için resmi bir kaynak değildir; herhangi bir V2 özelliği resmi sitenin gelecekteki kendi duyurusuna tabidir.",
+      "source_hash": "d8d40e4af0239d61"
     },
     "community-93bitmap-scam-guide": {
       "title": "Topluluk güvenlik rehberi: yeni gelenler için TapeOut dolandırıcılık kalıpları kontrol listesi",
-      "summary": "93.bitmap tarafından derlenen kısa bir dolandırıcılık karşıtı kontrol listesi: resmi proje sizin adınıza tasarım yapmak veya tape-out yapmak için asla DM atmaz, üçüncü taraf araçlar küçük bir cüzdandan yalnızca sınırlı ve iptal edilebilir bir approve almalıdır, ve taklit token/NFT'ler ile \"önce parçaları bana gönder\" teklifleri yaygın dolandırıcılık kalıplarıdır. Kurucu @Blonskr tarafından teşekkürle yeniden paylaşıldı. Yalnızca bir topluluk güvenlik referansıdır — her imza talebini kendiniz bağımsız olarak doğrulamanın yerini tutmaz."
+      "summary": "93.bitmap tarafından derlenen kısa bir dolandırıcılık karşıtı kontrol listesi: resmi proje sizin adınıza tasarım yapmak veya tape-out yapmak için asla DM atmaz, üçüncü taraf araçlar küçük bir cüzdandan yalnızca sınırlı ve iptal edilebilir bir approve almalıdır, ve taklit token/NFT'ler ile \"önce parçaları bana gönder\" teklifleri yaygın dolandırıcılık kalıplarıdır. Kurucu @Blonskr tarafından teşekkürle yeniden paylaşıldı. Yalnızca bir topluluk güvenlik referansıdır — her imza talebini kendiniz bağımsız olarak doğrulamanın yerini tutmaz.",
+      "source_hash": "5683473902dec342"
     },
     "community-93bitmap-video-ep6": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 6. bölüm (sanal fabrikanın önemi var mı)",
-      "summary": "93.bitmap'in açıklayıcı serisinin altıncı bölümü, yaklaşan bir V2 sanal çip tasarım fabrikası kavramını ve yazarın bunun değerine dair kendi çerçevesini, TSMC'nin sipariş modeline bir benzetme yaparak tartışıyor. Bu, yazarın kişisel görüşüdür, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir ve videodaki değer/getiri benzetmesi benimsenmemiştir."
+      "summary": "93.bitmap'in açıklayıcı serisinin altıncı bölümü, yaklaşan bir V2 sanal çip tasarım fabrikası kavramını ve yazarın bunun değerine dair kendi çerçevesini, TSMC'nin sipariş modeline bir benzetme yaparak tartışıyor. Bu, yazarın kişisel görüşüdür, resmi olarak yayınlanmış bir kural değildir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir ve videodaki değer/getiri benzetmesi benimsenmemiştir.",
+      "source_hash": "d1cf499e2d986c93"
     },
     "community-93bitmap-video-ep6-en": {
       "title": "Topluluk videosu: TapeOut bilimine giriş · 6. bölüm (İngilizce)",
-      "summary": "93.bitmap'in açıklayıcı serisinin 6. bölümünün İngilizce versiyonu, aynı konuyu İngilizce konuşan topluluk için ele alıyor. Çince orijinalinde olduğu gibi, bu resmi olarak yayınlanmış bir kural değil, yazarın kişisel çerçevesidir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir."
+      "summary": "93.bitmap'in açıklayıcı serisinin 6. bölümünün İngilizce versiyonu, aynı konuyu İngilizce konuşan topluluk için ele alıyor. Çince orijinalinde olduğu gibi, bu resmi olarak yayınlanmış bir kural değil, yazarın kişisel çerçevesidir; herhangi bir V2 mekaniği resmi sitenin gelecekteki kendi duyurusuna tabidir.",
+      "source_hash": "52963ae1709a94b7"
     },
     "community-antalya-tr-primer": {
       "title": "Topluluk Türkçe makalesi: zincir üzerinde bir işlemci üretmek — TapeOut Protokolü nasıl çalışır",
-      "summary": "Antalya Blockchain tarafından yayınlanan Türkçe bir açıklayıcı makale, blockchain'in genişleyen kullanım alanlarını ele aldıktan sonra TapeOut'un geleneksel bilgisayar mimarisinin temel mantık öğelerini nasıl tokenleştirdiğini, kullanıcıların zincir üzerinde devre birleştirip bunları kalıcı varlıklara nasıl dönüştürebildiğini anlatıyor. Makale, projenin hâlâ Alpha aşamasında ve son derece deneysel olduğunu açıkça belirtiyor. @0xFatih tarafından öne çıkarıldı. Yalnızca bir topluluk açıklayıcısıdır — mekanikler için resmi kaynaklar yetkilidir."
+      "summary": "Antalya Blockchain tarafından yayınlanan Türkçe bir açıklayıcı makale, blockchain'in genişleyen kullanım alanlarını ele aldıktan sonra TapeOut'un geleneksel bilgisayar mimarisinin temel mantık öğelerini nasıl tokenleştirdiğini, kullanıcıların zincir üzerinde devre birleştirip bunları kalıcı varlıklara nasıl dönüştürebildiğini anlatıyor. Makale, projenin hâlâ Alpha aşamasında ve son derece deneysel olduğunu açıkça belirtiyor. @0xFatih tarafından öne çıkarıldı. Yalnızca bir topluluk açıklayıcısıdır — mekanikler için resmi kaynaklar yetkilidir.",
+      "source_hash": "2ff62bc88cf67ee6"
     }
   }
 }

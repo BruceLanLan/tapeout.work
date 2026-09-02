@@ -1,6 +1,7 @@
 import { CURATED_TOOLS, CURATED_UPDATES, ECOSYSTEM_CATALOG_VERSION } from "./curated_ecosystem_seed.js";
 import { LEARNING_RESOURCES } from "./learning_resources_seed.js";
 import { ensureScheduledDomainFresh } from "./freshness.js";
+import { entrySourceHash } from "./catalog_hash.js";
 
 // Self-audit: the monitor checking its own claims against reality, and publishing
 // what it finds — including its own failures.
@@ -274,10 +275,14 @@ async function catalogueInvariants(env, localeCoverage) {
     if (gaps.length) findings.push({ check: "localisation_coverage", severity: "warning", detail: `${locale}: ${gaps.join(", ")}`, subjects: [locale] });
   }
 
-  const behind = Object.entries(localeCoverage)
-    .filter(([, counts]) => counts.source_catalog_version && counts.source_catalog_version !== ECOSYSTEM_CATALOG_VERSION)
-    .map(([locale]) => locale);
-  if (behind.length) findings.push({ check: "localisation_freshness", severity: "warning", detail: `${behind.length} locale(s) were translated from an earlier catalogue revision than ${ECOSYSTEM_CATALOG_VERSION}; entries whose source text was rewritten since then are serving the older wording`, subjects: behind });
+  // Freshness is judged per entry from the source hash stored beside each
+  // translation — the same hash the build's translation step and its contract use,
+  // so the site and the build cannot disagree about what is stale.
+  const staleByLocale = Object.entries(localeCoverage).filter(([, c]) => (c.stale_entries || []).length);
+  if (staleByLocale.length) {
+    const total = staleByLocale.reduce((n, [, c]) => n + c.stale_entries.length, 0);
+    findings.push({ check: "localisation_freshness", severity: "warning", detail: `${total} translation(s) across ${staleByLocale.length} locale(s) were made from source text that has since been rewritten; those entries are serving the older wording`, subjects: staleByLocale.flatMap(([locale, c]) => c.stale_entries.slice(0, 6).map(e => `${locale}:${e}`)) });
+  }
 
   const now = Date.now();
   const stale = CURATED_TOOLS.filter(tool => {
@@ -295,6 +300,10 @@ const AUDIT_LOCALES = ["ko", "ja", "es", "ar", "tr", "fr", "de", "ru", "pt"];
 export async function readLocaleCoverage(env) {
   if (!env.ASSETS) return null;
   const coverage = {};
+  const current = { tools: new Map(), updates: new Map(), learning: new Map() };
+  for (const [kind, seed] of [["tools", CURATED_TOOLS], ["updates", CURATED_UPDATES], ["learning", LEARNING_RESOURCES]]) {
+    for (const entry of seed) current[kind].set(entry.id, await entrySourceHash(kind, entry));
+  }
   await Promise.all(AUDIT_LOCALES.map(async locale => {
     try {
       const [ecoResponse, learnResponse] = await Promise.all([
@@ -303,14 +312,23 @@ export async function readLocaleCoverage(env) {
       ]);
       if (!ecoResponse.ok || !learnResponse.ok) return;
       const eco = await ecoResponse.json(), learn = await learnResponse.json();
+      // Per-entry: which source text each translation was made from. Counting
+      // entries proves a translation exists; the hash says whether the English it
+      // was made from has since been rewritten — which is its own kind of stale,
+      // and the one that shipped an inverted safety caveat in nine languages once.
+      const stale = [];
+      for (const [kind, table] of [["tools", eco?.translations?.tools], ["updates", eco?.translations?.updates], ["learning", learn?.translations]]) {
+        for (const [id, hash] of current[kind]) {
+          const stored = table?.[id];
+          if (stored && stored.source_hash !== hash) stale.push(`${kind}:${id}`);
+        }
+      }
       coverage[locale] = {
         tools: Object.keys(eco?.translations?.tools || {}).length,
         updates: Object.keys(eco?.translations?.updates || {}).length,
         learning: Object.keys(learn?.translations || {}).length,
-        // Which catalogue revision this locale was translated from. Counting entries
-        // proves a translation exists; it says nothing about whether the English it
-        // was made from has since been rewritten, which is its own kind of stale.
         source_catalog_version: eco?.source_catalog_version ?? null,
+        stale_entries: stale,
       };
     } catch { /* left out of the result; reported below as unreadable, never as passing */ }
   }));

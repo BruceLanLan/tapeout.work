@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02a";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02b";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -227,7 +227,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "Firsto",
     url: "https://tapeout.firsto.ai/",
     original_language: "zh",
-    reviewed_at: "2026-09-01T20:30:00Z",
+    reviewed_at: "2026-09-02T02:11:46Z",
     title_en: "TapeOut Firsto marketplace",
     title_zh: "TapeOut Firsto 晶体管与矿机市场",
     summary_en: "Third-party ecosystem trading surface for TapeOut-related transistor and mining-machine listings, presenting itself as a professional trading terminal rather than a listings board. Behind the landing page it serves a live per-fill trade tape: every fill shows buy or sell direction, total BNB, quantity, unit price, the counterparty wallet and a BscScan transaction link, running hours deep. Scope note: that tape was the only surface this review could retrieve — no navigation and no other sections came back — so this describes what the interior shows, not the full extent of what the site offers. Use it as a discovery and market-reading surface, separate from official protocol and ownership data.",
