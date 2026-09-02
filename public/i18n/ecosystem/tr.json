@@ -158,10 +158,10 @@
         "source_hash": "28ff911f610fe10d"
       },
       "tool-tapeout-daily": {
-        "title": "TapeOut Daily topluluk haber odası",
-        "summary": "Ana sayfası doğrulama öncelikli bir düzene olgunlaşmış, resmi olmayan bir topluluk haber odası: kaynak katmanı ve kendi doğrulama zaman damgasıyla etiketlenmiş bir baş haber; kayıt zamanıyla damgalanmış ve orijinal kaynağa geri bağlanan zincir üstü arz anlık görüntüleri; ve — önceki KOL-etkileşim sıralamasının yerini alan — her gönderinin bir sinyal puanı, bir kaynak-katmanı etiketi (kurucu gönderisi, topluluk analizi veya resmi onay bekleniyor) ve gönderi başına bir doğrulama zamanı taşıdığı, sürekli güncellenen 36 saatlik bir topluluk gönderisi akışı. Site, az sayıda içerik nitelik taşıdığında az gösterdiğine dair kendi editoryal kuralını açıkça belirtir; eski gönderileri güncelmiş gibi göstermez. Öğrenme yolu, seçilmiş videolar ve araç dizini hâlâ sunulmaktadır ve sitenin yatırım tavsiyesi teşkil etmediği açıkça belirtilmektedir.",
-        "safety": "Topluluk editoryal ürünüdür, resmi bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama özelliğine rastlanmadı — bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya öne çıkarılan iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin; harekete geçmeden önce birincil kaynaklarla çapraz kontrol edin.",
-        "source_hash": "403617e883121a27"
+        "title": "TapeOut Daily topluluk haber merkezi",
+        "summary": "Unofficial bir topluluk haber merkezi; ana sayfası doğrulama öncelikli bir düzene olgunlaştı: kaynak seviyesiyle ve kendine ait doğrulama zaman damgasıyla etiketlenmiş bir manşet haber, kayıt zamanıyla damgalanmış ve orijinal kaynağa geri bağlanan zincirüstü arz anlık görüntüleri, ve — önceki KOL etkileşim sıralamasının yerini alan — her gönderinin bir sinyal puanı, bir kaynak seviyesi etiketi (kurucu gönderisi, topluluk analizi veya official onay bekliyor) ve gönderi başına bir doğrulama zamanı taşıdığı, sürekli akan 36 saatlik bir topluluk gönderisi akışı. Site, uygun içerik azsa az gösterdiğini, eski gönderileri güncelmiş gibi sunmadığını kendi editoryal kuralı olarak belirtir. Öğrenme yolu, seçilmiş videolar ve araç dizini hâlâ sunuluyor; yatırım tavsiyesi olmadığı açıkça belirtiliyor.",
+        "safety": "Topluluk editoryal ürünü, official bir kaynak değildir. İnceleme sırasında sayfada cüzdan bağlama özelliği bulunmadı — yalnızca dışarıya, bir Telegram kanalına ve üçüncü taraf araçlara bağlantı veriyor. Herhangi bir sıralamayı, fiyat anlık görüntüsünü veya öne çıkarılan iddiayı bu sitenin kendi editoryal yargısı olarak değerlendirin, işlem yapmadan önce birincil kaynaklarla çapraz kontrol edin.",
+        "source_hash": "3f07ccc3ce73e15f"
       },
       "tool-tg-official-group": {
         "title": "TapeOut Official Telegram grubu",

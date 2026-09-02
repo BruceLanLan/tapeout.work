@@ -1,0 +1,26 @@
+# Static gate on every pull request — no secrets needed, so it works before
+# the deploy token exists. Every automated review PR gets a green/red check
+# a reviewer can see before merging; the deploy workflow runs on merge.
+name: pr-gate
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  static-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Static gate
+        run: |
+          node scripts/assert_no_sensitive_info.mjs
+          node scripts/test_self_audit_drift.mjs
+          node scripts/assert_translation_freshness.mjs
+          node scripts/assert_global_typography_contract.mjs
+          node scripts/assert_learning_layout_contract.mjs
+          node scripts/assert_qa_ui_contract.mjs
+          node scripts/assert_startup_resilience_contract.mjs
+          node scripts/assert_official_asset_schedule_contract.mjs
+          node scripts/assert_registry_label_governance_contract.mjs "$PWD"
+          node scripts/assert_bem_realtime_scheduler_contract.mjs "$PWD"

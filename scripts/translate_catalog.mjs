@@ -16,6 +16,7 @@
 //   node scripts/translate_catalog.mjs --bootstrap        stamp current hashes on existing translations
 //                                                         (declares them current; use only after a human review)
 //   node scripts/translate_catalog.mjs --verify ids       re-run the verification pass on already-stored translations
+//   node scripts/translate_catalog.mjs --stamp ids        after a hand fix that --verify passed: mark it current
 //   --model <name>   claude model alias (default: sonnet)
 //   --stub           no model calls: identity "translations", verification passes (for tests)
 //   CLAUDE_BIN       path to the claude CLI (default: claude on PATH)
@@ -278,6 +279,14 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop()
     }
     if (stale) { console.error(`FAIL translation freshness: ${stale} stale translation(s); run node scripts/translate_catalog.mjs`); process.exit(1); }
     console.log("PASS translation freshness"); process.exit(0);
+  }
+  if (flag("--stamp")) {
+    // After a hand fix that --verify has passed: declare these translations current.
+    const ids = opt("--stamp").split(","); const hashes = await currentHashes(); let n = 0;
+    for (const locale of locales) for (const [kind, spec] of Object.entries(KINDS)) { const file = spec.file(locale); const doc = readDoc(file); const table = spec.table(doc); let touched = false;
+      for (const id of ids) if (table[id] && hashes[kind].has(id)) { table[id].source_hash = hashes[kind].get(id); touched = true; n++; }
+      if (touched) { doc.source_catalog_version = kind === "learning" ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION; writeDoc(file, doc); } }
+    console.log(`stamped ${n} translation(s) as current — only do this after --verify passed`); process.exit(0);
   }
   if (flag("--verify")) {
     const ids = opt("--verify").split(",");

@@ -22,8 +22,25 @@ let applied = 0;
 for (const file of files) {
   const text = readFileSync(PENDING + file, "utf8");
   const fm = frontmatter(text);
-  if (!["approved", "revouch"].includes(fm.status)) continue;
+  if (!["approved", "revouch", "approved-new"].includes(fm.status)) continue;
   const id = fm.id;
+  if (fm.status === "approved-new") {
+    // A candidate becoming an entry: the JSON block must carry the full evidence
+    // record; the same fields the contract asserts on every existing tool.
+    const json = lastJsonBlock(text);
+    const required = ["id", "wallet_risk", "category", "tier", "operator", "url", "original_language", "title_en", "title_zh", "summary_en", "summary_zh", "use_cases", "safety_en", "safety_zh"];
+    const missing = required.filter(k => json?.[k] == null || json[k] === "");
+    if (missing.length) { console.error(`SKIP ${file}: approved-new but missing ${missing.join(", ")}`); continue; }
+    if (seed.includes(`id: "${json.id}"`)) { console.error(`SKIP ${file}: ${json.id} already exists in seed`); continue; }
+    const entry = ["  {", ...required.map(k => `    ${k}: ${jsLiteral(json[k])},`), `    reviewed_at: "${now}",`, ...(json.drift_profile ? [`    drift_profile: ${jsLiteral(json.drift_profile)},`] : []), "  }"].join("\n");
+    const toolsStart = seed.indexOf("export const CURATED_TOOLS");
+    const close = seed.indexOf("\n]);", toolsStart);
+    seed = seed.slice(0, close) + ",\n" + entry + seed.slice(close);
+    renameSync(PENDING + file, `${APPLIED}${now.slice(0, 10)}-${file}`);
+    console.log(`ADDED ${json.id} (reviewed_at ${now})`);
+    applied++;
+    continue;
+  }
   const start = seed.indexOf(`id: "${id}"`);
   if (start < 0) { console.error(`SKIP ${file}: ${id} not in seed`); continue; }
   const end = seed.indexOf("\n  {", start) > 0 ? seed.indexOf("\n  {", start) : seed.indexOf("\n]);", start);

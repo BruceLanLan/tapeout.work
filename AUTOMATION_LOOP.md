@@ -34,7 +34,14 @@
 | `scripts/translate_catalog.mjs` | 每条译文旁存一份源文本哈希；只译哈希变了的条目；第二次模型调用逐条核对**否定词、排除、限定、免责声明的极性和范围**，另查有无凭空多出的断言；不过的不写 | 不决定目录说什么 |
 | `scripts/assert_translation_freshness.mjs` | 构建门禁：任一语种任一条目哈希不符即失败 | — |
 | `scripts/ship.mjs` | 一条命令走完：静态门禁 → 起本地 Worker 跑在线契约 → 生成变更日志 → 敏感信息扫描 → 提交 → 推送 → 部署 → 轮询生产直到版本号、缓存号、关键接口全部对上 | 不跳过任何一步（`--dry-run` 只跑到扫描） |
+| `scripts/maintain.mjs` | **定时入口**：读生产复核队列 → 逐条取证起草 → 判定"仍然准确"的自动 revouch、有效引用的"修订"自动 approved（无法核实/引用无效的留给人）→ apply → 重译 → 静态门禁 → 变更日志 → 开一个 PR，正文内联证据（判定、前后文案、被引用的摘录原文）。**合并 PR 即人工审核**。队列空时零模型调用；每次最多 5 个工具；同一时间只允许一个自动 PR，超过 3 天未合并则关闭重生成，避免 reviewed_at 与合并时间漂移太远 | 不直接改 main（`--direct` 才会）；不做发现新工具 |
+| `.github/workflows/pr-gate.yml` | 每个 PR 跑静态门禁，无需任何 secret，自动 PR 合并前就能看到红绿 | — |
 | `.github/workflows/deploy.yml` | push 到 main：静态门禁 → `wrangler deploy` → 核验生产版本。替代已失联的 Workers Builds | 不跑需要本地 Worker 的在线契约 |
+| `~/Library/LaunchAgents/work.tapeout.maintain.plist`（本机） | 每天 09:00（本地时间）跑 `maintain.mjs`，日志在 `~/Library/Logs/tapeout-maintain.log` | 机器休眠时不会跑；停用：`launchctl bootout gui/$(id -u)/work.tapeout.maintain` |
+
+## 定时运行在哪
+
+现在跑在这台 Mac 的 launchd 上，因为本机的 `claude` CLI、`gh`、git 凭据这一整套今天已经端到端验证过；代价是机器睡着就不跑。两个可切换的去处，都还没验证：① GitHub Actions 定时任务——需要一个 `ANTHROPIC_API_KEY` secret，模型费用走 API 计费；② Claude 云端定时 Agent（claude.ai/code/routines）——在云沙箱里跑仓库脚本，`claude -p` 在沙箱内是否可用未验证。切换只需把 `maintain.mjs` 换个地方执行，脚本本身不变。
 
 ## 使用
 
@@ -44,6 +51,10 @@ node scripts/review_drafts.mjs               # 队列里的每个工具生成 re
 node scripts/apply_reviews.mjs               # 写入种子，版本号 +1
 node scripts/translate_catalog.mjs           # 只译变了的条目，校验不过则拒写并报错
 node scripts/ship.mjs -m "content: ..."      # 全链路上线并核验
+
+# 或者让定时任务做前四步并开 PR：
+node scripts/maintain.mjs --dry-run          # 预演：走到提交为止，打印 PR 正文
+node scripts/maintain.mjs                    # 开 PR；合并即审核，合并后 CI 部署
 ```
 
 模型调用走本机 `claude` CLI（`CLAUDE_BIN` 可覆盖，默认模型 `sonnet`）。每次调用约有 1.5 万 token 的系统提示缓存开销，所以按语种批量：一次目录修订全语种重译约 1–2 美元；一份复核草稿 0.1–1 美元，随摘录长度浮动。`--stub` 让翻译脚本不调模型（测试用）。

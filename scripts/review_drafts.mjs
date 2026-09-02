@@ -34,12 +34,14 @@ const EXCERPT_MAX_LINES = 140, EXCERPT_MAX_CHARS = 14_000;
 let targets = [];
 const audit = await fetch(`${ORIGIN}/api/v1/self-audit`).then(r => r.json()).catch(() => null);
 const queue = new Map((audit?.review_queue || []).map(q => [q.id, q]));
-if (opt("--tool")) targets = [opt("--tool")];
+const named = args.flatMap((a, i) => a === "--tool" ? [args[i + 1]] : []);
+if (named.length) targets = named;
 else {
   targets = [...queue.keys()];
   if (flag("--stale")) for (const f of audit?.findings || []) if (f.check === "review_age") targets.push(...(f.subjects || []));
 }
 targets = [...new Set(targets)].filter(id => CURATED_TOOLS.some(t => t.id === id));
+const limit = Number(opt("--limit", 0)); if (limit > 0) targets = targets.slice(0, limit);
 if (!targets.length) { console.log("nothing to review: queue empty" + (audit ? "" : " (self-audit unreachable)")); process.exit(0); }
 
 // ---- fetch paths -----------------------------------------------------------------
@@ -135,6 +137,7 @@ function draft(tool, lines, claims, queued) {
 // ---- write files -----------------------------------------------------------------
 mkdirSync(OUT_DIR, { recursive: true });
 const today = new Date().toISOString();
+const runSummary = { generated_at: today, model: flag("--no-llm") ? null : MODEL, tools: [] };
 for (const id of targets) {
   const tool = CURATED_TOOLS.find(t => t.id === id);
   const queued = queue.get(id) || null;
@@ -165,5 +168,14 @@ for (const id of targets) {
     proposal ? (proposal.error ? `Model call failed: ${proposal.error}` : `Verdict: **${proposal.verdict}**${proposal.invalid ? ` — INVALID: ${proposal.invalid}` : ""}\n\n${proposal.rationale || ""}\n\n\`\`\`json\n${JSON.stringify({ verdict: proposal.verdict, summary_en: proposal.summary_en, summary_zh: proposal.summary_zh, citations: proposal.citations }, null, 2)}\n\`\`\``) : "(no model draft requested)", "",
   ];
   writeFileSync(`${OUT_DIR}${id}.md`, fm.join("\n") + body.join("\n"));
+  runSummary.tools.push({
+    id, title_en: tool.title_en, url: tool.url, status, fetch_path: path, excerpt_lines: lines.length, cost_usd: cost,
+    queued: queued ? { changed_at: queued.changed_at, reviewed_at: queued.reviewed_at } : null,
+    claim_check: claims.map(c => c.status),
+    verdict: proposal?.verdict ?? null, invalid: proposal?.invalid ?? null, rationale: proposal?.rationale ?? null,
+    summary_en_before: tool.summary_en, summary_en_after: proposal?.summary_en ?? null, summary_zh_after: proposal?.summary_zh ?? null,
+    cited_lines: (proposal?.citations || []).filter(n => Number.isInteger(n) && n >= 1 && n <= lines.length).map(n => ({ n, text: lines[n - 1] })),
+  });
   console.log(`${status}${path ? ` via ${path}, ${lines.length} lines` : ""}${proposal?.verdict ? `, verdict ${proposal.verdict}` : ""}${cost != null ? `, $${cost.toFixed(2)}` : ""} → reviews/pending/${id}.md`);
 }
+writeFileSync(`${OUT_DIR}_run.json`, JSON.stringify(runSummary, null, 2) + "\n");
