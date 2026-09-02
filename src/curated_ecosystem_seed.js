@@ -289,6 +289,8 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-intelligence-api",
+    drift_profile: "none",
+    drift_skip_reason: "this site's own API: its changes are tracked in the repository itself, and the Worker cannot reliably fetch its own hostname",
     wallet_risk: "read_only",
     category: "data",
     tier: "official",
@@ -323,6 +325,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-dune-mining-intelligence",
+    drift_profile: "structure", // hosted on a shared platform whose asset builds churn independently of this dashboard
     wallet_risk: "read_only",
     category: "data",
     tier: "community",
@@ -459,6 +462,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-daily",
+    drift_profile: "structure", // a newsroom's headings are its content; only its title/nav are product structure
     wallet_risk: "read_only",
     category: "community_news",
     tier: "community",

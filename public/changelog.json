@@ -1,8 +1,18 @@
 {
-  "generated_at": "2026-09-02T01:15:16.541Z",
+  "generated_at": "2026-09-02T01:23:15.520Z",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 12,
+  "commit_count": 13,
   "entries": [
+    {
+      "sha": "95a696a794",
+      "date": "2026-09-02T09:15:16+08:00",
+      "subject": "content: work the self-audit review queue — re-vouch bemotc, rewrite tapeout-daily",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "7dbb8d7e58",
       "date": "2026-09-02T04:36:37+08:00",

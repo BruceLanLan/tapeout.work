@@ -70,6 +70,11 @@ export async function ensureSelfAuditSchema(env) {
       // vouched for this", so that is what the baseline has to be.
       await ensureColumn(env, "tool_content_fingerprints", "baseline_surface", "TEXT");
       await ensureColumn(env, "tool_content_fingerprints", "baseline_reviewed_at", "TEXT");
+      // Which signals this tool was fingerprinted under. When the catalogue changes a
+      // tool's drift profile, the stored hashes were computed under different rules
+      // and comparing across that boundary would manufacture a phantom change, so a
+      // profile mismatch forces a re-baseline instead.
+      await ensureColumn(env, "tool_content_fingerprints", "drift_profile", "TEXT");
     })();
   }
   return selfAuditSchemaReady;
@@ -110,7 +115,22 @@ export function extractFingerprintSources(html) {
   return { assets, surface };
 }
 
+// The first night of real data taught this: one signal set does not fit every
+// tool. A dashboard hosted on a shared platform inherits the platform's asset
+// churn; a daily newsroom's headings are its content, which is supposed to change;
+// and this site's own API cannot be probed by the Worker that serves it. Each
+// profile is declared in the seed next to the tool it describes, so the policy is
+// reviewable exactly like every other editorial claim.
+//   "full"      (default) assets + title/headings/nav
+//   "structure" title + nav only — for pages whose body content is expected to
+//               change constantly while the product around it rarely does
+//   "none"      not probed at all; the seed states why, and coverage reports it
+//               as skipped-by-policy rather than pretending it was checked
 async function fingerprintTool(tool) {
+  const profile = tool.drift_profile || "full";
+  if (profile === "none") {
+    return { id: tool.id, status: "skipped", error: tool.drift_skip_reason || "excluded by drift policy" };
+  }
   const target = resolveProbeUrl(tool.url);
   if (!target) return { id: tool.id, status: "skipped", error: "unresolvable url" };
   // Telegram and other non-HTML destinations are catalogued too; they have no build
@@ -125,10 +145,13 @@ async function fingerprintTool(tool) {
     const type = response.headers.get("content-type") || "";
     if (!/html/i.test(type)) return { id: tool.id, status: "skipped", error: `non-html (${type.split(";")[0] || "unknown"})` };
     const body = (await response.text()).slice(0, DRIFT_MAX_BYTES);
-    const { assets, surface } = extractFingerprintSources(body);
+    const extracted = extractFingerprintSources(body);
+    const surface = profile === "structure"
+      ? extracted.surface.filter(item => item.startsWith("title:") || item.startsWith("nav:"))
+      : extracted.surface;
     return {
       id: tool.id, status: "ok", surface,
-      asset_fingerprint: await digest(assets.join("\n")),
+      asset_fingerprint: profile === "structure" ? null : await digest(extracted.assets.join("\n")),
       surface_fingerprint: await digest(surface.join("\n")),
     };
   } catch (error) {
@@ -140,7 +163,7 @@ export async function syncContentDrift(env) {
   await ensureSelfAuditSchema(env);
   const attemptedAt = new Date().toISOString();
   try {
-    const existingRows = await env.DB.prepare("SELECT tool_id, asset_fingerprint, surface_fingerprint, change_count, surface_items, baseline_surface, baseline_reviewed_at FROM tool_content_fingerprints").all();
+    const existingRows = await env.DB.prepare("SELECT tool_id, asset_fingerprint, surface_fingerprint, change_count, surface_items, baseline_surface, baseline_reviewed_at, drift_profile FROM tool_content_fingerprints").all();
     const existing = new Map((existingRows.results || []).map(row => [row.tool_id, row]));
     const results = [];
     for (const tool of CURATED_TOOLS) {
@@ -158,22 +181,28 @@ export async function syncContentDrift(env) {
           .bind(tool.id, tool.url, attemptedAt, attemptedAt, result.status, result.error || null));
         continue;
       }
+      const currentSurface = result.surface || [];
+      // Re-baseline when the catalogue says this entry has been reviewed since the
+      // baseline was taken: a fresh human sign-off makes the page as it stands the
+      // new point of comparison. A drift-profile change re-baselines too — hashes
+      // computed under different rules are not comparable, and diffing across that
+      // boundary would manufacture a phantom change.
+      const reviewedAt = tool.reviewed_at || null;
+      const profile = tool.drift_profile || "full";
+      const rebaseline = !previous || previous.baseline_reviewed_at !== reviewedAt || (previous.drift_profile || "full") !== profile;
       // A first sighting is a baseline, never a change: we have nothing to compare it
       // against, and reporting it as drift would put every tool in the review queue
-      // the day this feature ships.
-      const changed = Boolean(previous?.asset_fingerprint || previous?.surface_fingerprint)
+      // the day this feature ships. The same holds on re-baseline: the reviewer just
+      // vouched for the page as it stands, so drift measured against the pre-review
+      // observation is history, not a post-review change. The first version of this
+      // code got that wrong and re-queued two tools nine seconds after their review.
+      const changed = !rebaseline && Boolean(previous?.asset_fingerprint || previous?.surface_fingerprint)
         && (previous.asset_fingerprint !== result.asset_fingerprint || previous.surface_fingerprint !== result.surface_fingerprint);
       if (changed) changedCount += 1;
       // What moved, not merely that something did. These are observed strings from
       // the page — a nav label that appeared or vanished — never an interpretation of
       // what the change means. It turns "go re-read this site" into "this page grew a
       // tab called X", which is the part a human was spending real time on.
-      const currentSurface = result.surface || [];
-      // Re-baseline when the catalogue says this entry has been reviewed since the
-      // baseline was taken: a fresh human sign-off makes the page as it stands the
-      // new point of comparison.
-      const reviewedAt = tool.reviewed_at || null;
-      const rebaseline = !previous || previous.baseline_reviewed_at !== reviewedAt;
       let baselineSurface = null;
       if (!rebaseline) {
         try { const parsed = JSON.parse(previous?.baseline_surface ?? "null"); if (Array.isArray(parsed)) baselineSurface = parsed; } catch { baselineSurface = null; }
@@ -185,18 +214,20 @@ export async function syncContentDrift(env) {
       const added = baselineSurface ? currentSurface.filter(item => !baselineSurface.includes(item)).slice(0, 25) : null;
       const removed = baselineSurface ? baselineSurface.filter(item => !currentSurface.includes(item)).slice(0, 25) : null;
       statements.push(env.DB.prepare(`INSERT INTO tool_content_fingerprints
-          (tool_id, url, asset_fingerprint, surface_fingerprint, first_seen_at, last_checked_at, last_changed_at, change_count, last_status, last_error, surface_items, last_surface_added, last_surface_removed, baseline_surface, baseline_reviewed_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', NULL, ?, ?, ?, ?, ?)
+          (tool_id, url, asset_fingerprint, surface_fingerprint, first_seen_at, last_checked_at, last_changed_at, change_count, last_status, last_error, surface_items, last_surface_added, last_surface_removed, baseline_surface, baseline_reviewed_at, drift_profile)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', NULL, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(tool_id) DO UPDATE SET url=excluded.url, asset_fingerprint=excluded.asset_fingerprint,
             surface_fingerprint=excluded.surface_fingerprint, last_checked_at=excluded.last_checked_at,
             last_changed_at=excluded.last_changed_at, change_count=excluded.change_count, last_status='ok', last_error=NULL,
-            surface_items=excluded.surface_items, baseline_surface=excluded.baseline_surface, baseline_reviewed_at=excluded.baseline_reviewed_at,
+            surface_items=excluded.surface_items, baseline_surface=excluded.baseline_surface, baseline_reviewed_at=excluded.baseline_reviewed_at, drift_profile=excluded.drift_profile,
             last_surface_added=CASE WHEN excluded.last_changed_at IS NOT tool_content_fingerprints.last_changed_at THEN excluded.last_surface_added ELSE tool_content_fingerprints.last_surface_added END,
             last_surface_removed=CASE WHEN excluded.last_changed_at IS NOT tool_content_fingerprints.last_changed_at THEN excluded.last_surface_removed ELSE tool_content_fingerprints.last_surface_removed END`)
         .bind(tool.id, tool.url, result.asset_fingerprint, result.surface_fingerprint, attemptedAt, attemptedAt,
-          changed ? attemptedAt : (previous?.last_changed_at ?? null), (previous?.change_count ?? 0) + (changed ? 1 : 0),
+          // On re-baseline the stale flag is cleared, not carried: the queue's question
+          // is "changed since the last review", and a fresh review resets that clock.
+          changed ? attemptedAt : (rebaseline ? null : previous?.last_changed_at ?? null), (previous?.change_count ?? 0) + (changed ? 1 : 0),
           JSON.stringify(currentSurface), added ? JSON.stringify(added) : null, removed ? JSON.stringify(removed) : null,
-          JSON.stringify(nextBaselineSurface), reviewedAt));
+          JSON.stringify(nextBaselineSurface), reviewedAt, profile));
     }
     for (let index = 0; index < statements.length; index += 40) await env.DB.batch(statements.slice(index, index + 40));
     await env.DB.prepare("INSERT INTO self_audit_runs (attempted_at, status, checked_count, changed_count, error) VALUES (?, 'ok', ?, ?, NULL)")
@@ -306,6 +337,9 @@ export async function selfAuditOverview(env, localeCoverage = null) {
   // know that from a fingerprint — but "a human should read this one again".
   const reviewQueue = [];
   for (const tool of CURATED_TOOLS) {
+    // A tool the policy says not to probe cannot honestly be queued by a probe;
+    // stale rows from before its profile changed must not keep it flagged.
+    if ((tool.drift_profile || "full") === "none") continue;
     const row = byId.get(tool.id);
     if (!row?.last_changed_at) continue;
     const reviewedAt = Date.parse(tool.reviewed_at || "");
