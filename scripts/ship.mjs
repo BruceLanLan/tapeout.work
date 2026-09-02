@@ -91,7 +91,7 @@ while (Date.now() < deadline && !ok) {
   const home = await get("/"); checks.push(["/ serves current cache version", home.status === 200 && home.body.includes(cacheVersion)]);
   const tools = await get("/api/v1/tools?page_size=1", "json"); checks.push(["/api/v1/tools serves current catalogue", tools.status === 200 && tools.body?.catalog_version === catalogVersion]);
   const ko = await get("/i18n/ecosystem/ko.json", "json"); checks.push(["ko locale stamped with current catalogue", ko.status === 200 && ko.body?.source_catalog_version === catalogVersion]);
-  for (const p of ["/api/v1/self-audit", "/api/v1/data-health", "/api/v1/changelog"]) { const r = await get(p, "json"); checks.push([`${p} responds 200`, r.status === 200]); }
+  for (const p of ["/api/v1/self-audit", "/api/v1/data-health", "/api/v1/changelog", "/api/v1/official-assets/overview", "/api/v1/official-assets/addresses?view=mints&page_size=1", "/api/v1/bem/trades", "/api/v1/tools?locale=ko&page_size=1"]) { const r = await get(p, "json"); checks.push([`${p} responds 200`, r.status === 200]); }
   ok = checks.every(([, pass]) => pass);
   if (!ok) await new Promise(r => setTimeout(r, 10_000));
 }
