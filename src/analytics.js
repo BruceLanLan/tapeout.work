@@ -107,12 +107,16 @@ export async function dataHealth(env) {
   // background sync (rare, and each domain's own *Health helper already races its own
   // freshness check against its reads); otherwise it is one more concurrent branch here
   // instead of a sequential gate in front of all eight reads below.
+  // This endpoint exists to report degradation, so it must survive it. A branch that
+  // throws (a background sync hitting the D1 daily write limit did this once and took
+  // the whole response down with a 500) is reported as its own error status instead.
+  const guarded = (label, promise) => promise.catch(error => ({ status: "error", error: `${label}: ${String(error?.message || error).slice(0, 200)}` }));
   const [, snapshot, refreshRun, market, airdrop, bem, community_processor_board, official_three_assets, transistor_candles] = await Promise.all([
-    ensureFreshnessRecovery(env),
+    guarded("freshness_recovery", ensureFreshnessRecovery(env)),
     env.DB.prepare("SELECT observed_at, processor_count FROM snapshots WHERE processor_count > 0 ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, source_generated_at, processor_count, changed_processors, error FROM refresh_runs ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, from_block, to_block, sale_count, error FROM market_sync_runs ORDER BY id DESC LIMIT 1").first(),
-    airdropOverview(env), bemHealth(env), communityProcessorBoardHealth(env), officialAssetsHealth(env), transistorCandlesHealth(env),
+    guarded("airdrop", airdropOverview(env)), guarded("bem", bemHealth(env)), guarded("community_processor_board", communityProcessorBoardHealth(env)), guarded("official_three_assets", officialAssetsHealth(env)), guarded("transistor_candles", transistorCandlesHealth(env)),
   ]);
   const checkedAgeMinutes = refreshRun?.attempted_at ? Math.max(0, Math.round((Date.now() - Date.parse(refreshRun.attempted_at)) / 60000)) : null;
   const dataAgeMinutes = snapshot?.observed_at ? Math.max(0, Math.round((Date.now() - Date.parse(snapshot.observed_at)) / 60000)) : null;
