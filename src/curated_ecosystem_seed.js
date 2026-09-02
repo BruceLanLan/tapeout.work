@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02c";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02d";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -244,7 +244,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut Market (community)",
     url: "https://tapeout.market/",
     original_language: "en",
-    reviewed_at: "2026-09-01T20:30:00Z",
+    reviewed_at: "2026-09-02T09:02:55Z",
     title_en: "TapeOut Market",
     title_zh: "TapeOut Market 晶体管市场",
     summary_en: "Community ecosystem market whose navigation reaches well past listings. Three sections the name does not suggest: /circuits is a secondary market for taped-out mining machines (Circuit NFTs) which aggregates the official tapeout.net listings alongside its own and labels each card's source so the split stays visible, showing per-machine pending BEM, task ID, hashrate, pool and estimated daily output. /mining is a network dashboard covering halving phase, emission rate and next-halving countdown, active and verified machine counts and hashrate, named price sources (a specific PancakeSwap V3 BEM/USDT pool, with BNB/USD via Chainlink), and a Forgone Emissions counter that no other tool in this catalogue publishes. /create is a four-step wizard over all official tasks with filters and sorting by NAND and LATCH requirement, plus a per-task estimated daily output for both processors computed in the browser. A Tools page adds a Circuit Mining Calculator that reads a circuit's on-chain data, checks it against the compatible official task vectors and estimates verified-pool output and payback. The circuit listings carry the site's own caveat that what it shows is a data cover, not netlist topology. Treat all of it separately from official protocol, contract and ownership sources.",
@@ -349,7 +349,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "TapeOut Factory (Benson, community)",
     url: "https://tapeoutfactory.com/",
     original_language: "zh",
-    reviewed_at: "2026-09-01T04:00:00Z",
+    reviewed_at: "2026-09-02T09:02:55Z",
     title_en: "TapeOut Factory (batch tape-out)",
     title_zh: "流片工厂（批量流片）",
     summary_en: "Community batch tape-out tool: pick a published task and its reference-shaped blueprint, then tape out N copies in one flow, each unit still signed and settled as its own wallet transaction. The page discloses upfront when a task's first-creator premium is already claimed by an earlier miner, so a batch run only earns the standard weight, not the originality bonus. It also carries a live BNB/BEM and NAND/LATCH price strip for both processors, a four-step commit-and-sign walkthrough, and a per-task economics table whose columns include estimated daily output, minting cost, hashpower per unit cost, discount to market and static payback days.",
