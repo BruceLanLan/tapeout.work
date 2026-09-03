@@ -17,6 +17,10 @@ const opt = (n, d) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] :
 const RPC = opt("--rpc", "https://bsc.rpc.blxrbdn.com");
 let WINDOW = Number(opt("--window", 5000));
 const DRY = args.includes("--dry-run");
+// --from lets a run skip a prefix known to hold no transfers (blocks before the
+// token existed); the census then records that prefix as its coverage start.
+const FROM = Number(opt("--from", 0));
+const CONCURRENCY = Number(opt("--concurrency", 1));
 const TOKEN = "0x5ce033b2bfca3af30b3e8c8457deaf776a8b695a";
 const TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 const ZERO = "0x0000000000000000000000000000000000000000";
@@ -44,7 +48,7 @@ const addr = topic => { const w = String(topic || "").replace(/^0x/, ""); return
 
 // --- state from the Worker ---------------------------------------------------------
 const cp = d1("SELECT block_number FROM bem_holder_checkpoints WHERE source_key='bem_token_transfer'")[0];
-const start = cp ? Number(cp.block_number) + 1 : GENESIS;
+const start = Math.max(cp ? Number(cp.block_number) + 1 : GENESIS, FROM || 0);
 const latest = parseInt(await rpc("eth_blockNumber", []), 16);
 const target = latest - CONFIRMATIONS;
 const existing = new Map(d1("SELECT address, balance_wei FROM bem_holder_balances").map(r => [r.address, BigInt(r.balance_wei)]));
@@ -52,25 +56,34 @@ console.log(`backfill ${start} → ${target} (${target - start + 1} blocks), exi
 
 // --- fold every transfer -----------------------------------------------------------
 const deltas = new Map();
-let transfers = 0, from = start, t0 = Date.now();
+let transfers = 0, from = start, t0 = Date.now(), windowsDone = 0;
+const fold = logs => { for (const log of logs) {
+  const f = addr(log.topics?.[1]), t = addr(log.topics?.[2]);
+  const value = BigInt(`0x${String(log.data || "0x").replace(/^0x/, "").slice(0, 64) || "0"}`);
+  if (f && f !== ZERO) deltas.set(f, (deltas.get(f) ?? 0n) - value);
+  if (t && t !== ZERO) deltas.set(t, (deltas.get(t) ?? 0n) + value);
+} transfers += logs.length; };
+// Fetch one window, halving on a provider timeout, down to 250 blocks.
+async function fetchWindow(a, b) {
+  let size = b - a + 1;
+  for (;;) {
+    try { return await rpc("eth_getLogs", [{ address: TOKEN, topics: [TOPIC], fromBlock: hex(a), toBlock: hex(b) }]); }
+    catch (e) {
+      if (size <= 250) throw e;
+      size = Math.floor(size / 2);
+      const first = await fetchWindow(a, a + size - 1), second = await fetchWindow(a + size, b);
+      return [...first, ...second];
+    }
+  }
+}
 while (from <= target) {
-  const to = Math.min(target, from + WINDOW - 1);
-  let logs;
-  try { logs = await rpc("eth_getLogs", [{ address: TOKEN, topics: [TOPIC], fromBlock: hex(from), toBlock: hex(to) }]); }
-  catch (e) {
-    if (WINDOW > 250) { WINDOW = Math.floor(WINDOW / 2); console.log(`  ${e.message.slice(0, 60)} — window → ${WINDOW}`); continue; }
-    throw e;
-  }
-  for (const log of logs) {
-    const f = addr(log.topics?.[1]), t = addr(log.topics?.[2]);
-    const value = BigInt(`0x${String(log.data || "0x").replace(/^0x/, "").slice(0, 64) || "0"}`);
-    if (f && f !== ZERO) deltas.set(f, (deltas.get(f) ?? 0n) - value);
-    if (t && t !== ZERO) deltas.set(t, (deltas.get(t) ?? 0n) + value);
-  }
-  transfers += logs.length;
-  if (((to - start) / WINDOW) % 40 < 1) console.log(`  through ${to} (${((to - start) / (target - start) * 100).toFixed(1)}%), transfers so far ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`);
-  from = to + 1;
-  if (WINDOW < 5000 && logs.length < 500) WINDOW = Math.min(5000, WINDOW * 2); // recover after a transient halving
+  const batch = [];
+  for (let i = 0; i < CONCURRENCY && from <= target; i++) { const to = Math.min(target, from + WINDOW - 1); batch.push([from, to]); from = to + 1; }
+  const results = await Promise.all(batch.map(([a, b]) => fetchWindow(a, b)));
+  for (const logs of results) fold(logs);
+  windowsDone += batch.length;
+  const through = batch.at(-1)[1];
+  if (windowsDone % 20 < CONCURRENCY) console.log(`  through ${through} (${((through - start) / (target - start) * 100).toFixed(1)}%), transfers ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`);
 }
 const touched = [...deltas.entries()].filter(([, d]) => d !== 0n);
 const finalBalances = new Map(touched.map(([a, d]) => [a, (existing.get(a) ?? 0n) + d]));
@@ -91,7 +104,7 @@ for (let i = 0; i < rows.length; i += 400) {
 const tail = `${OUT}checkpoint.sql`;
 writeFileSync(tail, [
   `INSERT INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer', ${target}, '${now}') ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at;`,
-  `INSERT OR IGNORE INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ${GENESIS}, '${now}');`,
+  `INSERT INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ${start}, '${now}') ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at;`,
   `INSERT INTO bem_holder_sync_runs (attempted_at, status, from_block, to_block, transfer_count, error) VALUES ('${now}', 'ok', ${start}, ${target}, ${transfers}, NULL);`,
 ].join("\n") + "\n");
 for (const [i, f] of files.entries()) { d1file(f); console.log(`  wrote balances file ${i + 1}/${files.length}`); }

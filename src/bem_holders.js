@@ -25,7 +25,11 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // or before pair creation 2026-08-21T13:58:28Z. If the estimate is ever too
 // late, negative balances appear (surfaced as negative_balance_count below);
 // tighten this to the real first-Transfer block once BSC_ARCHIVE_RPC_URL is live.
-const BEM_TOKEN_GENESIS_ESTIMATE_BLOCK = 115900000;
+// Block 116,716,506 is 2026-08-18T20:00Z on BSC (timestamps read from the chain);
+// the official halving countdown puts emission start at 2026-08-18T21:15:32Z, and
+// bloXroute returned no BEM Transfer in 116.70M–117.00M. Starting a little earlier
+// than the first possible mint costs a few empty windows and nothing else.
+const BEM_TOKEN_GENESIS_ESTIMATE_BLOCK = 116700000;
 
 let bemHoldersSchemaReady;
 
