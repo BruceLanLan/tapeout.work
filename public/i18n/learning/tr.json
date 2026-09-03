@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-08-31b",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -112,6 +112,11 @@
       "title": "Topluluk Türkçe makalesi: zincir üzerinde bir işlemci üretmek — TapeOut Protokolü nasıl çalışır",
       "summary": "Antalya Blockchain tarafından yayınlanan Türkçe bir açıklayıcı makale, blockchain'in genişleyen kullanım alanlarını ele aldıktan sonra TapeOut'un geleneksel bilgisayar mimarisinin temel mantık öğelerini nasıl tokenleştirdiğini, kullanıcıların zincir üzerinde devre birleştirip bunları kalıcı varlıklara nasıl dönüştürebildiğini anlatıyor. Makale, projenin hâlâ Alpha aşamasında ve son derece deneysel olduğunu açıkça belirtiyor. @0xFatih tarafından öne çıkarıldı. Yalnızca bir topluluk açıklayıcısıdır — mekanikler için resmi kaynaklar yetkilidir.",
       "source_hash": "2ff62bc88cf67ee6"
+    },
+    "community-93bitmap-video-ep9-v2-business-model": {
+      "title": "Topluluk videosu: TapeOut popüler bilim serisi · 9. bölüm (V2 iş modelinin sade anlatımı)",
+      "summary": "93.bitmap'in açıklayıcı video serisinin 9. bölümü, yaklaşık sekiz dakikalık Çince bir video. Gönderi metnine göre yazar, yakında gelecek V2 iş modelini gündelik örneklerle açıklamaya çalışıyor ve gayrimenkul piyasasının bir kesimiyle bir benzetmeye varıyor. Yalnızca topluluk videosu referansıdır: V2 henüz yayınlanmadı ve mekanikleri Official sitenin kendi gelecekteki duyurusuna tabidir; gönderi ayrıca yazarın kendi pozisyonunu artırdığından bahsediyor, bu kişisel bir pozisyon beyanıdır, bu sitenin ya da herhangi bir Official kaynağın tavsiyesi değildir.",
+      "source_hash": "3b0708cac1f27f39"
     }
   }
 }

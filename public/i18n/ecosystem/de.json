@@ -1,6 +1,6 @@
 {
   "locale": "de",
-  "source_catalog_version": "2026-09-02e",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -52,6 +52,18 @@
         "summary": "Ankündigung des Gründers zu einer Protokolländerung, die on-chain mit einer 48-stündigen Verzögerung eingereiht wurde und die laut Angabe am 2026-09-02 16:14:50 UTC in Kraft treten soll. Der Beitrag besagt, dass das Mining derzeit pro Circuit nur 3 bis 32 offizielle Vektoren stichprobenartig prüft, dass eine erschöpfende Prüfung der 534 bestplatzierten Slots 80 Circuits ergab, die die Stichprobenprüfung bestehen, jedoch über den gesamten Eingaberaum vom Referenzwert abweichen (13,99 % des Gewichts des verifizierten Pools), und dass nach dem Upgrade jeder ein Gegenbeispiel einreichen kann: Besteht der angefochtene Circuit die Prüfung nicht, wird seine Design-Prämie automatisch entzogen; ein ehrlicher Miner ist davon nicht betroffen. Im Beitrag werden zwei Vertragsadressen der Implementierung sowie ein Proposal-Hash genannt. Zum Zeitpunkt der Prüfung dieses Eintrags, kurz nach dem angegebenen Aktivierungszeitpunkt, beschrieb die offizielle PoD-Seite den Mechanismus noch nicht.",
         "source_note": "Offizieller Beitrag des Gründers. Die Angabe von 3–32 Vektoren, die Zahl 80 von 534 sowie der Gewichtsanteil von 13,99 % sind Eigenangaben des Beitrags und wurden hier nicht unabhängig nachvollzogen; verifizieren Sie die beiden Vertragsadressen und den Proposal-Hash on-chain, bevor Sie sich darauf verlassen.",
         "source_hash": "af47302a10b74e05"
+      },
+      "community-cupid-elvis-onchain-computing-essay": {
+        "title": "Von On-Chain-Assets zu On-Chain-Computing: Gedanken darüber, wohin sich TapeOut entwickeln könnte",
+        "summary": "Langform-Community-Essay, das TapeOut als Experiment in „komponierbarem Computing-Eigentum\" rahmt: NAND/LATCH als Primitiven, Circuits als zusammengesetzte Strukturen, Miner darauf aufbauend, und BEM als die Anreizsprache, die sie miteinander verbindet, sodass sich Nachfrage die Stufen hinab fortpflanzen kann, wie in einer industriellen Lieferkette. Der Text überträgt die DeFi-„Money-Lego\"-Analogie auf ein mögliches „Computing-Lego\", liest das Auftauchen einer Arbeitslinie zu binären neuronalen Netzen als den Punkt, an dem sich die Erzählung vom Mining zum Computing erweitert, und schließt mit den Ökosystem-Rollen (Tools, Daten, Forschung, Erklärstücke), die er sich formieren sieht. Der Autor stellt klar, dass sein Interesse der Richtung gilt, nicht dem Preis eines bestimmten Tages oder dem Output einer bestimmten Maschine. Durchgehend konzeptionell und zukunftsgerichtet; es wird kein Mechanismus beschrieben, den die offizielle Seite nicht bereits veröffentlicht hat.",
+        "source_note": "Community-Inhalt, keinesfalls eine offizielle Quelle. Ein Visionsstück: Jede zukunftsgerichtete Aussage darin (Computing-Lego, BNN, ein Komponenten-Marktplatz) ist die Erwartung des Autors, kein von dem Protokoll veröffentlichter Roadmap-Punkt.",
+        "source_hash": "9ae4f6d4f41b7d36"
+      },
+      "community-ywweb3-why-different": {
+        "title": "Warum der Autor TapeOut favorisiert und worin es sich von einem typischen Token‑Launch unterscheidet",
+        "summary": "Meinungsbeitrag aus der Community, der TapeOut dem Muster „vorab prägen / bewerben / in FOMO hinein verkaufen“ gegenüberstellt: Er argumentiert, dass die Kette mit dem Kauf von Produktionsmitteln (NAND/LATCH), dem Circuit‑Entwurf und dessen TapeOut beginnt – und nicht mit einem Token –, und dass die Teilnahme ein Design‑Wettbewerb ist und kein Wettlauf zum Ausstieg. Er listet zudem fünf Schwächen auf, die der Autor heute sieht – noch keine echte BEM‑Senke, Circuit‑NFTs, die nur Mining betreiben, eine dünne Anwendungsschicht, eine hohe Lernkurve und eine Wertabschöpfung, die allein vom Mining abhängt – und schließt mit einem ausdrücklichen Hinweis auf hohes Risiko und darauf, dass dies keine Anlageberatung ist. Zwei seiner Behauptungen erfordern Vorsicht: Er gibt an, der Gründer habe beim Deployment des zentralen Factory‑Vertrags alle Berechtigungen abgegeben – dies ist die Behauptung des Autors und steht im Widerspruch zur hier separat katalogisierten Officialen Offenlegung, dass die Officialen Verträge sich noch in einer upgradefähigen Phase befinden; zudem wird eine Bemerkung zum Alter des Gründers als Hörensagen weitergegeben. Keines von beidem wurde von dieser Seite verifiziert.",
+        "source_note": "Community‑Inhalt, keinesfalls eine Officiale Quelle. Der Titel vertritt eine bullishe Haltung; der Beitrag trägt seinen eigenen Risikohinweis, und diese Seite wiederholt keine seiner Schlussfolgerungen. Prüfen Sie Vertragsberechtigungen on‑chain, anstatt sich auf die Aussagen des Artikels oder irgendjemandes Wort zu verlassen.",
+        "source_hash": "4c82f7e3f647c3df"
       }
     },
     "tools": {

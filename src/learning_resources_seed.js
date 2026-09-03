@@ -1,8 +1,8 @@
 // Curated learning catalog: every entry was reviewed against the public-source
 // governance note. Community entries never inherit official status; references
 // explain digital-logic concepts only and are not TapeOut Protocol tutorials.
-export const LEARNING_CATALOG_VERSION = "2026-08-31b";
-export const LEARNING_CATALOG_REVIEWED_AT = "2026-08-31T09:30:00Z";
+export const LEARNING_CATALOG_VERSION = "2026-09-03a";
+export const LEARNING_CATALOG_REVIEWED_AT = "2026-09-03T02:20:00Z";
 export const LEARNING_RESOURCES = Object.freeze([
   { id: "official-home", tier: "official", stages: ["basics", "canvas", "tapeout"], language: ["zh", "en"], title_zh: "TapeOut 官网：从 NAND/LATCH 到链上 Circuit", title_en: "TapeOut official site: from NAND/LATCH to on-chain Circuits", summary_zh: "从元件、Processor 与 Canvas 开始，先理解流片后会消耗元件并生成链上 Circuit；也披露当前合约仍可升级。", summary_en: "Start with components, Processors and Canvas; tape-out consumes components and creates an on-chain Circuit. The site also discloses that contracts remain upgradeable.", url: "https://tapeout.net/" },
   { id: "official-whitepaper", tier: "official", stages: ["basics", "tapeout"], language: ["zh"], title_zh: "TapeOut Protocol 白皮书", title_en: "TapeOut Protocol whitepaper", summary_zh: "解释晶体管 ERC-1155、电路 ERC-721、处理器工厂与链上网表，是术语和协议结构的官方参考。", summary_en: "Official reference for ERC-1155 components, ERC-721 Circuits, the Processor factory and on-chain netlists.", url: "https://tapeout.net/TapeOut-Protocol.pdf" },
@@ -26,4 +26,15 @@ export const LEARNING_RESOURCES = Object.freeze([
   { id: "community-93bitmap-video-ep6", tier: "community", stages: ["pod", "logic"], language: ["zh"], title_zh: "社区中文视频：科普第六集·虚拟工厂对现实有没有用", title_en: "Community video: TapeOut science primer · episode 6 (does the virtual factory matter)", summary_zh: "93.bitmap 科普系列第六集，围绕即将讨论的 V2 芯片设计虚拟工厂概念，阐述作者本人对其价值定位的理解，并以台积电订单模式作类比。这是作者的个人观点性论述，不是官网已发布规则；V2 具体机制以官网未来正式公告为准，不采纳文中的价值/收益类比。", summary_en: "The sixth episode of 93.bitmap's explainer series, discussing an upcoming V2 concept of a virtual chip-design factory and the author's own framing of its value, drawing an analogy to TSMC's order model. This is the author's personal opinion, not an officially published rule; any V2 mechanic remains subject to the official site's own future announcement, and the value/return analogy in the video is not adopted.", url: "https://x.com/93bitmap/status/2093902139622056167" },
   { id: "community-93bitmap-video-ep6-en", tier: "community", stages: ["pod", "logic"], language: ["en"], title_zh: "社区英文视频：科普第六集（英文版）", title_en: "Community video: TapeOut science primer · episode 6 (English)", summary_zh: "93.bitmap 科普系列第六集的英文版本，面向英文社区讲解同一主题。与中文版一样，属于作者的个人观点性论述，不是官网已发布规则；V2 具体机制以官网未来正式公告为准。", summary_en: "The English-language version of episode 6 of 93.bitmap's explainer series, covering the same subject for the English-speaking community. As with the Chinese original, it is the author's personal framing rather than an officially published rule; any V2 mechanic remains subject to the official site's own future announcement.", url: "https://x.com/93bitmap/status/2094075324866900153" },
   { id: "community-antalya-tr-primer", tier: "community", stages: ["basics", "logic"], language: ["tr"], title_zh: "社区土耳其语长文：在区块链上生产处理器，TapeOut 协议如何运作", title_en: "Community Turkish article: producing a processor on-chain — how TapeOut Protocol works", summary_zh: "Antalya Blockchain 发布的土耳其语科普长文，从区块链用途的演进讲起，说明 TapeOut 如何把传统计算机架构中的基础逻辑元件代币化、让用户在链上搭建电路并固化为永久资产，并明确指出该项目仍处于 Alpha 阶段、属于高度实验性质。由 @0xFatih 转发推荐。社区科普内容，机制仍以官网为准。", summary_en: "A Turkish-language explainer published by Antalya Blockchain, tracing blockchain's expanding use cases before describing how TapeOut tokenizes the basic logic elements of traditional computer architecture so users can assemble circuits on-chain and turn them into permanent assets. The article explicitly states the project is still in Alpha and highly experimental. Surfaced by @0xFatih. Community explainer only — official sources remain authoritative for mechanics.", url: "https://antalyablockchain.org/blockchain-uzerinde-islemci-uretmek-tapeout-protocol-nasil-calisiyor/" },
+  {
+    id: "community-93bitmap-video-ep9-v2-business-model",
+    tier: "community",
+    stages: ["basics", "pod"],
+    language: ["zh"],
+    title_zh: "社区中文视频：科普第九集·用最通俗的案例说明 V2 的商业模式",
+    title_en: "Community video: TapeOut science primer · episode 9 (the V2 business model in plain terms)",
+    summary_zh: "93.bitmap 科普系列第九集，约 8 分钟的中文视频。据帖子正文所述，作者试图用通俗案例解释即将推出的 V2 商业模式，并把它类比到房地产的某个板块。仅作社区视频参考：V2 尚未上线，其机制以官网未来正式公告为准；帖子正文同时提到作者本人加仓，这是个人仓位陈述，不是本站或任何官方的建议。",
+    summary_en: "Episode 9 of 93.bitmap's explainer series, a roughly eight-minute Chinese video. Per the post text, the author tries to explain the upcoming V2 business model through everyday cases and lands on an analogy with one segment of the property market. A community video reference only: V2 has not launched and its mechanics remain subject to the official site's own future announcement; the post also mentions the author adding to their own position, which is a personal holding statement, not advice from this site or any official source.",
+    url: "https://x.com/93bitmap/status/2095060842127696346"
+  }
 ]);

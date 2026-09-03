@@ -1,6 +1,6 @@
 {
   "locale": "fr",
-  "source_catalog_version": "2026-09-02e",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -52,6 +52,18 @@
         "summary": "Annonce du fondateur d'un changement de protocole mis en file d'attente on-chain avec un délai de 48 heures et déclaré entrer en vigueur le 2026-09-02 à 16:14:50 UTC. Le billet indique que le minage ne vérifie actuellement par sondage que 3 à 32 vecteurs officiels par circuit, qu'une vérification exhaustive des 534 emplacements les mieux classés a révélé 80 circuits qui réussissent la vérification par sondage mais diffèrent de la référence sur l'ensemble de l'espace d'entrée (13,99 % du poids du pool vérifié), et qu'après la mise à niveau, n'importe qui peut soumettre un contre-exemple : si le circuit contesté échoue, sa prime de conception est retirée automatiquement ; un mineur honnête n'est pas affecté. Deux adresses de contrats d'implémentation et un hash de proposition sont fournis dans le billet. Au moment de la revue de cette entrée, peu après l'heure d'activation déclarée, la page Official PoD ne décrivait pas encore ce mécanisme.",
         "source_note": "Billet Official du fondateur. Le chiffre de 3 à 32 vecteurs, le compte de 80 sur 534 et la part de poids de 13,99 % sont des déclarations du billet lui-même, non reproduites de manière indépendante ici ; vérifiez les deux adresses de contrats et le hash de proposition on-chain avant de vous y fier.",
         "source_hash": "af47302a10b74e05"
+      },
+      "community-cupid-elvis-onchain-computing-essay": {
+        "title": "Des actifs on-chain au calcul on-chain : réflexions sur les directions possibles de TapeOut",
+        "summary": "Essai long format de la communauté qui présente TapeOut comme une expérience de « propriété computationnelle composable » : NAND/LATCH comme primitives, les Circuits comme structures assemblées, les Miners construits par-dessus, et BEM comme le langage d'incitation qui les relie, de sorte que la demande puisse se propager vers le bas de la pile comme dans une chaîne d'approvisionnement industrielle. Il prolonge l'analogie DeFi des « Lego financiers » vers un possible « Lego du calcul », lit l'apparition d'un courant de travaux sur les réseaux de neurones binaires comme le point où le récit s'élargit du minage au calcul, et se termine sur les rôles d'écosystème (outils, données, recherche, vulgarisation) qu'il voit se former. L'auteur précise que son intérêt porte sur la direction, non sur le prix d'un jour donné ni sur la production d'une machine donnée. L'ensemble est conceptuel et prospectif ; il ne décrit aucun mécanisme que le site officiel n'a pas publié.",
+        "source_note": "Contenu communautaire, jamais une source officielle. Un texte de vision : chaque affirmation prospective qu'il contient (Lego du calcul, BNN, un marché de composants) relève de l'attente de l'auteur, et non d'un élément de feuille de route publié par le protocole.",
+        "source_hash": "9ae4f6d4f41b7d36"
+      },
+      "community-ywweb3-why-different": {
+        "title": "Pourquoi l'auteur privilégie TapeOut, et en quoi il diffère d'un lancement de token classique",
+        "summary": "Article d'opinion communautaire qui met en contraste TapeOut avec le schéma pré-mint / promotion / vente dans le FOMO : il soutient que la chaîne part de l'achat d'intrants de production (NAND/LATCH), de la conception d'un Circuit puis de son tape-out, plutôt que d'un token, et que la participation est un concours de conception plutôt qu'une course à la sortie. Il énumère aussi cinq faiblesses que l'auteur perçoit aujourd'hui — pas encore de véritable puits pour BEM, des NFT de Circuit qui ne font que miner, une couche applicative mince, une courbe d'apprentissage élevée, et une captation de valeur qui dépend du seul minage — et se termine par un avertissement explicite de risque élevé, ne constituant pas un conseil. Deux de ses affirmations appellent la prudence : il indique que le fondateur a renoncé à toutes les permissions lors du déploiement du contrat factory central, ce qui est une affirmation de l'auteur et contredit la divulgation officielle, cataloguée séparément ici, selon laquelle les contrats officiels sont encore dans une phase upgradeable ; et une remarque sur l'âge du fondateur est rapportée comme une rumeur. Aucune des deux n'est vérifiée par ce site.",
+        "source_note": "Contenu communautaire, jamais une source officielle. Le titre exprime une position haussière ; le texte comporte son propre avertissement de risque, et ce site n'en reprend aucune conclusion. Vérifiez les permissions du contrat on-chain plutôt que de vous fier à la parole de l'article ou de quiconque à ce sujet.",
+        "source_hash": "4c82f7e3f647c3df"
       }
     },
     "tools": {

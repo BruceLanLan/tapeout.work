@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-02e";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-03a";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -148,6 +148,42 @@ export const CURATED_UPDATES = Object.freeze([
     source_note_en: "Official founder post. The 3–32 vector figure, the 80-of-534 count and the 13.99% weight share are the post's own statements, not independently reproduced here; verify the two contract addresses and the proposal hash on-chain before relying on them.",
     source_note_zh: "官方创始人原帖。3~32 条向量、534 中的 80 个、13.99% 权重占比均为原帖自述，本站未独立复现；依赖前请在链上核验帖中两个合约地址与提案哈希。",
     risk_tags: ["official-rules", "verify-contract", "protocol-change"]
+  },
+  {
+    id: "community-cupid-elvis-onchain-computing-essay",
+    source_type: "x_article",
+    tier: "community",
+    author: "@cupid_elvis",
+    url: "https://x.com/cupid_elvis/article/2095042513879109632",
+    original_language: "zh",
+    topics: ["architecture", "analysis", "ecosystem"],
+    published_at: "2026-09-02T07:14:10Z",
+    reviewed_at: "2026-09-03T02:20:00Z",
+    title_en: "From on-chain assets to on-chain computing: thoughts on where TapeOut could go",
+    title_zh: "从链上资产到链上计算：我对 TapeOut 未来的一些思考",
+    summary_en: "Long-form community essay framing TapeOut as an experiment in \"composable computing property\": NAND/LATCH as primitives, Circuits as assembled structures, Miners built on top, and BEM as the incentive language tying them together, so that demand can propagate down the stack the way it does in an industrial supply chain. It draws the DeFi money-Lego analogy toward a possible \"computing Lego\", reads the appearance of a binary-neural-network line of work as the point where the story widens from mining to computing, and closes on the ecosystem roles (tools, data, research, explainers) it sees forming. The author states the interest is the direction, not any day's price or any machine's output. Conceptual and forward-looking throughout; it describes no mechanism the official site has not published.",
+    summary_zh: "社区长文，把 TapeOut 视为一场「可组合计算产权」的实验：NAND/LATCH 是原语，Circuit 是组合后的结构，Miner 建于其上，BEM 是把它们串起来的激励语言，需求因而能像工业供应链那样沿层级向下传导。文章把 DeFi 的「金融乐高」类比延伸到可能的「计算乐高」，把二值神经网络相关工作的出现视为叙事从挖矿扩展到计算的节点，并以其观察到的生态角色（工具、数据、研究、科普）收尾。作者明言关注的是方向而非某一天的价格或某台机器的日产。全文属概念性、前瞻性讨论，未描述任何官网尚未公布的机制。",
+    source_note_en: "Community content, never an official source. A vision piece: every forward-looking claim in it (computing Lego, BNN, a component marketplace) is the author's expectation, not a roadmap item the protocol has published.",
+    source_note_zh: "社区内容，绝非官方来源。这是一篇愿景文章：其中所有前瞻性说法（计算乐高、BNN、组件市场）都是作者的预期，不是协议已公布的路线图。",
+    risk_tags: ["community-not-official", "no-return-promise"]
+  },
+  {
+    id: "community-ywweb3-why-different",
+    source_type: "x_article",
+    tier: "community",
+    author: "@ywweb3",
+    url: "https://x.com/ywweb3/article/2095060669926436864",
+    original_language: "zh",
+    topics: ["analysis", "economics", "risk"],
+    published_at: "2026-09-02T10:21:22Z",
+    reviewed_at: "2026-09-03T02:20:00Z",
+    title_en: "Why the author favours TapeOut, and where it differs from a typical token launch",
+    title_zh: "为什么我看好 Tapeout？——它和传统项目到底不一样在哪里？",
+    summary_en: "Community opinion piece contrasting TapeOut with the pre-mint / promote / sell-into-FOMO pattern: it argues the chain starts from buying production inputs (NAND/LATCH), designing a circuit and taping it out, rather than from a token, and that participation is a design contest rather than a race for the exit. It also lists five weaknesses the author sees today — no real BEM sink yet, circuit NFTs that only mine, a thin application layer, a high learning curve, and value capture that depends on mining alone — and ends with an explicit high-risk, not-advice disclaimer. Two of its claims need care: it states the founder gave up all permissions when deploying the core factory contract, which is the author's assertion and sits against the official disclosure, catalogued separately here, that the official contracts are still in an upgradeable phase; and a founder-age remark is passed on as hearsay. Neither is verified by this site.",
+    summary_zh: "社区观点文章，把 TapeOut 与「预铸—营销—拉高出货」的套路对照：作者认为它的链条从购买生产资料（NAND/LATCH）、设计电路、流片开始，而不是从发币开始；参与方式是设计比拼而不是比谁跑得快。文章也列出作者眼中当前的五个短板——BEM 尚无真正的消耗场景、电路 NFT 只能挖矿、应用层单薄、认知门槛高、价值捕获仅靠挖矿——并以明确的高风险、不构成投资建议声明收尾。其中两处说法需谨慎：文中称创始人在部署核心工厂合约时放弃了所有权限，这是作者的断言，且与本站另行收录的官方披露（官方合约仍处于可升级阶段）相左；关于创始人年龄的说法作者自己也标注为「据说」。这两点本站均未核实。",
+    source_note_en: "Community content, never an official source. The title is a bullish stance; the piece carries its own risk disclaimer, and this site repeats none of its conclusions. Check contract permissions on-chain rather than taking either the article's or anyone's word for them.",
+    source_note_zh: "社区内容，绝非官方来源。标题即是看多立场；文章自带风险声明，本站不复述其任何结论。合约权限请在链上自行核验，不要采信文章或任何人的转述。",
+    risk_tags: ["community-not-official", "no-return-promise", "verify-contract"]
   }
 ]);
 

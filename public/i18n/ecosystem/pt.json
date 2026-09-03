@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-02e",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -52,6 +52,18 @@
         "summary": "Anúncio do fundador sobre uma mudança de protocolo enfileirada on-chain com atraso de 48 horas e declarada para entrar em vigor em 2026-09-02 16:14:50 UTC. A publicação afirma que a mineração atualmente verifica por amostragem apenas de 3 a 32 vetores Official por Circuit, que uma verificação exaustiva dos 534 slots mais bem classificados encontrou 80 Circuits que passam na verificação por amostragem mas diferem da referência no espaço de entrada completo (13,99% do peso do pool verificado), e que, após a atualização, qualquer pessoa poderá enviar um contraexemplo: se o Circuit contestado não o superar, seu prêmio de design é retirado automaticamente; um minerador honesto não é afetado. Dois endereços de contrato de implementação e um hash de proposta são fornecidos na publicação. Quando este item foi revisado, pouco depois do horário de ativação declarado, a página Official do PoD ainda não descrevia o mecanismo.",
         "source_note": "Publicação Official do fundador. O número de 3–32 vetores, a contagem de 80 em 534 e a participação de 13,99% do peso são declarações da própria publicação, não reproduzidas de forma independente aqui; verifique os dois endereços de contrato e o hash da proposta on-chain antes de confiar neles.",
         "source_hash": "af47302a10b74e05"
+      },
+      "community-cupid-elvis-onchain-computing-essay": {
+        "title": "Dos ativos on-chain à computação on-chain: reflexões sobre até onde o TapeOut pode chegar",
+        "summary": "Ensaio longo da comunidade que apresenta o TapeOut como um experimento de \"propriedade computacional componível\": NAND/LATCH como primitivas, Circuits como estruturas montadas, mineradores construídos sobre elas, e BEM como a linguagem de incentivo que os une, de modo que a demanda possa se propagar pela pilha da mesma forma que ocorre em uma cadeia de suprimentos industrial. O texto estende a analogia do \"Lego financeiro\" da DeFi rumo a um possível \"Lego computacional\", interpreta o surgimento de uma linha de trabalho em redes neurais binárias como o ponto em que a narrativa se amplia da mineração para a computação, e encerra com os papéis do ecossistema (ferramentas, dados, pesquisa, divulgação) que o autor vê se formando. O autor afirma que o interesse está na direção, não no preço de um dia específico nem na produção de uma máquina específica. O texto é conceitual e prospectivo do início ao fim; não descreve nenhum mecanismo que o site oficial ainda não tenha publicado.",
+        "source_note": "Conteúdo da comunidade, nunca uma fonte oficial. Um texto de visão: toda afirmação prospectiva nele contida (Lego computacional, BNN, um mercado de componentes) é a expectativa do autor, não um item de roteiro que o protocolo tenha publicado.",
+        "source_hash": "9ae4f6d4f41b7d36"
+      },
+      "community-ywweb3-why-different": {
+        "title": "Por que o autor prefere o TapeOut, e em que ele difere de um lançamento de token típico",
+        "summary": "Texto de opinião da comunidade que contrasta o TapeOut com o padrão de pré-cunhagem / promoção / venda em cima do FOMO: argumenta que a cadeia começa pela compra de insumos de produção (NAND/LATCH), pelo design de um circuito e pelo tape-out, em vez de começar por um token, e que a participação é uma disputa de design, não uma corrida pela saída. Também lista cinco fraquezas que o autor enxerga atualmente — ainda sem um verdadeiro sumidouro de BEM, NFTs de circuito que servem apenas para minerar, uma camada de aplicação rasa, uma curva de aprendizado alta, e uma captura de valor que depende apenas da mineração — e termina com um aviso explícito de alto risco e de que não constitui aconselhamento. Duas de suas afirmações exigem cautela: o texto declara que o fundador abriu mão de todas as permissões ao implantar o contrato de fábrica principal, o que é uma afirmação do autor e contraria a divulgação oficial, catalogada separadamente aqui, de que os contratos oficiais ainda estão em fase atualizável; e um comentário sobre a idade do fundador é repassado como boato. Nenhuma das duas foi verificada por este site.",
+        "source_note": "Conteúdo da comunidade, nunca uma fonte oficial. O título é uma postura otimista (bullish); o texto traz seu próprio aviso de risco, e este site não repete nenhuma de suas conclusões. Verifique as permissões do contrato on-chain, em vez de aceitar a palavra do artigo ou de qualquer pessoa a respeito delas.",
+        "source_hash": "4c82f7e3f647c3df"
       }
     },
     "tools": {

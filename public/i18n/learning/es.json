@@ -1,6 +1,6 @@
 {
   "locale": "es",
-  "source_catalog_version": "2026-08-31b",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -112,6 +112,11 @@
       "title": "Artículo comunitario en turco: produciendo un procesador on-chain — cómo funciona el protocolo TapeOut",
       "summary": "Una explicación en turco publicada por Antalya Blockchain, que traza la expansión de los casos de uso de blockchain antes de describir cómo TapeOut tokeniza los elementos lógicos básicos de la arquitectura de computadoras tradicional para que los usuarios puedan ensamblar Circuits on-chain y convertirlos en activos permanentes. El artículo declara explícitamente que el proyecto sigue en Alpha y es altamente experimental. Difundido por @0xFatih. Solo una explicación comunitaria — las fuentes oficiales siguen siendo autoritativas para la mecánica.",
       "source_hash": "2ff62bc88cf67ee6"
+    },
+    "community-93bitmap-video-ep9-v2-business-model": {
+      "title": "Video comunitario: introducción divulgativa de TapeOut · episodio 9 (el modelo de negocio de V2 en términos sencillos)",
+      "summary": "Episodio 9 de la serie divulgativa de 93.bitmap, un video en chino de aproximadamente ocho minutos. Según el texto de la publicación, el autor intenta explicar el próximo modelo de negocio de V2 mediante casos cotidianos y llega a una analogía con un segmento del mercado inmobiliario. Es solo una referencia de video comunitario: V2 aún no se ha lanzado y su mecánica sigue sujeta al futuro anuncio oficial del propio sitio oficial; la publicación también menciona que el autor está aumentando su propia posición, lo cual es una declaración personal de tenencia, no un consejo de este sitio ni de ninguna fuente oficial.",
+      "source_hash": "3b0708cac1f27f39"
     }
   }
 }

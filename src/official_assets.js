@@ -372,7 +372,19 @@ export async function recordTransistorCandleAssetRun(env, row) {
 export async function syncTransistorCandleAsset(env, asset, attemptedAt) {
   try {
     const source = await fetchTransistorCandleTrades(asset, attemptedAt);
-    const statements = source.accepted.map(row => env.DB.prepare("INSERT OR IGNORE INTO transistor_candle_trade_rows (source, trade_id, project_key, asset_key, symbol, transistor_address, token_id, transaction_hash, log_index, block_number, block_timestamp, price_wei, quantity, total_wei, fee_wei, observed_at, raw_meta_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").bind(
+    // The feed returns its recent page every run; nearly all of it is already stored.
+    // Inserting the whole page with OR IGNORE wrote nothing but ran ~164k statements a
+    // day. One indexed read of the ids already held inside the batch's time window
+    // lets the batch shrink to the genuinely new rows.
+    let fresh = source.accepted;
+    if (fresh.length) {
+      const earliest = fresh.reduce((min, row) => row.block_timestamp < min ? row.block_timestamp : min, fresh[0].block_timestamp);
+      const known = await env.DB.prepare("SELECT trade_id FROM transistor_candle_trade_rows WHERE project_key = ? AND asset_key = ? AND block_timestamp >= ?")
+        .bind(asset.project_key, asset.asset_key, earliest).all().catch(() => ({ results: [] }));
+      const knownIds = new Set((known.results || []).map(row => row.trade_id));
+      fresh = fresh.filter(row => !knownIds.has(row.trade_id));
+    }
+    const statements = fresh.map(row => env.DB.prepare("INSERT OR IGNORE INTO transistor_candle_trade_rows (source, trade_id, project_key, asset_key, symbol, transistor_address, token_id, transaction_hash, log_index, block_number, block_timestamp, price_wei, quantity, total_wei, fee_wei, observed_at, raw_meta_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").bind(
       row.source, row.trade_id, row.project_key, row.asset_key, row.symbol, row.transistor_address, row.token_id, row.transaction_hash, row.log_index, row.block_number, row.block_timestamp, row.price_wei, row.quantity, row.total_wei, row.fee_wei, row.observed_at, row.raw_meta_json
     ));
     let insertedCount = 0;

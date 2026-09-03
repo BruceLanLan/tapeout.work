@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-02e",
+  "source_catalog_version": "2026-09-03a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -52,6 +52,18 @@
         "summary": "Kurucunun, 48 saatlik gecikmeyle zincir üzerinde sıraya alınan ve 2026-09-02 16:14:50 UTC'de yürürlüğe gireceği belirtilen bir protokol değişikliği duyurusu. Gönderi, madenciliğin şu anda her Circuit için yalnızca 3 ila 32 resmi vektörü örnekleyerek kontrol ettiğini, en üst sıradaki 534 slotun eksiksiz kontrolünde örnek kontrolünü geçen ancak tüm girdi uzayında referanstan farklılaşan 80 Circuit bulunduğunu (doğrulanmış havuz ağırlığının %13,99'u) ve yükseltmeden sonra herkesin bir karşı örnek gönderebileceğini belirtiyor: itiraz edilen Circuit bu karşı örnekte başarısız olursa, tasarım primi otomatik olarak geri çekilir; dürüst bir madenci bundan etkilenmez. Gönderide iki uygulama sözleşme adresi ve bir öneri hash'i verilmiştir. Bu kayıt incelendiğinde, belirtilen etkinleşme zamanından kısa süre sonra, resmi PoD sayfası bu mekanizmayı henüz açıklamıyordu.",
         "source_note": "Resmi kurucu gönderisi. 3-32 vektör rakamı, 534'te 80 sayısı ve %13,99 ağırlık payı, gönderinin kendi ifadeleridir; burada bağımsız olarak yeniden üretilmemiştir. Bunlara güvenmeden önce iki sözleşme adresini ve öneri hash'ini zincir üzerinde doğrulayın.",
         "source_hash": "af47302a10b74e05"
+      },
+      "community-cupid-elvis-onchain-computing-essay": {
+        "title": "Zincir üstü varlıklardan zincir üstü hesaplamaya: TapeOut'un nereye gidebileceğine dair düşünceler",
+        "summary": "TapeOut'u bir \"birleştirilebilir hesaplama mülkiyeti\" deneyi olarak çerçeveleyen uzun soluklu bir topluluk denemesi: NAND/LATCH birer temel yapı taşı, Circuit'ler bunlardan kurulan yapılar, Miner'lar bunların üzerine inşa ediliyor ve BEM de hepsini birbirine bağlayan teşvik dili — böylece talep, tıpkı bir endüstriyel tedarik zincirinde olduğu gibi yığının aşağısına doğru yayılabiliyor. Yazı, DeFi'deki \"para Lego'su\" benzetmesini olası bir \"hesaplama Lego'su\"na doğru genişletiyor, ikili sinir ağı (BNN) çalışmalarının ortaya çıkışını anlatının madencilikten hesaplamaya genişlediği nokta olarak okuyor ve oluştuğunu gördüğü ekosistem rollerinde (araçlar, veri, araştırma, açıklayıcı içerik) son buluyor. Yazar, ilgisinin yön ile ilgili olduğunu, herhangi bir günün fiyatı ya da herhangi bir makinenin çıktısıyla ilgili olmadığını belirtiyor. Baştan sona kavramsal ve ileriye dönük bir metin; Official sitenin henüz yayımlamadığı hiçbir mekanizmayı tarif etmiyor.",
+        "source_note": "Topluluk içeriğidir, asla Official bir kaynak değildir. Bu bir vizyon yazısı: içindeki her ileriye dönük iddia (hesaplama Lego'su, BNN, bir bileşen pazarı) yazarın beklentisidir, protokolün yayımladığı bir yol haritası maddesi değildir.",
+        "source_hash": "9ae4f6d4f41b7d36"
+      },
+      "community-ywweb3-why-different": {
+        "title": "Yazar TapeOut'a neden olumlu bakıyor ve bu, tipik bir token lansmanından nerede ayrılıyor",
+        "summary": "TapeOut'u önce-basım (pre-mint) / tanıtım / FOMO'ya satış kalıbıyla karşılaştıran bir topluluk görüş yazısı: yazara göre bu zincir bir token'dan değil, üretim girdilerini (NAND/LATCH) satın almaktan, bir Circuit tasarlayıp onu TapeOut etmekten başlıyor ve katılım, çıkışa doğru bir yarış değil bir tasarım yarışması. Yazı ayrıca yazarın bugün gördüğü beş zayıflığı sıralıyor — henüz gerçek bir BEM tüketim mekanizması yok, Circuit NFT'leri yalnızca madencilik yapabiliyor, uygulama katmanı ince, öğrenme eğrisi yüksek ve değer yakalama yalnızca madenciliğe bağlı — ve açık bir yüksek risk, yatırım tavsiyesi değildir uyarısıyla sona eriyor. İki iddiası dikkat gerektiriyor: yazı, kurucunun temel fabrika (factory) sözleşmesini devreye alırken tüm yetkilerinden vazgeçtiğini belirtiyor; bu yazarın kendi iddiasıdır ve burada ayrıca kataloglanan Official açıklamayla —Official sözleşmelerin hâlâ yükseltilebilir (upgradeable) bir aşamada olduğu— çelişmektedir; kurucunun yaşıyla ilgili bir söz de kulaktan dolma bilgi olarak aktarılıyor. Bu site bunların hiçbirini doğrulamamıştır.",
+        "source_note": "Topluluk içeriğidir, asla Official bir kaynak değildir. Başlık yükseliş yönlü (bullish) bir duruştur; yazı kendi risk uyarısını taşır ve bu site onun sonuçlarından hiçbirini tekrarlamaz. Sözleşme yetkilerini, ne makalenin ne de başka birinin sözüne güvenerek değil, zincir üstünde bizzat doğrulayın.",
+        "source_hash": "4c82f7e3f647c3df"
       }
     },
     "tools": {
