@@ -226,6 +226,8 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-pod-taskbank",
+    drift_profile: "none",
+    drift_skip_reason: "an anchor on the same page as tool-pod (tapeout.net/pod/); that entry's fingerprint covers it, and a second identical fingerprint would only queue the same change twice",
     wallet_risk: "read_only",
     category: "learning",
     tier: "official",
