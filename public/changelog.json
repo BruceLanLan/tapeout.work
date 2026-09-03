@@ -1,8 +1,18 @@
 {
-  "newest_commit_at": "2026-09-03T15:18:12+08:00",
+  "newest_commit_at": "2026-09-03T15:21:09+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 24,
+  "commit_count": 25,
   "entries": [
+    {
+      "sha": "36e244d6f5",
+      "date": "2026-09-03T15:21:09+08:00",
+      "subject": "catalogue review: tapeout-vip revouch, tapeout-daily revouch",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "7eaabf636e",
       "date": "2026-09-03T15:18:12+08:00",

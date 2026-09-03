@@ -83,7 +83,9 @@ async function fetchOne(url) {
 // is about three other sections. Fetch every path the entry itself names.
 function namedPaths(tool) {
   const text = `${tool.summary_en} ${tool.summary_zh}`;
-  return [...new Set((text.match(/(?<![\w.])\/[a-z][a-z0-9-]*(?:\/[a-z0-9-]+)*/g) || []))].slice(0, 6);
+  // Two-letter minimum and no trailing "*" — "b*" in an entry about hashpower is a
+  // formula symbol, not a route (the first run fetched tapeout.vip/b because of it).
+  return [...new Set((text.match(/(?<![\w.])\/[a-z][a-z0-9-]{2,}(?:\/[a-z0-9-]+)*(?![\w*])/g) || []))].slice(0, 6);
 }
 async function fetchExcerpt(url, tool) {
   const root = await fetchOne(url);
