@@ -40,3 +40,17 @@ The user registered `tapeout.work` and added it to the same Cloudflare account a
 2. GET `/api/v1/*` 的边缘缓存（`router.js` 的 `EDGE_CACHE`）：目录类接口 60 秒、健康类 15 秒、其余 30 秒，只缓存 200；`bem/budget-quote`（实时遍历卖单簿）与 `export.csv` 不缓存。每个被缓存的响应都自带 `checked_at`/`observed_at`，短时边缘副本不歪曲新鲜度。`ship.mjs` 的生产核验 URL 带 nonce 绕过缓存。
 
 未做：D1 读副本（放置后收益不大且要改所有查询）；蜡烛同步每天 16 万次 `INSERT OR IGNORE` 全是重复行（0 写入，约 10 秒 CPU/天，后续可加游标过滤）；Browser Rendering 已可用但未启用（能力变化、新增经常性费用，不在性能范围内）。
+
+实测（服务端耗时 = TTFB − TLS 完成时刻，中位数，秒；nonce 绕过缓存为 miss）：
+
+| 接口 | 缓存命中 | 未命中 |
+|---|---|---|
+| data-health | 0.103 | 0.431 |
+| analytics | 0.094 | 0.224 |
+| official-assets/addresses | 0.092 | 0.218 |
+| bem/trades | 0.097 | 0.238 |
+| self-audit | 0.095 | 0.266 |
+| bem/leaderboard | 0.127 | 0.149 |
+| tools（无 D1，对照） | 0.091 | 0.095 |
+
+命中时所有接口都落到静态文件的地板（约 0.09 秒）；D1 接口未命中时 0.15–0.43 秒，这部分等 Smart Placement 生效后再测（上线 40 分钟内 `cf-placement` 仍为 `local-SIN`，放置需要观察流量后才切换）。
