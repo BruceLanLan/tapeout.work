@@ -31,9 +31,8 @@ export async function ensureMarketSchema(env) {
 
 export function marketRpcUrl(env) { return String(env[BSC_LOGS_RPC_SECRET] || "").trim(); }
 
-export async function rpc(env, method, params) {
-  const endpoint = marketRpcUrl(env);
-  if (!endpoint) throw new Error("market provider is not configured");
+export async function rpc(env, method, params, endpoint = marketRpcUrl(env)) {
+  if (!endpoint) throw new Error("log provider is not configured");
   const response = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const payload = await response.json();

@@ -1,6 +1,8 @@
 import { BSC_CHAIN_ID, BSC_LOGS_RPC_SECRET, BEM_TOKEN_ADDRESS } from "./constants.js";
 import { hexToNumber, hexToBigInt, topicAddress, dataWord, toBigInt } from "./util.js";
-import { marketRpcUrl, rpc } from "./market.js";
+import { rpc } from "./market.js";
+import { BSC_ARCHIVE_RPC_SECRET } from "./constants.js";
+const holdersRpcUrl = env => String(env[BSC_ARCHIVE_RPC_SECRET] || "").trim();
 
 // keccak256("Transfer(address,address,uint256)")
 const BEM_TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
@@ -19,7 +21,7 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // giving ~115980756, rounded down for margin. DexScreener bounds the deploy at
 // or before pair creation 2026-08-21T13:58:28Z. If the estimate is ever too
 // late, negative balances appear (surfaced as negative_balance_count below);
-// tighten this to the real first-Transfer block once BSC_LOGS_RPC_URL is live.
+// tighten this to the real first-Transfer block once BSC_ARCHIVE_RPC_URL is live.
 const BEM_TOKEN_GENESIS_ESTIMATE_BLOCK = 115900000;
 
 let bemHoldersSchemaReady;
@@ -67,8 +69,8 @@ async function applyTransferWindow(env, logs, windowEnd, observedAt) {
 
 export async function syncBemHolders(env) {
   await ensureBemHoldersSchema(env);
-  if (!marketRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
-  const latest = hexToNumber(await rpc(env, "eth_blockNumber", []));
+  if (!holdersRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
+  const latest = hexToNumber(await rpc(env, "eth_blockNumber", [], holdersRpcUrl(env)));
   const finalized = Math.max(0, latest - BEM_HOLDER_CONFIRMATIONS);
   const checkpoint = await env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer'").first();
   // Unlike market.js, a fresh scan is NOT clamped to recent blocks: a balance
@@ -81,7 +83,7 @@ export async function syncBemHolders(env) {
   let transferCount = 0, touchedAddresses = 0;
   for (let from = start; from <= end; from += BEM_HOLDER_LOG_WINDOW) {
     const to = Math.min(end, from + BEM_HOLDER_LOG_WINDOW - 1);
-    const logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }]);
+    const logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], holdersRpcUrl(env));
     transferCount += logs.length;
     touchedAddresses += await applyTransferWindow(env, logs, to, observedAt);
   }
@@ -95,8 +97,8 @@ export async function recordBemHoldersSync(env, { attemptedAt, status, fromBlock
 
 export async function syncBemHoldersObserved(env) {
   // Do not create a holder-scan audit write on every cron tick until the shared
-  // dedicated log provider (BSC_LOGS_RPC_URL) exists.
-  if (!marketRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
+  // archive-capable log provider (BSC_ARCHIVE_RPC_URL) exists.
+  if (!holdersRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
   const attemptedAt = new Date().toISOString();
   try {
     const result = await syncBemHolders(env);
@@ -117,14 +119,14 @@ export async function bemHoldersOverview(env) {
     env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer_from'").first(),
     env.DB.prepare("SELECT attempted_at, status, from_block, to_block, transfer_count, error FROM bem_holder_sync_runs ORDER BY id DESC LIMIT 1").first(),
   ]);
-  const configured = Boolean(marketRpcUrl(env));
+  const configured = Boolean(holdersRpcUrl(env));
   const status = !configured ? "not_configured" : !checkpoint ? "pending" : latestSync?.status === "error" ? "error" : "ok";
   return {
     source: "$BEM token ERC-20 Transfer logs (full balance census)",
     chain_id: BSC_CHAIN_ID,
     token_address: BEM_TOKEN_ADDRESS,
     status,
-    ...(configured ? {} : { note: `Holder counting requires the ${BSC_LOGS_RPC_SECRET} Worker secret (a dedicated BSC log provider, shared with the Circuit Market scan). Until it is configured no Transfer logs are scanned, so no holder count is published rather than showing a misleading zero.` }),
+    ...(configured ? {} : { note: `Holder counting replays every $BEM Transfer since token genesis, which needs an archive-capable BSC provider set as the ${BSC_ARCHIVE_RPC_SECRET} Worker secret (public non-archive nodes refuse historical eth_getLogs). Until one is configured no Transfer logs are scanned and no count is published — a partial scan would be a wrong number, not a lower bound.` }),
     holder_count: checkpoint ? Number(holderRow?.holder_count ?? 0) : null,
     // Nonzero means the genesis-block estimate started too late and missed early
     // mints; tighten BEM_TOKEN_GENESIS_ESTIMATE_BLOCK and rescan from genesis.

@@ -22,6 +22,11 @@ export const BSC_CHAIN_ID = 56;
 // Cloudflare secret BSC_LOGS_RPC_URL. Anonymous public RPCs are deliberately
 // excluded because they do not provide a dependable eth_getLogs contract.
 export const BSC_LOGS_RPC_SECRET = "BSC_LOGS_RPC_URL";
+// The holder census replays every Transfer since token genesis, which public
+// non-archive nodes refuse ("archive requests require a token"). It therefore
+// takes its own, archive-capable provider and stays not_configured until one
+// exists; the market scan only ever needs recent windows.
+export const BSC_ARCHIVE_RPC_SECRET = "BSC_ARCHIVE_RPC_URL";
 export const CIRCUIT_MARKET_ADDRESS = "0x6feebbebc07bcb90bd1ac8b0cf9baa4f0ff2b46f";
 export const AIRDROP_ADDRESS = "0x7fd055496b638ad81f58b33fd04d6e90bbc2a672";
 export const AIRDROP_GET_DROPS_SELECTOR = "0x9bda24a3"; // getDrops(uint256,uint256), verified against TapeOut public chain config.
