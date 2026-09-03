@@ -1,8 +1,18 @@
 {
-  "newest_commit_at": "2026-09-03T13:44:36+08:00",
+  "newest_commit_at": "2026-09-03T13:47:55+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 22,
+  "commit_count": 23,
   "entries": [
+    {
+      "sha": "2ac0d43df6",
+      "date": "2026-09-03T13:47:55+08:00",
+      "subject": "catalogue review: tapeout-canvas revouch, pod revouch, tapeout-firsto revouch",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "aa69650f6b",
       "date": "2026-09-03T13:44:36+08:00",
