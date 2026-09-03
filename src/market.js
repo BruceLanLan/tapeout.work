@@ -36,7 +36,15 @@ export function marketRpcUrl(env) { return String(env[BSC_LOGS_RPC_SECRET] || ""
 
 export async function rpc(env, method, params, endpoint = marketRpcUrl(env)) {
   if (!endpoint) throw new Error("log provider is not configured");
-  const response = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
+  // Public providers rate-limit Cloudflare's shared egress by IP; a 429 is usually
+  // about the neighbourhood, not this Worker. Two short retries catch the
+  // intermittent case without hammering a provider that is refusing outright.
+  let response;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    response = await fetch(endpoint, { method: "POST", headers: { "content-type": "application/json", "user-agent": "tapeout.work-monitor/1.0 (+https://tapeout.work)" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
+    if (response.status !== 429) break;
+    await new Promise(resolve => setTimeout(resolve, 1500 * (attempt + 1)));
+  }
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const payload = await response.json();
   if (payload.error) throw new Error(`RPC ${payload.error.code}: ${payload.error.message}`);
