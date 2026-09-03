@@ -7,6 +7,17 @@ workers_dev = true
 pattern = "tapeout.work"
 custom_domain = true
 
+# Workers Paid plan (2026-09-03). Smart Placement runs the Worker near D1 instead of
+# at the edge nearest the visitor: every request here makes 3–8 D1 round trips, and
+# the baseline from Asia was 0.45–0.7s per endpoint with each trip crossing an ocean.
+[placement]
+mode = "smart"
+
+# Workers Logs: the write-limit incident on 2026-09-02 was diagnosed by racing a
+# `wrangler tail` against a curl; persisted logs make that a query instead.
+[observability]
+enabled = true
+
 [assets]
 directory = "./public"
 binding = "ASSETS"

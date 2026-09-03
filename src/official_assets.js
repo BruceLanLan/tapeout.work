@@ -315,6 +315,9 @@ export async function ensureTransistorCandleSchema(env) {
     )`),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS transistor_candle_trades_asset_time_idx ON transistor_candle_trade_rows(project_key, asset_key, block_timestamp ASC)"),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS transistor_candle_trades_observed_idx ON transistor_candle_trade_rows(observed_at DESC)"),
+    // The candles coverage read takes MIN/MAX(block_timestamp) over the whole table;
+    // without a plain index on that column it scanned ~870 rows per call, 633 times a day.
+    env.DB.prepare("CREATE INDEX IF NOT EXISTS transistor_candle_trades_block_ts_idx ON transistor_candle_trade_rows(block_timestamp)"),
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS transistor_candle_asset_runs (
       id INTEGER PRIMARY KEY AUTOINCREMENT, attempted_at TEXT NOT NULL, project_key TEXT NOT NULL, asset_key TEXT NOT NULL,
       status TEXT NOT NULL, fetched_count INTEGER, accepted_count INTEGER, inserted_count INTEGER, source_as_of TEXT, error TEXT
