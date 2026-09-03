@@ -5,7 +5,10 @@ import { ensureEventSchema } from "./events.js";
 const CIRCUIT_MARKET_SOLD_TOPIC = "0x2938a0a3a4a7c19c3a1fe6ef25340b7acd26dfac11de87836084d42fccc18656";
 const MARKET_CONFIRMATIONS = 12;
 const MARKET_LOG_WINDOW = 2000;
-const MARKET_LOG_WINDOWS_PER_RUN = 1;
+// Public providers answer roughly one tick in four from Cloudflare egress; a
+// successful tick therefore scans several windows so coverage keeps pace with
+// the chain (~400 blocks per five minutes) instead of slipping behind.
+const MARKET_LOG_WINDOWS_PER_RUN = 3;
 // Beyond this lag the scan gives up catching up and restarts from recent blocks,
 // recording the skipped range (see syncCircuitMarket). ~4 hours of BSC blocks.
 const MARKET_MAX_LAG_BLOCKS = 20000;
