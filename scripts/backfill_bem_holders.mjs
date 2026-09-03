@@ -38,7 +38,7 @@ const d1file = file => {
   if (r.status !== 0) throw new Error(`d1 file failed (${file}): ${(r.stdout + r.stderr).slice(-400)}`);
 };
 async function rpc(method, params) {
-  const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }), signal: AbortSignal.timeout(60_000) });
+  const r = await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }), signal: AbortSignal.timeout(40_000) });
   const j = await r.json();
   if (j.error) throw new Error(`RPC ${j.error.code}: ${j.error.message}`);
   return j.result;
@@ -71,7 +71,7 @@ async function fetchWindow(a, b) {
     catch (e) {
       if (size <= 250) throw e;
       size = Math.floor(size / 2);
-      const first = await fetchWindow(a, a + size - 1), second = await fetchWindow(a + size, b);
+      const [first, second] = await Promise.all([fetchWindow(a, a + size - 1), fetchWindow(a + size, b)]);
       return [...first, ...second];
     }
   }
@@ -83,7 +83,7 @@ while (from <= target) {
   for (const logs of results) fold(logs);
   windowsDone += batch.length;
   const through = batch.at(-1)[1];
-  if (windowsDone % 20 < CONCURRENCY) console.log(`  through ${through} (${((through - start) / (target - start) * 100).toFixed(1)}%), transfers ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+  if (windowsDone % 100 < CONCURRENCY) console.log(`  through ${through} (${((through - start) / (target - start) * 100).toFixed(1)}%), transfers ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`);
 }
 const touched = [...deltas.entries()].filter(([, d]) => d !== 0n);
 const finalBalances = new Map(touched.map(([a, d]) => [a, (existing.get(a) ?? 0n) + d]));
