@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-03b";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-03c";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -441,7 +441,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "GuoBTC (community)",
     url: "https://tapeout.vip/",
     original_language: "zh",
-    reviewed_at: "2026-09-01T04:00:00Z",
+    reviewed_at: "2026-09-03T07:21:09Z",
     title_en: "TapeOut VIP live analytics dashboard",
     title_zh: "TapeOut VIP 实时数据看板",
     summary_en: "Independent trilingual (中/英/한) real-time dashboard: total miners, verified/unverified pool weight, mining progress toward the 21M supply cap, daily emission, BEM price/market cap/FDV, live NAND/LATCH bid-ask for both TapeOut and Behemoth, a per-task \"Rank #1 pioneer\" table, a wallet leaderboard and a hot-task ranking. The task table carries the design shape itself — area, depth and b* as a triple, design cost C, and the first-creator bonus — and the price strip reports the burned share of each transistor type. Reposted approvingly by protocol founder @Blonskr.",
@@ -527,7 +527,7 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "@CryptoLoser9 (community)",
     url: "https://tapeoutdaily.ai/",
     original_language: "zh",
-    reviewed_at: "2026-09-02T01:15:00Z",
+    reviewed_at: "2026-09-03T07:21:09Z",
     title_en: "TapeOut Daily community newsroom",
     title_zh: "TapeOut Daily 社区日报",
     summary_en: "Unofficial community newsroom whose front page has matured into a verification-first layout: a lead story labelled with its source tier and its own verification timestamp, on-chain supply snapshots stamped with the time of record and linked back to the original source, and — replacing the earlier KOL-engagement ranking — a rolling 36-hour community-post feed where each post carries a signal score, a source-tier label (founder post, community analysis, or awaiting official confirmation) and a per-post verification time. It states its own editorial rule that when little qualifies it shows little, rather than passing off older posts as current. Still offers the learning path, curated videos and tool index, and explicitly disclaims investment advice.",
