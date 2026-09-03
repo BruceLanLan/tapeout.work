@@ -28,12 +28,15 @@ The service is public and read-only. Protocol-level Registry totals use the Tape
 | `/api/v1/daily-activity` | 默认返回**过去 7 天、按北京时间自然日**聚合的真实公开 Registry 观察序列；可选择 1 天、7 天、30 天或全部已观察历史，以及小时/日粒度和北京时间/UTC 日界线。响应披露实际 D1 覆盖期、首个部分桶与新增/累计指标；监控覆盖前不会补零。 |
 | `/api/v1/protocol-pulse` | Current UTC-day aggregate of **all publicly listed TapeOut Processors after server-side privacy filtering**, including website-labelled and unlabelled public records. It is not a complete on-chain transaction count. |
 | `/api/v1/airdrop-overview` | Cached, independently health-checked summary from the public TapeOut Airdrop contract: total/active/cancelled pools, remaining transistor units, observed claims and current items. `checked_at` is the latest successful contract read; `observed_at` is the last content-changing snapshot. |
-| `/api/v1/market-overview` | Confirmed Circuit Market `Sold` logs, bounded by disclosed scan coverage. Returns no completed coverage until a dedicated provider is configured. |
+| `/api/v1/market-overview` | Confirmed Circuit Market `Sold` logs, bounded by disclosed scan coverage. `coverage.through_block` is the last scanned block and `coverage.gaps` lists block ranges that were never scanned (the public log provider serves recent windows only, so a stale checkpoint is skipped rather than replayed); counts are "since coverage", never all-time. |
 | `/api/v1/processors` | Paginated full public Processor registry. |
 | `/api/v1/creators` | Current public Creator concentration aggregates. |
 | `/api/v1/attestations` | Tapeout 官网公开展示的项目标签及其证据链接；只返回已经通过隐私过滤的 Processor。 |
 | `/api/v1/export.csv` | CSV export of a filtered current public Processor view. |
 | `/api/v1/learn/resources` | Governed public TapeOut learning-resource catalog, with source tier, stage, language, pagination and dual-language copy. |
+| `/api/v1/ecosystem/health` | Read-only reachability of every catalogued tool, refreshed on the five-minute schedule. |
+| `/api/v1/self-audit` | 本站对自身目录的自审：已收录工具页面与更新/教程背后来源的指纹漂移（审核日期之后发生变化的进 `review_queue`，带 `kind`），目录不变量检查（`findings`），以及以实测数字公布的覆盖率（`coverage`，各桶加总必等于总数）。"不在队列"不等于已认证，响应内写明限制。 |
+| `/api/v1/changelog` | 目录种子与语种文件的公开变更记录，构建时从本仓库 git 历史生成。 |
 
 ## Learning resources
 
@@ -56,6 +59,10 @@ curl 'https://tapeout.work/api/v1/learn/resources?tier=official&stage=pod'
 | `/api/v1/bem/price` | BSC 上 BEM 为 base token 的最高正流动性交易对之第三方聚合行情；返回美元价格、流动性、24 小时成交额、涨跌、买卖笔数和池链接。 |
 | `/api/v1/bem/tasks` | 官网公开题库的服务端分页与筛选。默认每页 10 条，支持 `page`、`page_size`（最大 50）、`q`、`tier`、`kind`、`onchain`、`group`。 |
 | `/api/v1/bem/algorithm` | 官网公开的 Proof of Design 规则、公式、题库元数据及其展示边界。 |
+| `/api/v1/bem/holders` | 持币地址数，两条口径并列：`third_party`（GeckoTerminal 公开代币信息接口的持币人数与前十大分布，第三方口径，5 分钟一存）与链上 `Transfer` 全量普查（`holder_count`，需归档节点；`coverage` 给出普查区块范围，`census_status` 未到 `ok` 前是下界）。`status` 在普查健康时为 `ok`，否则持有第三方值时为 `third_party`；`reconciliation` 给出两者之差。 |
+| `/api/v1/bem/leaderboard` | 由官网公开矿机索引独立计算的钱包/题目电路计数排行与矿池权重增长序列；按电路数排名，不是协议的 H 权重公式，不表述为 BEM/日。 |
+| `/api/v1/bem/trending` | 过去 24 小时电路数增长最快的题目与钱包，仅由本站自身的排行快照差分得出；没有可比 24 小时前快照的条目不显示。 |
+| `/api/v1/bem/trades` | 跨 BSC 上主要 BEM 池聚合的大额成交与买卖流向（GeckoTerminal 公开成交流），`coverage` 披露每个被跟踪池的份额与新鲜度；大额阈值取存储窗口的第 95 百分位。 |
 
 矿池端点优先读取 TapeOut 公开的 [`pod-stats.json`](https://tapeout.net/pod/pod-stats.json)；只有其在采集时超过官网前端使用的 180 秒新鲜度阈值或读取失败时，才通过 TapeOut 根域名公开 RPC `https://tapeout.net/rpc` 对 PodMining 做受限批量只读回退。`/api/v1/data-health` 单列 `bem.mining`、`bem.taskbank`、`bem.miner_index` 和 `bem.price`。任何失败都会保留最后成功快照并显示 `stale`、`pending` 或 `error`，绝不伪造零值或“实时”。
 
