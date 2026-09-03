@@ -10,7 +10,7 @@
 //
 //   node scripts/backfill_bem_holders.mjs [--rpc https://bsc.rpc.blxrbdn.com] [--window 5000] [--dry-run]
 import { spawnSync } from "node:child_process";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync, unlinkSync } from "node:fs";
 
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : d; };
@@ -55,8 +55,20 @@ const existing = new Map(d1("SELECT address, balance_wei FROM bem_holder_balance
 console.log(`backfill ${start} → ${target} (${target - start + 1} blocks), existing balance rows: ${existing.size}`);
 
 // --- fold every transfer -----------------------------------------------------------
+// Resumable: the folded deltas are checkpointed to disk every 100 windows, so a
+// killed run continues from its last save instead of refetching from the start.
+const STATE = `${OUT}state.json`;
 const deltas = new Map();
 let transfers = 0, from = start, t0 = Date.now(), windowsDone = 0;
+if (existsSync(STATE)) {
+  const saved = JSON.parse(readFileSync(STATE, "utf8"));
+  if (saved.start === start && saved.through >= start) {
+    for (const [a, d] of saved.deltas) deltas.set(a, BigInt(d));
+    transfers = saved.transfers; from = saved.through + 1;
+    console.log(`resuming from ${from} (${transfers} transfers already folded)`);
+  }
+}
+const saveState = through => writeFileSync(STATE, JSON.stringify({ start, through, transfers, deltas: [...deltas.entries()].map(([a, d]) => [a, d.toString()]) }));
 const fold = logs => { for (const log of logs) {
   const f = addr(log.topics?.[1]), t = addr(log.topics?.[2]);
   const value = BigInt(`0x${String(log.data || "0x").replace(/^0x/, "").slice(0, 64) || "0"}`);
@@ -83,7 +95,7 @@ while (from <= target) {
   for (const logs of results) fold(logs);
   windowsDone += batch.length;
   const through = batch.at(-1)[1];
-  if (windowsDone % 100 < CONCURRENCY) console.log(`  through ${through} (${((through - start) / (target - start) * 100).toFixed(1)}%), transfers ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+  if (windowsDone % 100 < CONCURRENCY) { saveState(through); console.log(`  through ${through} (${((through - start) / (target - start) * 100).toFixed(1)}%), transfers ${transfers}, ${((Date.now() - t0) / 1000).toFixed(0)}s`); }
 }
 const touched = [...deltas.entries()].filter(([, d]) => d !== 0n);
 const finalBalances = new Map(touched.map(([a, d]) => [a, (existing.get(a) ?? 0n) + d]));
@@ -109,4 +121,5 @@ writeFileSync(tail, [
 ].join("\n") + "\n");
 for (const [i, f] of files.entries()) { d1file(f); console.log(`  wrote balances file ${i + 1}/${files.length}`); }
 d1file(tail);
+if (existsSync(STATE)) unlinkSync(STATE);
 console.log(`done: checkpoint → ${target}, ${rows.length} balance rows written`);
