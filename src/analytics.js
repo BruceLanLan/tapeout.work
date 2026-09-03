@@ -101,6 +101,16 @@ export async function dailyActivity(env, query = new URLSearchParams()) {
   return { observed_at: latest.observed_at, mode: "time_series", requested_range: requestedRange, range_limited: requestedRange === "all" && requestedStartMs > Date.parse(baseline.observed_at), granularity, timezone, bucket_minutes: granularity === "day" ? 1440 : 60, coverage_start: new Date(coverageStartMs).toISOString(), coverage_end: latest.observed_at, monitor_coverage_start: baseline.observed_at, coverage_days: Number(((endMs - coverageStartMs) / (24 * 60 * 60 * 1000)).toFixed(2)), partial_first_bucket: coverageStartMs > firstBucketMs, metrics: ["new_processors", "minting_processors", "circuit_delta", "active_creators", "processor_total", "circuit_total", "mint_delta"], buckets };
 }
 
+// The run table stores "ok"; the page and the other domains speak "healthy".
+// A last run older than four ticks is stale even if it succeeded.
+function marketStatus(env, run) {
+  if (!marketRpcUrl(env)) return "not_configured";
+  if (!run) return "pending";
+  const age = Date.now() - Date.parse(run.attempted_at || "");
+  if (run.status === "ok") return Number.isFinite(age) && age > 20 * 60000 ? "stale" : "healthy";
+  return run.status;
+}
+
 export async function dataHealth(env) {
   // Schema steps are writes; if D1 is refusing writes they fail, and this endpoint
   // must still answer. Each is awaited on its own and a failure is tolerated here.
@@ -123,7 +133,7 @@ export async function dataHealth(env) {
   const checkedAgeMinutes = refreshRun?.attempted_at ? Math.max(0, Math.round((Date.now() - Date.parse(refreshRun.attempted_at)) / 60000)) : null;
   const dataAgeMinutes = snapshot?.observed_at ? Math.max(0, Math.round((Date.now() - Date.parse(snapshot.observed_at)) / 60000)) : null;
   const registryStatus = !snapshot ? "unavailable" : refreshRun?.status === "error" || checkedAgeMinutes === null || checkedAgeMinutes > 12 ? "stale" : "healthy";
-  return { checked_at: new Date().toISOString(), registry: { status: registryStatus, source: PROCESSORS_URL, cadence: "every 5 minutes", last_checked_at: refreshRun?.attempted_at || null, last_data_change_at: snapshot?.observed_at || null, source_generated_at: refreshRun?.source_generated_at || null, check_age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, processor_count: snapshot?.processor_count || 0, last_run: refreshRun || null }, airdrop, market: { status: marketRpcUrl(env) ? (market?.status || "pending") : "not_configured", provider_configured: Boolean(marketRpcUrl(env)), last_run: market || null, contract: CIRCUIT_MARKET_ADDRESS, note: marketRpcUrl(env) ? "Uses configured dedicated provider and confirmed incremental windows." : "Market metrics are disabled until a dedicated BSC provider URL is configured as a Worker secret." }, bem, official_three_assets, community_processor_board, transistor_candles };
+  return { checked_at: new Date().toISOString(), registry: { status: registryStatus, source: PROCESSORS_URL, cadence: "every 5 minutes", last_checked_at: refreshRun?.attempted_at || null, last_data_change_at: snapshot?.observed_at || null, source_generated_at: refreshRun?.source_generated_at || null, check_age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, processor_count: snapshot?.processor_count || 0, last_run: refreshRun || null }, airdrop, market: { status: marketStatus(env, market), provider_configured: Boolean(marketRpcUrl(env)), last_run: market || null, contract: CIRCUIT_MARKET_ADDRESS, note: marketRpcUrl(env) ? "Uses configured dedicated provider and confirmed incremental windows." : "Market metrics are disabled until a dedicated BSC provider URL is configured as a Worker secret." }, bem, official_three_assets, community_processor_board, transistor_candles };
 }
 
 export async function analytics(env) {
