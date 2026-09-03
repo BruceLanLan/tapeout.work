@@ -55,8 +55,11 @@ export function supplyBand(supplyCap) {
 }
 
 export function json(value, status = 200, headers = {}) {
-  // API payloads contain live health and last-success state. Static assets remain
-  // versioned separately, but dynamic JSON must never preserve a stale edge value.
+  // Default is no-store: API payloads carry live health and last-success state.
+  // Bounded edge caching is layered on top of this by the router for endpoints
+  // whose payloads state their own checked_at — a 15–60s edge copy of a response
+  // that says when it was computed is honest; a cached live quote would not be.
+  // That decision lives in router.js (EDGE_CACHE), not here.
   return new Response(JSON.stringify(value), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...headers } });
 }
 

@@ -159,8 +159,35 @@ export async function v1(request, env) {
   return null;
 }
 
-export async function api(request, env) {
+// Edge cache policy for GET /api/v1 responses, by endpoint class. Every cached
+// payload states its own checked_at / observed_at, so a short edge copy does not
+// misrepresent freshness; it removes 3–8 D1 round trips from repeat loads and from
+// the ~15 calls a single page view makes. Live-walk endpoints stay uncached.
+const EDGE_CACHE = [
+  { test: p => p === "/api/v1/bem/budget-quote" || p === "/api/refresh" || p === "/api/v1/export.csv", ttl: 0 },
+  { test: p => /^\/api\/v1\/(tools|updates|learn\/resources|glossary|catalog|openapi\.json|i18n|changelog)$/.test(p), ttl: 60 },
+  { test: p => /^\/api\/v1\/(data-health|self-audit|ecosystem\/health|official-assets\/health|community\/processor-health)$/.test(p), ttl: 15 },
+  { test: p => p.startsWith("/api/v1/"), ttl: 30 },
+];
+const edgeTtl = pathname => (EDGE_CACHE.find(rule => rule.test(pathname)) || { ttl: 0 }).ttl;
+
+export async function api(request, env, ctx) {
   const url = new URL(request.url);
+  const ttl = request.method === "GET" ? edgeTtl(url.pathname) : 0;
+  if (ttl > 0 && ctx) {
+    const cache = caches.default;
+    const hit = await cache.match(request);
+    if (hit) return hit;
+    const fresh = await v1(request, env);
+    if (fresh && fresh.status === 200) {
+      const cached = new Response(fresh.body, fresh);
+      cached.headers.set("cache-control", `public, max-age=${ttl}, stale-while-revalidate=${ttl * 2}`);
+      cached.headers.set("x-edge-cache-ttl", String(ttl));
+      ctx.waitUntil(cache.put(request, cached.clone()));
+      return cached;
+    }
+    if (fresh) return fresh;
+  }
   const v1Response = await v1(request, env);
   if (v1Response) return v1Response;
   if (url.pathname === "/api/summary" || url.pathname === "/api/v1/summary") {

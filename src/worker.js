@@ -50,7 +50,7 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
 }
 
 export default {
-  async fetch(request, env) { return (await api(request, env)) || env.ASSETS.fetch(request); },
+  async fetch(request, env, ctx) { return (await api(request, env, ctx)) || env.ASSETS.fetch(request); },
   async scheduled(controller, env, ctx) {
     // The one-minute trigger refreshes only the volatile third-party BEM/USDT quote.
     // The five-minute trigger retains the broader public-source collection cadence.

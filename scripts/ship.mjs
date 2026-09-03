@@ -83,7 +83,10 @@ else { must("wrangler deploy", "npx", ["wrangler", "deploy"], { quiet: true }); 
 
 // ---- 7. verify production ------------------------------------------------------
 const checks = [];
-const get = async (p, as = "text") => { const r = await fetch(`${PROD}${p}`, { signal: AbortSignal.timeout(15000), headers: { "cache-control": "no-cache" } }); return { status: r.status, body: as === "json" ? await r.json().catch(() => null) : await r.text() }; };
+// A nonce on every verification URL sidesteps the edge cache (which is keyed by
+// full URL) so the check measures the deploy, not a copy from before it.
+const nonce = `ship_nonce=${Date.now().toString(36)}`;
+const get = async (p, as = "text") => { const r = await fetch(`${PROD}${p}${p.includes("?") ? "&" : "?"}${nonce}`, { signal: AbortSignal.timeout(15000), headers: { "cache-control": "no-cache" } }); return { status: r.status, body: as === "json" ? await r.json().catch(() => null) : await r.text() }; };
 const deadline = Date.now() + (NO_DEPLOY ? 240_000 : 90_000);
 let ok = false;
 while (Date.now() < deadline && !ok) {
