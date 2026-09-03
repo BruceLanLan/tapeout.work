@@ -18,7 +18,20 @@
 //   --origin <url>   default https://tapeout.work
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { CURATED_TOOLS } from "../src/curated_ecosystem_seed.js";
+import { CURATED_TOOLS, CURATED_UPDATES } from "../src/curated_ecosystem_seed.js";
+import { LEARNING_RESOURCES } from "../src/learning_resources_seed.js";
+import { sourceEntries } from "../src/self_audit.js";
+// A reviewable entry of any kind: tools carry their own fields; updates and
+// learning resources are joined with the source record (URL, kind, status id).
+const SOURCE_INDEX = new Map(sourceEntries().map(e => [e.id, e]));
+function resolveEntry(id) {
+  const tool = CURATED_TOOLS.find(t => t.id === id);
+  if (tool) return { kind: "tool", entry: tool, url: tool.url, status_id: null, safety: tool.safety_en };
+  const src = SOURCE_INDEX.get(id);
+  if (!src) return null;
+  const entry = src.kind === "update" ? CURATED_UPDATES.find(u => u.id === id) : LEARNING_RESOURCES.find(l => l.id === id);
+  return entry ? { kind: src.kind, entry, url: src.url, status_id: src.status_id, safety: entry.source_note_en || null } : null;
+}
 
 const args = process.argv.slice(2);
 const flag = n => args.includes(n);
@@ -40,7 +53,7 @@ else {
   targets = [...queue.keys()];
   if (flag("--stale")) for (const f of audit?.findings || []) if (f.check === "review_age") targets.push(...(f.subjects || []));
 }
-targets = [...new Set(targets)].filter(id => CURATED_TOOLS.some(t => t.id === id));
+targets = [...new Set(targets)].filter(id => resolveEntry(id));
 const limit = Number(opt("--limit", 0)); if (limit > 0) targets = targets.slice(0, limit);
 if (!targets.length) { console.log("nothing to review: queue empty" + (audit ? "" : " (self-audit unreachable)")); process.exit(0); }
 
@@ -87,7 +100,22 @@ function namedPaths(tool) {
   // formula symbol, not a route (the first run fetched tapeout.vip/b because of it).
   return [...new Set((text.match(/(?<![\w.])\/[a-z][a-z0-9-]{2,}(?:\/[a-z0-9-]+)*(?![\w*])/g) || []))].slice(0, 6);
 }
-async function fetchExcerpt(url, tool) {
+async function viaFxtwitter(statusId) {
+  const r = await fetch(`https://api.fxtwitter.com/i/status/${statusId}`, { headers: { accept: "application/json", "user-agent": UA }, signal: AbortSignal.timeout(30_000) });
+  const body = await r.json().catch(() => null);
+  if (r.status === 404 && body?.code === 404) throw new Error("fxtwitter: post not found (gone)");
+  if (!r.ok || !body?.tweet) throw new Error(`fxtwitter HTTP ${r.status}`);
+  const t = body.tweet;
+  const lines = [`@${t.author?.screen_name || "?"} · ${t.created_at || ""}`, ...toLines(t.text || "")];
+  if (t.article) lines.push(`=== article: ${t.article.title || ""} ===`, ...(t.article.content?.blocks || []).map(b => (b?.text || "").trim()).filter(Boolean));
+  if (lines.length < 2) throw new Error("fxtwitter returned an empty post");
+  return lines;
+}
+async function fetchExcerpt(url, tool, statusId = null) {
+  if (statusId) {
+    try { const lines = await viaFxtwitter(statusId); return { path: "fxtwitter", lines: cap(lines), errors: [] }; }
+    catch (e) { return { path: null, lines: [], errors: [`fxtwitter: ${e.message}`] }; }
+  }
   const root = await fetchOne(url);
   let lines = root.lines, path = root.path; const errors = [...root.errors];
   for (const sub of namedPaths(tool)) {
@@ -132,7 +160,8 @@ function draft(tool, lines, claims, queued) {
     "If you revise: keep the entry's register and its safety boundaries; do not add any capability the excerpt does not show; every new or changed claim must cite excerpt line numbers in `citations` (integers). Do not quote live numbers (prices, counts) — describe the surfaces and counters instead. Keep the same length class as the current entry.",
     "Output only JSON: { \"verdict\": \"still_accurate\"|\"revise\"|\"unverifiable\", \"summary_en\": string|null, \"summary_zh\": string|null, \"citations\": [int], \"rationale\": string }",
     "",
-    `Tool: ${tool.id} — ${tool.title_en} — ${tool.url}`,
+    `Entry (${tool.kind || "tool"}): ${tool.id} — ${tool.title_en} — ${tool.url}`,
+    tool.kind && tool.kind !== "tool" ? "This entry describes a post, article or page the catalogue links to (an update or a learning resource). The excerpt is that source as served today; judge whether the entry still describes it faithfully." : "",
     queued ? `Self-audit flagged it: page changed ${queued.changed_at}, entry reviewed ${queued.reviewed_at}. Labels added: ${JSON.stringify(queued.surface_added)}; removed: ${JSON.stringify(queued.surface_removed)}.` : "Not currently flagged by the self-audit.",
     "", "Current summary_en:", tool.summary_en, "", "Current summary_zh:", tool.summary_zh, "", "Current safety_en (do not weaken):", tool.safety_en,
     "", "Mechanical claim check (sentence → best excerpt line):", JSON.stringify(claims.map(c => ({ sentence: c.sentence.slice(0, 120), line: c.line, status: c.status })), null, 0),
@@ -161,10 +190,11 @@ mkdirSync(OUT_DIR, { recursive: true });
 const today = new Date().toISOString();
 const runSummary = { generated_at: today, model: flag("--no-llm") ? null : MODEL, tools: [] };
 for (const id of targets) {
-  const tool = CURATED_TOOLS.find(t => t.id === id);
+  const resolved = resolveEntry(id);
+  const tool = { ...resolved.entry, url: resolved.url, safety_en: resolved.safety || resolved.entry.safety_en || "", kind: resolved.kind };
   const queued = queue.get(id) || null;
-  process.stdout.write(`${id}: fetching… `);
-  const { path, lines, errors } = await fetchExcerpt(tool.url, tool);
+  process.stdout.write(`${id} (${resolved.kind}): fetching… `);
+  const { path, lines, errors } = await fetchExcerpt(tool.url, tool, resolved.status_id);
   const claims = path ? [...claimCheck(tool.summary_en, lines), ...claimCheck(tool.summary_zh, lines).map(c => ({ ...c, lang: "zh" }))] : [];
   let proposal = null, cost = null;
   let status = path ? "draft" : "unverifiable";
@@ -173,7 +203,7 @@ for (const id of targets) {
     catch (e) { proposal = { error: e.message }; status = "draft-error"; }
   }
   const fm = [
-    "---", `id: ${id}`, `url: ${tool.url}`, `status: ${status}`, `generated_at: ${today}`, `reviewed_at: ${tool.reviewed_at}`,
+    "---", `id: ${id}`, `kind: ${tool.kind || "tool"}`, `url: ${tool.url}`, `status: ${status}`, `generated_at: ${today}`, `reviewed_at: ${tool.reviewed_at}`,
     `changed_at: ${queued?.changed_at ?? "not flagged"}`, `fetch_path: ${path ?? "none"}`, `excerpt_lines: ${lines.length}`,
     `model: ${proposal && !proposal.error && !flag("--no-llm") ? MODEL : "none"}`, "---", "",
   ];
@@ -191,7 +221,7 @@ for (const id of targets) {
   ];
   writeFileSync(`${OUT_DIR}${id}.md`, fm.join("\n") + body.join("\n"));
   runSummary.tools.push({
-    id, title_en: tool.title_en, url: tool.url, status, fetch_path: path, excerpt_lines: lines.length, cost_usd: cost,
+    id, kind: tool.kind || "tool", title_en: tool.title_en, url: tool.url, status, fetch_path: path, excerpt_lines: lines.length, cost_usd: cost,
     queued: queued ? { changed_at: queued.changed_at, reviewed_at: queued.reviewed_at } : null,
     claim_check: claims.map(c => c.status),
     verdict: proposal?.verdict ?? null, invalid: proposal?.invalid ?? null, rationale: proposal?.rationale ?? null,

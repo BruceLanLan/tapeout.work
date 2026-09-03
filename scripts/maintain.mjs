@@ -60,7 +60,7 @@ if (!audit) fail("self-audit unreachable");
 const named = args.flatMap((a, i) => a === "--tool" ? [args[i + 1]] : []);
 // Only tool entries have a drafting path; a changed or deleted source behind an
 // update or learning resource is a person's call to drop or replace, never a re-stamp.
-let targets = named.length ? named : (audit.review_queue || []).filter(q => (q.kind || "tool") === "tool").map(q => q.id);
+let targets = named.length ? named : (audit.review_queue || []).map(q => q.id);
 if (!named.length && flag("--stale")) for (const f of audit.findings || []) if (f.check === "review_age") targets.push(...(f.subjects || []));
 targets = [...new Set(targets)].slice(0, LIMIT);
 if (!targets.length) { log("review queue empty — nothing to do (no model calls made)"); process.exit(0); }
@@ -77,7 +77,11 @@ let cost = run.tools.reduce((n, t) => n + (t.cost_usd || 0), 0);
 const decisions = [];
 for (const t of run.tools) {
   let action = "left pending";
-  if (t.status === "draft" && t.verdict === "still_accurate") action = "revouch";
+  // Only tool entries are applied automatically. A changed post or article behind
+  // an update or learning resource gets its evidence file and a line in the PR,
+  // and waits for a person.
+  if ((t.kind || "tool") !== "tool") action = "left pending (source entry — needs a person)";
+  else if (t.status === "draft" && t.verdict === "still_accurate") action = "revouch";
   else if (t.status === "draft" && t.verdict === "revise" && !t.invalid && t.summary_en_after && t.summary_zh_after) {
     // A revision that shrinks the entry has probably dropped a claim on thin
     // evidence; that judgement belongs to a person, not to this script.

@@ -16,7 +16,10 @@ const frontmatter = text => Object.fromEntries((text.match(/^---\n([\s\S]*?)\n--
 const lastJsonBlock = text => { const blocks = [...text.matchAll(/```json\n([\s\S]*?)\n```/g)]; return blocks.length ? JSON.parse(blocks[blocks.length - 1][1]) : null; };
 const jsLiteral = s => JSON.stringify(s);
 
+const LEARNING_SEED = new URL("../src/learning_resources_seed.js", import.meta.url).pathname;
 let seed = readFileSync(SEED, "utf8");
+let learningSeed = readFileSync(LEARNING_SEED, "utf8");
+let learningTouched = false;
 const now = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
 let applied = 0;
 for (const file of files) {
@@ -41,8 +44,10 @@ for (const file of files) {
     applied++;
     continue;
   }
+  const inLearning = seed.indexOf(`id: "${id}"`) < 0 && learningSeed.indexOf(`id: "${id}"`) >= 0;
+  if (inLearning) { const tmp = seed; seed = learningSeed; learningSeed = tmp; } // operate on the learning seed for this file
   const start = seed.indexOf(`id: "${id}"`);
-  if (start < 0) { console.error(`SKIP ${file}: ${id} not in seed`); continue; }
+  if (start < 0) { if (inLearning) { const tmp = seed; seed = learningSeed; learningSeed = tmp; } console.error(`SKIP ${file}: ${id} not in seed`); continue; }
   const end = seed.indexOf("\n  {", start) > 0 ? seed.indexOf("\n  {", start) : seed.indexOf("\n]);", start);
   let block = seed.slice(start, end);
   if (fm.status === "approved") {
@@ -52,16 +57,25 @@ for (const file of files) {
     block = block.replace(/summary_en: "(?:[^"\\]|\\.)*"/, `summary_en: ${jsLiteral(json.summary_en.trim())}`)
                  .replace(/summary_zh: "(?:[^"\\]|\\.)*"/, `summary_zh: ${jsLiteral(json.summary_zh.trim())}`);
   }
+  const hadReviewedAt = /reviewed_at: "/.test(block);
+  if (fm.status === "revouch" && !hadReviewedAt) { console.error(`SKIP ${file}: ${id} has no per-entry reviewed_at (learning resources share the catalogue-level date); nothing to re-stamp`); continue; }
   block = block.replace(/reviewed_at: "[^"]*"/, `reviewed_at: "${now}"`);
   seed = seed.slice(0, start) + block + seed.slice(end);
+  if (fm.kind === "learning") learningTouched = true;
   renameSync(PENDING + file, `${APPLIED}${now.slice(0, 10)}-${file}`);
   console.log(`${fm.status === "approved" ? "APPLIED" : "REVOUCHED"} ${id} (reviewed_at ${now})`);
   applied++;
+  if (inLearning) { const tmp = seed; seed = learningSeed; learningSeed = tmp; }
 }
 if (!applied) { console.log("nothing to apply: no pending review has status approved or revouch"); process.exit(0); }
 // Catalogue version: today's date plus the next letter.
 const today = now.slice(0, 10);
 seed = seed.replace(/ECOSYSTEM_CATALOG_VERSION = "(\d{4}-\d{2}-\d{2})([a-z])"/, (_, d, l) => `ECOSYSTEM_CATALOG_VERSION = "${d === today ? today + String.fromCharCode(l.charCodeAt(0) + 1) : today + "a"}"`);
 writeFileSync(SEED, seed);
+if (learningTouched) {
+  learningSeed = learningSeed.replace(/LEARNING_CATALOG_VERSION = "(\d{4}-\d{2}-\d{2})([a-z])"/, (_, d, l) => `LEARNING_CATALOG_VERSION = "${d === today ? today + String.fromCharCode(l.charCodeAt(0) + 1) : today + "a"}"`);
+  writeFileSync(LEARNING_SEED, learningSeed);
+  console.log("learning catalogue version bumped");
+}
 console.log(`catalogue version → ${(seed.match(/ECOSYSTEM_CATALOG_VERSION = "([^"]+)"/) || [])[1]}`);
 console.log("next: node scripts/translate_catalog.mjs   then   node scripts/ship.mjs -m \"content: ...\"");
