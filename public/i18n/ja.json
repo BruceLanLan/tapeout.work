@@ -572,5 +572,9 @@
   "bemTradesBuy": "買い",
   "bemTradesSell": "売り",
   "bemTradesEmpty": "保存されている期間内の取引で、算出された大口取引のしきい値を超えたものはまだありません。",
-  "bemTradesWindow": "期間内の取引"
+  "bemTradesWindow": "期間内の取引",
+  "selfAuditSourcesFingerprinted": "件のソースを指紋化",
+  "selfAuditKindTool": "ツール",
+  "selfAuditKindUpdate": "更新",
+  "selfAuditKindLearning": "チュートリアル"
 }

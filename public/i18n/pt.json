@@ -572,5 +572,9 @@
   "bemTradesBuy": "Compra",
   "bemTradesSell": "Venda",
   "bemTradesEmpty": "Nenhuma negociação na janela armazenada ultrapassou ainda o limiar calculado para negociações grandes.",
-  "bemTradesWindow": "negociações na janela"
+  "bemTradesWindow": "negociações na janela",
+  "selfAuditSourcesFingerprinted": "fontes com impressão digital",
+  "selfAuditKindTool": "ferramenta",
+  "selfAuditKindUpdate": "atualização",
+  "selfAuditKindLearning": "tutorial"
 }

@@ -58,7 +58,9 @@ if (!DRY) {
 const audit = await fetch(`${ORIGIN}/api/v1/self-audit`).then(r => r.json()).catch(() => null);
 if (!audit) fail("self-audit unreachable");
 const named = args.flatMap((a, i) => a === "--tool" ? [args[i + 1]] : []);
-let targets = named.length ? named : (audit.review_queue || []).map(q => q.id);
+// Only tool entries have a drafting path; a changed or deleted source behind an
+// update or learning resource is a person's call to drop or replace, never a re-stamp.
+let targets = named.length ? named : (audit.review_queue || []).filter(q => (q.kind || "tool") === "tool").map(q => q.id);
 if (!named.length && flag("--stale")) for (const f of audit.findings || []) if (f.check === "review_age") targets.push(...(f.subjects || []));
 targets = [...new Set(targets)].slice(0, LIMIT);
 if (!targets.length) { log("review queue empty — nothing to do (no model calls made)"); process.exit(0); }

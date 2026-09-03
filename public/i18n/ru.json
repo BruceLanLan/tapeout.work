@@ -572,5 +572,9 @@
   "bemTradesBuy": "Покупка",
   "bemTradesSell": "Продажа",
   "bemTradesEmpty": "Ни одна сделка в сохранённом окне ещё не превысила расчётный порог крупной сделки.",
-  "bemTradesWindow": "сделок в окне"
+  "bemTradesWindow": "сделок в окне",
+  "selfAuditSourcesFingerprinted": "источников с отпечатком",
+  "selfAuditKindTool": "инструмент",
+  "selfAuditKindUpdate": "обновление",
+  "selfAuditKindLearning": "урок"
 }

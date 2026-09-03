@@ -1,5 +1,5 @@
 import { CURATED_TOOLS, CURATED_UPDATES, ECOSYSTEM_CATALOG_VERSION } from "./curated_ecosystem_seed.js";
-import { LEARNING_RESOURCES } from "./learning_resources_seed.js";
+import { LEARNING_RESOURCES, LEARNING_CATALOG_REVIEWED_AT } from "./learning_resources_seed.js";
 import { ensureScheduledDomainFresh } from "./freshness.js";
 import { entrySourceHash } from "./catalog_hash.js";
 
@@ -57,7 +57,18 @@ export async function ensureSelfAuditSchema(env) {
         checked_count INTEGER, changed_count INTEGER, error TEXT
       )`),
       env.DB.prepare("CREATE INDEX IF NOT EXISTS self_audit_runs_attempted_idx ON self_audit_runs(attempted_at DESC)"),
+      // Catalogued sources (reviewed updates and learning resources): X posts and
+      // articles through fxtwitter's JSON, other pages through the same surface
+      // fingerprint as tools. A deleted post is recorded as "gone" only on
+      // fxtwitter's explicit 404 envelope; any other failure is unverified.
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS source_content_fingerprints (
+        entry_id TEXT PRIMARY KEY, kind TEXT NOT NULL, url TEXT NOT NULL, fingerprint TEXT,
+        first_seen_at TEXT NOT NULL, last_checked_at TEXT NOT NULL, last_changed_at TEXT, change_count INTEGER NOT NULL DEFAULT 0,
+        last_status TEXT, last_error TEXT, baseline_reviewed_at TEXT
+      )`),
       ]);
+      await ensureColumn(env, "self_audit_runs", "sources_checked", "INTEGER");
+      await ensureColumn(env, "self_audit_runs", "sources_changed", "INTEGER");
       // Added after the table shipped: the surface labels themselves, so a change can
       // be reported as which labels moved rather than only that something did.
       await ensureColumn(env, "tool_content_fingerprints", "surface_items", "TEXT");
@@ -160,6 +171,76 @@ async function fingerprintTool(tool) {
   }
 }
 
+const X_STATUS = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/status\/(\d+)/i;
+const X_ARTICLE = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/article\/\d+/i;
+// Every catalogued source with the review date its fingerprint is baselined on.
+// Updates carry their own reviewed_at. Learning resources do not — the catalogue
+// has one review date for all of them — so a catalogue-level bump re-baselines
+// every learning source at once. Coarse, but true; per-entry dates would have to
+// be invented.
+export function sourceEntries() {
+  const list = [];
+  for (const u of CURATED_UPDATES) list.push({ id: u.id, kind: "update", url: u.url, title_en: u.title_en, reviewed_at: u.reviewed_at || null, status_id: u.source_status_id || (u.url.match(X_STATUS) || [])[1] || null });
+  for (const l of LEARNING_RESOURCES) list.push({ id: l.id, kind: "learning", url: l.url, title_en: l.title_en, reviewed_at: LEARNING_CATALOG_REVIEWED_AT, status_id: (l.url.match(X_STATUS) || [])[1] || null });
+  return list;
+}
+
+async function fingerprintSource(entry) {
+  if (entry.status_id) {
+    try {
+      const response = await fetch(`https://api.fxtwitter.com/i/status/${entry.status_id}`, {
+        headers: { accept: "application/json", "user-agent": "tapeout.work-monitor/1.0 (+https://tapeout.work)" },
+        cf: { cacheTtl: 0, cacheEverything: false }, signal: AbortSignal.timeout(DRIFT_FETCH_TIMEOUT_MS),
+      });
+      let body = null;
+      try { body = await response.json(); } catch { body = null; }
+      // "Gone" is asserted only on the explicit not-found envelope. A 404 without it,
+      // a 5xx, a rate limit or a non-JSON body says nothing about the post.
+      if (response.status === 404 && body && body.code === 404 && body.tweet === null) return { id: entry.id, status: "gone", error: "fxtwitter: 404 NOT_FOUND" };
+      if (!response.ok || !body?.tweet) return { id: entry.id, status: "error", error: `fxtwitter HTTP ${response.status}${body ? "" : " (non-JSON)"}` };
+      const tweet = body.tweet;
+      const material = [tweet.text || "", tweet.article?.title || "", ...((tweet.article?.content?.blocks || []).map(block => block?.text || ""))].join("\n");
+      return { id: entry.id, status: "ok", fingerprint: await digest(material) };
+    } catch (error) {
+      return { id: entry.id, status: "error", error: error?.message || String(error) };
+    }
+  }
+  if (X_ARTICLE.test(entry.url)) return { id: entry.id, status: "skipped", error: "X Article without a recorded status id" };
+  const page = await fingerprintTool({ id: entry.id, url: entry.url, drift_profile: "structure" });
+  if (page.status !== "ok") return { id: entry.id, status: page.status, error: page.error };
+  return { id: entry.id, status: "ok", fingerprint: page.surface_fingerprint };
+}
+
+async function syncSourceDrift(env, attemptedAt) {
+  const existingRows = await env.DB.prepare("SELECT entry_id, fingerprint, change_count, last_changed_at, baseline_reviewed_at FROM source_content_fingerprints").all();
+  const existing = new Map((existingRows.results || []).map(row => [row.entry_id, row]));
+  const statements = [];
+  let changed = 0, checked = 0;
+  for (const entry of sourceEntries()) {
+    const result = await fingerprintSource(entry);
+    checked += 1;
+    const previous = existing.get(entry.id);
+    if (result.status !== "ok") {
+      statements.push(env.DB.prepare(`INSERT INTO source_content_fingerprints (entry_id, kind, url, first_seen_at, last_checked_at, last_status, last_error, change_count)
+          VALUES (?, ?, ?, ?, ?, ?, ?, 0)
+          ON CONFLICT(entry_id) DO UPDATE SET url=excluded.url, last_checked_at=excluded.last_checked_at, last_status=excluded.last_status, last_error=excluded.last_error`)
+        .bind(entry.id, entry.kind, entry.url, attemptedAt, attemptedAt, result.status, result.error || null));
+      continue;
+    }
+    const rebaseline = !previous || previous.baseline_reviewed_at !== entry.reviewed_at;
+    const moved = !rebaseline && Boolean(previous?.fingerprint) && previous.fingerprint !== result.fingerprint;
+    if (moved) changed += 1;
+    statements.push(env.DB.prepare(`INSERT INTO source_content_fingerprints (entry_id, kind, url, fingerprint, first_seen_at, last_checked_at, last_changed_at, change_count, last_status, last_error, baseline_reviewed_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ok', NULL, ?)
+        ON CONFLICT(entry_id) DO UPDATE SET url=excluded.url, fingerprint=excluded.fingerprint, last_checked_at=excluded.last_checked_at,
+          last_changed_at=excluded.last_changed_at, change_count=excluded.change_count, last_status='ok', last_error=NULL, baseline_reviewed_at=excluded.baseline_reviewed_at`)
+      .bind(entry.id, entry.kind, entry.url, result.fingerprint, attemptedAt, attemptedAt,
+        moved ? attemptedAt : (rebaseline ? null : previous?.last_changed_at ?? null), (previous?.change_count ?? 0) + (moved ? 1 : 0), entry.reviewed_at));
+  }
+  for (let index = 0; index < statements.length; index += 40) await env.DB.batch(statements.slice(index, index + 40));
+  return { checked, changed };
+}
+
 export async function syncContentDrift(env) {
   await ensureSelfAuditSchema(env);
   const attemptedAt = new Date().toISOString();
@@ -231,9 +312,10 @@ export async function syncContentDrift(env) {
           JSON.stringify(nextBaselineSurface), reviewedAt, profile));
     }
     for (let index = 0; index < statements.length; index += 40) await env.DB.batch(statements.slice(index, index + 40));
-    await env.DB.prepare("INSERT INTO self_audit_runs (attempted_at, status, checked_count, changed_count, error) VALUES (?, 'ok', ?, ?, NULL)")
-      .bind(attemptedAt, results.length, changedCount).run();
-    return { status: "ok", attempted_at: attemptedAt, checked: results.length, changed: changedCount };
+    const sources = await syncSourceDrift(env, attemptedAt);
+    await env.DB.prepare("INSERT INTO self_audit_runs (attempted_at, status, checked_count, changed_count, error, sources_checked, sources_changed) VALUES (?, 'ok', ?, ?, NULL, ?, ?)")
+      .bind(attemptedAt, results.length, changedCount, sources.checked, sources.changed).run();
+    return { status: "ok", attempted_at: attemptedAt, checked: results.length, changed: changedCount, sources };
   } catch (error) {
     await env.DB.prepare("INSERT INTO self_audit_runs (attempted_at, status, checked_count, changed_count, error) VALUES (?, 'error', NULL, NULL, ?)")
       .bind(attemptedAt, String(error?.message || error).slice(0, 500)).run();
@@ -344,11 +426,13 @@ export async function selfAuditOverview(env, localeCoverage = null) {
   // otherwise report "clean" while having checked nothing.
   const seeded = await env.DB.prepare("SELECT 1 AS seeded FROM tool_content_fingerprints LIMIT 1").first();
   if (!seeded) await syncContentDrift(env);
-  const [fingerprintRows, latestRun] = await Promise.all([
+  const [fingerprintRows, latestRun, sourceRows] = await Promise.all([
     env.DB.prepare("SELECT tool_id, url, last_checked_at, last_changed_at, change_count, last_status, last_error, last_surface_added, last_surface_removed FROM tool_content_fingerprints").all(),
-    env.DB.prepare("SELECT attempted_at, status, checked_count, changed_count, error FROM self_audit_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at, status, checked_count, changed_count, error, sources_checked, sources_changed FROM self_audit_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT entry_id, kind, url, last_checked_at, last_changed_at, change_count, last_status, last_error FROM source_content_fingerprints").all().catch(() => ({ results: [] })),
   ]);
   const byId = new Map((fingerprintRows.results || []).map(row => [row.tool_id, row]));
+  const sourceById = new Map((sourceRows.results || []).map(row => [row.entry_id, row]));
 
   // The actionable output: a page observably shipped a change after the date we
   // last vouched for its description. Not "this description is wrong" — we cannot
@@ -364,13 +448,23 @@ export async function selfAuditOverview(env, localeCoverage = null) {
     const changedAt = Date.parse(row.last_changed_at);
     if (!Number.isFinite(reviewedAt) || !Number.isFinite(changedAt) || changedAt <= reviewedAt) continue;
     reviewQueue.push({
-      id: tool.id, url: tool.url, title_en: tool.title_en, tier: tool.tier, wallet_risk: tool.wallet_risk,
+      kind: "tool", id: tool.id, url: tool.url, title_en: tool.title_en, tier: tool.tier, wallet_risk: tool.wallet_risk,
       reviewed_at: tool.reviewed_at, changed_at: row.last_changed_at, change_count: row.change_count,
       // null, not [], when no comparable predecessor existed — an empty list would
       // claim nothing moved, which is a different statement from not knowing.
       surface_added: row.last_surface_added ? safeList(row.last_surface_added) : null,
       surface_removed: row.last_surface_removed ? safeList(row.last_surface_removed) : null,
     });
+  }
+  // Sources: the post or page behind a reviewed update or learning resource changed
+  // after the review it was baselined on. Same semantics as tools, no label diff.
+  const allSources = sourceEntries();
+  for (const entry of allSources) {
+    const row = sourceById.get(entry.id);
+    if (!row?.last_changed_at) continue;
+    const reviewedAt = Date.parse(entry.reviewed_at || ""), changedAt = Date.parse(row.last_changed_at);
+    if (!Number.isFinite(reviewedAt) || !Number.isFinite(changedAt) || changedAt <= reviewedAt) continue;
+    reviewQueue.push({ kind: entry.kind, id: entry.id, url: entry.url, title_en: entry.title_en, reviewed_at: entry.reviewed_at, changed_at: row.last_changed_at, change_count: row.change_count, surface_added: null, surface_removed: null });
   }
   reviewQueue.sort((a, b) => String(b.changed_at).localeCompare(String(a.changed_at)));
 
@@ -382,13 +476,25 @@ export async function selfAuditOverview(env, localeCoverage = null) {
   // Silence read as coverage, which is the exact failure this audit exists to
   // prevent, so an unattempted tool is now named and reported as a finding.
   const notAttempted = CURATED_TOOLS.filter(tool => !byId.has(tool.id)).map(tool => ({ tool_id: tool.id, url: tool.url }));
+  const sourceStatus = status => allSources.filter(e => sourceById.get(e.id)?.last_status === status).map(e => ({ entry_id: e.id, kind: e.kind, reason: sourceById.get(e.id)?.last_error || null }));
+  const sourcesNotAttempted = allSources.filter(e => !sourceById.has(e.id)).map(e => ({ entry_id: e.id, kind: e.kind }));
   const coverage = {
     tools_fingerprinted: [...byId.values()].filter(row => row.last_status === "ok").length,
     tools_total: CURATED_TOOLS.length,
     skipped: [...byId.values()].filter(row => row.last_status === "skipped").map(row => ({ tool_id: row.tool_id, reason: row.last_error })),
     errored: [...byId.values()].filter(row => row.last_status === "error").map(row => ({ tool_id: row.tool_id, error: row.last_error })),
     not_attempted: notAttempted,
+    // The posts and pages behind reviewed updates and learning resources. Buckets sum
+    // to sources_total, like the tool buckets above.
+    sources: {
+      fingerprinted: sourceStatus("ok").length, total: allSources.length,
+      skipped: sourceStatus("skipped"), errored: sourceStatus("error"), gone: sourceStatus("gone"), not_attempted: sourcesNotAttempted,
+    },
   };
+  // A source that no longer publicly exists is an error, not a review prompt: the
+  // catalogue is linking readers to nothing.
+  if (coverage.sources.gone.length) findings.push({ check: "source_gone", severity: "error", detail: `${coverage.sources.gone.length} catalogued source(s) no longer exist at their URL (explicit not-found from the source); the entries need a person to drop or replace them`, subjects: coverage.sources.gone.map(g => g.entry_id) });
+  if (sourcesNotAttempted.length && sourceById.size) findings.push({ check: "fingerprint_coverage", severity: "warning", detail: `${sourcesNotAttempted.length} catalogued source(s) have never been fingerprinted`, subjects: sourcesNotAttempted.map(e => e.entry_id) });
   if (notAttempted.length) {
     findings.push({
       check: "fingerprint_coverage",

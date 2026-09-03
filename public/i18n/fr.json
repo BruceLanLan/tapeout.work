@@ -572,5 +572,9 @@
   "bemTradesBuy": "Achat",
   "bemTradesSell": "Vente",
   "bemTradesEmpty": "Aucune transaction de la fenêtre conservée n'a encore franchi le seuil calculé de grosse transaction.",
-  "bemTradesWindow": "transactions dans la fenêtre"
+  "bemTradesWindow": "transactions dans la fenêtre",
+  "selfAuditSourcesFingerprinted": "sources empreintées",
+  "selfAuditKindTool": "outil",
+  "selfAuditKindUpdate": "mise à jour",
+  "selfAuditKindLearning": "tutoriel"
 }

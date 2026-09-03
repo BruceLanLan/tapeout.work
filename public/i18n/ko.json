@@ -572,5 +572,9 @@
   "bemTradesBuy": "매수",
   "bemTradesSell": "매도",
   "bemTradesEmpty": "저장된 기간 내 거래 중 계산된 대형 거래 임계값을 넘은 거래가 아직 없습니다.",
-  "bemTradesWindow": "기간 내 거래"
+  "bemTradesWindow": "기간 내 거래",
+  "selfAuditSourcesFingerprinted": "개 출처 지문 채취됨",
+  "selfAuditKindTool": "도구",
+  "selfAuditKindUpdate": "업데이트",
+  "selfAuditKindLearning": "튜토리얼"
 }

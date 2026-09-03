@@ -11,10 +11,12 @@
 //
 // No network, no real D1: fetch is stubbed per-URL and the DB is a map that
 // understands only the exact statements self_audit.js issues.
-import { syncContentDrift } from "../src/self_audit.js";
-import { CURATED_TOOLS } from "../src/curated_ecosystem_seed.js";
+import { syncContentDrift, selfAuditOverview } from "../src/self_audit.js";
+import { CURATED_TOOLS, CURATED_UPDATES } from "../src/curated_ecosystem_seed.js";
 
 const rows = new Map(); // tool_id -> row object
+const sourceRows = new Map(); // entry_id -> row object
+const runs = [];
 const fetched = [];
 
 const UPSERT_COLS = ["tool_id", "url", "asset_fingerprint", "surface_fingerprint", "first_seen_at", "last_checked_at",
@@ -22,8 +24,18 @@ const UPSERT_COLS = ["tool_id", "url", "asset_fingerprint", "surface_fingerprint
   "baseline_surface", "baseline_reviewed_at", "drift_profile"];
 const NOTOK_COLS = ["tool_id", "url", "first_seen_at", "last_checked_at", "last_status", "last_error"];
 
+const SRC_OK_COLS = ["entry_id", "kind", "url", "fingerprint", "first_seen_at", "last_checked_at", "last_changed_at", "change_count", "baseline_reviewed_at"];
+const SRC_NOTOK_COLS = ["entry_id", "kind", "url", "first_seen_at", "last_checked_at", "last_status", "last_error"];
 function applyStatement(sql, args) {
-  if (sql.includes("self_audit_runs")) return;
+  if (sql.includes("self_audit_runs")) { runs.push(args); return; }
+  if (sql.includes("ON CONFLICT(entry_id)")) {
+    const cols = sql.includes("fingerprint,") ? SRC_OK_COLS : SRC_NOTOK_COLS;
+    const incoming = Object.fromEntries(cols.map((c, i) => [c, args[i]]));
+    const prev = sourceRows.get(incoming.entry_id) || {};
+    if (cols === SRC_OK_COLS) sourceRows.set(incoming.entry_id, { ...prev, ...incoming, last_status: "ok", last_error: null });
+    else sourceRows.set(incoming.entry_id, { ...prev, ...incoming, first_seen_at: prev.first_seen_at ?? incoming.first_seen_at });
+    return;
+  }
   if (sql.includes("ON CONFLICT(tool_id)")) {
     const cols = sql.includes("asset_fingerprint") ? UPSERT_COLS : NOTOK_COLS;
     const incoming = Object.fromEntries(cols.map((c, i) => [c, args[i]]));
@@ -47,7 +59,7 @@ const fakeDB = {
         };
       },
       run: async () => ({}),
-      all: async () => sql.includes("FROM tool_content_fingerprints") ? { results: [...rows.values()] } : { results: [] },
+      all: async () => sql.includes("FROM tool_content_fingerprints") ? { results: [...rows.values()] } : sql.includes("FROM source_content_fingerprints") ? { results: [...sourceRows.values()] } : { results: [] },
       first: async () => null,
       // batch receives already-bound statements; emulate via the closure below.
     };
@@ -69,8 +81,14 @@ const page = ({ script = "app.abc123.js", heading = "Hello", nav = "Home" }) =>
   `<html><head><title>Site</title><script src="/${script}"></script></head>
    <body><nav><a href="/">${nav}</a></nav><h2>${heading}</h2></body></html>`;
 const pages = new Map(); // url prefix -> html
+const posts = new Map(); // fxtwitter status id -> { status, body (string) }
 globalThis.fetch = async (url) => {
   fetched.push(String(url));
+  const fx = String(url).match(/api\.fxtwitter\.com\/i\/status\/(\d+)/);
+  if (fx) {
+    const p = posts.get(fx[1]) || { status: 200, body: JSON.stringify({ code: 200, tweet: { text: "default post", article: null } }) };
+    return new Response(p.body, { status: p.status, headers: { "content-type": p.status === 500 ? "text/html" : "application/json" } });
+  }
   const hit = [...pages.entries()].find(([prefix]) => String(url).startsWith(prefix));
   return new Response(hit ? hit[1] : page({}), { status: 200, headers: { "content-type": "text/html" } });
 };
@@ -82,6 +100,13 @@ if (structureTool.drift_profile !== "structure" || noneTool.drift_profile !== "n
   throw new Error("FAIL precondition: seed drift profiles not as expected");
 }
 const savedReviewedAt = fullTool.reviewed_at;
+// Source under test: the first reviewed update that is a plain X post. Its text is
+// fixed before the first run so the baseline is taken on known wording.
+const post = CURATED_UPDATES.find(u => /x\.com\/[^/]+\/status\/\d+/.test(u.url));
+const postId = post.url.match(/status\/(\d+)/)[1];
+const savedPostReviewedAt = post.reviewed_at;
+const tweet = text => JSON.stringify({ code: 200, tweet: { text, article: null } });
+posts.set(postId, { status: 200, body: tweet("original wording") });
 
 let failures = 0;
 const check = (label, ok) => { console.log(`${ok ? "PASS" : "FAIL"} ${label}`); if (!ok) failures++; };
@@ -121,6 +146,45 @@ try {
   check("structure profile catches a nav change", rows.get(structureTool.id).last_changed_at != null);
 } finally {
   fullTool.reviewed_at = savedReviewedAt;
+}
+
+// ---- sources: posts and pages behind reviewed updates and learning resources ----
+const overview = async () => selfAuditOverview(env, {});
+try {
+  check("source baseline taken (ok, no change flag)", sourceRows.get(post.id)?.last_status === "ok" && sourceRows.get(post.id)?.last_changed_at == null);
+  check("learning sources baselined on the catalogue-level review date", [...sourceRows.values()].some(r => r.kind === "learning" && r.baseline_reviewed_at));
+  check("run records source counts", Array.isArray(runs.at(-1)) && runs.at(-1).length >= 5);
+
+  // (b) a non-JSON 500 is unverified, never "gone"
+  posts.set(postId, { status: 500, body: "<html>upstream error</html>" });
+  await syncContentDrift(env);
+  check("non-JSON failure is recorded as error, not gone", sourceRows.get(post.id)?.last_status === "error");
+  let ov = await overview();
+  check("no source_gone finding on a fetch failure", !ov.findings.some(f => f.check === "source_gone"));
+
+  // (c) the post text changes after the review -> queued with kind update
+  posts.set(postId, { status: 200, body: tweet("edited wording") });
+  await syncContentDrift(env);
+  ov = await overview();
+  check("changed post is queued with kind update", ov.review_queue.some(q => q.id === post.id && q.kind === "update"));
+
+  // (d) a review bump clears it
+  post.reviewed_at = "2099-01-01T00:00:00Z";
+  await syncContentDrift(env);
+  ov = await overview();
+  check("review bump clears the queued source", !ov.review_queue.some(q => q.id === post.id));
+
+  // (a) explicit not-found envelope -> gone + error finding
+  posts.set(postId, { status: 404, body: JSON.stringify({ code: 404, message: "NOT_FOUND", tweet: null }) });
+  await syncContentDrift(env);
+  ov = await overview();
+  check("explicit 404 envelope is recorded as gone", sourceRows.get(post.id)?.last_status === "gone");
+  check("gone raises a severity-error finding naming the entry", ov.findings.some(f => f.check === "source_gone" && f.severity === "error" && f.subjects.includes(post.id)));
+  const cov = ov.coverage.sources;
+  check("source coverage buckets sum to total", cov.fingerprinted + cov.skipped.length + cov.errored.length + cov.gone.length + cov.not_attempted.length === cov.total);
+  check("X Articles without a status id are skipped by policy", cov.skipped.some(sk => /status id/.test(sk.reason || "")));
+} finally {
+  post.reviewed_at = savedPostReviewedAt;
 }
 
 if (failures) { console.error(`${failures} failure(s)`); process.exit(1); }

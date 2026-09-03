@@ -428,5 +428,9 @@
   "officialAssetProjects": "官方项目",
   "officialAssetChange": "快照变化",
   "officialAssetBoundary": "边界：仅覆盖 TapeOut、Behemoth 与 Genesis CPU。官网 CPU 统计公开 holder 聚合数与累计铸造地址；官网市场统计公开买单。两者均不提供完整的按地址当前 NAND/LATCH 余额，因此不会把任何地址标为投资人、LP、路由或当前持有人。",
-  "apiOfficialAssets": "TapeOut、Behemoth 与 Genesis CPU 的官网 holder / 累计铸造 / 订单聚合观察；累计铸造和买单不等同当前余额。"
+  "apiOfficialAssets": "TapeOut、Behemoth 与 Genesis CPU 的官网 holder / 累计铸造 / 订单聚合观察；累计铸造和买单不等同当前余额。",
+  "selfAuditSourcesFingerprinted": "个来源已取指纹",
+  "selfAuditKindTool": "工具",
+  "selfAuditKindUpdate": "更新",
+  "selfAuditKindLearning": "教程"
 }

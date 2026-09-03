@@ -572,5 +572,9 @@
   "bemTradesBuy": "Kauf",
   "bemTradesSell": "Verkauf",
   "bemTradesEmpty": "Im gespeicherten Fenster hat noch kein Trade die berechnete Schwelle für Großtrades überschritten.",
-  "bemTradesWindow": "Trades im Fenster"
+  "bemTradesWindow": "Trades im Fenster",
+  "selfAuditSourcesFingerprinted": "Quellen mit Fingerabdruck",
+  "selfAuditKindTool": "Werkzeug",
+  "selfAuditKindUpdate": "Update",
+  "selfAuditKindLearning": "Tutorial"
 }

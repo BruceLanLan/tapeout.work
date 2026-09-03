@@ -572,5 +572,9 @@
   "bemTradesBuy": "Buy",
   "bemTradesSell": "Sell",
   "bemTradesEmpty": "No trade in the stored window has crossed the computed large-trade threshold yet.",
-  "bemTradesWindow": "trades in window"
+  "bemTradesWindow": "trades in window",
+  "selfAuditSourcesFingerprinted": "sources fingerprinted",
+  "selfAuditKindTool": "tool",
+  "selfAuditKindUpdate": "update",
+  "selfAuditKindLearning": "tutorial"
 }

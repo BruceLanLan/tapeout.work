@@ -572,5 +572,9 @@
   "bemTradesBuy": "Alış",
   "bemTradesSell": "Satış",
   "bemTradesEmpty": "Saklanan pencere içindeki hiçbir işlem henüz hesaplanan büyük işlem eşiğini aşmadı.",
-  "bemTradesWindow": "pencere içindeki işlemler"
+  "bemTradesWindow": "pencere içindeki işlemler",
+  "selfAuditSourcesFingerprinted": "kaynağın parmak izi alındı",
+  "selfAuditKindTool": "araç",
+  "selfAuditKindUpdate": "güncelleme",
+  "selfAuditKindLearning": "eğitim"
 }

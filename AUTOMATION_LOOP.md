@@ -28,6 +28,7 @@
 | 部件 | 做什么 | 不做什么 |
 |---|---|---|
 | `src/self_audit.js` | 每 6 小时给已收录工具页面做指纹（资产 URL 集合 + 标题/导航/标题层级），审核日期之后发生变更的进复核队列；按每条译文记录的源哈希报告哪些译文已过时；公布覆盖率（四个桶必然加总等于总数，"没检查"会被点名） | 不推断改了什么，不判断描述是否已错，不改目录 |
+| 来源指纹（`self_audit.js` 的 `syncSourceDrift`） | 给已收录**更新与教学资源背后的来源**取指纹：X 帖子/长文走 fxtwitter 的 JSON（正文 + 长文标题与段落），其他页面走与工具相同的结构指纹。审核日期之后正文变化 → 进复核队列（带 `kind: update|learning`）；**只有 fxtwitter 明确的 404 信封才记为"已删除"**并升为 error 级发现，其余抓取失败一律算未验证。教学资源没有逐条审核日期，用目录级 `LEARNING_CATALOG_REVIEWED_AT` 做基线（目录级一改全部重基线，粗但真实）；没记录 status id 的 X 长文按政策跳过 | 不起草、不自动 revouch——来源被删或改写是人的决定 |
 | `drift_profile`（种子字段） | 按工具声明监控信号：`full`（默认）/`structure`（只看标题+导航，给日报、共享平台看板）/`none`（声明性跳过，原因随覆盖率公布） | — |
 | `scripts/review_drafts.mjs` | 把队列变成证据包：抓取当前页面（r.jina.ai → headless Chrome），记录编号摘录，逐句机械核对（中英），再让模型提出修订——**修订必须引用摘录行号，引用不到的草稿标为无效**；抓不到页面就写"本轮无法核实"，不提案 | 不写种子 |
 | `scripts/apply_reviews.mjs` | 只对人标了 `approved`/`revouch` 的文件动手：写入 summary_en/zh、刷新 reviewed_at、推进版本号、把文件归档到 `reviews/applied/` | 不翻译、不上线 |

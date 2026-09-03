@@ -155,6 +155,7 @@ export const CURATED_UPDATES = Object.freeze([
     tier: "community",
     author: "@cupid_elvis",
     url: "https://x.com/cupid_elvis/article/2095042513879109632",
+    source_status_id: "2095047618435166274", // the post that carries this X Article; needed to fingerprint it through fxtwitter
     original_language: "zh",
     topics: ["architecture", "analysis", "ecosystem"],
     published_at: "2026-09-02T07:14:10Z",
@@ -173,6 +174,7 @@ export const CURATED_UPDATES = Object.freeze([
     tier: "community",
     author: "@ywweb3",
     url: "https://x.com/ywweb3/article/2095060669926436864",
+    source_status_id: "2095094728803176780", // the post that carries this X Article; needed to fingerprint it through fxtwitter
     original_language: "zh",
     topics: ["analysis", "economics", "risk"],
     published_at: "2026-09-02T10:21:22Z",

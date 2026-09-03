@@ -572,5 +572,9 @@
   "bemTradesBuy": "شراء",
   "bemTradesSell": "بيع",
   "bemTradesEmpty": "لم تتجاوز أي صفقة ضمن النافذة المخزَّنة عتبة الصفقة الكبيرة المحسوبة بعد.",
-  "bemTradesWindow": "صفقات ضمن النافذة"
+  "bemTradesWindow": "صفقات ضمن النافذة",
+  "selfAuditSourcesFingerprinted": "مصادر مأخوذة بصمتها",
+  "selfAuditKindTool": "أداة",
+  "selfAuditKindUpdate": "تحديث",
+  "selfAuditKindLearning": "درس"
 }

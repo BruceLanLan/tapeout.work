@@ -572,5 +572,9 @@
   "bemTradesBuy": "Compra",
   "bemTradesSell": "Venta",
   "bemTradesEmpty": "Ninguna operación dentro de la ventana almacenada ha superado todavía el umbral calculado de operación grande.",
-  "bemTradesWindow": "operaciones en la ventana"
+  "bemTradesWindow": "operaciones en la ventana",
+  "selfAuditSourcesFingerprinted": "fuentes con huella",
+  "selfAuditKindTool": "herramienta",
+  "selfAuditKindUpdate": "actualización",
+  "selfAuditKindLearning": "tutorial"
 }
