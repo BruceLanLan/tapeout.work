@@ -61,3 +61,7 @@ The user registered `tapeout.work` and added it to the same Cloudflare account a
 - Circuit 市场扫描用 `BSC_LOGS_RPC_URL=PublicNode`，3 窗口/成功轮，过旧检查点跳到近期并公开 `coverage.gaps`。
 - 持币地址数两条口径：**GeckoTerminal 代币信息接口的 `holders.count`**（第三方，立即可用，5 分钟一存，面板标注"GeckoTerminal 口径 · 第三方"）；**链上 Transfer 普查**用 `BSC_ARCHIVE_RPC_URL=bloXroute`，窗口 5000 块 × 12/轮，追平后成为主口径。两者在 `/api/v1/bem/holders` 并列，`status` 取普查健康时为 `ok`，否则有第三方值为 `third_party`。
 - 部署：Cloudflare 的 OAuth 登录令牌无权创建 API token（`/user/tokens` 返回 Unauthorized），所以"合并即部署"改由本机 launchd 每 10 分钟监视 `origin/main` 完成（`scripts/deploy_watch.mjs`），不需要 token。
+
+### 持币普查回填（2026-09-03）
+
+bloXroute 从 Cloudflare 出口跑历史窗口会超时/502，从本机 5000 块窗口稳定。处理：撤掉 `BSC_ARCHIVE_RPC_URL` 暂停 Worker 普查 → 本机 `node scripts/backfill_bem_holders.mjs`（读取 D1 现有余额与检查点，从检查点+1 折算到 latest−12，零地址不计入，写绝对余额 + 检查点 + 一条 ok 运行记录）→ 重新 `wrangler secret put BSC_ARCHIVE_RPC_URL` 让 Worker 从头部增量继续（增量扫描遇超时会自动把窗口减半重试）。**两者绝不能同时跑**，否则重复应用增量。`/api/v1/bem/holders` 的 `reconciliation` 给出普查与 GeckoTerminal 计数之差。

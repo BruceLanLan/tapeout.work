@@ -88,11 +88,20 @@ export async function syncBemHolders(env) {
   const observedAt = new Date().toISOString();
   if (!checkpoint) await env.DB.prepare("INSERT OR IGNORE INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ?, ?)").bind(start, observedAt).run();
   let transferCount = 0, touchedAddresses = 0;
-  for (let from = start; from <= end; from += BEM_HOLDER_LOG_WINDOW) {
-    const to = Math.min(end, from + BEM_HOLDER_LOG_WINDOW - 1);
-    const logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], holdersRpcUrl(env));
+  let window = BEM_HOLDER_LOG_WINDOW;
+  for (let from = start; from <= end;) {
+    const to = Math.min(end, from + window - 1);
+    let logs;
+    try { logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], holdersRpcUrl(env)); }
+    catch (error) {
+      // The archive node times out (-32002) or 502s on ranges it finds heavy; halve
+      // and retry the same range rather than fail the whole tick.
+      if (window > 250 && /timed out|502|-32002/i.test(String(error?.message || error))) { window = Math.floor(window / 2); continue; }
+      throw error;
+    }
     transferCount += logs.length;
     touchedAddresses += await applyTransferWindow(env, logs, to, observedAt);
+    from = to + 1;
   }
   return { from_block: start, to_block: end, transfers: transferCount, touched_addresses: touchedAddresses, synced: true };
 }
@@ -158,6 +167,13 @@ export async function bemHoldersOverview(env) {
     token_address: BEM_TOKEN_ADDRESS,
     status,
     census_status: censusStatus,
+    // When both figures exist, say how far apart they are rather than making the
+    // reader compare two numbers in different blocks of the response.
+    reconciliation: checkpoint && thirdParty?.holder_count != null ? {
+      census_count: Number(holderRow?.holder_count ?? 0), third_party_count: Number(thirdParty.holder_count),
+      difference: Number(holderRow?.holder_count ?? 0) - Number(thirdParty.holder_count),
+      note: censusStatus === "ok" ? "census is complete through coverage.through_block; a difference reflects the aggregator's own cut-off and counting rules" : "census still catching up; its count is a lower bound until census_status is ok",
+    } : null,
     third_party: thirdParty ? {
       provider: thirdParty.provider, holder_count: Number(thirdParty.holder_count),
       distribution_percentage: (() => { try { return JSON.parse(thirdParty.distribution_json || "null"); } catch { return null; } })(),
