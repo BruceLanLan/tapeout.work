@@ -15,7 +15,11 @@ const BEM_HOLDER_CONFIRMATIONS = 12;
 // bloXroute answered 5,000-block windows from this machine but timed out (-32002)
 // or 502ed on them from Cloudflare egress; 2,000 blocks is what it sustains there.
 const BEM_HOLDER_LOG_WINDOW = 2000;
-const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 15;
+// Three windows per tick: the archive node answers a 2,000-block window in ~20s
+// from Cloudflare egress, the chain adds ~400 blocks per five-minute tick, and a
+// cron invocation should not spend minutes in one domain. The historical backlog
+// is filled once from a machine with a faster path (scripts/backfill_bem_holders.mjs).
+const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 3;
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // Estimated $BEM token deployment block, derived (2026-08-31) from a measured
 // public-RPC anchor: block 116708167 = 2026-08-18T18:57:27Z and an observed
