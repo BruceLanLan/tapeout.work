@@ -577,5 +577,8 @@
   "selfAuditKindTool": "Werkzeug",
   "selfAuditKindUpdate": "Update",
   "selfAuditKindLearning": "Tutorial",
-  "marketGap": "Nicht gescannt (der Anbieter liefert nur aktuelle Fenster); die Zählungen gelten ab Abdeckung, nicht als vollständige Historie:"
+  "marketGap": "Nicht gescannt (der Anbieter liefert nur aktuelle Fenster); die Zählungen gelten ab Abdeckung, nicht als vollständige Historie:",
+  "bemHolders": "Halter-Adressen",
+  "bemHoldersThirdParty": "laut GeckoTerminal · Drittanbieter",
+  "bemHoldersCensus": "On-Chain-Zählung"
 }

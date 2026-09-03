@@ -577,5 +577,8 @@
   "selfAuditKindTool": "herramienta",
   "selfAuditKindUpdate": "actualización",
   "selfAuditKindLearning": "tutorial",
-  "marketGap": "No escaneado (el proveedor solo sirve ventanas recientes), por lo que los recuentos son desde la cobertura, no un historial completo:"
+  "marketGap": "No escaneado (el proveedor solo sirve ventanas recientes), por lo que los recuentos son desde la cobertura, no un historial completo:",
+  "bemHolders": "Direcciones tenedoras",
+  "bemHoldersThirdParty": "según GeckoTerminal · terceros",
+  "bemHoldersCensus": "censo on-chain"
 }

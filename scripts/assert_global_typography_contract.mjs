@@ -9,7 +9,7 @@ const [html, css, capture] = await Promise.all([
 ]);
 
 const required = [
-  [html, 'learning.css?v=2026-09-01-features-r44', 'versioned global typography and candle asset'],
+  [html, 'learning.css?v=2026-09-01-features-r45', 'versioned global typography and candle asset'],
   [css, 'Global typography alignment r1', 'global typography layer'],
   [css, '--font-ui:', 'script-aware UI font token'],
   [css, '--font-numeric:', 'numeric font token'],

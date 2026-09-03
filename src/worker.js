@@ -3,7 +3,7 @@ import { ensureRefreshSchema, refresh } from "./registry.js";
 import { ensureAirdropSchema, syncAirdropsObserved } from "./airdrop.js";
 import { ensureMarketSchema, syncCircuitMarketObserved } from "./market.js";
 import { ensureBemSchema, syncBemObserved, syncBemPrice } from "./bem.js";
-import { ensureBemHoldersSchema, syncBemHoldersObserved } from "./bem_holders.js";
+import { ensureBemHoldersSchema, syncBemHoldersObserved, syncBemHolderThirdParty } from "./bem_holders.js";
 import { ensureOfficialAssetSchema, syncOfficialThreeAssets, OFFICIAL_ASSET_REFRESH_MINUTES, ensureTransistorCandleSchema, syncTransistorCandles } from "./official_assets.js";
 import { ensureCommunityHolderSchema, syncCommunityProcessorBoard } from "./community.js";
 import { ensureEcosystemHealthSchema, ensureEcosystemHealthFresh } from "./ecosystem_health.js";
@@ -29,6 +29,7 @@ async function runScheduledSync(env, { includeBemPrice = true, includeOfficialAs
   await prepare("market", () => ensureMarketSchema(env), () => syncCircuitMarketObserved(env));
   await prepare("bem", () => ensureBemSchema(env), () => syncBemObserved(env, { includePrice: includeBemPrice }));
   await prepare("bem_holders", () => ensureBemHoldersSchema(env), () => syncBemHoldersObserved(env));
+  await prepare("bem_holders_third_party", () => ensureBemHoldersSchema(env), () => syncBemHolderThirdParty(env));
   // Same politeness pattern as ecosystem_health below: ensureBemTradesFresh carries its own
   // ~10-minute maxAgeMinutes gate, so this 5-minute tick does not re-fetch the trades feed
   // every single cycle.

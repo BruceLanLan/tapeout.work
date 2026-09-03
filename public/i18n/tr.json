@@ -577,5 +577,8 @@
   "selfAuditKindTool": "araç",
   "selfAuditKindUpdate": "güncelleme",
   "selfAuditKindLearning": "eğitim",
-  "marketGap": "Taranmadı (sağlayıcı yalnızca yakın pencereleri sunar); sayımlar kapsamdan itibarendir, tam bir geçmiş değildir:"
+  "marketGap": "Taranmadı (sağlayıcı yalnızca yakın pencereleri sunar); sayımlar kapsamdan itibarendir, tam bir geçmiş değildir:",
+  "bemHolders": "Sahip adres sayısı",
+  "bemHoldersThirdParty": "GeckoTerminal verisi · üçüncü taraf",
+  "bemHoldersCensus": "zincir üstü sayım"
 }

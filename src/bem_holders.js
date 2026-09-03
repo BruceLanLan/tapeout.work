@@ -1,6 +1,7 @@
 import { BSC_CHAIN_ID, BSC_LOGS_RPC_SECRET, BEM_TOKEN_ADDRESS } from "./constants.js";
 import { hexToNumber, hexToBigInt, topicAddress, dataWord, toBigInt } from "./util.js";
 import { rpc } from "./market.js";
+import { fetchGecko } from "./bem_trades.js";
 import { BSC_ARCHIVE_RPC_SECRET } from "./constants.js";
 const holdersRpcUrl = env => String(env[BSC_ARCHIVE_RPC_SECRET] || "").trim();
 
@@ -11,8 +12,8 @@ const BEM_HOLDER_CONFIRMATIONS = 12;
 // 1000-block window keeps each eth_getLogs answer small so no single window
 // can wedge the checkpoint, while ten windows per run still clear the genesis
 // backfill in roughly a day at the five-minute cron cadence.
-const BEM_HOLDER_LOG_WINDOW = 1000;
-const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 10;
+const BEM_HOLDER_LOG_WINDOW = 5000;
+const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 12;
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // Estimated $BEM token deployment block, derived (2026-08-31) from a measured
 // public-RPC anchor: block 116708167 = 2026-08-18T18:57:27Z and an observed
@@ -33,6 +34,10 @@ export async function ensureBemHoldersSchema(env) {
       env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_checkpoints (source_key TEXT PRIMARY KEY, block_number INTEGER NOT NULL, updated_at TEXT NOT NULL)"),
       env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_sync_runs (id INTEGER PRIMARY KEY AUTOINCREMENT, attempted_at TEXT NOT NULL, status TEXT NOT NULL, from_block INTEGER, to_block INTEGER, transfer_count INTEGER, error TEXT)"),
       env.DB.prepare("CREATE INDEX IF NOT EXISTS bem_holder_sync_runs_attempted_idx ON bem_holder_sync_runs(attempted_at DESC)"),
+      // A third-party holder count (GeckoTerminal's token info) kept as one row: the
+      // census is the on-chain answer, but it needs an archive provider and hours of
+      // catch-up; this is available immediately and is labelled as what it is.
+      env.DB.prepare("CREATE TABLE IF NOT EXISTS bem_holder_third_party (id INTEGER PRIMARY KEY, provider TEXT NOT NULL, holder_count INTEGER NOT NULL, distribution_json TEXT, source_updated_at TEXT, observed_at TEXT NOT NULL, error TEXT)"),
     ]);
   }
   return bemHoldersSchemaReady;
@@ -110,22 +115,52 @@ export async function syncBemHoldersObserved(env) {
   }
 }
 
+const GECKO_TOKEN_INFO_URL = `https://api.geckoterminal.com/api/v2/networks/bsc/tokens/${BEM_TOKEN_ADDRESS}/info`;
+export async function syncBemHolderThirdParty(env) {
+  await ensureBemHoldersSchema(env);
+  const observedAt = new Date().toISOString();
+  try {
+    const payload = await fetchGecko(GECKO_TOKEN_INFO_URL);
+    const holders = payload?.data?.attributes?.holders;
+    const count = Number(holders?.count);
+    if (!Number.isInteger(count) || count < 0) throw new Error("token info carried no holder count");
+    await env.DB.prepare(`INSERT INTO bem_holder_third_party (id, provider, holder_count, distribution_json, source_updated_at, observed_at, error) VALUES (1, 'GeckoTerminal', ?, ?, ?, ?, NULL)
+      ON CONFLICT(id) DO UPDATE SET holder_count=excluded.holder_count, distribution_json=excluded.distribution_json, source_updated_at=excluded.source_updated_at, observed_at=excluded.observed_at, error=NULL`)
+      .bind(count, JSON.stringify(holders?.distribution_percentage ?? null), holders?.last_updated ?? null, observedAt).run();
+    return { synced: true, holder_count: count };
+  } catch (error) {
+    // Keep the last good row; only note the failed attempt on it.
+    await env.DB.prepare("UPDATE bem_holder_third_party SET error = ? WHERE id = 1").bind(`${observedAt}: ${String(error?.message || error).slice(0, 200)}`).run().catch(() => {});
+    return { synced: false, error: error?.message || String(error) };
+  }
+}
+
 export async function bemHoldersOverview(env) {
   await ensureBemHoldersSchema(env);
-  const [holderRow, negativeRow, checkpoint, startCheckpoint, latestSync] = await Promise.all([
+  const [holderRow, negativeRow, checkpoint, startCheckpoint, latestSync, thirdParty] = await Promise.all([
     env.DB.prepare("SELECT COUNT(*) AS holder_count FROM bem_holder_balances WHERE balance_wei != '0'").first(),
     env.DB.prepare("SELECT COUNT(*) AS negative_count FROM bem_holder_balances WHERE balance_wei LIKE '-%'").first(),
     env.DB.prepare("SELECT block_number, updated_at FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer'").first(),
     env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer_from'").first(),
     env.DB.prepare("SELECT attempted_at, status, from_block, to_block, transfer_count, error FROM bem_holder_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT provider, holder_count, distribution_json, source_updated_at, observed_at, error FROM bem_holder_third_party WHERE id = 1").first().catch(() => null),
   ]);
   const configured = Boolean(holdersRpcUrl(env));
-  const status = !configured ? "not_configured" : !checkpoint ? "pending" : latestSync?.status === "error" ? "error" : "ok";
+  const censusStatus = !configured ? "not_configured" : !checkpoint ? "pending" : latestSync?.status === "error" ? "error" : "ok";
+  // Headline status: the census when healthy, else the third-party figure when held.
+  const status = censusStatus === "ok" ? "ok" : thirdParty?.holder_count != null ? "third_party" : censusStatus;
   return {
     source: "$BEM token ERC-20 Transfer logs (full balance census)",
     chain_id: BSC_CHAIN_ID,
     token_address: BEM_TOKEN_ADDRESS,
     status,
+    census_status: censusStatus,
+    third_party: thirdParty ? {
+      provider: thirdParty.provider, holder_count: Number(thirdParty.holder_count),
+      distribution_percentage: (() => { try { return JSON.parse(thirdParty.distribution_json || "null"); } catch { return null; } })(),
+      source_updated_at: thirdParty.source_updated_at, observed_at: thirdParty.observed_at, last_error: thirdParty.error || null,
+      boundary: "A third-party aggregator's holder count and top-holder distribution, stored from its public token-info endpoint; not an on-chain census by this site and not reconciled against one until the census catches up.",
+    } : null,
     ...(configured ? {} : { note: `Holder counting replays every $BEM Transfer since token genesis, which needs an archive-capable BSC provider set as the ${BSC_ARCHIVE_RPC_SECRET} Worker secret (public non-archive nodes refuse historical eth_getLogs). Until one is configured no Transfer logs are scanned and no count is published — a partial scan would be a wrong number, not a lower bound.` }),
     holder_count: checkpoint ? Number(holderRow?.holder_count ?? 0) : null,
     // Nonzero means the genesis-block estimate started too late and missed early

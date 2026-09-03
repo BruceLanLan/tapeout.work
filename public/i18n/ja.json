@@ -577,5 +577,8 @@
   "selfAuditKindTool": "ツール",
   "selfAuditKindUpdate": "更新",
   "selfAuditKindLearning": "チュートリアル",
-  "marketGap": "未スキャン区間（プロバイダは直近ウィンドウのみ提供）のため、集計はカバー範囲内のみで完全な履歴ではありません:"
+  "marketGap": "未スキャン区間（プロバイダは直近ウィンドウのみ提供）のため、集計はカバー範囲内のみで完全な履歴ではありません:",
+  "bemHolders": "保有アドレス数",
+  "bemHoldersThirdParty": "GeckoTerminal 基準 · 第三者",
+  "bemHoldersCensus": "オンチェーン全数調査"
 }

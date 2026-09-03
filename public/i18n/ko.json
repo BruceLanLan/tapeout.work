@@ -577,5 +577,8 @@
   "selfAuditKindTool": "도구",
   "selfAuditKindUpdate": "업데이트",
   "selfAuditKindLearning": "튜토리얼",
-  "marketGap": "스캔되지 않은 구간(제공자가 최근 창만 제공)이므로 집계는 커버리지 이후 값이며 전체 이력이 아닙니다:"
+  "marketGap": "스캔되지 않은 구간(제공자가 최근 창만 제공)이므로 집계는 커버리지 이후 값이며 전체 이력이 아닙니다:",
+  "bemHolders": "보유 주소 수",
+  "bemHoldersThirdParty": "GeckoTerminal 기준 · 제3자",
+  "bemHoldersCensus": "온체인 전수조사"
 }

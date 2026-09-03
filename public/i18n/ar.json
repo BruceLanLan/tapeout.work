@@ -577,5 +577,8 @@
   "selfAuditKindTool": "أداة",
   "selfAuditKindUpdate": "تحديث",
   "selfAuditKindLearning": "درس",
-  "marketGap": "غير ممسوح (المزوّد يخدم النوافذ الحديثة فقط)، لذا فالأعداد منذ بدء التغطية وليست تاريخًا كاملًا:"
+  "marketGap": "غير ممسوح (المزوّد يخدم النوافذ الحديثة فقط)، لذا فالأعداد منذ بدء التغطية وليست تاريخًا كاملًا:",
+  "bemHolders": "عدد العناوين الحائزة",
+  "bemHoldersThirdParty": "بحسب GeckoTerminal · طرف ثالث",
+  "bemHoldersCensus": "إحصاء على السلسلة"
 }

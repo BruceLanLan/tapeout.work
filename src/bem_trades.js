@@ -197,7 +197,7 @@ async function recordPoolDiscoveryRun(env, row) {
 const GECKO_HEADERS = { accept: "application/json;version=20230302", "user-agent": "tapeout.work-research/1.0 (+https://tapeout.work)" };
 const GECKO_MAX_ATTEMPTS = 3;
 const GECKO_RETRY_DELAY_MS = 2500;
-async function fetchGecko(url) {
+export async function fetchGecko(url) {
   let lastError;
   for (let attempt = 1; attempt <= GECKO_MAX_ATTEMPTS; attempt += 1) {
     try {

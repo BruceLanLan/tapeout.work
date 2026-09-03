@@ -577,5 +577,8 @@
   "selfAuditKindTool": "tool",
   "selfAuditKindUpdate": "update",
   "selfAuditKindLearning": "tutorial",
-  "marketGap": "Not scanned (provider serves recent windows only), so counts are since coverage, not a complete history:"
+  "marketGap": "Not scanned (provider serves recent windows only), so counts are since coverage, not a complete history:",
+  "bemHolders": "Holder addresses",
+  "bemHoldersThirdParty": "per GeckoTerminal · third-party",
+  "bemHoldersCensus": "on-chain census"
 }

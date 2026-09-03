@@ -577,5 +577,8 @@
   "selfAuditKindTool": "ferramenta",
   "selfAuditKindUpdate": "atualização",
   "selfAuditKindLearning": "tutorial",
-  "marketGap": "Não verificado (o provedor só serve janelas recentes); as contagens valem a partir da cobertura, não um histórico completo:"
+  "marketGap": "Não verificado (o provedor só serve janelas recentes); as contagens valem a partir da cobertura, não um histórico completo:",
+  "bemHolders": "Endereços detentores",
+  "bemHoldersThirdParty": "segundo GeckoTerminal · terceiros",
+  "bemHoldersCensus": "censo on-chain"
 }
