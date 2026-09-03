@@ -6,6 +6,9 @@ const CIRCUIT_MARKET_SOLD_TOPIC = "0x2938a0a3a4a7c19c3a1fe6ef25340b7acd26dfac11d
 const MARKET_CONFIRMATIONS = 12;
 const MARKET_LOG_WINDOW = 2000;
 const MARKET_LOG_WINDOWS_PER_RUN = 1;
+// Beyond this lag the scan gives up catching up and restarts from recent blocks,
+// recording the skipped range (see syncCircuitMarket). ~4 hours of BSC blocks.
+const MARKET_MAX_LAG_BLOCKS = 20000;
 const LARGE_SALE_WEI = 500000000000000000n;
 
 let marketSchemaReady;
@@ -58,8 +61,20 @@ export async function syncCircuitMarket(env) {
   const latest = hexToNumber(await rpc(env, "eth_blockNumber", []));
   const finalized = Math.max(0, latest - MARKET_CONFIRMATIONS);
   const checkpoint = await env.DB.prepare("SELECT block_number FROM market_checkpoints WHERE source_key = 'circuit_market_sold'").first();
-  const initialStart = Math.max(116708167, finalized - (MARKET_LOG_WINDOW * MARKET_LOG_WINDOWS_PER_RUN));
-  const start = checkpoint ? Number(checkpoint.block_number) + 1 : initialStart;
+  const recentStart = Math.max(116708167, finalized - (MARKET_LOG_WINDOW * MARKET_LOG_WINDOWS_PER_RUN));
+  let start = checkpoint ? Number(checkpoint.block_number) + 1 : recentStart;
+  // A checkpoint far behind the chain (the provider was unconfigured for weeks, or
+  // rate-limited for hours) cannot be caught up 2,000 blocks per tick, and a public
+  // non-archive node refuses old ranges outright. Rather than stall forever, the
+  // scan resumes from recent blocks and records the skipped range as a coverage
+  // gap that the overview discloses — the sale count is then "since coverage",
+  // never a complete history.
+  if (start < finalized - MARKET_MAX_LAG_BLOCKS) {
+    const gapFrom = start, gapTo = recentStart - 1;
+    await env.DB.prepare("INSERT INTO market_checkpoints (source_key, block_number, updated_at) VALUES (?, ?, ?) ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at")
+      .bind(`circuit_market_sold_gap:${gapFrom}`, gapTo, new Date().toISOString()).run();
+    start = recentStart;
+  }
   if (start > finalized) return { from_block: start, to_block: finalized, sales: 0, synced: false };
   const end = Math.min(finalized, start + (MARKET_LOG_WINDOW * MARKET_LOG_WINDOWS_PER_RUN) - 1);
   const logs = [];
@@ -108,14 +123,15 @@ export async function syncCircuitMarketObserved(env) {
 
 export async function marketOverview(env) {
   await ensureMarketSchema(env);
-  const [rowsResult, checkpoint, startCheckpoint, latestSync] = await Promise.all([
+  const [rowsResult, checkpoint, startCheckpoint, gapRows, latestSync] = await Promise.all([
     env.DB.prepare("SELECT id, block_number, block_timestamp, tx_hash, circuit_address, buyer_address, seller_address, token_id, paid_to_seller_wei, fee_wei, gross_wei, processor_address, processor_name FROM market_events ORDER BY block_number DESC, log_index DESC LIMIT 2000").all(),
     env.DB.prepare("SELECT block_number, updated_at FROM market_checkpoints WHERE source_key = 'circuit_market_sold'").first(),
     env.DB.prepare("SELECT block_number FROM market_checkpoints WHERE source_key = 'circuit_market_sold_from'").first(),
+    env.DB.prepare("SELECT source_key, block_number FROM market_checkpoints WHERE source_key LIKE 'circuit_market_sold_gap:%'").all().catch(() => ({ results: [] })),
     env.DB.prepare("SELECT attempted_at, status, from_block, to_block, sale_count, error FROM market_sync_runs ORDER BY id DESC LIMIT 1").first(),
   ]);
   const rows = rowsResult.results, buyers = new Set(), sellers = new Set(), circuits = new Set(), processors = new Set();
   let gross = 0n, fees = 0n, largeSales = 0;
   for (const row of rows) { gross += toBigInt(row.gross_wei); fees += toBigInt(row.fee_wei); if (toBigInt(row.gross_wei) >= LARGE_SALE_WEI) largeSales += 1; buyers.add(row.buyer_address); sellers.add(row.seller_address); circuits.add(row.circuit_address); if (row.processor_address) processors.add(row.processor_address); }
-  return { source: "Circuit Market Sold event", chain_id: BSC_CHAIN_ID, market_address: CIRCUIT_MARKET_ADDRESS, latest_sync: latestSync || null, coverage: checkpoint ? { from_block: startCheckpoint?.block_number ?? null, through_block: checkpoint.block_number, updated_at: checkpoint.updated_at } : null, sale_count: rows.length, gross_wei: gross.toString(), fee_wei: fees.toString(), large_sale_count: largeSales, unique_buyers: buyers.size, unique_sellers: sellers.size, traded_circuits: circuits.size, mapped_processors: processors.size, recent_sales: rows.slice(0, 20) };
+  return { source: "Circuit Market Sold event", chain_id: BSC_CHAIN_ID, market_address: CIRCUIT_MARKET_ADDRESS, latest_sync: latestSync || null, coverage: checkpoint ? { from_block: startCheckpoint?.block_number ?? null, through_block: checkpoint.block_number, updated_at: checkpoint.updated_at , gaps: (gapRows.results || []).map(row => ({ from_block: Number(row.source_key.split(":")[1]), to_block: Number(row.block_number), note: "not scanned: provider serves recent windows only" }))} : null, sale_count: rows.length, gross_wei: gross.toString(), fee_wei: fees.toString(), large_sale_count: largeSales, unique_buyers: buyers.size, unique_sellers: sellers.size, traded_circuits: circuits.size, mapped_processors: processors.size, recent_sales: rows.slice(0, 20) };
 }
