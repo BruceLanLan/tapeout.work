@@ -138,12 +138,13 @@ function draft(tool, lines, claims, queued) {
     "", "Mechanical claim check (sentence → best excerpt line):", JSON.stringify(claims.map(c => ({ sentence: c.sentence.slice(0, 120), line: c.line, status: c.status })), null, 0),
     "", "Excerpt (numbered):", ...lines.map((l, i) => `${String(i + 1).padStart(3)}| ${l}`),
   ].join("\n");
-  let env = null;
+  let env = null, lastErr = "";
   for (let attempt = 1; attempt <= 3 && (!env || env.result == null || env.stop_reason === "tool_use"); attempt++) {
     const r = spawnSync(CLAUDE_BIN, ["-p", "--model", MODEL, "--output-format", "json", "--max-turns", "1", "--tools", ""], { input: prompt, encoding: "utf8", maxBuffer: 16 * 1024 * 1024 });
     try { env = JSON.parse(r.stdout); } catch { env = null; }
+    lastErr = `exit ${r.status}${r.error ? ` (${r.error.message})` : ""}: ${String(r.stderr || "").replace(/SessionEnd hook[^\n]*/g, "").trim().slice(0, 300)}${env?.stop_reason === "tool_use" ? " [tool_use stop]" : ""}`;
   }
-  if (!env || env.result == null) throw new Error("claude returned no result after 3 attempts");
+  if (!env || env.result == null) throw new Error(`claude returned no result after 3 attempts — ${lastErr}`);
   const text = String(env.result);
   const s = text.indexOf("{"), e = text.lastIndexOf("}");
   if (s < 0) throw new Error("model returned no JSON");

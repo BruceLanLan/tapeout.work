@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "fontes com impressão digital",
   "selfAuditKindTool": "ferramenta",
   "selfAuditKindUpdate": "atualização",
-  "selfAuditKindLearning": "tutorial"
+  "selfAuditKindLearning": "tutorial",
+  "marketGap": "Não verificado (o provedor só serve janelas recentes); as contagens valem a partir da cobertura, não um histórico completo:"
 }

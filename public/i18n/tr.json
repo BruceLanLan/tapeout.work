@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "kaynağın parmak izi alındı",
   "selfAuditKindTool": "araç",
   "selfAuditKindUpdate": "güncelleme",
-  "selfAuditKindLearning": "eğitim"
+  "selfAuditKindLearning": "eğitim",
+  "marketGap": "Taranmadı (sağlayıcı yalnızca yakın pencereleri sunar); sayımlar kapsamdan itibarendir, tam bir geçmiş değildir:"
 }

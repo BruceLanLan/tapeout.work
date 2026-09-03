@@ -432,5 +432,6 @@
   "selfAuditSourcesFingerprinted": "个来源已取指纹",
   "selfAuditKindTool": "工具",
   "selfAuditKindUpdate": "更新",
-  "selfAuditKindLearning": "教程"
+  "selfAuditKindLearning": "教程",
+  "marketGap": "未扫描区间（提供方只服务近期窗口），因此计数只覆盖已扫描范围、不是完整历史："
 }

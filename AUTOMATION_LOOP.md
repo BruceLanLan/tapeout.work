@@ -38,7 +38,7 @@
 | `scripts/maintain.mjs` | **定时入口**：读生产复核队列 → 逐条取证起草 → 判定"仍然准确"的自动 revouch、有效引用的"修订"自动 approved（无法核实/引用无效的留给人）→ apply → 重译 → 静态门禁 → 变更日志 → 开一个 PR，正文内联证据（判定、前后文案、被引用的摘录原文）。**合并 PR 即人工审核**。队列空时零模型调用；每次最多 5 个工具；同一时间只允许一个自动 PR，超过 3 天未合并则关闭重生成，避免 reviewed_at 与合并时间漂移太远 | 不直接改 main（`--direct` 才会）；不做发现新工具 |
 | `.github/workflows/pr-gate.yml` | 每个 PR 跑静态门禁，无需任何 secret，自动 PR 合并前就能看到红绿 | — |
 | `.github/workflows/deploy.yml` | push 到 main：静态门禁 → `wrangler deploy` → 核验生产版本。替代已失联的 Workers Builds | 不跑需要本地 Worker 的在线契约 |
-| `~/Library/LaunchAgents/work.tapeout.maintain.plist`（本机） | 每天 09:00（本地时间）跑 `maintain.mjs`，日志在 `~/Library/Logs/tapeout-maintain.log` | 机器休眠时不会跑；停用：`launchctl bootout gui/$(id -u)/work.tapeout.maintain` |
+| `~/Library/LaunchAgents/work.tapeout.maintain.plist`（本机） | 每天 09:00（本地时间）跑 `maintain.mjs`，日志在 `~/Library/Logs/tapeout-maintain.log`。**必须设 `CLAUDE_CONFIG_DIR`**（本机登录态在 `~/.claude-opus`，launchd 没有 shell 环境，缺它 CLI 会报"Not logged in"——2026-09-03 第一次无人值守运行四份草稿全部因此失败） | 机器休眠时不会跑；停用：`launchctl bootout gui/$(id -u)/work.tapeout.maintain` |
 
 ## 定时运行在哪
 

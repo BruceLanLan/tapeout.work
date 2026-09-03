@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "sources empreintées",
   "selfAuditKindTool": "outil",
   "selfAuditKindUpdate": "mise à jour",
-  "selfAuditKindLearning": "tutoriel"
+  "selfAuditKindLearning": "tutoriel",
+  "marketGap": "Non analysé (le fournisseur ne sert que des fenêtres récentes) : les comptes partent de la couverture, pas d'un historique complet :"
 }

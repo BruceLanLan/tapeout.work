@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "источников с отпечатком",
   "selfAuditKindTool": "инструмент",
   "selfAuditKindUpdate": "обновление",
-  "selfAuditKindLearning": "урок"
+  "selfAuditKindLearning": "урок",
+  "marketGap": "Не сканировано (провайдер отдаёт только недавние окна), поэтому счётчики ведутся с начала покрытия, а не по всей истории:"
 }

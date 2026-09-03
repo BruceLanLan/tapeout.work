@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "Quellen mit Fingerabdruck",
   "selfAuditKindTool": "Werkzeug",
   "selfAuditKindUpdate": "Update",
-  "selfAuditKindLearning": "Tutorial"
+  "selfAuditKindLearning": "Tutorial",
+  "marketGap": "Nicht gescannt (der Anbieter liefert nur aktuelle Fenster); die Zählungen gelten ab Abdeckung, nicht als vollständige Historie:"
 }

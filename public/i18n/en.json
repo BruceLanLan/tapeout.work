@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "sources fingerprinted",
   "selfAuditKindTool": "tool",
   "selfAuditKindUpdate": "update",
-  "selfAuditKindLearning": "tutorial"
+  "selfAuditKindLearning": "tutorial",
+  "marketGap": "Not scanned (provider serves recent windows only), so counts are since coverage, not a complete history:"
 }

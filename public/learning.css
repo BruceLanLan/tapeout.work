@@ -1110,3 +1110,5 @@ html[dir="rtl"] .transistor-candle-boundary,html[dir="rtl"] #transistor-candle-s
 .self-audit-diff{font:650 .72rem/1.5 var(--mono,ui-monospace,monospace);color:#41658e;overflow-wrap:anywhere}
 
 .self-audit-kind{display:inline-block;padding:0 .4em;border:1px solid currentColor;border-radius:3px;font-size:.78em;opacity:.8}
+
+.market-gap{margin:.4em 0 0;font-size:.82em;opacity:.8}

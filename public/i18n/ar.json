@@ -576,5 +576,6 @@
   "selfAuditSourcesFingerprinted": "مصادر مأخوذة بصمتها",
   "selfAuditKindTool": "أداة",
   "selfAuditKindUpdate": "تحديث",
-  "selfAuditKindLearning": "درس"
+  "selfAuditKindLearning": "درس",
+  "marketGap": "غير ممسوح (المزوّد يخدم النوافذ الحديثة فقط)، لذا فالأعداد منذ بدء التغطية وليست تاريخًا كاملًا:"
 }
