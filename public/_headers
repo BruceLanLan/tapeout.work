@@ -1,0 +1,12 @@
+# Versioned front-end bundles (every reference carries ?v=<cache version>) can be
+# immutable: a new deploy changes the URL, never the content behind an old one.
+# Unversioned files (i18n JSON read by the Worker's self-audit, changelog.json)
+# keep the default revalidate-every-time behaviour.
+/app.js
+  Cache-Control: public, max-age=31536000, immutable
+/styles.css
+  Cache-Control: public, max-age=31536000, immutable
+/learning.css
+  Cache-Control: public, max-age=31536000, immutable
+/ux-loop.css
+  Cache-Control: public, max-age=31536000, immutable
