@@ -109,7 +109,10 @@ export function localizedEcosystemItem(item, localization, kind) {
   return { ...item, localized: { locale: localization.locale, requested_locale: localization.requested_locale, locale_status: localization.locale_status, title: translated.title || canonical.title, summary: translated.summary || canonical.summary, [kind === "updates" ? "source_note" : "safety"]: translated[kind === "updates" ? "source_note" : "safety"] || canonical.boundary, translation_scope: "TapeOut Intelligence reviewed display copy only; source URL, author/operator, original language, tier and evidence fields remain canonical." } };
 }
 export async function curatedCollection(params, request, env, kind) {
-  const items = kind === "updates" ? CURATED_UPDATES : CURATED_TOOLS;
+  // Updates are appended to the seed in review order, so newest-last; the stream
+  // should lead with what was reviewed most recently (learning resources already do).
+  // Tools keep seed order — the client groups them by tier.
+  const items = kind === "updates" ? [...CURATED_UPDATES].reverse() : CURATED_TOOLS;
   const tier = params.get("tier") || "all";
   const dimension = params.get(kind === "updates" ? "topic" : "category") || "all";
   const language = params.get("language") || "all";

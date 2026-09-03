@@ -1,8 +1,20 @@
 {
-  "newest_commit_at": "2026-09-03T00:53:53+08:00",
+  "newest_commit_at": "2026-09-03T10:51:50+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 20,
+  "commit_count": 21,
   "entries": [
+    {
+      "sha": "c531f4e616",
+      "date": "2026-09-03T10:51:50+08:00",
+      "subject": "content: 93bitmap episode 9 video, two community essays on TapeOut's model; candles sync inserts only unseen rows",
+      "scope": [
+        "learning",
+        "learning-translations",
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 20
+    },
     {
       "sha": "508ad8c8b5",
       "date": "2026-09-03T00:53:53+08:00",
