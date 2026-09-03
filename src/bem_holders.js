@@ -12,8 +12,10 @@ const BEM_HOLDER_CONFIRMATIONS = 12;
 // 1000-block window keeps each eth_getLogs answer small so no single window
 // can wedge the checkpoint, while ten windows per run still clear the genesis
 // backfill in roughly a day at the five-minute cron cadence.
-const BEM_HOLDER_LOG_WINDOW = 5000;
-const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 12;
+// bloXroute answered 5,000-block windows from this machine but timed out (-32002)
+// or 502ed on them from Cloudflare egress; 2,000 blocks is what it sustains there.
+const BEM_HOLDER_LOG_WINDOW = 2000;
+const BEM_HOLDER_LOG_WINDOWS_PER_RUN = 15;
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // Estimated $BEM token deployment block, derived (2026-08-31) from a measured
 // public-RPC anchor: block 116708167 = 2026-08-18T18:57:27Z and an observed
@@ -130,6 +132,7 @@ export async function syncBemHolderThirdParty(env) {
     return { synced: true, holder_count: count };
   } catch (error) {
     // Keep the last good row; only note the failed attempt on it.
+    console.warn(`bem holders third-party fetch failed: ${String(error?.message || error).slice(0, 200)}`);
     await env.DB.prepare("UPDATE bem_holder_third_party SET error = ? WHERE id = 1").bind(`${observedAt}: ${String(error?.message || error).slice(0, 200)}`).run().catch(() => {});
     return { synced: false, error: error?.message || String(error) };
   }
