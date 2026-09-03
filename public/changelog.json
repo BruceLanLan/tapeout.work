@@ -1,8 +1,17 @@
 {
-  "newest_commit_at": "2026-09-03T10:51:50+08:00",
+  "newest_commit_at": "2026-09-03T13:44:36+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 21,
+  "commit_count": 22,
   "entries": [
+    {
+      "sha": "aa69650f6b",
+      "date": "2026-09-03T13:44:36+08:00",
+      "subject": "self-audit: fingerprint the sources behind reviewed updates and learning resources",
+      "scope": [
+        "tools"
+      ],
+      "file_count": 1
+    },
     {
       "sha": "c531f4e616",
       "date": "2026-09-03T10:51:50+08:00",
