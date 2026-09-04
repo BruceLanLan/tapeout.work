@@ -19,7 +19,7 @@
 // roughly $0.1–1 for the draft plus about $1–4 if its entry changes and nine
 // locales must be retranslated.
 import { spawnSync } from "node:child_process";
-import { readFileSync, existsSync, rmSync } from "node:fs";
+import { readFileSync, existsSync, rmSync, readdirSync } from "node:fs";
 
 const args = process.argv.slice(2);
 const flag = n => args.includes(n);
@@ -64,6 +64,43 @@ let targets = named.length ? named : (audit.review_queue || []).map(q => q.id);
 if (!named.length && flag("--stale")) for (const f of audit.findings || []) if (f.check === "review_age") targets.push(...(f.subjects || []));
 targets = [...new Set(targets)].slice(0, LIMIT);
 if (!targets.length) { log("review queue empty — nothing to do (no model calls made)"); process.exit(0); }
+
+// An entry that keeps returning to the queue and keeps being revouched unchanged is
+// not reporting anything about the page; it is reporting that its drift profile is
+// wrong for that page — an asset hash watched on a feed whose assets churn by design.
+// tool-tapeout-firsto did exactly that three days running at ~$0.33 a turn, and the
+// cause was only found by hand-querying D1. Past the streak limit, stop paying for
+// another identical answer and say what to change instead. A named --tool target is
+// explicit human intent and always runs.
+const REVOUCH_STREAK_LIMIT = 2;
+const APPLIED_DIR = "reviews/applied";
+// The committed evidence files are the audit trail, so a streak is readable offline
+// and survives a D1 reset. Filenames are <date>-<id>.md, so they sort chronologically.
+function revouchStreak(id) {
+  if (!existsSync(APPLIED_DIR)) return 0;
+  const files = readdirSync(APPLIED_DIR).filter(f => f.endsWith(`-${id}.md`)).sort();
+  let streak = 0;
+  for (const file of files.reverse()) {
+    const text = readFileSync(`${APPLIED_DIR}/${file}`, "utf8");
+    const status = (text.match(/^status:\s*(\S+)/m) || [])[1];
+    const verdict = (text.match(/"verdict"\s*:\s*"([^"]+)"/) || [])[1];
+    // Only an unchanged revouch extends the streak; a real revision resets it.
+    if (status === "revouch" && verdict === "still_accurate") streak += 1;
+    else break;
+  }
+  return streak;
+}
+if (!named.length) {
+  const suppressed = targets.filter(id => revouchStreak(id) >= REVOUCH_STREAK_LIMIT);
+  if (suppressed.length) {
+    for (const id of suppressed) {
+      log(`SKIP ${id}: ${revouchStreak(id)} consecutive still_accurate revouches — its drift profile is flagging churn, not change.`);
+      log(`     Fix the profile in the seed (drift_profile: "structure" ignores asset-hash churn) rather than paying for another review; re-run with --tool ${id} to review it anyway.`);
+    }
+    targets = targets.filter(id => !suppressed.includes(id));
+  }
+  if (!targets.length) { log("nothing left to review after the revouch-streak guard — no model calls made"); process.exit(0); }
+}
 log(`reviewing ${targets.length}: ${targets.join(", ")}`);
 
 // ---- drafts ----------------------------------------------------------------------
