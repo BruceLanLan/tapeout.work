@@ -68,6 +68,14 @@ bloXroute 从 Cloudflare 出口跑历史窗口会超时/502，从本机 5000 块
 
 回填结果（2026-09-03 09:56 UTC）：从区块 116,900,000 折算到 119,703,055，共 2,595,728 笔 Transfer，3,442 个地址、全部余额非负（起点早于首笔铸造，估计正确）；**链上普查 3,442 个持币地址，GeckoTerminal 同刻 3,428，相差 14**（聚合方自身的截止与计数规则）。本机 6 路并发、1000 块窗口约 45 分钟。回填期间 Worker 普查暂停（撤密钥），完成后恢复，增量从 119,703,055 起以 2000 块 × 3 窗口/轮继续。
 
+## 2026-09-05 边缘缓存把新鲜度接口挂上了 4 小时浏览器缓存（真事故，已修）
+
+`assert_freshness_recovery_contract.mjs` 从来没进过任何自动门禁（它要一个 base-url 参数，`ship.mjs` 的 LIVE 组只跑另外两个），这次手动跑才发现：**9/3 加的 `EDGE_CACHE` 让 `/api/v1/` 下的新鲜度接口带上了 `public`，于是被 Cloudflare 区域级的 Browser Cache TTL（默认 4 小时）改写成 `max-age=14400`**——读者的浏览器可以拿着 4 小时前的"数据新鲜度"面板，而面板正是用来回答"数据有多新"的。
+
+两个原因让它藏了一天：① `curl -I`（HEAD）走的是 `ttl 0` 分支，头看着永远是 `no-store`，只有 GET 才复现；② `ship.mjs` 的生产核验每个 URL 都带 nonce 绕开缓存，测的是部署本身，永远看不到普通读者拿到什么。`/api/summary`、`/api/analytics` 没中招，因为它们不在 `/api/v1/` 下、压根不匹配缓存规则。
+
+处置：`EDGE_CACHE` 增加一条最优先的 `ttl: 0` 规则，覆盖 data-health / self-audit / ecosystem-health / official-assets-health / community-processor-health / airdrop-overview / daily-activity / bem-price / bem-holders（原先那条"健康类 15 秒"规则被完全遮蔽，已删）；目录类接口（tools/updates/glossary 等）保留 60 秒边缘缓存不变，实测仍是 `max-age=60` 没被改写。**并且把这个契约加进 `ship.mjs` 的生产核验步骤**（用真实 URL、不带 nonce），这才是根因修复——契约早就写好了，只是没人跑。实测修复后九个新鲜度接口全部 `no-store`，契约通过。
+
 ## 2026-09-04 收尾四项
 
 - **Smart Placement 不生效**：上线超过 26 小时后 `/api/v1/data-health` 的 `cf-placement` 仍是 `local-SIN`（首页命中边缘缓存不带这个头，探测要打无缓存的 API 路径）。站点当前流量级别下 Cloudflare 判定就近边缘已经最优，不会切换，**结论到此为止，不再周期性复查**。

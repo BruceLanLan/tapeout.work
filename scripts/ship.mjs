@@ -101,3 +101,10 @@ while (Date.now() < deadline && !ok) {
 for (const [label, pass] of checks) console.log(`  ${pass ? "PASS" : "FAIL"} ${label}`);
 if (!ok) fail("production verification did not converge — the push/deploy went out; investigate before shipping again");
 log(`production verified: ${PROD} serving ${catalogVersion} / ${cacheVersion}`);
+
+// Every check above carries a cache-busting nonce, so none of them can see what an
+// ordinary reader's un-nonced GET is served. That blind spot let a four-hour browser
+// cache sit on the freshness endpoints for a day (2026-09-04). This contract fetches
+// the real URLs, so it runs here, against production, on the way out.
+must("freshness/no-store contract (production)", "node", ["scripts/assert_freshness_recovery_contract.mjs", PROD], { quiet: true });
+log("PASS assert_freshness_recovery_contract (production)");

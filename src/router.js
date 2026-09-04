@@ -165,8 +165,14 @@ export async function v1(request, env) {
 // the ~15 calls a single page view makes. Live-walk endpoints stay uncached.
 const EDGE_CACHE = [
   { test: p => p === "/api/v1/bem/budget-quote" || p === "/api/refresh" || p === "/api/v1/export.csv", ttl: 0 },
+  // Freshness reports are never edge-cached, and the reason is not the edge: marking a
+  // response `public` hands it to the zone's Browser Cache TTL, which rewrote max-age to
+  // 14400 and left readers holding a four-hour-old freshness claim (measured 2026-09-04,
+  // GET only — HEAD skips this path, which is why header spot-checks looked clean). A
+  // panel that reports how current its data is must not itself be served from a cache
+  // older than the window it reports on. assert_freshness_recovery_contract pins this.
+  { test: p => /^\/api\/v1\/(data-health|self-audit|ecosystem\/health|official-assets\/health|community\/processor-health|airdrop-overview|daily-activity|bem\/price|bem\/holders)$/.test(p), ttl: 0 },
   { test: p => /^\/api\/v1\/(tools|updates|learn\/resources|glossary|catalog|openapi\.json|i18n|changelog)$/.test(p), ttl: 60 },
-  { test: p => /^\/api\/v1\/(data-health|self-audit|ecosystem\/health|official-assets\/health|community\/processor-health)$/.test(p), ttl: 15 },
   { test: p => p.startsWith("/api/v1/"), ttl: 30 },
 ];
 const edgeTtl = pathname => (EDGE_CACHE.find(rule => rule.test(pathname)) || { ttl: 0 }).ttl;
