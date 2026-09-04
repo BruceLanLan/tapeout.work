@@ -173,8 +173,9 @@ export async function syncOfficialThreeAssets(env) {
 export function officialAssetFreshness(snapshot, run) {
   const freshnessAt = run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : snapshot?.observed_at || null;
   const ageMinutes = freshnessAt ? Math.max(0, Math.round((Date.now() - Date.parse(freshnessAt)) / 60000)) : null;
-  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (run?.status === "error" || ageMinutes === null || ageMinutes > OFFICIAL_ASSET_HEALTH_MINUTES ? "stale" : "healthy");
-  return { status, age_minutes: ageMinutes, checked_at: freshnessAt, snapshot_observed_at: snapshot?.observed_at || null };
+  // Staleness describes the data, not the last attempt — see the note in bem.js.
+  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (ageMinutes === null || ageMinutes > OFFICIAL_ASSET_HEALTH_MINUTES ? "stale" : "healthy");
+  return { status, age_minutes: ageMinutes, checked_at: freshnessAt, snapshot_observed_at: snapshot?.observed_at || null, last_attempt_failed: run?.status === "error" };
 }
 
 export async function ensureOfficialAssetBootstrap(env) {
