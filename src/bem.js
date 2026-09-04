@@ -328,8 +328,14 @@ function bemFreshness(snapshot, run, thresholdMinutes) {
   const lastSuccessAt = run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null;
   const freshnessAt = lastSuccessAt || snapshot?.observed_at || null;
   const ageMinutes = freshnessAt ? Math.max(0, Math.round((Date.now() - Date.parse(freshnessAt)) / 60000)) : null;
-  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (run?.status === "error" || ageMinutes === null || ageMinutes > thresholdMinutes ? "stale" : "healthy");
-  return { status, age_minutes: ageMinutes, checked_at: lastSuccessAt, snapshot_observed_at: snapshot?.observed_at || null };
+  // Staleness is a claim about the data, not about the last attempt. A failed fetch
+  // over data still inside its window said "stale" about a figure that was fine —
+  // and with third-party providers rate-limiting Cloudflare's shared egress (72% of
+  // price fetches 429'd on 2026-09-04) that mislabel was the common case, not the
+  // rare one. The failed attempt is still reported, next to the age, never merged
+  // into it. Same correction bem_trades.js already made for the trade feed.
+  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (ageMinutes === null || ageMinutes > thresholdMinutes ? "stale" : "healthy");
+  return { status, age_minutes: ageMinutes, checked_at: lastSuccessAt, snapshot_observed_at: snapshot?.observed_at || null, last_attempt_failed: run?.status === "error" };
 }
 
 export async function bemHealth(env) {
@@ -348,7 +354,7 @@ export async function bemHealth(env) {
     mining: { ...mining, source: BEM_STATS_URL, fallback: BEM_RPC_URL, observed_at: miningSnapshot?.observed_at || null, provider: miningSnapshot?.provider || null, source_generated_at: miningSnapshot?.source_generated_at || null, last_run: miningRun || null, freshness_policy: "official snapshot <=180s at collection; public health <=12m; one root-RPC batch fallback" },
     taskbank: { ...catalog, source: BEM_TASKBANK_URL, observed_at: catalogSnapshot?.observed_at || null, task_count: catalogSnapshot?.task_count ?? null, last_run: catalogRun || null, freshness_policy: "official static catalog <=24h; hash-deduplicated snapshot; freshness is the most recent successful fetch" },
     miner_index: { ...minerIndex, source: BEM_MINERS_URL, observed_at: minerIndexSnapshot?.observed_at || null, source_generated_at: minerIndexSnapshot?.source_generated_at || null, block_number: minerIndexSnapshot?.block_number ?? null, miner_index_count: minerIndexSnapshot?.miner_index_count ?? null, owner_count: minerIndexSnapshot?.owner_count ?? null, cpu_counts: minerIndexSnapshot?.cpu_counts_json ? JSON.parse(minerIndexSnapshot.cpu_counts_json) : null, last_run: catalogRun || null, freshness_policy: "official miner index <=12m; hash-deduplicated public aggregate; freshness is the most recent successful fetch" },
-    price: { ...price, source: BEM_PRICE_URL, fallback: [BEM_PRICE_PAIR_URL, BEM_GECKO_POOL_URL], observed_at: priceSnapshot?.observed_at || null, provider: priceSnapshot?.provider || BEM_PRICE_PROVIDER, pair_address: priceSnapshot?.pair_address || null, liquidity_usd: priceSnapshot?.liquidity_usd ?? null, last_run: priceRun || null, freshness_policy: "third-party verified BEM/USDT pair <=2m; direct pair first, GeckoTerminal verified-pool fallback, token aggregation as a cross-check only; hash-deduplicated last-success snapshot with freshness from the most recent successful fetch", note: "Third-party aggregated market data, not an official price. Early liquidity may be shallow and price highly volatile." },
+    price: { ...price, source: BEM_PRICE_URL, fallback: [BEM_PRICE_PAIR_URL, BEM_GECKO_POOL_URL], observed_at: priceSnapshot?.observed_at || null, provider: priceSnapshot?.provider || BEM_PRICE_PROVIDER, pair_address: priceSnapshot?.pair_address || null, liquidity_usd: priceSnapshot?.liquidity_usd ?? null, last_run: priceRun || null, freshness_policy: "third-party verified BEM/USDT pair <=2m; direct pair first, GeckoTerminal verified-pool fallback, token aggregation as a cross-check only; hash-deduplicated last-success snapshot with freshness from the most recent successful fetch. These providers rate-limit Cloudflare's shared egress addresses, so the 2-minute target is missed often (measured 2026-09-04: 72% of fetches returned HTTP 429, median 7 minutes between successful ones) — the panel reports stale whenever it is, rather than widening the bar to stay green", note: "Third-party aggregated market data, not an official price. Early liquidity may be shallow and price highly volatile." },
   };
 }
 

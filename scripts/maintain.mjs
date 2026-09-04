@@ -20,6 +20,7 @@
 // locales must be retranslated.
 import { spawnSync } from "node:child_process";
 import { readFileSync, existsSync, rmSync, readdirSync } from "node:fs";
+import { CURATED_TOOLS } from "../src/curated_ecosystem_seed.js";
 
 const args = process.argv.slice(2);
 const flag = n => args.includes(n);
@@ -90,15 +91,22 @@ function revouchStreak(id) {
   }
   return streak;
 }
+// A streak is evidence about the profile the revouches were made under. Once someone
+// has narrowed that profile, the advice has been taken: a later queue entry is the
+// detector working, not the churn that built the streak, and suppressing it would
+// silence the fix. So the guard only holds while the entry is still on the default.
+const profileOf = id => (CURATED_TOOLS.find(t => t.id === id) || {}).drift_profile || "full";
 if (!named.length) {
-  const suppressed = targets.filter(id => revouchStreak(id) >= REVOUCH_STREAK_LIMIT);
-  if (suppressed.length) {
-    for (const id of suppressed) {
+  const suppressed = targets.filter(id => profileOf(id) === "full" && revouchStreak(id) >= REVOUCH_STREAK_LIMIT);
+  for (const id of targets) {
+    if (suppressed.includes(id)) {
       log(`SKIP ${id}: ${revouchStreak(id)} consecutive still_accurate revouches — its drift profile is flagging churn, not change.`);
-      log(`     Fix the profile in the seed (drift_profile: "structure" ignores asset-hash churn) rather than paying for another review; re-run with --tool ${id} to review it anyway.`);
+      log(`     Narrow the profile in the seed (drift_profile: "structure" ignores asset-hash churn) rather than paying for another review; re-run with --tool ${id} to review it anyway.`);
+    } else if (revouchStreak(id) >= REVOUCH_STREAK_LIMIT) {
+      log(`${id}: ${revouchStreak(id)} past still_accurate revouches, but it is on the "${profileOf(id)}" profile now — reviewing, since this queue entry is not the churn those revouches saw.`);
     }
-    targets = targets.filter(id => !suppressed.includes(id));
   }
+  targets = targets.filter(id => !suppressed.includes(id));
   if (!targets.length) { log("nothing left to review after the revouch-streak guard — no model calls made"); process.exit(0); }
 }
 log(`reviewing ${targets.length}: ${targets.join(", ")}`);
