@@ -34,6 +34,12 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // bloXroute returned no BEM Transfer in 116.70M–117.00M. Starting a little earlier
 // than the first possible mint costs a few empty windows and nothing else.
 const BEM_TOKEN_GENESIS_ESTIMATE_BLOCK = 116700000;
+// A run can record "ok" every tick while the checkpoint itself stops moving —
+// e.g. the cron stops firing, or every window keeps halving to the same range
+// without covering new blocks. Once caught up to head the checkpoint should
+// advance within roughly three 5-minute ticks; 90 minutes of silence means the
+// census has actually stalled, not that this one provider call was slow.
+const BEM_HOLDERS_HEALTH_MINUTES = 90;
 
 let bemHoldersSchemaReady;
 
@@ -166,7 +172,12 @@ export async function bemHoldersOverview(env) {
     env.DB.prepare("SELECT provider, holder_count, distribution_json, source_updated_at, observed_at, error FROM bem_holder_third_party WHERE id = 1").first().catch(() => null),
   ]);
   const configured = Boolean(holdersRpcUrl(env));
-  const censusStatus = !configured ? "not_configured" : !checkpoint ? "pending" : latestSync?.status === "error" ? "error" : "ok";
+  const checkpointAgeMinutes = checkpoint ? Math.max(0, Math.round((Date.now() - Date.parse(checkpoint.updated_at)) / 60000)) : null;
+  const censusStatus = !configured ? "not_configured"
+    : !checkpoint ? "pending"
+    : latestSync?.status === "error" ? "error"
+    : checkpointAgeMinutes != null && checkpointAgeMinutes > BEM_HOLDERS_HEALTH_MINUTES ? "stale"
+    : "ok";
   // Headline status: the census when healthy, else the third-party figure when held.
   const status = censusStatus === "ok" ? "ok" : thirdParty?.holder_count != null ? "third_party" : censusStatus;
   return {
@@ -180,7 +191,9 @@ export async function bemHoldersOverview(env) {
     reconciliation: checkpoint && thirdParty?.holder_count != null ? {
       census_count: Number(holderRow?.holder_count ?? 0), third_party_count: Number(thirdParty.holder_count),
       difference: Number(holderRow?.holder_count ?? 0) - Number(thirdParty.holder_count),
-      note: censusStatus === "ok" ? "census is complete through coverage.through_block; a difference reflects the aggregator's own cut-off and counting rules" : "census still catching up; its count is a lower bound until census_status is ok",
+      note: censusStatus === "ok" ? "census is complete through coverage.through_block; a difference reflects the aggregator's own cut-off and counting rules"
+        : censusStatus === "stale" ? "census scan has stalled (no new blocks scanned recently); its count is a lower bound frozen at coverage.updated_at, not caught up to chain head"
+        : "census still catching up; its count is a lower bound until census_status is ok",
     } : null,
     third_party: thirdParty ? {
       provider: thirdParty.provider, holder_count: Number(thirdParty.holder_count),
@@ -194,7 +207,7 @@ export async function bemHoldersOverview(env) {
     // mints; tighten BEM_TOKEN_GENESIS_ESTIMATE_BLOCK and rescan from genesis.
     negative_balance_count: Number(negativeRow?.negative_count ?? 0),
     latest_sync: latestSync || null,
-    coverage: checkpoint ? { from_block: startCheckpoint?.block_number ?? null, through_block: checkpoint.block_number, updated_at: checkpoint.updated_at } : null,
+    coverage: checkpoint ? { from_block: startCheckpoint?.block_number ?? null, through_block: checkpoint.block_number, updated_at: checkpoint.updated_at, checkpoint_age_minutes: checkpointAgeMinutes } : null,
     boundary: "Holder count reflects confirmed Transfer logs scanned through coverage.through_block only; while the incremental scan is still catching up to the chain head the count is a lower bound, not a final census. Addresses are public chain data and never identity-attributed.",
   };
 }

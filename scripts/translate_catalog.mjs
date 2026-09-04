@@ -172,6 +172,77 @@ function stubTranslate(locale, items) {
   return { json: out, cost_usd: 0 };
 }
 
+// True only for a failure that says nothing about the translation's content — the
+// model run itself errored, or the verifier never returned a verdict at all. A
+// caveat dropped or a claim added is a content rejection and must never be retried
+// blindly, since a second stochastic roll could paper over a real drift instead of
+// catching it.
+function isTransientReason(reason) {
+  return reason.startsWith("locale run failed") || reason === "no verification verdict";
+}
+
+// One locale's translate-and-verify pass, over exactly the stale entries given —
+// not necessarily every stale entry for the locale, so a retry can be scoped to
+// only the ids that failed transiently the first time. Reads and writes the
+// locale's files itself, so a second call for the same locale sees the first
+// call's writes.
+async function translateLocaleBatch(locale, stale, { model, stub, hashes }) {
+  const result = { translated: 0, rejected: [], cost_usd: 0 };
+  if (!stale.length) return result;
+  const docs = new Map();
+  const items = {}, meta = {};
+  for (const { kind, id } of stale) {
+    const entry = KINDS[kind].seed.find(e => e.id === id);
+    items[id] = sourceFieldsFor(kind, entry);
+    meta[id] = kind;
+  }
+  // Style references: two current translations from this locale, tools preferred.
+  const refDoc = readDoc(KINDS.tools.file(locale));
+  const references = Object.entries(refDoc.translations.tools || {}).filter(([id]) => !items[id]).slice(0, 2)
+    .map(([id, t]) => ({ id, english: sourceFieldsFor("tools", CURATED_TOOLS.find(e => e.id === id) || {}).en, translation: { title: t.title, summary: t.summary, safety: t.safety } }));
+
+  let translated;
+  try { translated = stub ? stubTranslate(locale, items) : callModel(translatePrompt(locale, items, references), model); }
+  catch (error) { for (const id of Object.keys(items)) result.rejected.push({ locale, id, reason: `locale run failed: ${String(error?.message || error).slice(0, 160)}` }); return result; }
+  result.cost_usd += translated.cost_usd || 0;
+
+  const pairs = {};
+  for (const id of Object.keys(items)) {
+    if (!translated.json[id]) { result.rejected.push({ locale, id, reason: "model returned no translation" }); continue; }
+    pairs[id] = { source: items[id].en, source_zh: items[id].zh, translation: translated.json[id] };
+  }
+  let verdicts = {};
+  if (Object.keys(pairs).length) {
+    if (stub) { for (const id of Object.keys(pairs)) verdicts[id] = { verdict: "pass", caveats: [], added_claims: [] }; }
+    else { try { const v = callModel(verifyPrompt(locale, pairs), model); verdicts = v.json; result.cost_usd += v.cost_usd || 0; } catch (error) { verdicts = {}; console.warn(`  ${locale}: verification call failed (${String(error?.message || error).slice(0, 120)}); nothing written for this locale`); } }
+  }
+  for (const [id, pair] of Object.entries(pairs)) {
+    const verdict = verdicts[id];
+    const failedCaveats = (verdict?.caveats || []).filter(c => c.preserved === false);
+    const added = verdict?.added_claims || [];
+    if (!verdict || verdict.verdict !== "pass" || failedCaveats.length || added.length) {
+      result.rejected.push({ locale, id, reason: !verdict ? "no verification verdict" : [...failedCaveats.map(c => `caveat not preserved: ${c.source} — ${c.note || ""}`), ...added.map(a => `added claim: ${a}`)].join("; ") || "verifier failed it" });
+      continue;
+    }
+    const kind = meta[id];
+    const file = KINDS[kind].file(locale);
+    const doc = docs.get(file) || readDoc(file);
+    docs.set(file, doc);
+    const table = KINDS[kind].table(doc);
+    const fields = Object.keys(LOCALE_FIELD_SOURCES[kind]);
+    const cleaned = {};
+    for (const f of fields) { if (typeof pair.translation[f] !== "string" || !pair.translation[f].trim()) { cleaned.__missing = f; break; } cleaned[f] = pair.translation[f].trim(); }
+    if (cleaned.__missing) { result.rejected.push({ locale, id, reason: `missing field ${cleaned.__missing}` }); continue; }
+    table[id] = { ...cleaned, source_hash: hashes[kind].get(id) };
+    result.translated++;
+  }
+  for (const [file, doc] of docs) {
+    doc.source_catalog_version = file.includes("/learning/") ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION;
+    writeDoc(file, doc);
+  }
+  return result;
+}
+
 export async function translateStale({ locales = LOCALES, model = "sonnet", stub = false } = {}) {
   const hashes = await currentHashes();
   const report = await freshnessReport(locales);
@@ -184,58 +255,22 @@ export async function translateStale({ locales = LOCALES, model = "sonnet", stub
       for (const [kind, spec] of Object.entries(KINDS)) { const file = spec.file(locale); const doc = readDoc(file); const want = kind === "learning" ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION; if (doc.source_catalog_version !== want) { doc.source_catalog_version = want; writeDoc(file, doc); } }
       console.log(`${locale}: current`); continue;
     }
-    const docs = new Map();
-    const items = {}, meta = {};
-    for (const { kind, id } of stale) {
-      const entry = KINDS[kind].seed.find(e => e.id === id);
-      items[id] = sourceFieldsFor(kind, entry);
-      meta[id] = kind;
-    }
-    // Style references: two current translations from this locale, tools preferred.
-    const refDoc = readDoc(KINDS.tools.file(locale));
-    const references = Object.entries(refDoc.translations.tools || {}).filter(([id]) => !items[id]).slice(0, 2)
-      .map(([id, t]) => ({ id, english: sourceFieldsFor("tools", CURATED_TOOLS.find(e => e.id === id) || {}).en, translation: { title: t.title, summary: t.summary, safety: t.safety } }));
-
     console.log(`${locale}: translating ${stale.length} entr${stale.length === 1 ? "y" : "ies"} (${stale.map(s => s.id).join(", ")})`);
-    let translated;
-    try { translated = stub ? stubTranslate(locale, items) : callModel(translatePrompt(locale, items, references), model); }
-    catch (error) { for (const id of Object.keys(items)) summary.rejected.push({ locale, id, reason: `locale run failed: ${String(error?.message || error).slice(0, 160)}` }); continue; }
-    summary.cost_usd += translated.cost_usd || 0;
-
-    const pairs = {};
-    for (const id of Object.keys(items)) {
-      if (!translated.json[id]) { summary.rejected.push({ locale, id, reason: "model returned no translation" }); continue; }
-      pairs[id] = { source: items[id].en, source_zh: items[id].zh, translation: translated.json[id] };
+    let result = await translateLocaleBatch(locale, stale, { model, stub, hashes });
+    const transientIds = new Set(result.rejected.filter(r => isTransientReason(r.reason)).map(r => r.id));
+    if (transientIds.size) {
+      console.log(`  ${locale}: retrying ${transientIds.size} entr${transientIds.size === 1 ? "y" : "ies"} after a transient failure (${[...transientIds].join(", ")})`);
+      const retryStale = stale.filter(s => transientIds.has(s.id));
+      const retryResult = await translateLocaleBatch(locale, retryStale, { model, stub, hashes });
+      result = {
+        translated: result.translated + retryResult.translated,
+        rejected: [...result.rejected.filter(r => !transientIds.has(r.id)), ...retryResult.rejected],
+        cost_usd: result.cost_usd + retryResult.cost_usd,
+      };
     }
-    let verdicts = {};
-    if (Object.keys(pairs).length) {
-      if (stub) { for (const id of Object.keys(pairs)) verdicts[id] = { verdict: "pass", caveats: [], added_claims: [] }; }
-      else { try { const v = callModel(verifyPrompt(locale, pairs), model); verdicts = v.json; summary.cost_usd += v.cost_usd || 0; } catch (error) { verdicts = {}; console.warn(`  ${locale}: verification call failed (${String(error?.message || error).slice(0, 120)}); nothing written for this locale`); } }
-    }
-    for (const [id, pair] of Object.entries(pairs)) {
-      const verdict = verdicts[id];
-      const failedCaveats = (verdict?.caveats || []).filter(c => c.preserved === false);
-      const added = verdict?.added_claims || [];
-      if (!verdict || verdict.verdict !== "pass" || failedCaveats.length || added.length) {
-        summary.rejected.push({ locale, id, reason: !verdict ? "no verification verdict" : [...failedCaveats.map(c => `caveat not preserved: ${c.source} — ${c.note || ""}`), ...added.map(a => `added claim: ${a}`)].join("; ") || "verifier failed it" });
-        continue;
-      }
-      const kind = meta[id];
-      const file = KINDS[kind].file(locale);
-      const doc = docs.get(file) || readDoc(file);
-      docs.set(file, doc);
-      const table = KINDS[kind].table(doc);
-      const fields = Object.keys(LOCALE_FIELD_SOURCES[kind]);
-      const cleaned = {};
-      for (const f of fields) { if (typeof pair.translation[f] !== "string" || !pair.translation[f].trim()) { cleaned.__missing = f; break; } cleaned[f] = pair.translation[f].trim(); }
-      if (cleaned.__missing) { summary.rejected.push({ locale, id, reason: `missing field ${cleaned.__missing}` }); continue; }
-      table[id] = { ...cleaned, source_hash: hashes[kind].get(id) };
-      summary.translated++;
-    }
-    for (const [file, doc] of docs) {
-      doc.source_catalog_version = file.includes("/learning/") ? LEARNING_CATALOG_VERSION : ECOSYSTEM_CATALOG_VERSION;
-      writeDoc(file, doc);
-    }
+    summary.translated += result.translated;
+    summary.rejected.push(...result.rejected);
+    summary.cost_usd += result.cost_usd;
   }
   return summary;
 }

@@ -51,7 +51,7 @@ export const LEARNING_RESOURCES = Object.freeze([
   {
     id: "community-93bitmap-video-ep10-bitmap-nat",
     tier: "community",
-    stages: ["logic"],
+    stages: ["basics"],
     language: ["zh"],
     title_zh: "社区中文视频：科普第十集·bitmap 与 tapeout 的关联猜想",
     title_en: "Community video: TapeOut science primer · episode 10 (a speculative link between bitmap/NAT and TapeOut)",

@@ -67,3 +67,11 @@ The user registered `tapeout.work` and added it to the same Cloudflare account a
 bloXroute 从 Cloudflare 出口跑历史窗口会超时/502，从本机 5000 块窗口稳定。处理：撤掉 `BSC_ARCHIVE_RPC_URL` 暂停 Worker 普查 → 本机 `node scripts/backfill_bem_holders.mjs`（读取 D1 现有余额与检查点，从检查点+1 折算到 latest−12，零地址不计入，写绝对余额 + 检查点 + 一条 ok 运行记录）→ 重新 `wrangler secret put BSC_ARCHIVE_RPC_URL` 让 Worker 从头部增量继续（增量扫描遇超时会自动把窗口减半重试）。**两者绝不能同时跑**，否则重复应用增量。`/api/v1/bem/holders` 的 `reconciliation` 给出普查与 GeckoTerminal 计数之差。
 
 回填结果（2026-09-03 09:56 UTC）：从区块 116,900,000 折算到 119,703,055，共 2,595,728 笔 Transfer，3,442 个地址、全部余额非负（起点早于首笔铸造，估计正确）；**链上普查 3,442 个持币地址，GeckoTerminal 同刻 3,428，相差 14**（聚合方自身的截止与计数规则）。本机 6 路并发、1000 块窗口约 45 分钟。回填期间 Worker 普查暂停（撤密钥），完成后恢复，增量从 119,703,055 起以 2000 块 × 3 窗口/轮继续。
+
+## 2026-09-04 收尾四项
+
+- **Smart Placement 不生效**：上线超过 26 小时后 `/api/v1/data-health` 的 `cf-placement` 仍是 `local-SIN`（首页命中边缘缓存不带这个头，探测要打无缓存的 API 路径）。站点当前流量级别下 Cloudflare 判定就近边缘已经最优，不会切换，**结论到此为止，不再周期性复查**。
+- **持币普查加了新鲜度字段**：`bem_holders.js` 的 `census_status` 原来只看最近一次同步是否报错，现在同时看检查点 `updated_at` 的年龄——超过 90 分钟没推进即使没有报错也标 `stale`，`coverage.checkpoint_age_minutes` 一并暴露。原因：bloXroute 从 Workers 出口大约四轮成功一轮，静默卡住和显式报错对读者同样有误导性；`ok` 状态失守时前端会自动回退到 `third_party` 卡片。
+- **白皮书从"跳过"改成真正的漂移哈希**：`official-whitepaper` 之前因为是 PDF（非 HTML）在 `self_audit.js` 里直接记 `skipped`，现在按 `content-type: application/pdf` 单独走一条路径，直接对响应字节做 SHA-256（超过 5MB 才退化为用 ETag/Content-Length 拼字符串），官网悄悄换白皮书能被捕捉到。
+- **`translate_catalog.mjs` 加了瞬时失败自动重试**：过去四批批处理里三批（tr "no verification verdict"、es/ja 各三条 "locale run failed"）靠人工 `--locales X` 重跑才过，重跑无一失败。现在 `translateStale` 在整批跑完后，把"整轮模型调用失败"或"验证器没有给出裁决"这两类失败（绝不包括真正的内容裁决失败，比如否定语气丢失、多加了断言）单独重跑一次，减少人工介入。
+- 顺手把 `community-93bitmap-video-ep10-bitmap-nat` 的分类标签从 `logic` 改成 `basics`（讲的是位图/AI 主权推测，不是逻辑门基础），字段不参与哈希，不需要重译。

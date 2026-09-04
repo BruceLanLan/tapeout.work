@@ -102,6 +102,15 @@ async function digest(value) {
   return [...new Uint8Array(hash)].slice(0, 12).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+async function digestBytes(buffer) {
+  const hash = await crypto.subtle.digest("SHA-256", buffer);
+  return [...new Uint8Array(hash)].slice(0, 12).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+// A PDF the size limit rejects is still worth a shallow check: ETag/Content-Length
+// change whenever the file is actually replaced, even though neither proves it.
+const PDF_MAX_BYTES = 5_000_000;
+
 // Deliberately parsed with regexes rather than a DOM. The input is arbitrary
 // third-party HTML we only ever hash — we never render it, never follow anything
 // out of it, and never show it to a reader — so the failure mode of a sloppy parse
@@ -155,6 +164,18 @@ async function fingerprintTool(tool) {
     });
     if (!response.ok) return { id: tool.id, status: "error", error: `HTTP ${response.status}` };
     const type = response.headers.get("content-type") || "";
+    if (/pdf/i.test(type)) {
+      const contentLength = Number(response.headers.get("content-length") || 0);
+      const etag = response.headers.get("etag") || "";
+      let assetFingerprint;
+      if (contentLength && contentLength > PDF_MAX_BYTES) {
+        assetFingerprint = await digest(`pdf-meta:${etag}:${contentLength}`);
+      } else {
+        assetFingerprint = await digestBytes(await response.arrayBuffer());
+      }
+      const surface = [`pdf:${etag || contentLength || "unknown"}`];
+      return { id: tool.id, status: "ok", surface, asset_fingerprint: assetFingerprint, surface_fingerprint: await digest(surface.join("\n")) };
+    }
     if (!/html/i.test(type)) return { id: tool.id, status: "skipped", error: `non-html (${type.split(";")[0] || "unknown"})` };
     const body = (await response.text()).slice(0, DRIFT_MAX_BYTES);
     const extracted = extractFingerprintSources(body);
