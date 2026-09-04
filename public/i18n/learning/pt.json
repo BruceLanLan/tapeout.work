@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-03a",
+  "source_catalog_version": "2026-09-04a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -117,6 +117,16 @@
       "title": "Vídeo da comunidade: cartilha científica do TapeOut · episódio 9 (o modelo de negócio da V2 em termos simples)",
       "summary": "Episódio 9 da série de vídeos explicativos do 93.bitmap, um vídeo em chinês de aproximadamente oito minutos. Segundo o texto da publicação, o autor tenta explicar o futuro modelo de negócio da V2 por meio de casos do cotidiano e chega a uma analogia com um segmento do mercado imobiliário. Trata-se apenas de uma referência a um vídeo da comunidade: a V2 ainda não foi lançada e seus mecanismos permanecem sujeitos ao próprio anúncio futuro do site oficial; a publicação também menciona que o autor está aumentando sua própria posição, o que é uma declaração pessoal de posição, não um conselho deste site ou de qualquer fonte oficial.",
       "source_hash": "3b0708cac1f27f39"
+    },
+    "community-93bitmap-video-ep7-en": {
+      "title": "Vídeo comunitário: introdução científica ao TapeOut · episódio 7 (decifrando a fórmula de design do minerador ideal, em inglês)",
+      "summary": "Versão em inglês do episódio 7 da série introdutória científica de 93.bitmap, com cerca de nove minutos. Segundo a publicação, percorre a fórmula de cálculo por trás de um design de \"máquina de mineração ideal\". Trata-se apenas de uma referência de vídeo comunitário: a leitura da fórmula é a interpretação do próprio autor, não uma especificação oficial; considere os números e a dedução como não verificados até serem confrontados com material oficial ou uma reprodução independente, como a da tapeout.pro.",
+      "source_hash": "6281078a756514a8"
+    },
+    "community-93bitmap-video-ep10-bitmap-nat": {
+      "title": "Vídeo comunitário: introdução científica ao TapeOut · episódio 10 (uma ligação especulativa entre bitmap/NAT e TapeOut)",
+      "summary": "Décimo episódio da série introdutória científica de 93.bitmap, com cerca de nove minutos. Segundo a publicação, analisa uma possível conexão entre o ecossistema bitmap e o TapeOut a partir de uma perspectiva do lado do bitmap, estendendo-se a uma alegação sobre \"soberania de IA\"; o autor a apresenta com ressalvas (\"talvez\", \"possivelmente\"). Trata-se de comentário pessoal especulativo, não uma descrição dos mecanismos do protocolo TapeOut, e não afirma qualquer ligação oficial ou técnica entre os dois ecossistemas.",
+      "source_hash": "7dbde702110ea3bf"
     }
   }
 }

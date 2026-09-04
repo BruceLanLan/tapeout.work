@@ -1,8 +1,8 @@
 // Curated learning catalog: every entry was reviewed against the public-source
 // governance note. Community entries never inherit official status; references
 // explain digital-logic concepts only and are not TapeOut Protocol tutorials.
-export const LEARNING_CATALOG_VERSION = "2026-09-03a";
-export const LEARNING_CATALOG_REVIEWED_AT = "2026-09-03T02:20:00Z";
+export const LEARNING_CATALOG_VERSION = "2026-09-04a";
+export const LEARNING_CATALOG_REVIEWED_AT = "2026-09-04T02:00:00Z";
 export const LEARNING_RESOURCES = Object.freeze([
   { id: "official-home", tier: "official", stages: ["basics", "canvas", "tapeout"], language: ["zh", "en"], title_zh: "TapeOut 官网：从 NAND/LATCH 到链上 Circuit", title_en: "TapeOut official site: from NAND/LATCH to on-chain Circuits", summary_zh: "从元件、Processor 与 Canvas 开始，先理解流片后会消耗元件并生成链上 Circuit；也披露当前合约仍可升级。", summary_en: "Start with components, Processors and Canvas; tape-out consumes components and creates an on-chain Circuit. The site also discloses that contracts remain upgradeable.", url: "https://tapeout.net/" },
   { id: "official-whitepaper", tier: "official", stages: ["basics", "tapeout"], language: ["zh"], title_zh: "TapeOut Protocol 白皮书", title_en: "TapeOut Protocol whitepaper", summary_zh: "解释晶体管 ERC-1155、电路 ERC-721、处理器工厂与链上网表，是术语和协议结构的官方参考。", summary_en: "Official reference for ERC-1155 components, ERC-721 Circuits, the Processor factory and on-chain netlists.", url: "https://tapeout.net/TapeOut-Protocol.pdf" },
@@ -36,5 +36,27 @@ export const LEARNING_RESOURCES = Object.freeze([
     summary_zh: "93.bitmap 科普系列第九集，约 8 分钟的中文视频。据帖子正文所述，作者试图用通俗案例解释即将推出的 V2 商业模式，并把它类比到房地产的某个板块。仅作社区视频参考：V2 尚未上线，其机制以官网未来正式公告为准；帖子正文同时提到作者本人加仓，这是个人仓位陈述，不是本站或任何官方的建议。",
     summary_en: "Episode 9 of 93.bitmap's explainer series, a roughly eight-minute Chinese video. Per the post text, the author tries to explain the upcoming V2 business model through everyday cases and lands on an analogy with one segment of the property market. A community video reference only: V2 has not launched and its mechanics remain subject to the official site's own future announcement; the post also mentions the author adding to their own position, which is a personal holding statement, not advice from this site or any official source.",
     url: "https://x.com/93bitmap/status/2095060842127696346"
+  },
+  {
+    id: "community-93bitmap-video-ep7-en",
+    tier: "community",
+    stages: ["pod", "logic"],
+    language: ["en"],
+    title_zh: "社区英文视频：科普第七集·最优矿机原理与设计公式解密",
+    title_en: "Community video: TapeOut science primer · episode 7 (decoding the optimal-miner design formula, English)",
+    summary_zh: "93.bitmap 科普系列第七集英文版，约 9 分钟。据帖子自述，内容讲解「最优矿机」设计原理背后的计算公式。仅作社区视频参考，公式解读是作者本人的解读，不是官网发布的规范；具体数值和推导请以官网原始材料与 tapeout.pro 等独立复现为准。",
+    summary_en: "The English version of 93.bitmap's science-primer episode 7, about nine minutes. Per the post, it walks through the calculation formula behind an \"optimal mining machine\" design. A community video reference only: the formula reading is the author's own interpretation, not an official specification; treat the numbers and derivation as unverified until cross-checked against official material or an independent reproduction such as tapeout.pro's.",
+    url: "https://x.com/93bitmap/status/2094632152357126359"
+  },
+  {
+    id: "community-93bitmap-video-ep10-bitmap-nat",
+    tier: "community",
+    stages: ["logic"],
+    language: ["zh"],
+    title_zh: "社区中文视频：科普第十集·bitmap 与 tapeout 的关联猜想",
+    title_en: "Community video: TapeOut science primer · episode 10 (a speculative link between bitmap/NAT and TapeOut)",
+    summary_zh: "93.bitmap 科普系列第十集，约 9 分钟。据帖子自述，从 bitmap 生态视角分析其与 TapeOut 的可能关联，并延伸到「AI 主权」这一命题；作者自己也用「或许」「也许」描述这一猜想。这是社区个人观点的思辨性内容，不涉及 TapeOut 协议机制本身，也不代表两个生态之间存在官方或技术上的实际联系。",
+    summary_en: "The tenth episode of 93.bitmap's science-primer series, about nine minutes. Per the post, it analyses a possible connection between the bitmap ecosystem and TapeOut from a bitmap-side view, extending into a claim about \"AI sovereignty\"; the author frames it with hedges (\"perhaps\", \"maybe\"). This is speculative personal commentary, not a description of TapeOut protocol mechanics, and does not assert any official or technical link between the two ecosystems.",
+    url: "https://x.com/93bitmap/status/2095553320433889692"
   }
 ]);

@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-03c";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-04a";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -185,6 +185,25 @@ export const CURATED_UPDATES = Object.freeze([
     summary_zh: "社区观点文章，把 TapeOut 与「预铸—营销—拉高出货」的套路对照：作者认为它的链条从购买生产资料（NAND/LATCH）、设计电路、流片开始，而不是从发币开始；参与方式是设计比拼而不是比谁跑得快。文章也列出作者眼中当前的五个短板——BEM 尚无真正的消耗场景、电路 NFT 只能挖矿、应用层单薄、认知门槛高、价值捕获仅靠挖矿——并以明确的高风险、不构成投资建议声明收尾。其中两处说法需谨慎：文中称创始人在部署核心工厂合约时放弃了所有权限，这是作者的断言，且与本站另行收录的官方披露（官方合约仍处于可升级阶段）相左；关于创始人年龄的说法作者自己也标注为「据说」。这两点本站均未核实。",
     source_note_en: "Community content, never an official source. The title is a bullish stance; the piece carries its own risk disclaimer, and this site repeats none of its conclusions. Check contract permissions on-chain rather than taking either the article's or anyone's word for them.",
     source_note_zh: "社区内容，绝非官方来源。标题即是看多立场；文章自带风险声明，本站不复述其任何结论。合约权限请在链上自行核验，不要采信文章或任何人的转述。",
+    risk_tags: ["community-not-official", "no-return-promise", "verify-contract"]
+  },
+  {
+    id: "community-pparkdd-bnb-next-category",
+    source_type: "x_article",
+    tier: "community",
+    author: "@pparkdd",
+    url: "https://x.com/pparkdd/article/2095422286518169600",
+    original_language: "ko",
+    topics: ["ecosystem", "analysis", "market"],
+    published_at: "2026-09-03T08:20:16Z",
+    reviewed_at: "2026-09-04T02:00:00Z",
+    source_status_id: "2095426637995356212",
+    title_en: "What could be BNB Chain's next hit category? A case for TapeOut",
+    title_zh: "BNB Chain 的下一个爆款赛道会是什么？一篇看多 TapeOut 的分析",
+    summary_en: "Korean-language community essay arguing TapeOut could become BNB Chain's next signature category, the way tokenized stocks and memecoins gave Robinhood Chain and Solana theirs. It opens with the author's own market-cap comparison ($BEM circulating market cap around $870K four days earlier versus $1.4-1.8M now, attributed to new mined supply rather than only price) and an estimate that a mining machine bought at the author's earlier reference price would now be roughly 1.5x up, both stated as the author's own unverified observations, not this site's figures. It also states that a reaction from @cz_binance previously drew fast attention to TapeOut in Chinese crypto media. The piece closes on conditions it says are unmet: V2 has not shipped, no security audit is mentioned as complete, and BEM burn/Component production are not yet live in a contract. This site has not independently confirmed the market-cap figures, the mining-machine return estimate, or the CZ interaction claim.",
+    summary_zh: "韩语社区长文，主张 TapeOut 有潜力成为 BNB Chain 的下一个标志性赛道，如同代币化股票之于 Robinhood Chain、meme 币之于 Solana。开篇是作者自己的市值对比（四天前 $BEM 流通市值约 87 万美元，现在在 140–180 万美元区间，作者将其主要归因于新增挖矿供给而非单纯涨价）以及一个估算——按作者早前参考价买入的矿机现在大约浮盈 1.5 倍；这两项均为作者自述的未核实数字，不是本站数据。文中还提到 @cz_binance 此前的一次互动曾让 TapeOut 在中文加密媒体圈迅速传播。文章结尾列出其认为尚未满足的条件：V2 尚未上线、未提及完成安全审计、BEM 销毁与 Component 生产尚未在合约里实际运行。本站未独立核实文中的市值数字、矿机收益估算或 CZ 互动说法。",
+    source_note_en: "Community content, never an official source. Every specific figure (market cap, return multiple) is the author's own calculation from an earlier personal reference point; verify current price and supply independently before drawing any conclusion from them.",
+    source_note_zh: "社区内容，绝非官方来源。文中每一个具体数字（市值、收益倍数）都是作者从自己此前的参照点自行计算得出；据此做任何判断前应独立核验当前价格与供给。",
     risk_tags: ["community-not-official", "no-return-promise", "verify-contract"]
   }
 ]);

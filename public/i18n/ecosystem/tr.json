@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-03c",
+  "source_catalog_version": "2026-09-04a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -64,6 +64,12 @@
         "summary": "TapeOut'u önce-basım (pre-mint) / tanıtım / FOMO'ya satış kalıbıyla karşılaştıran bir topluluk görüş yazısı: yazara göre bu zincir bir token'dan değil, üretim girdilerini (NAND/LATCH) satın almaktan, bir Circuit tasarlayıp onu TapeOut etmekten başlıyor ve katılım, çıkışa doğru bir yarış değil bir tasarım yarışması. Yazı ayrıca yazarın bugün gördüğü beş zayıflığı sıralıyor — henüz gerçek bir BEM tüketim mekanizması yok, Circuit NFT'leri yalnızca madencilik yapabiliyor, uygulama katmanı ince, öğrenme eğrisi yüksek ve değer yakalama yalnızca madenciliğe bağlı — ve açık bir yüksek risk, yatırım tavsiyesi değildir uyarısıyla sona eriyor. İki iddiası dikkat gerektiriyor: yazı, kurucunun temel fabrika (factory) sözleşmesini devreye alırken tüm yetkilerinden vazgeçtiğini belirtiyor; bu yazarın kendi iddiasıdır ve burada ayrıca kataloglanan Official açıklamayla —Official sözleşmelerin hâlâ yükseltilebilir (upgradeable) bir aşamada olduğu— çelişmektedir; kurucunun yaşıyla ilgili bir söz de kulaktan dolma bilgi olarak aktarılıyor. Bu site bunların hiçbirini doğrulamamıştır.",
         "source_note": "Topluluk içeriğidir, asla Official bir kaynak değildir. Başlık yükseliş yönlü (bullish) bir duruştur; yazı kendi risk uyarısını taşır ve bu site onun sonuçlarından hiçbirini tekrarlamaz. Sözleşme yetkilerini, ne makalenin ne de başka birinin sözüne güvenerek değil, zincir üstünde bizzat doğrulayın.",
         "source_hash": "4c82f7e3f647c3df"
+      },
+      "community-pparkdd-bnb-next-category": {
+        "title": "BNB Chain'in bir sonraki hit kategorisi ne olabilir? TapeOut için bir argüman",
+        "summary": "TapeOut'un, tokenize edilmiş hisse senetlerinin Robinhood Chain'e ve meme coin'lerin Solana'ya kazandırdığı gibi, BNB Chain'in bir sonraki imza kategorisi haline gelebileceğini savunan Korece dilinde bir topluluk denemesi. Yazının açılışında yazarın kendi piyasa değeri karşılaştırması yer alır (dört gün önce yaklaşık 870 bin dolar olan $BEM dolaşımdaki piyasa değeri, şimdi 1,4-1,8 milyon dolar aralığında; bu artış yalnızca fiyata değil, yeni madenciliği yapılan arza bağlanır) ve yazarın önceki referans fiyatından satın alınan bir madencilik makinesinin şimdi yaklaşık 1,5 katına çıkmış olacağına dair bir tahmin; her ikisi de yazarın kendi doğrulanmamış gözlemleri olarak belirtilmiştir, bu sitenin verileri değildir. Ayrıca @cz_binance'ten gelen bir tepkinin daha önce TapeOut'a Çin kripto medyasında hızlı bir ilgi çektiğini belirtir. Yazı, henüz karşılanmadığını söylediği koşullarla sona erer: V2 henüz yayımlanmamıştır, tamamlanmış bir güvenlik denetiminden söz edilmemektedir ve BEM yakımı/Component üretimi henüz bir sözleşmede canlı değildir. Bu site, piyasa değeri rakamlarını, madencilik makinesi getiri tahminini veya CZ etkileşimi iddiasını bağımsız olarak doğrulamamıştır.",
+        "source_note": "Topluluk içeriğidir, asla resmi bir kaynak değildir. Her spesifik rakam (piyasa değeri, getiri katsayısı) yazarın kendi önceki kişisel referans noktasından yaptığı bir hesaplamadır; bunlardan herhangi bir sonuç çıkarmadan önce güncel fiyatı ve arzı bağımsız olarak doğrulayın.",
+        "source_hash": "818e6e0da46f9d9e"
       }
     },
     "tools": {

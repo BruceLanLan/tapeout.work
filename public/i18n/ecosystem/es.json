@@ -1,6 +1,6 @@
 {
   "locale": "es",
-  "source_catalog_version": "2026-09-03c",
+  "source_catalog_version": "2026-09-04a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -64,6 +64,12 @@
         "summary": "Artículo de opinión comunitario que contrasta TapeOut con el patrón de premintado / promoción / venta aprovechando el FOMO: sostiene que la cadena parte de la compra de insumos de producción (NAND/LATCH), el diseño de un circuit y su tape-out, en lugar de partir de un token, y que la participación es un concurso de diseño y no una carrera por la salida. También enumera cinco debilidades que el autor percibe hoy —todavía no hay un sumidero real de BEM, los circuit NFT solo sirven para minar, la capa de aplicaciones es delgada, la curva de aprendizaje es alta, y la captura de valor depende únicamente de la minería— y termina con un descargo de responsabilidad explícito de alto riesgo y no-asesoramiento. Dos de sus afirmaciones requieren cautela: el texto declara que el fundador renunció a todos los permisos al desplegar el contrato factory central, lo cual es una aserción del autor que contradice la divulgación oficial, catalogada por separado aquí, según la cual los contratos oficiales aún se encuentran en una fase actualizable; y un comentario sobre la edad del fundador se transmite como rumor. Ninguna de las dos afirmaciones está verificada por este sitio.",
         "source_note": "Contenido comunitario, nunca una fuente oficial. El título expresa una postura alcista; el texto incluye su propio descargo de riesgo, y este sitio no repite ninguna de sus conclusiones. Verifique los permisos del contrato on-chain en lugar de fiarse de la palabra del artículo o de cualquier otra persona.",
         "source_hash": "4c82f7e3f647c3df"
+      },
+      "community-pparkdd-bnb-next-category": {
+        "title": "¿Cuál podría ser la próxima categoría de éxito de BNB Chain? Un argumento a favor de TapeOut",
+        "summary": "Ensayo comunitario en idioma coreano que argumenta que TapeOut podría convertirse en la próxima categoría insignia de BNB Chain, de la misma manera en que las acciones tokenizadas y las memecoins le dieron la suya a Robinhood Chain y Solana. Comienza con la propia comparación de capitalización de mercado del autor (capitalización de mercado circulante de $BEM alrededor de $870K cuatro días antes frente a $1.4-1.8M ahora, atribuido a nueva oferta minada en lugar de solo al precio) y una estimación de que una máquina minera comprada al precio de referencia anterior del autor ahora habría subido aproximadamente 1.5x, ambas presentadas como observaciones propias no verificadas del autor, no cifras de este sitio. También afirma que una reacción de @cz_binance atrajo previamente atención rápida hacia TapeOut en los medios cripto en chino. La pieza cierra con condiciones que, según indica, no se han cumplido: V2 no se ha lanzado, no se menciona que se haya completado ninguna auditoría de seguridad, y la quema de BEM/producción de Component aún no están activas en un contrato. Este sitio no ha confirmado de forma independiente las cifras de capitalización de mercado, la estimación de retorno de la máquina minera, ni la afirmación sobre la interacción con CZ.",
+        "source_note": "Contenido comunitario, nunca una fuente oficial. Cada cifra específica (capitalización de mercado, múltiplo de retorno) es el propio cálculo del autor a partir de un punto de referencia personal anterior; verifique el precio y la oferta actuales de forma independiente antes de sacar cualquier conclusión a partir de ellos.",
+        "source_hash": "818e6e0da46f9d9e"
       }
     },
     "tools": {

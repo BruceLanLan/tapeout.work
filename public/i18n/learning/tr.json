@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-03a",
+  "source_catalog_version": "2026-09-04a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -117,6 +117,16 @@
       "title": "Topluluk videosu: TapeOut popüler bilim serisi · 9. bölüm (V2 iş modelinin sade anlatımı)",
       "summary": "93.bitmap'in açıklayıcı video serisinin 9. bölümü, yaklaşık sekiz dakikalık Çince bir video. Gönderi metnine göre yazar, yakında gelecek V2 iş modelini gündelik örneklerle açıklamaya çalışıyor ve gayrimenkul piyasasının bir kesimiyle bir benzetmeye varıyor. Yalnızca topluluk videosu referansıdır: V2 henüz yayınlanmadı ve mekanikleri Official sitenin kendi gelecekteki duyurusuna tabidir; gönderi ayrıca yazarın kendi pozisyonunu artırdığından bahsediyor, bu kişisel bir pozisyon beyanıdır, bu sitenin ya da herhangi bir Official kaynağın tavsiyesi değildir.",
       "source_hash": "3b0708cac1f27f39"
+    },
+    "community-93bitmap-video-ep7-en": {
+      "title": "Topluluk videosu: TapeOut bilim serisi · 7. bölüm (optimal madenci tasarım formülünün çözümlenmesi, İngilizce)",
+      "summary": "93.bitmap'in bilim serisi 7. bölümünün İngilizce versiyonu, yaklaşık dokuz dakika. Gönderiye göre, bir \"optimal madencilik makinesi\" tasarımının arkasındaki hesaplama formülünü ele alır. Yalnızca bir topluluk video referansıdır: formül yorumu yazarın kendi yorumudur, resmi bir teknik özellik değildir; sayıları ve türetmeyi, resmi materyalle veya tapeout.pro gibi bağımsız bir yeniden üretimle çapraz kontrol edilene kadar doğrulanmamış olarak değerlendirin.",
+      "source_hash": "6281078a756514a8"
+    },
+    "community-93bitmap-video-ep10-bitmap-nat": {
+      "title": "Topluluk videosu: TapeOut bilim serisi · 10. bölüm (bitmap/NAT ile TapeOut arasında spekülatif bir bağlantı)",
+      "summary": "93.bitmap'in bilim serisinin onuncu bölümü, yaklaşık dokuz dakika. Gönderiye göre, bitmap ekosistemi ile TapeOut arasındaki olası bağlantıyı bitmap tarafının bakış açısından analiz eder ve bunu \"AI egemenliği\" iddiasına kadar genişletir; yazar bunu \"belki\", \"muhtemelen\" gibi çekincelerle çerçeveler. Bu, spekülatif kişisel bir yorumdur, TapeOut protokol mekaniğinin bir açıklaması değildir ve iki ekosistem arasında resmi veya teknik herhangi bir bağlantı olduğunu iddia etmez.",
+      "source_hash": "7dbde702110ea3bf"
     }
   }
 }
