@@ -298,6 +298,7 @@ export const CURATED_TOOLS = Object.freeze([
   },
   {
     id: "tool-tapeout-firsto",
+    drift_profile: "structure", // client-rendered live trade tape: 5 recorded changes since baseline all came from asset-bundle churn with zero surface (title/nav) movement each time — the asset hash is noise here, not signal
     wallet_risk: "connects_wallet",
     category: "marketplace",
     tier: "community",

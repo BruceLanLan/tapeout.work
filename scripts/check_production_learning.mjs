@@ -18,13 +18,13 @@ assert(communitySafety.items.some(item => item.id === 'community-something-logic
 const video = communityVideo.items.find(item => item.id === 'community-93bitmap-video-intro');
 assert(video?.tier === 'community' && video.language?.length === 1 && video.language[0] === 'en' && video.url === 'https://x.com/93bitmap/status/2092453478530691106', '93.bitmap English community video missing or misclassified');
 assert(/not an official source|不代表官网规则/.test(`${video.summary_zh} ${video.summary_en}`), '93.bitmap video governance boundary missing');
-assert(page.includes('id="learn"') && page.includes('id="learning-nav-menu"') && page.includes('id="mechanics"') && page.includes('official-asset-source-strip') && page.includes('id="official-asset-lens-grid"') && page.includes('id="transistor-candle-chart"') && page.includes('learning.css?v=2026-09-01-features-r45') && page.includes('app.js?v=2026-09-01-features-r45'), 'learning navigation, mechanics section or versioned responsive asset missing');
+assert(page.includes('id="learn"') && page.includes('id="learning-nav-menu"') && page.includes('id="mechanics"') && page.includes('official-asset-source-strip') && page.includes('id="official-asset-lens-grid"') && page.includes('id="transistor-candle-chart"') && page.includes('learning.css?v=2026-09-01-features-r46') && page.includes('app.js?v=2026-09-01-features-r46'), 'learning navigation, mechanics section or versioned responsive asset missing');
 console.log(JSON.stringify({
   catalog_version: catalog.catalog_version,
   total: catalog.total,
   official_pod_resources: officialPod.items.map(item => item.id),
   community_safety_resources: communitySafety.items.map(item => item.id),
   community_video_resources: communityVideo.items.map(item => item.id),
-  responsive_asset: 'learning.css?v=2026-09-01-features-r45',
-  app_asset: 'app.js?v=2026-09-01-features-r45',
+  responsive_asset: 'learning.css?v=2026-09-01-features-r46',
+  app_asset: 'app.js?v=2026-09-01-features-r46',
 }, null, 2));

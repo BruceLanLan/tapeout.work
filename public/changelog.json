@@ -1,8 +1,20 @@
 {
-  "newest_commit_at": "2026-09-03T15:21:09+08:00",
+  "newest_commit_at": "2026-09-04T10:58:45+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 25,
+  "commit_count": 26,
   "entries": [
+    {
+      "sha": "8a1eeb1cdb",
+      "date": "2026-09-04T10:58:45+08:00",
+      "subject": "content: two 93.bitmap episodes and a Korean community essay on TapeOut's BNB-Chain fit",
+      "scope": [
+        "learning",
+        "learning-translations",
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 20
+    },
     {
       "sha": "36e244d6f5",
       "date": "2026-09-03T15:21:09+08:00",
