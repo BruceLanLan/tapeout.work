@@ -72,6 +72,6 @@ bloXroute 从 Cloudflare 出口跑历史窗口会超时/502，从本机 5000 块
 
 - **Smart Placement 不生效**：上线超过 26 小时后 `/api/v1/data-health` 的 `cf-placement` 仍是 `local-SIN`（首页命中边缘缓存不带这个头，探测要打无缓存的 API 路径）。站点当前流量级别下 Cloudflare 判定就近边缘已经最优，不会切换，**结论到此为止，不再周期性复查**。
 - **持币普查加了新鲜度字段**：`bem_holders.js` 的 `census_status` 原来只看最近一次同步是否报错，现在同时看检查点 `updated_at` 的年龄——超过 90 分钟没推进即使没有报错也标 `stale`，`coverage.checkpoint_age_minutes` 一并暴露。原因：bloXroute 从 Workers 出口大约四轮成功一轮，静默卡住和显式报错对读者同样有误导性；`ok` 状态失守时前端会自动回退到 `third_party` 卡片。
-- **白皮书从"跳过"改成真正的漂移哈希**：`official-whitepaper` 之前因为是 PDF（非 HTML）在 `self_audit.js` 里直接记 `skipped`，现在按 `content-type: application/pdf` 单独走一条路径，直接对响应字节做 SHA-256（超过 5MB 才退化为用 ETag/Content-Length 拼字符串），官网悄悄换白皮书能被捕捉到。
+- **白皮书从"跳过"改成真正的漂移哈希**：`official-whitepaper` 之前因为是 PDF（非 HTML）在 `self_audit.js` 里直接记 `skipped`，现在按 `content-type: application/pdf` 单独走一条路径，对响应字节做 SHA-256（超过 5MB 才退化为用 ETag/Content-Length 拼字符串），并把这个摘要写进学习资源路径实际读取的 `surface_fingerprint` 字段（首版误把它塞进了永远不被读取的 `asset_fingerprint`，当天验证时发现并改正）。官网悄悄换白皮书能被捕捉到。
 - **`translate_catalog.mjs` 加了瞬时失败自动重试**：过去四批批处理里三批（tr "no verification verdict"、es/ja 各三条 "locale run failed"）靠人工 `--locales X` 重跑才过，重跑无一失败。现在 `translateStale` 在整批跑完后，把"整轮模型调用失败"或"验证器没有给出裁决"这两类失败（绝不包括真正的内容裁决失败，比如否定语气丢失、多加了断言）单独重跑一次，减少人工介入。
 - 顺手把 `community-93bitmap-video-ep10-bitmap-nat` 的分类标签从 `logic` 改成 `basics`（讲的是位图/AI 主权推测，不是逻辑门基础），字段不参与哈希，不需要重译。

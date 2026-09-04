@@ -173,7 +173,10 @@ async function fingerprintTool(tool) {
       } else {
         assetFingerprint = await digestBytes(await response.arrayBuffer());
       }
-      const surface = [`pdf:${etag || contentLength || "unknown"}`];
+      // The learning/update path (fingerprintSource) only carries surface_fingerprint
+      // forward and drops asset_fingerprint entirely, so the real byte digest has to
+      // live here too, not just in the field a source-kind caller never reads.
+      const surface = [`pdf:${assetFingerprint}`];
       return { id: tool.id, status: "ok", surface, asset_fingerprint: assetFingerprint, surface_fingerprint: await digest(surface.join("\n")) };
     }
     if (!/html/i.test(type)) return { id: tool.id, status: "skipped", error: `non-html (${type.split(";")[0] || "unknown"})` };

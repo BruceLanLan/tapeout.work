@@ -1,8 +1,17 @@
 {
-  "newest_commit_at": "2026-09-04T11:04:02+08:00",
+  "newest_commit_at": "2026-09-04T11:28:16+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 27,
+  "commit_count": 28,
   "entries": [
+    {
+      "sha": "152406a867",
+      "date": "2026-09-04T11:28:16+08:00",
+      "subject": "self-audit/holders/translate: four follow-ups from the firsto drift fix",
+      "scope": [
+        "learning"
+      ],
+      "file_count": 1
+    },
     {
       "sha": "c1a43180b9",
       "date": "2026-09-04T11:04:02+08:00",
