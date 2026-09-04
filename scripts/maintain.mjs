@@ -106,6 +106,10 @@ log(`reviewing ${targets.length}: ${targets.join(", ")}`);
 // ---- drafts ----------------------------------------------------------------------
 rmSync("reviews/pending/_run.json", { force: true });
 must("review_drafts", "node", ["scripts/review_drafts.mjs", ...targets.flatMap(id => ["--tool", id]), "--model", opt("--model", "sonnet"), "--origin", ORIGIN], { stdio: "inherit" });
+// review_drafts exits 0 having written nothing when none of the ids resolve to a
+// seed entry — a queue row left behind by an entry that was removed from the seed.
+// Unattended, that used to surface as a raw ENOENT stack in the log.
+if (!existsSync("reviews/pending/_run.json")) fail(`review_drafts produced no run file for ${targets.join(", ")} — are these still in the seed?`);
 const run = JSON.parse(readFileSync("reviews/pending/_run.json", "utf8"));
 let cost = run.tools.reduce((n, t) => n + (t.cost_usd || 0), 0);
 
