@@ -116,7 +116,11 @@ for (let i = 0; i < rows.length; i += 400) {
 const tail = `${OUT}checkpoint.sql`;
 writeFileSync(tail, [
   `INSERT INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer', ${target}, '${now}') ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at;`,
-  `INSERT INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ${start}, '${now}') ON CONFLICT(source_key) DO UPDATE SET block_number=excluded.block_number, updated_at=excluded.updated_at;`,
+  // OR IGNORE, never an upsert: this row is where the census's coverage *begins*, set
+  // once by the first backfill and true forever after. Upserting it made every later
+  // catch-up run rewrite the origin to its own start block, so the API reported coverage
+  // beginning 3.2M blocks later than the census actually reaches (seen 2026-09-06).
+  `INSERT OR IGNORE INTO bem_holder_checkpoints (source_key, block_number, updated_at) VALUES ('bem_token_transfer_from', ${start}, '${now}');`,
   `INSERT INTO bem_holder_sync_runs (attempted_at, status, from_block, to_block, transfer_count, error) VALUES ('${now}', 'ok', ${start}, ${target}, ${transfers}, NULL);`,
 ].join("\n") + "\n");
 for (const [i, f] of files.entries()) { d1file(f); console.log(`  wrote balances file ${i + 1}/${files.length}`); }

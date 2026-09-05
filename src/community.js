@@ -143,8 +143,13 @@ export async function ensureCommunityBoardFresh(env) {
   return ensureScheduledDomainFresh({ key: "community_processor_board", env, prepare: () => ensureCommunityHolderSchema(env), latestRun: () => env.DB.prepare("SELECT attempted_at, status FROM community_processor_board_sync_runs ORDER BY id DESC LIMIT 1").first(), sync: syncCommunityProcessorBoard, maxAgeMinutes: 30 });
 }
 
-export function communityFreshness(snapshot, run) {
-  const lastSuccessAt = run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null;
+export function communityFreshness(snapshot, run, lastSuccessRun = null) {
+  // The anchor must be the last run that actually succeeded. Reading it off the latest
+  // run alone reported "never successfully checked" the moment one fetch failed, and
+  // sent age falling back to the snapshot's last *change* time, which for this
+  // hash-deduplicated table can be far older than the last real check.
+  const lastSuccessAt = (run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null)
+    || lastSuccessRun?.attempted_at || null;
   const freshnessAt = lastSuccessAt || snapshot?.observed_at || null;
   const ageMinutes = freshnessAt ? Math.max(0, Math.round((Date.now() - Date.parse(freshnessAt)) / 60000)) : null;
   // Staleness describes the data, not the last attempt — see the note in bem.js.
@@ -156,12 +161,13 @@ export async function communityProcessorBoardHealth(env) {
   await ensureCommunityHolderSchema(env);
   // ensureCommunityBoardFresh only needs to block when it actually triggers a background sync
   // (rare); otherwise it runs alongside the reads below instead of gating them sequentially.
-  const [, snapshot, run] = await Promise.all([
+  const [, snapshot, run, lastSuccess] = await Promise.all([
     ensureCommunityBoardFresh(env),
     env.DB.prepare("SELECT observed_at, source_generated_at, source_block, source_total_processors, source_eligible_processors, source_mining_processors, board_count FROM community_processor_board_snapshots ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, source_generated_at, source_block, board_count, address_count, error FROM community_processor_board_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM community_processor_board_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
   ]);
-  return { ...communityFreshness(snapshot, run), source_type: "community_estimate", source: TAPEOUT_CLUB_URL, source_data_route: "/data.json (public, no token required)", source_generated_at: snapshot?.source_generated_at || null, source_block: snapshot?.source_block ?? null, source_total_processors: snapshot?.source_total_processors ?? null, source_eligible_processors: snapshot?.source_eligible_processors ?? null, source_mining_processors: snapshot?.source_mining_processors ?? null, leaderboard_rows: snapshot?.board_count ?? null, last_run: run || null, freshness_policy: "Community source is checked on the platform schedule; last successful snapshot remains available if the source request fails or its response shape changes. It is stale after 35 minutes and never represented as official." };
+  return { ...communityFreshness(snapshot, run, lastSuccess), source_type: "community_estimate", source: TAPEOUT_CLUB_URL, source_data_route: "/data.json (public, no token required)", source_generated_at: snapshot?.source_generated_at || null, source_block: snapshot?.source_block ?? null, source_total_processors: snapshot?.source_total_processors ?? null, source_eligible_processors: snapshot?.source_eligible_processors ?? null, source_mining_processors: snapshot?.source_mining_processors ?? null, leaderboard_rows: snapshot?.board_count ?? null, last_run: run || null, freshness_policy: "Community source is checked on the platform schedule; last successful snapshot remains available if the source request fails or its response shape changes. It is stale after 35 minutes and never represented as official." };
 }
 
 export async function communityProcessorLeaderboard(env, query) {

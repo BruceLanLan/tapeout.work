@@ -21,16 +21,21 @@ const holdersRpcUrl = env => String(env[BSC_ARCHIVE_RPC_SECRET] || "").trim();
 const PROVIDER_UNAVAILABLE = /timed out|-32002|HTTP 5\d\d|HTTP 429|network|fetch failed/i;
 async function holdersRpc(env, method, params, down = null) {
   const endpoints = [...new Set([holdersRpcUrl(env), marketRpcUrl(env)].filter(Boolean))];
-  let lastError = null;
-  for (const endpoint of endpoints) {
+  let primaryError = null, lastError = null;
+  for (const [index, endpoint] of endpoints.entries()) {
     if (down?.has(endpoint)) continue;
     try { return await rpc(env, method, params, endpoint); }
     catch (error) {
       lastError = error;
+      if (index === 0) primaryError = error;
       if (down && PROVIDER_UNAVAILABLE.test(String(error?.message || error))) down.add(endpoint);
     }
   }
-  throw lastError || new Error("no RPC endpoint is configured for the holder census");
+  // Report the archive provider's own failure when it has one. Reporting the fallback's
+  // instead hid the timeout behind "this range needs an archive node", and the caller's
+  // window-halving retry keys off exactly that timeout text — so a range the archive
+  // would have answered at half the size failed the whole tick instead.
+  throw primaryError || lastError || new Error("no RPC endpoint is configured for the holder census");
 }
 
 // keccak256("Transfer(address,address,uint256)")
@@ -136,7 +141,11 @@ export async function syncBemHolders(env) {
   for (let from = start; from <= end;) {
     const to = Math.min(end, from + window - 1);
     let logs;
-    try { logs = await holdersRpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], downProviders); }
+    // The down-memo is withheld while halving is still available: a provider that timed
+    // out on 2,000 blocks may answer 1,000, and marking it down on the first timeout
+    // would skip it for the rest of the run and defeat the retry below. Once the window
+    // is at the floor, halving cannot help any more, so the memo is allowed to stick.
+    try { logs = await holdersRpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], window <= 250 ? downProviders : null); }
     catch (error) {
       // The archive node times out (-32002) or 502s on ranges it finds heavy; halve
       // and retry the same range rather than fail the whole tick.

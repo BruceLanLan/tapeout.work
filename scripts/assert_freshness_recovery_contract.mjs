@@ -30,5 +30,10 @@ if (!price.body.source?.freshness?.freshness_policy?.includes('<=2m')) fail('pri
 if (!health.body.registry?.last_checked_at || !['healthy', 'stale'].includes(health.body.registry?.status)) fail('registry must retain explicit last-success freshness');
 for (const [name, domain] of Object.entries({ airdrop: health.body.airdrop, bem_price: health.body.bem?.price, official_three: health.body.official_three_assets, community: health.body.community_processor_board })) {
   if (!domain || !['healthy', 'stale', 'pending', 'error'].includes(domain.status)) fail(`${name} is missing an explicit independent freshness state`);
+  // A status alone let two domains ship a lie for a day: with the last attempt failed,
+  // one reported no successful check had ever happened and the other stamped the data's
+  // last-change time as its check time. Any domain holding a snapshot must be able to
+  // say when it was really last checked, whatever the latest attempt did.
+  if (domain.status !== 'pending' && !domain.checked_at) fail(`${name} reports status ${domain.status} but no checked_at, so it cannot say when it was last successfully checked`);
 }
 console.log('PASS: dynamic freshness, verified-pair priority and no-store contract');

@@ -170,12 +170,17 @@ export async function syncOfficialThreeAssets(env) {
   }
 }
 
-export function officialAssetFreshness(snapshot, run) {
-  const freshnessAt = run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : snapshot?.observed_at || null;
+export function officialAssetFreshness(snapshot, run, lastSuccessRun = null) {
+  // checked_at must never carry the snapshot's observed_at: that is when the data last
+  // changed, not when it was last checked, and labelling it as a check time is worse
+  // than reporting nothing. Fall back to the last successful run instead.
+  const lastSuccessAt = (run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null)
+    || lastSuccessRun?.attempted_at || null;
+  const freshnessAt = lastSuccessAt || snapshot?.observed_at || null;
   const ageMinutes = freshnessAt ? Math.max(0, Math.round((Date.now() - Date.parse(freshnessAt)) / 60000)) : null;
   // Staleness describes the data, not the last attempt — see the note in bem.js.
   const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (ageMinutes === null || ageMinutes > OFFICIAL_ASSET_HEALTH_MINUTES ? "stale" : "healthy");
-  return { status, age_minutes: ageMinutes, checked_at: freshnessAt, snapshot_observed_at: snapshot?.observed_at || null, last_attempt_failed: run?.status === "error" };
+  return { status, age_minutes: ageMinutes, checked_at: lastSuccessAt, snapshot_observed_at: snapshot?.observed_at || null, last_attempt_failed: run?.status === "error" };
 }
 
 export async function ensureOfficialAssetBootstrap(env) {
@@ -196,12 +201,13 @@ export async function officialAssetsHealth(env) {
   // ensureOfficialAssetsFresh only needs to block a request when it actually triggers a
   // background sync (rare); in the common healthy case it is one more read against the
   // same tables below, so it runs alongside them instead of gating them sequentially.
-  const [, snapshot, run] = await Promise.all([
+  const [, snapshot, run, lastSuccess] = await Promise.all([
     ensureOfficialAssetsFresh(env),
     env.DB.prepare("SELECT id, observed_at, cpu_generated_at, market_generated_at, source_block FROM official_asset_snapshots ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, cpu_generated_at, market_generated_at, source_block, project_count, minter_address_count, open_bid_count, error FROM official_asset_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM official_asset_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
   ]);
-  return { ...officialAssetFreshness(snapshot, run), source_type: "official_public_snapshots", sources: [OFFICIAL_CPU_STATS_URL, OFFICIAL_MARKET_SNAPSHOT_URL], scope: "Only TapeOut, Behemoth and Genesis CPU listed in the official public Processor configuration. CPU stats provide holder aggregates and cumulative minter addresses; market stats provide current public bids. Neither source is a full current per-address holder-balance census.", source_block: snapshot?.source_block || null, cpu_generated_at: snapshot?.cpu_generated_at || null, market_generated_at: snapshot?.market_generated_at || null, last_run: run || null, freshness_policy: "Checked independently every 30 minutes. The last successful snapshot remains available after source errors and becomes stale after 70 minutes; no missing source is represented as zero." };
+  return { ...officialAssetFreshness(snapshot, run, lastSuccess), source_type: "official_public_snapshots", sources: [OFFICIAL_CPU_STATS_URL, OFFICIAL_MARKET_SNAPSHOT_URL], scope: "Only TapeOut, Behemoth and Genesis CPU listed in the official public Processor configuration. CPU stats provide holder aggregates and cumulative minter addresses; market stats provide current public bids. Neither source is a full current per-address holder-balance census.", source_block: snapshot?.source_block || null, cpu_generated_at: snapshot?.cpu_generated_at || null, market_generated_at: snapshot?.market_generated_at || null, last_run: run || null, freshness_policy: "Checked independently every 30 minutes. The last successful snapshot remains available after source errors and becomes stale after 70 minutes; no missing source is represented as zero." };
 }
 
 export function officialProjectRowsByKey(rows) { return new Map(rows.map(row => [row.project_key, row])); }
