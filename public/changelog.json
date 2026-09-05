@@ -1,8 +1,18 @@
 {
-  "newest_commit_at": "2026-09-06T01:31:58+08:00",
+  "newest_commit_at": "2026-09-06T01:51:34+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 29,
+  "commit_count": 30,
   "entries": [
+    {
+      "sha": "98c1de5670",
+      "date": "2026-09-06T01:51:34+08:00",
+      "subject": "learning: 93bitmap episode 11, and episode 10's English edition",
+      "scope": [
+        "learning",
+        "learning-translations"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "491f0729d9",
       "date": "2026-09-06T01:31:58+08:00",

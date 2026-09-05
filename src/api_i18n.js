@@ -71,7 +71,11 @@ export async function learningResources(params, request, env) {
       (validLanguages.has(language) ? language === "all" || item.language.includes(language) : false) &&
       (!q || [item.title_zh, item.title_en, item.summary_zh, item.summary_en, localized?.title, localized?.summary].filter(Boolean).join(" ").toLowerCase().includes(q));
   });
-  const pageSize = Math.min(Math.max(Number(params.get("page_size") || 6), 1), 12);
+  // 24, not 12: API.md has always documented this endpoint's maximum as 24, and the
+  // sibling catalogue endpoint allows 24. The lower cap was set when this catalogue was
+  // small and never raised as it grew past it, so a caller asking for the documented 24
+  // silently received half. Widening matches the published contract and breaks no caller.
+  const pageSize = Math.min(Math.max(Number(params.get("page_size") || 6), 1), 24);
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const page = Math.min(Math.max(Number(params.get("page") || 1), 1), pageCount);
   const start = (page - 1) * pageSize;
