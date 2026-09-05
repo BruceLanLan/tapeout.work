@@ -1,8 +1,18 @@
 {
-  "newest_commit_at": "2026-09-04T11:28:16+08:00",
+  "newest_commit_at": "2026-09-06T01:31:58+08:00",
   "source": "this repository's git history, limited to the catalogue seed and locale files",
-  "commit_count": 28,
+  "commit_count": 29,
   "entries": [
+    {
+      "sha": "491f0729d9",
+      "date": "2026-09-06T01:31:58+08:00",
+      "subject": "catalogue: add TapeOutScan, extend firsto with its BEM analytics",
+      "scope": [
+        "tool-translations",
+        "tools"
+      ],
+      "file_count": 10
+    },
     {
       "sha": "152406a867",
       "date": "2026-09-04T11:28:16+08:00",

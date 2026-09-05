@@ -1,6 +1,6 @@
 {
   "locale": "ko",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -127,6 +127,16 @@
       "title": "커뮤니티 영상: TapeOut 과학 입문 · 10화 (bitmap/NAT와 TapeOut 사이의 추측성 연관성)",
       "summary": "93.bitmap 과학 입문 시리즈 10화로, 약 9분 분량입니다. 게시물에 따르면 bitmap 생태계와 TapeOut 사이의 가능한 연관성을 bitmap 쪽 시각에서 분석하며, \"AI 주권(AI sovereignty)\"이라는 주장으로 확장됩니다; 저자는 이를 \"아마도\", \"어쩌면\"과 같은 완화 표현으로 서술합니다. 이는 추측성 개인 의견이며 TapeOut 프로토콜 메커니즘에 대한 설명이 아니고, 두 생태계 사이의 어떠한 공식적 또는 기술적 연관성도 주장하지 않습니다.",
       "source_hash": "7dbde702110ea3bf"
+    },
+    "community-93bitmap-video-ep10-en": {
+      "title": "커뮤니티 영상: TapeOut 과학 입문 · 10화, 영어판 (bitmap/NAT와 TapeOut 사이의 추측성 연관성)",
+      "summary": "93.bitmap 과학 입문 시리즈 10화의 영어판으로, 약 6분 30초 분량이며 이미 수록된 중국어판과 동일한 주제를 다룹니다. 게시물에 따르면 bitmap 생태계와 TapeOut 사이의 가능한 연관성을 bitmap 쪽 시각에서 분석하며, \"AI 주권\"이라는 주장으로까지 확장되는데, 저자는 이를 \"흥미롭지만, 오히려 필연에 가깝다\"고 부릅니다. 이는 추측성 개인 견해이며 TapeOut 프로토콜의 메커니즘을 설명하는 것이 아니고, 두 생태계 사이에 공식적이거나 기술적인 연관성이 있다고 주장하는 것도 아닙니다. 본 사이트는 게시물 본문만 확인했으며 영상 자체는 검토하지 않았습니다.",
+      "source_hash": "c6cce992da29176a"
+    },
+    "community-93bitmap-video-ep11-ai-value": {
+      "title": "커뮤니티 영상: TapeOut 과학 입문 · 11화 (AI와 TapeOut 가치의 관계)",
+      "summary": "93.bitmap 과학 입문 시리즈 11화로 약 8분 분량이며 2026년 9월 5일에 게시되었습니다. 게시물 본문은 \"AI가 TapeOut의 가치가 어디에 있는지를 다시 한번 정의하다\"라는 제목 아래, AI가 이미 TapeOut에 적용되고 있다는 한 줄짜리 요약뿐이며 검증 가능한 기술 자료나 수치는 제공하지 않습니다. 이는 개인 커뮤니티 의견이며 규칙, 계약, 가격, 수익 또는 시장 판단에 대한 공식 출처가 아닙니다. 본 사이트는 게시물 본문만 확인했으며 영상은 검토하지 않았으므로, 영상 속 어떠한 내용도 보증하지 않습니다.",
+      "source_hash": "c95ec7673bfc9fd9"
     }
   }
 }

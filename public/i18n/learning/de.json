@@ -1,6 +1,6 @@
 {
   "locale": "de",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -127,6 +127,16 @@
       "title": "Community-Video: TapeOut-Wissenschafts-Einführung · Folge 10 (eine spekulative Verbindung zwischen bitmap/NAT und TapeOut)",
       "summary": "Die zehnte Folge der Wissenschafts-Einführungsreihe von 93.bitmap, etwa neun Minuten. Laut dem Beitrag analysiert sie aus der Perspektive des bitmap-Ökosystems eine mögliche Verbindung zwischen dem bitmap-Ökosystem und TapeOut und erweitert dies um eine Behauptung zur „KI-Souveränität\"; der Autor formuliert dies selbst mit Einschränkungen („vielleicht\", „möglicherweise\"). Dies ist spekulativer persönlicher Kommentar, keine Beschreibung der TapeOut-Protokollmechanik, und behauptet keine Officiale oder technische Verbindung zwischen den beiden Ökosystemen.",
       "source_hash": "7dbde702110ea3bf"
+    },
+    "community-93bitmap-video-ep10-en": {
+      "title": "Community-Video: TapeOut-Wissenschaftsprimer · Episode 10, englische Ausgabe (eine spekulative Verbindung zwischen bitmap/NAT und TapeOut)",
+      "summary": "Die englische Ausgabe von Episode zehn der Wissenschaftsprimer-Serie von 93.bitmap, etwa sechseinhalb Minuten lang, behandelt dasselbe Thema wie die bereits katalogisierte chinesische Version. Laut dem Beitrag analysiert sie eine mögliche Verbindung zwischen dem bitmap-Ökosystem und TapeOut aus bitmap-seitiger Sicht und erweitert dies um eine Aussage zur „AI sovereignty“, die der Autor als „faszinierend, aber eher unvermeidlich“ bezeichnet. Dies ist spekulativer persönlicher Kommentar, keine Beschreibung der TapeOut-Protokollmechanik, und behauptet keine offizielle oder technische Verbindung zwischen den beiden Ökosystemen. Hier wurde nur der Beitragstext gelesen; das Video selbst wurde nicht geprüft.",
+      "source_hash": "c6cce992da29176a"
+    },
+    "community-93bitmap-video-ep11-ai-value": {
+      "title": "Community-Video: TapeOut-Wissenschaftsprimer · Episode 11 (KI und wo TapeOuts Wert liegt)",
+      "summary": "Die elfte Episode der Wissenschaftsprimer-Serie von 93.bitmap, etwa acht Minuten lang, veröffentlicht am 05.09.2026. Der Beitragstext besteht aus einer einzigen zusammenfassenden Zeile — dass KI bereits auf TapeOut angewendet wird — unter dem Titel „KI definiert erneut, wo TapeOuts Wert liegt“, und bietet kein verifizierbares technisches Material oder Zahlen. Dies ist persönlicher Community-Kommentar und keine offizielle Quelle für Regeln, Verträge, Preise, Erträge oder Marktaussagen. Hier wurde nur der Beitragstext gelesen; das Video wurde nicht geprüft, sodass nichts darin unterstützt wird.",
+      "source_hash": "c95ec7673bfc9fd9"
     }
   }
 }

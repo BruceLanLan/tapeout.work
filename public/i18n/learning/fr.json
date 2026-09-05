@@ -1,6 +1,6 @@
 {
   "locale": "fr",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -127,6 +127,16 @@
       "title": "Vidéo communautaire : introduction scientifique à TapeOut · épisode 10 (un lien spéculatif entre bitmap/NAT et TapeOut)",
       "summary": "Dixième épisode de la série d'introduction scientifique de 93.bitmap, d'environ neuf minutes. Selon la publication, il analyse un lien possible entre l'écosystème bitmap et TapeOut du point de vue de bitmap, en s'étendant jusqu'à une affirmation sur la « souveraineté de l'IA » ; l'auteur l'assortit lui-même de réserves (« peut-être », « il se pourrait »). Il s'agit d'un commentaire personnel spéculatif, non d'une description des mécanismes du protocole TapeOut, et cela n'affirme aucun lien officiel ou technique entre les deux écosystèmes.",
       "source_hash": "7dbde702110ea3bf"
+    },
+    "community-93bitmap-video-ep10-en": {
+      "title": "Vidéo communautaire : présentation vulgarisée de TapeOut · épisode 10, édition anglaise (une hypothèse spéculative de lien entre bitmap/NAT et TapeOut)",
+      "summary": "L'édition anglaise du dixième épisode de la série de vulgarisation de 93.bitmap, d'environ six minutes et demie, portant sur le même sujet que la version chinoise déjà cataloguée. Selon le post, elle analyse un possible lien entre l'écosystème bitmap et TapeOut du point de vue de bitmap, en s'étendant à une affirmation sur la « souveraineté de l'IA », que l'auteur qualifie lui-même d'« intrigante, mais plus probablement inévitable ». Il s'agit d'un commentaire personnel spéculatif, et non d'une description des mécanismes du protocole TapeOut ; cela n'affirme aucun lien officiel ou technique entre les deux écosystèmes. Seul le texte du post a été lu ici ; la vidéo elle-même n'a pas été examinée.",
+      "source_hash": "c6cce992da29176a"
+    },
+    "community-93bitmap-video-ep11-ai-value": {
+      "title": "Vidéo communautaire : présentation vulgarisée de TapeOut · épisode 11 (l'IA et où réside la valeur de TapeOut)",
+      "summary": "Le onzième épisode de la série de vulgarisation de 93.bitmap, d'environ huit minutes, publié le 2026-09-05. Le texte du post se résume à une seule phrase — selon laquelle l'IA est déjà appliquée sur TapeOut — sous le titre « L'IA définit une fois de plus où réside la valeur de TapeOut » — et ne fournit aucun élément technique ni aucune donnée vérifiable. Il s'agit d'un commentaire personnel de la communauté et non d'une source officielle pour les règles, les contrats, les prix, les rendements ou les évaluations de marché. Seul le texte du post a été lu ici ; la vidéo n'a pas été examinée, donc rien de son contenu n'est cautionné.",
+      "source_hash": "c95ec7673bfc9fd9"
     }
   }
 }

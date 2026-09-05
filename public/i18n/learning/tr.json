@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -127,6 +127,16 @@
       "title": "Topluluk videosu: TapeOut bilim serisi · 10. bölüm (bitmap/NAT ile TapeOut arasında spekülatif bir bağlantı)",
       "summary": "93.bitmap'in bilim serisinin onuncu bölümü, yaklaşık dokuz dakika. Gönderiye göre, bitmap ekosistemi ile TapeOut arasındaki olası bağlantıyı bitmap tarafının bakış açısından analiz eder ve bunu \"AI egemenliği\" iddiasına kadar genişletir; yazar bunu \"belki\", \"muhtemelen\" gibi çekincelerle çerçeveler. Bu, spekülatif kişisel bir yorumdur, TapeOut protokol mekaniğinin bir açıklaması değildir ve iki ekosistem arasında resmi veya teknik herhangi bir bağlantı olduğunu iddia etmez.",
       "source_hash": "7dbde702110ea3bf"
+    },
+    "community-93bitmap-video-ep10-en": {
+      "title": "Topluluk videosu: TapeOut bilim serisi · 10. bölüm, İngilizce baskı (bitmap/NAT ile TapeOut arasında spekülatif bir bağlantı)",
+      "summary": "93.bitmap'in bilim serisi onuncu bölümünün İngilizce baskısı, yaklaşık altı buçuk dakika, zaten kataloglanmış Çince sürümüyle aynı konuyu ele alıyor. Gönderiye göre, bitmap ekosistemi ile TapeOut arasındaki olası bağlantıyı bitmap tarafının bakış açısından analiz ediyor ve yazarın \"ilgi çekici, ama daha çok kaçınılmaz\" olarak nitelendirdiği \"AI egemenliği\" iddiasına uzanıyor. Bu, spekülatif kişisel bir yorumdur, TapeOut protokol mekaniğinin bir açıklaması değildir ve iki ekosistem arasında herhangi bir Official veya teknik bağlantı olduğunu iddia etmez. Burada yalnızca gönderi metni okunmuştur; videonun kendisi incelenmemiştir.",
+      "source_hash": "c6cce992da29176a"
+    },
+    "community-93bitmap-video-ep11-ai-value": {
+      "title": "Topluluk videosu: TapeOut bilim serisi · 11. bölüm (AI ve TapeOut'un değerinin nerede yattığı)",
+      "summary": "93.bitmap'in bilim serisi on birinci bölümü, yaklaşık sekiz dakika, 2026-09-05 tarihinde yayınlandı. Gönderi metni, \"AI bir kez daha TapeOut'un değerinin nerede yattığını tanımlıyor\" başlığı altında AI'nin TapeOut üzerinde zaten uygulandığını belirten tek bir özet cümleden ibarettir ve doğrulanabilir hiçbir teknik materyal veya rakam sunmaz. Bu, kişisel bir topluluk yorumudur ve kurallar, sözleşmeler, fiyatlar, getiriler veya piyasa iddiaları için Official bir kaynak değildir. Burada yalnızca gönderi metni okunmuştur; video incelenmemiştir, dolayısıyla içindeki hiçbir şey onaylanmamaktadır.",
+      "source_hash": "c95ec7673bfc9fd9"
     }
   }
 }

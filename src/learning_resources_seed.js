@@ -1,8 +1,8 @@
 // Curated learning catalog: every entry was reviewed against the public-source
 // governance note. Community entries never inherit official status; references
 // explain digital-logic concepts only and are not TapeOut Protocol tutorials.
-export const LEARNING_CATALOG_VERSION = "2026-09-04a";
-export const LEARNING_CATALOG_REVIEWED_AT = "2026-09-04T02:00:00Z";
+export const LEARNING_CATALOG_VERSION = "2026-09-06a";
+export const LEARNING_CATALOG_REVIEWED_AT = "2026-09-05T17:45:00Z";
 export const LEARNING_RESOURCES = Object.freeze([
   { id: "official-home", tier: "official", stages: ["basics", "canvas", "tapeout"], language: ["zh", "en"], title_zh: "TapeOut 官网：从 NAND/LATCH 到链上 Circuit", title_en: "TapeOut official site: from NAND/LATCH to on-chain Circuits", summary_zh: "从元件、Processor 与 Canvas 开始，先理解流片后会消耗元件并生成链上 Circuit；也披露当前合约仍可升级。", summary_en: "Start with components, Processors and Canvas; tape-out consumes components and creates an on-chain Circuit. The site also discloses that contracts remain upgradeable.", url: "https://tapeout.net/" },
   { id: "official-whitepaper", tier: "official", stages: ["basics", "tapeout"], language: ["zh"], title_zh: "TapeOut Protocol 白皮书", title_en: "TapeOut Protocol whitepaper", summary_zh: "解释晶体管 ERC-1155、电路 ERC-721、处理器工厂与链上网表，是术语和协议结构的官方参考。", summary_en: "Official reference for ERC-1155 components, ERC-721 Circuits, the Processor factory and on-chain netlists.", url: "https://tapeout.net/TapeOut-Protocol.pdf" },
@@ -58,5 +58,27 @@ export const LEARNING_RESOURCES = Object.freeze([
     summary_zh: "93.bitmap 科普系列第十集，约 9 分钟。据帖子自述，从 bitmap 生态视角分析其与 TapeOut 的可能关联，并延伸到「AI 主权」这一命题；作者自己也用「或许」「也许」描述这一猜想。这是社区个人观点的思辨性内容，不涉及 TapeOut 协议机制本身，也不代表两个生态之间存在官方或技术上的实际联系。",
     summary_en: "The tenth episode of 93.bitmap's science-primer series, about nine minutes. Per the post, it analyses a possible connection between the bitmap ecosystem and TapeOut from a bitmap-side view, extending into a claim about \"AI sovereignty\"; the author frames it with hedges (\"perhaps\", \"maybe\"). This is speculative personal commentary, not a description of TapeOut protocol mechanics, and does not assert any official or technical link between the two ecosystems.",
     url: "https://x.com/93bitmap/status/2095553320433889692"
+  },
+  {
+    id: "community-93bitmap-video-ep10-en",
+    tier: "community",
+    stages: ["basics"],
+    language: ["en"],
+    title_zh: "社区英文视频：科普第十集·bitmap 与 tapeout 的关联猜想（英文版）",
+    title_en: "Community video: TapeOut science primer \u00b7 episode 10, English edition (a speculative link between bitmap/NAT and TapeOut)",
+    summary_zh: "93.bitmap 科普系列第十集的英文版，约 6.5 分钟，与已收录的中文版是同一主题。据帖子自述，从 bitmap 生态视角分析其与 TapeOut 的可能关联，并延伸到「AI 主权」这一命题，作者自己称这个话题「或许有趣，更可能是必然」。这是社区个人观点的思辨性内容，不涉及 TapeOut 协议机制本身，也不代表两个生态之间存在官方或技术上的实际联系。本站只读取了帖子正文，没有核验视频内容。",
+    summary_en: "The English edition of episode ten of 93.bitmap\u0027s science-primer series, about six and a half minutes, covering the same subject as the Chinese version already catalogued. Per the post, it analyses a possible connection between the bitmap ecosystem and TapeOut from a bitmap-side view, extending into a claim about \"AI sovereignty\", which the author calls \"intriguing, but more likely inevitable\". This is speculative personal commentary, not a description of TapeOut protocol mechanics, and does not assert any official or technical link between the two ecosystems. Only the post text was read here; the video itself was not reviewed.",
+    url: "https://x.com/93bitmap/status/2096093572063781302"
+  },
+  {
+    id: "community-93bitmap-video-ep11-ai-value",
+    tier: "community",
+    stages: ["basics"],
+    language: ["zh"],
+    title_zh: "社区中文视频：科普第十一集·AI 与 tapeout 价值的关系",
+    title_en: "Community video: TapeOut science primer \u00b7 episode 11 (AI and where TapeOut\u0027s value lies)",
+    summary_zh: "93.bitmap 科普系列第十一集，约 8 分钟，2026 年 9 月 5 日发布。帖子正文只有一句话概述——称 AI 在 tapeout 上已有应用，并以「AI 再次定义 tapeout 的价值所在」为题——没有给出可核验的技术材料或数据。这是社区个人观点，不代表官网规则、合约、价格、收益或市场判断。本站只读取了帖子正文，没有核验视频内容，因此不对片中的具体主张背书。",
+    summary_en: "The eleventh episode of 93.bitmap\u0027s science-primer series, about eight minutes, posted 2026-09-05. The post text is a single summarising line \u2014 that AI is already being applied on TapeOut, under the title \"AI once again defines where TapeOut\u0027s value lies\" \u2014 and offers no verifiable technical material or figures. This is personal community commentary and is not an official source for rules, contracts, prices, returns or market claims. Only the post text was read here; the video was not reviewed, so nothing in it is endorsed.",
+    url: "https://x.com/93bitmap/status/2096239791788691856"
   }
 ]);

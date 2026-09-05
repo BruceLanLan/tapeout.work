@@ -1,6 +1,6 @@
 {
   "locale": "pt",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T16:45:00Z",
   "translations": {
     "official-home": {
@@ -127,6 +127,16 @@
       "title": "Vídeo comunitário: introdução científica ao TapeOut · episódio 10 (uma ligação especulativa entre bitmap/NAT e TapeOut)",
       "summary": "Décimo episódio da série introdutória científica de 93.bitmap, com cerca de nove minutos. Segundo a publicação, analisa uma possível conexão entre o ecossistema bitmap e o TapeOut a partir de uma perspectiva do lado do bitmap, estendendo-se a uma alegação sobre \"soberania de IA\"; o autor a apresenta com ressalvas (\"talvez\", \"possivelmente\"). Trata-se de comentário pessoal especulativo, não uma descrição dos mecanismos do protocolo TapeOut, e não afirma qualquer ligação oficial ou técnica entre os dois ecossistemas.",
       "source_hash": "7dbde702110ea3bf"
+    },
+    "community-93bitmap-video-ep10-en": {
+      "title": "Vídeo da comunidade: cartilha científica do TapeOut · episódio 10, edição em inglês (uma ligação especulativa entre bitmap/NAT e TapeOut)",
+      "summary": "A edição em inglês do décimo episódio da série de cartilha científica da 93.bitmap, com cerca de seis minutos e meio, aborda o mesmo tema da versão em chinês já catalogada. Segundo a publicação, ela analisa uma possível conexão entre o ecossistema bitmap e o TapeOut a partir da perspectiva do bitmap, estendendo-se a uma afirmação sobre \"soberania da IA\", que o autor chama de \"intrigante, mas mais provavelmente inevitável\". Este é um comentário pessoal especulativo, não uma descrição dos mecanismos do protocolo TapeOut, e não afirma nenhuma ligação oficial ou técnica entre os dois ecossistemas. Apenas o texto da publicação foi lido aqui; o vídeo em si não foi revisado.",
+      "source_hash": "c6cce992da29176a"
+    },
+    "community-93bitmap-video-ep11-ai-value": {
+      "title": "Vídeo da comunidade: cartilha científica do TapeOut · episódio 11 (a IA e onde reside o valor do TapeOut)",
+      "summary": "O décimo primeiro episódio da série de cartilha científica da 93.bitmap, com cerca de oito minutos, publicado em 5 de setembro de 2026. O texto da publicação é uma única linha resumida — de que a IA já está sendo aplicada no TapeOut, sob o título \"A IA volta a definir onde reside o valor do TapeOut\" — e não oferece material técnico ou dados verificáveis. Este é um comentário pessoal da comunidade e não constitui fonte oficial para regras, contratos, preços, retornos ou avaliações de mercado. Apenas o texto da publicação foi lido aqui; o vídeo não foi revisado, portanto nada em seu conteúdo é endossado.",
+      "source_hash": "c95ec7673bfc9fd9"
     }
   }
 }
