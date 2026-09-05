@@ -1,4 +1,4 @@
-export const ECOSYSTEM_CATALOG_VERSION = "2026-09-04a";
+export const ECOSYSTEM_CATALOG_VERSION = "2026-09-06a";
 export const ECOSYSTEM_REVIEWED_AT = "2026-09-01T04:00:00Z";
 
 // This directory contains only source-reviewed public material. Source tier, author,
@@ -305,14 +305,14 @@ export const CURATED_TOOLS = Object.freeze([
     operator: "Firsto",
     url: "https://tapeout.firsto.ai/",
     original_language: "zh",
-    reviewed_at: "2026-09-03T05:47:54Z",
+    reviewed_at: "2026-09-05T16:55:00Z",
     title_en: "TapeOut Firsto marketplace",
     title_zh: "TapeOut Firsto 晶体管与矿机市场",
-    summary_en: "Third-party ecosystem trading surface for TapeOut-related transistor and mining-machine listings, presenting itself as a professional trading terminal rather than a listings board. Behind the landing page it serves a live per-fill trade tape: every fill shows buy or sell direction, total BNB, quantity, unit price, the counterparty wallet and a BscScan transaction link, running hours deep. Scope note: that tape was the only surface this review could retrieve — no navigation and no other sections came back — so this describes what the interior shows, not the full extent of what the site offers. Use it as a discovery and market-reading surface, separate from official protocol and ownership data.",
-    summary_zh: "第三方生态交易入口，展示 TapeOut 相关晶体管与矿机条目，自我定位为「专业交易终端」而非单纯的挂单板。落地页之后确实提供一条实时逐笔成交流水：每一笔都给出买入/卖出方向、总 BNB、数量、单价、对手方钱包，以及一个 BscScan 交易链接，可回溯数小时。范围说明：本次审核只取回了这一个界面，导航和其他板块都没有取回，所以以上写的是内部展示了什么，不代表该站提供的全部内容。可用于发现和阅读市场信息，但应与官方协议和持仓数据分开看待。",
-    use_cases: ["market-discovery", "listing-reading", "ecosystem"],
-    safety_en: "Community marketplace, not an official price or ownership source. Listings, displayed prices and availability can change and do not guarantee execution; verify contracts and signing requests independently.",
-    safety_zh: "社区市场，不是官方价格或持仓来源。挂单、显示价格和可用性会变化，且不保证成交；应独立核验合约与签名请求。"
+    summary_en: "Third-party ecosystem trading surface for TapeOut-related transistor and mining-machine listings, presenting itself as a professional trading terminal rather than a listings board. Behind the landing page it serves a live per-fill trade tape: every fill shows buy or sell direction, total BNB, quantity, unit price, the counterparty wallet and a BscScan transaction link, running hours deep. Scope note: that tape was the only surface this review could retrieve — no navigation and no other sections came back — so this describes what the interior shows, not the full extent of what the site offers. Use it as a discovery and market-reading surface, separate from official protocol and ownership data. A separate /data/bem section publishes its own $BEM analytics: price, cumulative and daily emission, 24-hour claims, holder count, pooled liquidity, a price and volume chart with high, low and VWAP, and 24-hour buy, sell and net flow. Two views there are not published elsewhere we have seen — a breakdown of where claimed $BEM went, splitting each day's claims into held at the claiming address, sold, added to liquidity, or moved and still held; and a holder-distribution view giving top-10, top-50 and top-200 shares, a Gini coefficient, and a split of supply across ordinary, miner, liquidity-pool and protocol addresses.",
+    summary_zh: "第三方生态交易入口，展示 TapeOut 相关晶体管与矿机条目，自我定位为「专业交易终端」而非单纯的挂单板。落地页之后确实提供一条实时逐笔成交流水：每一笔都给出买入/卖出方向、总 BNB、数量、单价、对手方钱包，以及一个 BscScan 交易链接，可回溯数小时。范围说明：本次审核只取回了这一个界面，导航和其他板块都没有取回，所以以上写的是内部展示了什么，不代表该站提供的全部内容。可用于发现和阅读市场信息，但应与官方协议和持仓数据分开看待。站内另有 /data/bem 数据板块，发布它自己的 $BEM 分析：价格、累计与每日产出、24 小时 Claim 量、持币地址数、双池流动性，以及带最高价、最低价与 VWAP 的价格成交量图和 24 小时买入、卖出与净流入。其中两项是我们在别处没有见过的——一是 Claim 去向拆解，把每日 Claim 分成原地址持有、已卖出、已加流动性、转出后持有；二是持仓分布，给出 Top 10 / Top 50 / Top 200 占比、基尼系数，以及普通地址、矿工地址、流动池与协议地址各自持有的份额。",
+    use_cases: ["market-discovery", "listing-reading", "ecosystem", "analytics"],
+    safety_en: "Community marketplace, not an official price or ownership source. Listings, displayed prices and availability can change and do not guarantee execution; verify contracts and signing requests independently. The /data/bem analytics are computed by this operator with methodology it does not publish, so treat every figure there as one party\u0027s reading of the chain rather than a settled number \u2014 particularly the claim-destination split, which depends entirely on how it decides an address sold, pooled or merely moved its $BEM.",
+    safety_zh: "社区市场，不是官方价格或持仓来源。挂单、显示价格和可用性会变化，且不保证成交；应独立核验合约与签名请求。/data/bem 的分析数据由该运营方自行计算、口径未公开，因此那里的每个数字都应视为一方对链上的读数、而非已有定论的结论——尤其是 Claim 去向的拆分，它完全取决于该方如何判定一个地址是卖出、加池还是仅仅转移了 $BEM。"
   },
   {
     id: "tool-tapeout-market",
@@ -418,6 +418,27 @@ export const CURATED_TOOLS = Object.freeze([
     use_cases: ["analytics", "price-tracking", "community-research"],
     safety_en: "Independent community dashboard, not an official price or protocol source, and deliberately not embedded live on this site: its author can revise it at any time, and a change we have not reviewed should not appear here as though we had checked it. FDV/market-cap figures assume a fixed maximum-supply model; verify methodology on Dune before relying on any number.",
     safety_zh: "独立社区看板，不是官方价格或协议来源，本站也不做实时嵌入，以免作者随时修改而我们未经审核；FDV/市值假设了固定最大供给量模型，使用前应在 Dune 上核实计算口径。"
+  },
+  {
+    id: "tool-tapeoutscan",
+    // The operator's own banner says the site and its data are updated continuously
+    // during the beta, and the page is dominated by a live event feed — an asset hash
+    // here would report the build, not the product.
+    drift_profile: "structure",
+    wallet_risk: "read_only",
+    category: "data",
+    tier: "community",
+    operator: "Benson",
+    url: "https://tapeoutexplorer.com/",
+    original_language: "zh",
+    reviewed_at: "2026-09-05T16:50:00Z",
+    title_en: "TapeOutScan explorer",
+    title_zh: "TapeOutScan 公开数据浏览器",
+    summary_en: "Community block explorer for TapeOut on BNB Smart Chain, still self-declared as in beta. Its front page runs a live protocol event feed — commits, tape-outs, leaderboard entries and exits, fraud calls, trades and transfers — each row carrying a block number, a timestamp and a BscScan transaction link, with its own per-circuit and per-address pages behind them. Alongside it: a searchable public miner index, a market strip quoting BNB, $BEM and NAND/LATCH for both TapeOut and Behemoth, and hourly charts for on-chain activity, network hashrate and mining addresses. The site publishes its own data policy, separating evidence read once at a circuit's first sighting from on-chain state it refreshes on a cycle and from market-derived figures it recomputes and never caches as evidence.",
+    summary_zh: "面向 BNB Smart Chain 上 TapeOut 的社区区块浏览器，作者自述仍在内测。首页是一条实时协议事件流——承诺、流片、上榜与掉榜、打假、买卖与转移——每条都带区块号、时间戳和 BscScan 交易链接，并可下钻到它自建的电路页与地址页。此外提供可搜索的公开矿机索引、同时覆盖 TapeOut 与 Behemoth 的 BNB / $BEM / NAND / LATCH 行情条，以及链上活跃、全网算力与挖矿地址的分时图表。该站公开了自己的数据口径，把「电路首次发现时录入的固定证据」「按周期刷新的链上状态」与「每次重算、从不作为证据缓存的市场派生值」三者明确分开。",
+    use_cases: ["analytics", "processor-observation", "community-research"],
+    safety_en: "Third-party and non-profit by its own statement, unaffiliated with the protocol team, and labelled beta with a standing warning that its data and pages may be unstable — treat every figure as provisional and confirm anything that matters against the chain or the official site. Its market-derived values, including estimated daily output, manufacturing cost and static payback period, are that tool's own model output, not protocol guarantees, and are not adopted here. This review covers the front page and its published data policy; the leaderboard did not return content to us, so nothing here describes it.",
+    safety_zh: "作者自述为第三方公益项目、与项目方无关，且站点标注内测并长期挂着「数据与网页可能不稳定」的提示——所有数字都应视为暂定值，重要结论请回到链上或官网核对。它的市场派生值（预计日产、制造价、静态回本等）是该工具自己的模型结果，不是协议保证，本站不予采纳。本次审核覆盖首页及其公开的数据口径说明；排行页未能取回内容，因此本条目不描述排行页。"
   },
   {
     id: "tool-tapeout-factory",

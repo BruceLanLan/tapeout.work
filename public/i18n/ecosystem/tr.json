@@ -1,6 +1,6 @@
 {
   "locale": "tr",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -104,10 +104,10 @@
         "source_hash": "816e06b872490e51"
       },
       "tool-tapeout-firsto": {
-        "title": "TapeOut Firsto marketplace",
-        "summary": "TapeOut ile ilgili transistör ve madencilik makinesi ilanlarını sunan üçüncü taraf bir ticaret platformu; kendisini bir ilan panosu değil, profesyonel bir işlem terminali olarak tanıtıyor. Açılış sayfasının arkasında, gerçekleşen her işlem için canlı bir işlem şeridi sunuyor: her işlemde alış veya satış yönü, toplam BNB, miktar, birim fiyat, karşı taraf cüzdanı ve BscScan işlem bağlantısı görünüyor ve saatler geriye gidiyor. Kapsam notu: bu inceleme yalnızca bu şeridi alabildi — ne gezinme menüsü ne de başka bir bölüm döndü — dolayısıyla burada yazılan, iç kısmın ne gösterdiğidir; sitenin sunduğu her şey değildir. Resmî protokol ve sahiplik verilerinden ayrı olarak, keşif ve piyasa okuma amacıyla kullanın.",
-        "safety": "Community pazar yeri; Official fiyat veya mülkiyet kaynağı değildir. İlanlar, görüntülenen fiyatlar ve bulunabilirlik değişebilir ve işlem garantisi vermez; sözleşmeleri ve imza taleplerini bağımsız doğrulayın.",
-        "source_hash": "44993632bbb3c39c"
+        "title": "TapeOut Firsto pazaryeri",
+        "summary": "TapeOut ile ilgili transistör ve madencilik makinesi ilanları için üçüncü taraf ekosistem alım satım yüzeyi; kendisini bir ilan panosu değil, profesyonel bir alım satım terminali olarak sunar. Açılış sayfasının arkasında, dolum başına canlı bir alım satım akışı sunar: her dolum, alış veya satış yönünü, toplam BNB, miktar, birim fiyat, karşı taraf cüzdanını ve bir BscScan işlem bağlantısını gösterir; bu akış saatler boyunca geriye uzanır. Kapsam notu: bu inceleme sırasında elde edilebilen tek yüzey bu akıştı — ne gezinme menüsü ne de başka bir bölüm geri döndü — bu nedenle burada anlatılan, iç kısmın ne gösterdiğidir, sitenin sunduğu her şeyin tam kapsamı değildir. Bunu, resmi protokol ve sahiplik verilerinden ayrı bir keşif ve piyasa okuma yüzeyi olarak kullanın. Ayrı bir /data/bem bölümü kendi $BEM analitiğini yayınlar: fiyat, kümülatif ve günlük emisyon, 24 saatlik claim'ler, sahip sayısı, havuzlanmış likidite, en yüksek, en düşük ve VWAP değerlerini içeren bir fiyat ve hacim grafiği, ve 24 saatlik alış, satış ve net akış. Orada, başka yerde görmediğimiz iki görünüm var — claim edilen $BEM'in nereye gittiğinin dökümü, her günün claim'lerini claim eden adreste tutulan, satılan, likiditeye eklenen veya taşınıp hâlâ tutulan olarak ayırır; ve top-10, top-50 ve top-200 paylarını, bir Gini katsayısını ve arzın sıradan, madenci, likidite havuzu ve protokol adresleri arasındaki bölünmesini veren bir sahip dağılımı görünümü.",
+        "safety": "Topluluk pazaryeri, resmi bir fiyat veya sahiplik kaynağı değildir. İlanlar, gösterilen fiyatlar ve müsaitlik değişebilir ve işlemin gerçekleşeceğini garanti etmez; sözleşmeleri ve imza taleplerini bağımsız olarak doğrulayın. /data/bem analitiği, bu operatör tarafından yayınlamadığı bir yöntemle hesaplanır, bu nedenle oradaki her rakamı kesinleşmiş bir sayı değil, tek bir tarafın zincire dair okuması olarak değerlendirin — özellikle bir adresin $BEM'ini sattığına, havuza eklediğine veya yalnızca taşıdığına nasıl karar verdiğine tamamen bağlı olan claim-hedefi dökümü için.",
+        "source_hash": "87b54b3fdb686493"
       },
       "tool-tapeout-market": {
         "title": "TapeOut Market",
@@ -192,6 +192,12 @@
         "summary": "Protokol kurucusu @Blonskr'ın kendi X profilinde yer alan Telegram grubu. Kayda alma gerekçesi budur: bu dizin onun paylaşımlarını zaten Official düzeyde bir kaynak olarak ele alıyor, dolayısıyla kendi profilinden bağladığı bir kanal aynı ölçütle desteklenmiş sayılır.",
         "safety": "Official olarak güvenmeden önce lehte ve aleyhte kanıtların ikisini de okuyun. Lehte: kurucunun kendi X profili bu bağlantıyı içeriyor. Aleyhte: tapeout.net hiçbir sosyal bağlantı yayımlamıyor — ne Telegram, ne X, ne Discord, ne GitHub — dolayısıyla protokolün kendi sitesi karşılaştırılacak hiçbir şey sunmuyor ve yalnızca Official siteye güvenen bir okur burada doğrulama bulamaz. Protokole benzeyen bir grup adı hiçbir zaman tek başına kanıt değildir. Durumu ne olursa olsun, her sohbette geçerli kural aynıdır: proje sizin adınıza tasarlamak veya TapeOut yapmak için size özelden yazmaz ve sohbette paylaşılan her sözleşme adresi imzalamadan önce Official siteyle karşılaştırılmalıdır.",
         "source_hash": "e0d7af2cb5b58ce5"
+      },
+      "tool-tapeoutscan": {
+        "title": "TapeOutScan gezgini",
+        "summary": "BNB Smart Chain üzerinde TapeOut için topluluk blok gezgini; kendisini hâlâ beta aşamasında olarak tanımlıyor. Ön sayfası canlı bir protokol olay akışı çalıştırır — commit'ler, tape-out'lar, liderlik tablosuna giriş ve çıkışlar, sahtecilik iddiaları, alım satımlar ve transferler — her satır bir blok numarası, bir zaman damgası ve bir BscScan işlem bağlantısı taşır ve bunların arkasında kendi Circuit başına ve adres başına sayfaları vardır. Bunun yanında: aranabilir bir kamuya açık madenci dizini, hem TapeOut hem de Behemoth için BNB, $BEM ve NAND/LATCH fiyatlarını veren bir piyasa şeridi, ve zincir üstü etkinlik, ağ hashrate'i ve madencilik adresleri için saatlik grafikler bulunur. Site kendi veri politikasını yayınlar; bir Circuit'in ilk görüldüğü anda bir kez okunan kanıtı, döngüsel olarak yenilediği zincir üstü durumdan ve yeniden hesapladığı ve asla kanıt olarak önbelleğe almadığı piyasa kaynaklı rakamlardan ayırır.",
+        "safety": "Kendi ifadesine göre üçüncü taraf ve kâr amacı gütmeyen bir yapı olup protokol ekibiyle bağlantılı değildir; beta olarak etiketlenmiştir ve verilerinin ve sayfalarının kararsız olabileceğine dair kalıcı bir uyarı taşır — her rakamı geçici kabul edin ve önemli olan her şeyi zincir üzerinde veya resmi sitede doğrulayın. Tahmini günlük üretim, üretim maliyeti ve statik geri ödeme süresi de dahil olmak üzere piyasa kaynaklı değerleri, bu aracın kendi model çıktısıdır, protokol garantisi değildir ve burada benimsenmemiştir. Bu inceleme ön sayfayı ve yayınlanan veri politikasını kapsar; liderlik tablosu bize içerik döndürmedi, bu nedenle burada onu tanımlayan hiçbir şey yoktur.",
+        "source_hash": "99cea4ebb4aa02cf"
       }
     }
   }

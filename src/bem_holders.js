@@ -1,9 +1,37 @@
 import { BSC_CHAIN_ID, BSC_LOGS_RPC_SECRET, BEM_TOKEN_ADDRESS } from "./constants.js";
 import { hexToNumber, hexToBigInt, topicAddress, dataWord, toBigInt } from "./util.js";
-import { rpc } from "./market.js";
+import { rpc, marketRpcUrl } from "./market.js";
 import { fetchGecko } from "./bem_trades.js";
 import { BSC_ARCHIVE_RPC_SECRET } from "./constants.js";
 const holdersRpcUrl = env => String(env[BSC_ARCHIVE_RPC_SECRET] || "").trim();
+
+// The archive provider stopped answering Cloudflare's egress entirely on 2026-09-05 —
+// 90 consecutive timeouts over seven hours, while the same endpoint answered instantly
+// from a laptop — and the census froze because even eth_blockNumber went through it.
+// An archive node is only needed to reach *history*; once the census is caught up it
+// scans near the chain head, which the market provider already serves for the Circuit
+// Market feed. So try archive first and fall back to it. A window the fallback refuses
+// as an archive request still fails the tick, which is the honest outcome: that gap
+// genuinely needs an archive node, and the backfill script is how it gets closed.
+//
+// Retrying a provider that is simply down, once per window, wastes the tick's budget on
+// round-trips whose answer is already known — so a run remembers it. Only unavailability
+// counts: a provider that answers "this range needs an archive node" or "range extends
+// beyond head" is working fine and may well serve the next, newer window.
+const PROVIDER_UNAVAILABLE = /timed out|-32002|HTTP 5\d\d|HTTP 429|network|fetch failed/i;
+async function holdersRpc(env, method, params, down = null) {
+  const endpoints = [...new Set([holdersRpcUrl(env), marketRpcUrl(env)].filter(Boolean))];
+  let lastError = null;
+  for (const endpoint of endpoints) {
+    if (down?.has(endpoint)) continue;
+    try { return await rpc(env, method, params, endpoint); }
+    catch (error) {
+      lastError = error;
+      if (down && PROVIDER_UNAVAILABLE.test(String(error?.message || error))) down.add(endpoint);
+    }
+  }
+  throw lastError || new Error("no RPC endpoint is configured for the holder census");
+}
 
 // keccak256("Transfer(address,address,uint256)")
 const BEM_TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
@@ -91,7 +119,9 @@ async function applyTransferWindow(env, logs, windowEnd, observedAt) {
 export async function syncBemHolders(env) {
   await ensureBemHoldersSchema(env);
   if (!holdersRpcUrl(env)) return { synced: false, status: "not_configured", transfers: 0 };
-  const latest = hexToNumber(await rpc(env, "eth_blockNumber", [], holdersRpcUrl(env)));
+  // One "down provider" memo per run, shared by every RPC call the run makes.
+  const downProviders = new Set();
+  const latest = hexToNumber(await holdersRpc(env, "eth_blockNumber", [], downProviders));
   const finalized = Math.max(0, latest - BEM_HOLDER_CONFIRMATIONS);
   const checkpoint = await env.DB.prepare("SELECT block_number FROM bem_holder_checkpoints WHERE source_key = 'bem_token_transfer'").first();
   // Unlike market.js, a fresh scan is NOT clamped to recent blocks: a balance
@@ -106,7 +136,7 @@ export async function syncBemHolders(env) {
   for (let from = start; from <= end;) {
     const to = Math.min(end, from + window - 1);
     let logs;
-    try { logs = await rpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], holdersRpcUrl(env)); }
+    try { logs = await holdersRpc(env, "eth_getLogs", [{ address: BEM_TOKEN_ADDRESS, topics: [BEM_TRANSFER_TOPIC], fromBlock: `0x${from.toString(16)}`, toBlock: `0x${to.toString(16)}` }], downProviders); }
     catch (error) {
       // The archive node times out (-32002) or 502s on ranges it finds heavy; halve
       // and retry the same range rather than fail the whole tick.

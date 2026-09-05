@@ -1,6 +1,6 @@
 {
   "locale": "es",
-  "source_catalog_version": "2026-09-04a",
+  "source_catalog_version": "2026-09-06a",
   "reviewed_at": "2026-08-26T03:00:00Z",
   "translation_scope": "TapeOut Intelligence reviewed display copy only; source URL, author, original language, source tier and evidence fields remain canonical.",
   "translations": {
@@ -104,10 +104,10 @@
         "source_hash": "816e06b872490e51"
       },
       "tool-tapeout-firsto": {
-        "title": "TapeOut Firsto marketplace",
-        "summary": "Plataforma de negociación de terceros para listados de transistores y máquinas de minería relacionados con TapeOut, que se presenta como un terminal de trading profesional y no como un simple tablón de anuncios. Detrás de la página de inicio ofrece una cinta de operaciones en vivo, ejecución por ejecución: cada una muestra la dirección de compra o venta, el BNB total, la cantidad, el precio unitario, la wallet de la contraparte y un enlace a la transacción en BscScan, con varias horas de profundidad. Nota sobre el alcance: esa cinta fue la única superficie que esta revisión pudo obtener — no se recuperó ni la navegación ni ninguna otra sección —, por lo que esto describe lo que muestra el interior, no todo lo que el sitio ofrece. Úsela para descubrir y leer el mercado, de forma separada de los datos oficiales de protocolo y titularidad.",
-        "safety": "Marketplace Community, no es una fuente Official de precios o propiedad. Los listados, precios mostrados y disponibilidad pueden cambiar y no garantizan ejecución; verifique contratos y solicitudes de firma de forma independiente.",
-        "source_hash": "44993632bbb3c39c"
+        "title": "Mercado TapeOut Firsto",
+        "summary": "Superficie de comercio de un ecosistema de terceros para listados de transistores y máquinas de mining relacionados con TapeOut, que se presenta a sí misma como una terminal de trading profesional en lugar de un tablero de anuncios. Detrás de la página de aterrizaje, ofrece una cinta de operaciones en vivo, ejecución por ejecución: cada ejecución muestra la dirección de compra o venta, el total en BNB, la cantidad, el precio unitario, la wallet de la contraparte y un enlace de transacción de BscScan, con un historial que se extiende varias horas atrás. Nota de alcance: esa cinta fue la única superficie que esta revisión pudo recuperar — no se obtuvo navegación ni ninguna otra sección — por lo que esto describe lo que muestra el interior, no el alcance total de lo que ofrece el sitio. Úsela como superficie de descubrimiento y lectura de mercado, separada de los datos oficiales del protocolo y de propiedad. Una sección separada /data/bem publica su propia analítica de $BEM: precio, emisión acumulada y diaria, claims de 24 horas, número de holders, liquidez agrupada, un gráfico de precio y volumen con máximo, mínimo y VWAP, y flujo de compra, venta y neto de 24 horas. Dos vistas allí no están publicadas en ningún otro lugar que hayamos visto — un desglose de adónde fue el $BEM reclamado, dividiendo los claims de cada día en mantenido en la dirección que reclamó, vendido, agregado a liquidez, o movido y aún mantenido; y una vista de distribución de holders que da las participaciones de los 10, 50 y 200 principales, un coeficiente de Gini, y una división del suministro entre direcciones ordinarias, mineras, de pool de liquidez y de protocolo.",
+        "safety": "Mercado comunitario, no una fuente oficial de precios ni de propiedad. Los listados, los precios mostrados y la disponibilidad pueden cambiar y no garantizan la ejecución; verifique los contratos y las solicitudes de firma de forma independiente. La analítica de /data/bem es calculada por este operador con una metodología que no publica, por lo que cada cifra allí debe tratarse como la lectura de una parte sobre la cadena y no como un número definitivo — en particular el desglose de destino de los claims, que depende enteramente de cómo este decide si una dirección vendió, agregó a un pool o simplemente movió su $BEM.",
+        "source_hash": "87b54b3fdb686493"
       },
       "tool-tapeout-market": {
         "title": "TapeOut Market",
@@ -192,6 +192,12 @@
         "summary": "El grupo de Telegram que figura en el propio perfil de X del fundador del protocolo, @Blonskr. Esa es la base para incluirlo: este directorio ya trata sus publicaciones como fuente de nivel Official, de modo que un canal que él enlaza desde su propio perfil queda respaldado por el mismo criterio.",
         "safety": "Lea las pruebas a favor y en contra antes de darlo por Official. A favor: el propio perfil de X del fundador lo enlaza. En contra: tapeout.net no publica ningún enlace social —ni Telegram, ni X, ni Discord, ni GitHub—, así que el propio sitio del protocolo no ofrece nada con lo que contrastarlo, y quien solo confíe en la web Official no obtiene aquí confirmación alguna. Un nombre de grupo parecido al del protocolo nunca es prueba por sí mismo. Sea cual sea su condición, dentro de cualquier chat rige la norma de siempre: el proyecto no le escribe por privado para diseñar ni hacer TapeOut en su nombre, y toda dirección de contrato publicada en un chat debe cotejarse con el sitio Official antes de firmar.",
         "source_hash": "e0d7af2cb5b58ce5"
+      },
+      "tool-tapeoutscan": {
+        "title": "Explorador TapeOutScan",
+        "summary": "Explorador de bloques comunitario para TapeOut en BNB Smart Chain, todavía autodeclarado en beta. Su página de inicio ejecuta un feed en vivo de eventos del protocolo — commits, TapeOuts, entradas y salidas del leaderboard, denuncias de fraude, operaciones y transferencias — cada fila con un número de bloque, una marca de tiempo y un enlace de transacción de BscScan, con sus propias páginas por Circuit y por dirección detrás de ellas. Junto a esto: un índice público de mineros que se puede buscar, una franja de mercado que cotiza BNB, $BEM y NAND/LATCH tanto para TapeOut como para Behemoth, y gráficos por hora de la actividad on-chain, el hashrate de la red y las direcciones mineras. El sitio publica su propia política de datos, separando la evidencia leída una sola vez en el primer avistamiento de un Circuit, del estado on-chain que actualiza en ciclos, y de las cifras derivadas del mercado que recalcula y nunca almacena en caché como evidencia.",
+        "safety": "Según su propia declaración, es de terceros y sin fines de lucro, no está afiliado al equipo del protocolo, y está etiquetado como beta con una advertencia permanente de que sus datos y páginas pueden ser inestables — trate cada cifra como provisional y confirme cualquier cosa que importe contra la cadena o el sitio oficial. Sus valores derivados del mercado, incluidos el rendimiento diario estimado, el costo de fabricación y el período de recuperación estático, son resultados del propio modelo de esa herramienta, no garantías del protocolo, y no se adoptan aquí. Esta revisión cubre la página de inicio y su política de datos publicada; el leaderboard no devolvió contenido para nosotros, por lo que nada aquí lo describe.",
+        "source_hash": "99cea4ebb4aa02cf"
       }
     }
   }
