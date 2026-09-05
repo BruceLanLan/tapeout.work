@@ -212,10 +212,12 @@ export async function bemHoldersOverview(env) {
   ]);
   const configured = Boolean(holdersRpcUrl(env));
   const checkpointAgeMinutes = checkpoint ? Math.max(0, Math.round((Date.now() - Date.parse(checkpoint.updated_at)) / 60000)) : null;
+  // One failed tick is not a broken census: the archive provider refuses most ticks by
+  // design, and the checkpoint it already holds may be two minutes old. Age governs;
+  // the failed attempt is reported next to it as last_attempt_failed and in latest_sync.
   const censusStatus = !configured ? "not_configured"
     : !checkpoint ? "pending"
-    : latestSync?.status === "error" ? "error"
-    : checkpointAgeMinutes != null && checkpointAgeMinutes > BEM_HOLDERS_HEALTH_MINUTES ? "stale"
+    : checkpointAgeMinutes == null || checkpointAgeMinutes > BEM_HOLDERS_HEALTH_MINUTES ? "stale"
     : "ok";
   // Headline status: the census when healthy, else the third-party figure when held.
   const status = censusStatus === "ok" ? "ok" : thirdParty?.holder_count != null ? "third_party" : censusStatus;
@@ -225,6 +227,7 @@ export async function bemHoldersOverview(env) {
     token_address: BEM_TOKEN_ADDRESS,
     status,
     census_status: censusStatus,
+    last_attempt_failed: latestSync?.status === "error",
     // When both figures exist, say how far apart they are rather than making the
     // reader compare two numbers in different blocks of the response.
     reconciliation: checkpoint && thirdParty?.holder_count != null ? {

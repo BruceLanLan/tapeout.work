@@ -103,12 +103,17 @@ export async function dailyActivity(env, query = new URLSearchParams()) {
 
 // The run table stores "ok"; the page and the other domains speak "healthy".
 // A last run older than four ticks is stale even if it succeeded.
-function marketStatus(env, run) {
+function marketStatus(env, run, lastSuccessRun = null) {
   if (!marketRpcUrl(env)) return "not_configured";
   if (!run) return "pending";
-  const age = Date.now() - Date.parse(run.attempted_at || "");
-  if (run.status === "ok") return Number.isFinite(age) && age > 20 * 60000 ? "stale" : "healthy";
-  return run.status;
+  // The log provider rate-limits Cloudflare's shared egress, so roughly three ticks in
+  // four fail by design. Returning the latest attempt's status made the domain read
+  // "error" while the scan was keeping pace perfectly well. Judge the data by when it
+  // was last actually advanced; the failing attempt stays visible in last_run.
+  const successAt = (run.status === "ok" ? run.attempted_at : null) || lastSuccessRun?.attempted_at || null;
+  if (!successAt) return run.status === "error" ? "error" : "pending";
+  const age = Date.now() - Date.parse(successAt);
+  return Number.isFinite(age) && age > 20 * 60000 ? "stale" : "healthy";
 }
 
 export async function dataHealth(env) {
@@ -123,17 +128,18 @@ export async function dataHealth(env) {
   // throws (a background sync hitting the D1 daily write limit did this once and took
   // the whole response down with a 500) is reported as its own error status instead.
   const guarded = (label, promise) => promise.catch(error => ({ status: "error", error: `${label}: ${String(error?.message || error).slice(0, 200)}` }));
-  const [, snapshot, refreshRun, market, airdrop, bem, community_processor_board, official_three_assets, transistor_candles] = await Promise.all([
+  const [, snapshot, refreshRun, market, marketSuccess, airdrop, bem, community_processor_board, official_three_assets, transistor_candles] = await Promise.all([
     guarded("freshness_recovery", ensureFreshnessRecovery(env)),
     env.DB.prepare("SELECT observed_at, processor_count FROM snapshots WHERE processor_count > 0 ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, source_generated_at, processor_count, changed_processors, error FROM refresh_runs ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, from_block, to_block, sale_count, error FROM market_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM market_sync_runs WHERE status = 'ok' ORDER BY id DESC LIMIT 1").first(),
     guarded("airdrop", airdropOverview(env)), guarded("bem", bemHealth(env)), guarded("community_processor_board", communityProcessorBoardHealth(env)), guarded("official_three_assets", officialAssetsHealth(env)), guarded("transistor_candles", transistorCandlesHealth(env)),
   ]);
   const checkedAgeMinutes = refreshRun?.attempted_at ? Math.max(0, Math.round((Date.now() - Date.parse(refreshRun.attempted_at)) / 60000)) : null;
   const dataAgeMinutes = snapshot?.observed_at ? Math.max(0, Math.round((Date.now() - Date.parse(snapshot.observed_at)) / 60000)) : null;
   const registryStatus = !snapshot ? "unavailable" : refreshRun?.status === "error" || checkedAgeMinutes === null || checkedAgeMinutes > 12 ? "stale" : "healthy";
-  return { checked_at: new Date().toISOString(), registry: { status: registryStatus, source: PROCESSORS_URL, cadence: "every 5 minutes", last_checked_at: refreshRun?.attempted_at || null, last_data_change_at: snapshot?.observed_at || null, source_generated_at: refreshRun?.source_generated_at || null, check_age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, processor_count: snapshot?.processor_count || 0, last_run: refreshRun || null }, airdrop, market: { status: marketStatus(env, market), provider_configured: Boolean(marketRpcUrl(env)), last_run: market || null, contract: CIRCUIT_MARKET_ADDRESS, note: marketRpcUrl(env) ? "Uses configured dedicated provider and confirmed incremental windows." : "Market metrics are disabled until a dedicated BSC provider URL is configured as a Worker secret." }, bem, official_three_assets, community_processor_board, transistor_candles };
+  return { checked_at: new Date().toISOString(), registry: { status: registryStatus, source: PROCESSORS_URL, cadence: "every 5 minutes", last_checked_at: refreshRun?.attempted_at || null, last_data_change_at: snapshot?.observed_at || null, source_generated_at: refreshRun?.source_generated_at || null, check_age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, processor_count: snapshot?.processor_count || 0, last_run: refreshRun || null }, airdrop, market: { status: marketStatus(env, market, marketSuccess), checked_at: marketSuccess?.attempted_at || (market?.status === "ok" ? market.attempted_at : null), last_attempt_failed: market?.status === "error", provider_configured: Boolean(marketRpcUrl(env)), last_run: market || null, contract: CIRCUIT_MARKET_ADDRESS, note: marketRpcUrl(env) ? "Uses configured dedicated provider and confirmed incremental windows." : "Market metrics are disabled until a dedicated BSC provider URL is configured as a Worker secret." }, bem, official_three_assets, community_processor_board, transistor_candles };
 }
 
 export async function analytics(env) {
