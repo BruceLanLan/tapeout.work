@@ -76,6 +76,8 @@ bloXroute 从 Cloudflare 出口跑历史窗口会超时/502，从本机 5000 块
 
 处置：`EDGE_CACHE` 增加一条最优先的 `ttl: 0` 规则，覆盖 data-health / self-audit / ecosystem-health / official-assets-health / community-processor-health / airdrop-overview / daily-activity / bem-price / bem-holders（原先那条"健康类 15 秒"规则被完全遮蔽，已删）；目录类接口（tools/updates/glossary 等）保留 60 秒边缘缓存不变，实测仍是 `max-age=60` 没被改写。**并且把这个契约加进 `ship.mjs` 的生产核验步骤**（用真实 URL、不带 nonce），这才是根因修复——契约早就写好了，只是没人跑。实测修复后九个新鲜度接口全部 `no-store`，契约通过。
 
+补一句免得以后重新纠结：把 `daily-activity`/`airdrop-overview` 从边缘缓存里摘出来**没有可测量的性能代价**。实测（真实读者、不带 nonce、各 3 次）目录类命中缓存的 tools 是 0.41–0.50s，改成 no-store 的 daily-activity 0.45–0.58s、airdrop-overview 0.38–0.44s——差异都在噪声里，亚洲访问的网络地板（TLS 约 0.35–0.4s）本来就占大头。而且 `src/util.js` 的 `json()` helper **本来就默认给所有 API 响应发 `no-store`**（注释写明"API payloads carry live health and last-success state"），`bem/holders` 在 router 里还显式再写了一次；也就是说契约钉的是这个仓库有意的默认值，不是碰巧。
+
 ## 2026-09-04 收尾四项
 
 - **Smart Placement 不生效**：上线超过 26 小时后 `/api/v1/data-health` 的 `cf-placement` 仍是 `local-SIN`（首页命中边缘缓存不带这个头，探测要打无缓存的 API 路径）。站点当前流量级别下 Cloudflare 判定就近边缘已经最优，不会切换，**结论到此为止，不再周期性复查**。
