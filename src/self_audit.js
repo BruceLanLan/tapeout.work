@@ -196,7 +196,11 @@ async function fingerprintTool(tool) {
 }
 
 const X_STATUS = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/status\/(\d+)/i;
-const X_ARTICLE = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/article\/\d+/i;
+// The id in an /article/ URL is sometimes the id of the post carrying the article and
+// sometimes not — measured 2026-09-05, two of three catalogued articles resolved by it
+// and one 404'd. So it is worth trying, but only as a guess: a 404 on a guessed id
+// means "this id is not a post", never "the source was deleted".
+const X_ARTICLE = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/article\/(\d+)/i;
 // Every catalogued source with the review date its fingerprint is baselined on.
 // Updates carry their own reviewed_at. Learning resources do not — the catalogue
 // has one review date for all of them — so a catalogue-level bump re-baselines
@@ -204,32 +208,44 @@ const X_ARTICLE = /^https?:\/\/(?:x|twitter)\.com\/[^/]+\/article\/\d+/i;
 // be invented.
 export function sourceEntries() {
   const list = [];
-  for (const u of CURATED_UPDATES) list.push({ id: u.id, kind: "update", url: u.url, title_en: u.title_en, reviewed_at: u.reviewed_at || null, status_id: u.source_status_id || (u.url.match(X_STATUS) || [])[1] || null });
-  for (const l of LEARNING_RESOURCES) list.push({ id: l.id, kind: "learning", url: l.url, title_en: l.title_en, reviewed_at: LEARNING_CATALOG_REVIEWED_AT, status_id: (l.url.match(X_STATUS) || [])[1] || null });
+  for (const u of CURATED_UPDATES) list.push({ id: u.id, kind: "update", url: u.url, title_en: u.title_en, reviewed_at: u.reviewed_at || null, status_id: u.source_status_id || (u.url.match(X_STATUS) || [])[1] || null, article_id: (u.url.match(X_ARTICLE) || [])[1] || null });
+  // Learning resources honour source_status_id too. They did not, so a hand-recorded id
+  // on a learning entry was silently ignored while the same field worked on an update.
+  for (const l of LEARNING_RESOURCES) list.push({ id: l.id, kind: "learning", url: l.url, title_en: l.title_en, reviewed_at: LEARNING_CATALOG_REVIEWED_AT, status_id: l.source_status_id || (l.url.match(X_STATUS) || [])[1] || null, article_id: (l.url.match(X_ARTICLE) || [])[1] || null });
   return list;
 }
 
-async function fingerprintSource(entry) {
-  if (entry.status_id) {
-    try {
-      const response = await fetch(`https://api.fxtwitter.com/i/status/${entry.status_id}`, {
-        headers: { accept: "application/json", "user-agent": "tapeout.work-monitor/1.0 (+https://tapeout.work)" },
-        cf: { cacheTtl: 0, cacheEverything: false }, signal: AbortSignal.timeout(DRIFT_FETCH_TIMEOUT_MS),
-      });
-      let body = null;
-      try { body = await response.json(); } catch { body = null; }
-      // "Gone" is asserted only on the explicit not-found envelope. A 404 without it,
-      // a 5xx, a rate limit or a non-JSON body says nothing about the post.
-      if (response.status === 404 && body && body.code === 404 && body.tweet === null) return { id: entry.id, status: "gone", error: "fxtwitter: 404 NOT_FOUND" };
-      if (!response.ok || !body?.tweet) return { id: entry.id, status: "error", error: `fxtwitter HTTP ${response.status}${body ? "" : " (non-JSON)"}` };
-      const tweet = body.tweet;
-      const material = [tweet.text || "", tweet.article?.title || "", ...((tweet.article?.content?.blocks || []).map(block => block?.text || ""))].join("\n");
-      return { id: entry.id, status: "ok", fingerprint: await digest(material) };
-    } catch (error) {
-      return { id: entry.id, status: "error", error: error?.message || String(error) };
+// `certain` says whether the id is known to be this source's post (recorded in the seed
+// or taken from a /status/ URL) or merely guessed from an /article/ URL. It decides what
+// a not-found envelope is allowed to mean, and nothing else.
+async function fingerprintPost(entry, statusId, certain) {
+  try {
+    const response = await fetch(`https://api.fxtwitter.com/i/status/${statusId}`, {
+      headers: { accept: "application/json", "user-agent": "tapeout.work-monitor/1.0 (+https://tapeout.work)" },
+      cf: { cacheTtl: 0, cacheEverything: false }, signal: AbortSignal.timeout(DRIFT_FETCH_TIMEOUT_MS),
+    });
+    let body = null;
+    try { body = await response.json(); } catch { body = null; }
+    // "Gone" is asserted only on the explicit not-found envelope, and only for an id we
+    // know belongs to this source. The same envelope against a guessed id says the guess
+    // was wrong, which is not evidence about the post.
+    if (response.status === 404 && body && body.code === 404 && body.tweet === null) {
+      return certain
+        ? { id: entry.id, status: "gone", error: "fxtwitter: 404 NOT_FOUND" }
+        : { id: entry.id, status: "skipped", error: "X Article id is not a post; record source_status_id to fingerprint it" };
     }
+    if (!response.ok || !body?.tweet) return { id: entry.id, status: "error", error: `fxtwitter HTTP ${response.status}${body ? "" : " (non-JSON)"}` };
+    const tweet = body.tweet;
+    const material = [tweet.text || "", tweet.article?.title || "", ...((tweet.article?.content?.blocks || []).map(block => block?.text || ""))].join("\n");
+    return { id: entry.id, status: "ok", fingerprint: await digest(material) };
+  } catch (error) {
+    return { id: entry.id, status: "error", error: error?.message || String(error) };
   }
-  if (X_ARTICLE.test(entry.url)) return { id: entry.id, status: "skipped", error: "X Article without a recorded status id" };
+}
+
+async function fingerprintSource(entry) {
+  if (entry.status_id) return fingerprintPost(entry, entry.status_id, true);
+  if (entry.article_id) return fingerprintPost(entry, entry.article_id, false);
   const page = await fingerprintTool({ id: entry.id, url: entry.url, drift_profile: "structure" });
   if (page.status !== "ok") return { id: entry.id, status: page.status, error: page.error };
   return { id: entry.id, status: "ok", fingerprint: page.surface_fingerprint };

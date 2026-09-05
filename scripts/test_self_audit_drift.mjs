@@ -103,6 +103,8 @@ const savedReviewedAt = fullTool.reviewed_at;
 // Source under test: the first reviewed update that is a plain X post. Its text is
 // fixed before the first run so the baseline is taken on known wording.
 const post = CURATED_UPDATES.find(u => /x\.com\/[^/]+\/status\/\d+/.test(u.url));
+const article = CURATED_UPDATES.find(u => /x\.com\/[^/]+\/article\/\d+/.test(u.url));
+const articleId = article.url.match(/\/article\/(\d+)/)[1];
 const postId = post.url.match(/status\/(\d+)/)[1];
 const savedPostReviewedAt = post.reviewed_at;
 const tweet = text => JSON.stringify({ code: 200, tweet: { text, article: null } });
@@ -182,7 +184,17 @@ try {
   check("gone raises a severity-error finding naming the entry", ov.findings.some(f => f.check === "source_gone" && f.severity === "error" && f.subjects.includes(post.id)));
   const cov = ov.coverage.sources;
   check("source coverage buckets sum to total", cov.fingerprinted + cov.skipped.length + cov.errored.length + cov.gone.length + cov.not_attempted.length === cov.total);
-  check("X Articles without a status id are skipped by policy", cov.skipped.some(sk => /status id/.test(sk.reason || "")));
+  check("an /article/ id that resolves is fingerprinted, not skipped", sourceRows.get(article.id)?.last_status === "ok");
+
+  // The id in an /article/ URL is a guess. When the guess is wrong the envelope looks
+  // exactly like a deleted post, so the two must not be conflated: a wrong guess is
+  // skipped, and only an id we know belongs to the source may ever be called gone.
+  posts.set(articleId, { status: 404, body: JSON.stringify({ code: 404, message: "NOT_FOUND", tweet: null }) });
+  await syncContentDrift(env);
+  ov = await overview();
+  check("a 404 on a guessed /article/ id is skipped, not gone", sourceRows.get(article.id)?.last_status === "skipped");
+  check("a wrong /article/ guess raises no source_gone finding", !ov.findings.some(f => f.check === "source_gone" && f.subjects.includes(article.id)));
+  check("source coverage buckets still sum to total", (() => { const c = ov.coverage.sources; return c.fingerprinted + c.skipped.length + c.errored.length + c.gone.length + c.not_attempted.length === c.total; })());
 } finally {
   post.reviewed_at = savedPostReviewedAt;
 }
