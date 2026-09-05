@@ -93,15 +93,22 @@ export async function airdropOverview(env) {
   await ensureAirdropSchema(env);
   // ensureAirdropFresh only needs to block when it actually triggers a background sync
   // (rare); otherwise it runs alongside the reads below instead of gating them sequentially.
-  const [, snapshot, run] = await Promise.all([
+  const [, snapshot, run, lastSuccess] = await Promise.all([
     ensureAirdropFresh(env),
     env.DB.prepare("SELECT observed_at, drop_count, active_count, cancelled_count, remaining_total, claimed_total, raw_json FROM airdrop_snapshots ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, provider, drop_count, error FROM airdrop_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    // Freshness has to be anchored on the last run that actually succeeded. Reading it
+    // off the last *attempt* would call the data fresh while every attempt for hours
+    // had failed, so the old code compensated by forcing stale whenever the latest
+    // attempt errored — which mislabelled data that was still well inside its window.
+    // With a real last-success anchor, neither compensation is needed: age is the age
+    // of data we actually hold, and a failed attempt is reported on its own.
+    env.DB.prepare("SELECT attempted_at FROM airdrop_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
   ]);
-  const checkedAgeMinutes = run?.attempted_at ? Math.max(0, Math.round((Date.now() - Date.parse(run.attempted_at)) / 60000)) : null;
+  const checkedAgeMinutes = lastSuccess?.attempted_at ? Math.max(0, Math.round((Date.now() - Date.parse(lastSuccess.attempted_at)) / 60000)) : null;
   const dataAgeMinutes = snapshot?.observed_at ? Math.max(0, Math.round((Date.now() - Date.parse(snapshot.observed_at)) / 60000)) : null;
-  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : run?.status === "error" || checkedAgeMinutes === null || checkedAgeMinutes > 20 ? "stale" : "healthy";
-  return { source: "TapeOut public Airdrop contract", contract: AIRDROP_ADDRESS, evidence_url: AIRDROP_OFFICIAL_URL, status, checked_at: run?.attempted_at || null, observed_at: snapshot?.observed_at || null, age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, last_run: run || null, ...(snapshot ? { drop_count: snapshot.drop_count, active_count: snapshot.active_count, cancelled_count: snapshot.cancelled_count, remaining_total: snapshot.remaining_total, claimed_total: snapshot.claimed_total, items: JSON.parse(snapshot.raw_json).slice(0, 20) } : {}) };
+  const status = !snapshot ? (run?.status === "error" ? "error" : "pending") : (checkedAgeMinutes === null || checkedAgeMinutes > 20 ? "stale" : "healthy");
+  return { source: "TapeOut public Airdrop contract", contract: AIRDROP_ADDRESS, evidence_url: AIRDROP_OFFICIAL_URL, status, checked_at: lastSuccess?.attempted_at || null, observed_at: snapshot?.observed_at || null, age_minutes: checkedAgeMinutes, data_age_minutes: dataAgeMinutes, last_run: run || null, last_attempt_failed: run?.status === "error", ...(snapshot ? { drop_count: snapshot.drop_count, active_count: snapshot.active_count, cancelled_count: snapshot.cancelled_count, remaining_total: snapshot.remaining_total, claimed_total: snapshot.claimed_total, items: JSON.parse(snapshot.raw_json).slice(0, 20) } : {}) };
 }
 
 export async function syncAirdropsObserved(env) { return syncAirdrops(env); }
