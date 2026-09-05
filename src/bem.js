@@ -321,11 +321,16 @@ export async function syncBemPrice(env) {
   }
 }
 
-function bemFreshness(snapshot, run, thresholdMinutes) {
+function bemFreshness(snapshot, run, thresholdMinutes, lastSuccessRun = null) {
   // Snapshots are intentionally hash-deduplicated. When an official static source or
   // an unchanged market payload is fetched successfully, `observed_at` remains the
   // last data-change time; freshness must use the latest successful check instead.
-  const lastSuccessAt = run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null;
+  // The latest run is only the freshness anchor when it succeeded. When it failed, the
+  // last success is an earlier row, and reading it off the latest run reported "we have
+  // never successfully checked" for a source that had just been checked minutes ago —
+  // constantly, since price fetches fail most of the time. Hence an explicit anchor.
+  const lastSuccessAt = (run && ["updated", "no_change"].includes(run.status) ? run.attempted_at : null)
+    || lastSuccessRun?.attempted_at || null;
   const freshnessAt = lastSuccessAt || snapshot?.observed_at || null;
   const ageMinutes = freshnessAt ? Math.max(0, Math.round((Date.now() - Date.parse(freshnessAt)) / 60000)) : null;
   // Staleness is a claim about the data, not about the last attempt. A failed fetch
@@ -340,7 +345,7 @@ function bemFreshness(snapshot, run, thresholdMinutes) {
 
 export async function bemHealth(env) {
   await ensureBemSchema(env);
-  const [miningSnapshot, miningRun, catalogSnapshot, minerIndexSnapshot, catalogRun, priceSnapshot, priceRun] = await Promise.all([
+  const [miningSnapshot, miningRun, catalogSnapshot, minerIndexSnapshot, catalogRun, priceSnapshot, priceRun, miningSuccess, catalogSuccess, priceSuccess] = await Promise.all([
     env.DB.prepare("SELECT observed_at, provider, source_generated_at, block_number FROM bem_mining_snapshots ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, provider, source_generated_at, error FROM bem_mining_sync_runs ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT observed_at, task_count FROM bem_catalog_snapshots ORDER BY id DESC LIMIT 1").first(),
@@ -348,8 +353,11 @@ export async function bemHealth(env) {
     env.DB.prepare("SELECT attempted_at, status, error FROM bem_catalog_sync_runs ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT observed_at, provider, pair_address, liquidity_usd FROM bem_price_snapshots ORDER BY id DESC LIMIT 1").first(),
     env.DB.prepare("SELECT attempted_at, status, provider, pair_address, error FROM bem_price_sync_runs ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM bem_mining_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM bem_catalog_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
+    env.DB.prepare("SELECT attempted_at FROM bem_price_sync_runs WHERE status IN ('updated', 'no_change') ORDER BY id DESC LIMIT 1").first(),
   ]);
-  const mining = bemFreshness(miningSnapshot, miningRun, BEM_HEALTH_MINUTES), catalog = bemFreshness(catalogSnapshot, catalogRun, BEM_CATALOG_HEALTH_MINUTES), minerIndex = bemFreshness(minerIndexSnapshot, catalogRun, BEM_HEALTH_MINUTES), price = bemFreshness(priceSnapshot, priceRun, BEM_PRICE_HEALTH_MINUTES);
+  const mining = bemFreshness(miningSnapshot, miningRun, BEM_HEALTH_MINUTES, miningSuccess), catalog = bemFreshness(catalogSnapshot, catalogRun, BEM_CATALOG_HEALTH_MINUTES, catalogSuccess), minerIndex = bemFreshness(minerIndexSnapshot, catalogRun, BEM_HEALTH_MINUTES, catalogSuccess), price = bemFreshness(priceSnapshot, priceRun, BEM_PRICE_HEALTH_MINUTES, priceSuccess);
   return {
     mining: { ...mining, source: BEM_STATS_URL, fallback: BEM_RPC_URL, observed_at: miningSnapshot?.observed_at || null, provider: miningSnapshot?.provider || null, source_generated_at: miningSnapshot?.source_generated_at || null, last_run: miningRun || null, freshness_policy: "official snapshot <=180s at collection; public health <=12m; one root-RPC batch fallback" },
     taskbank: { ...catalog, source: BEM_TASKBANK_URL, observed_at: catalogSnapshot?.observed_at || null, task_count: catalogSnapshot?.task_count ?? null, last_run: catalogRun || null, freshness_policy: "official static catalog <=24h; hash-deduplicated snapshot; freshness is the most recent successful fetch" },
